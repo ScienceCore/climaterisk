@@ -8,6 +8,4 @@ chapters:
 - file: flood
 - file: drought
 - file: wildfire
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+- file: proposal
