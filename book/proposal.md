@@ -1,7 +1,4 @@
----
-title: Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud
-short_title: TOPS-T Proposal
----
+# Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud
 
 :::{seealso} 
 This text is excerpted from the original project proposal:
