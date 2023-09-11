@@ -12,11 +12,11 @@ If you'd like to develop and/or build the NASA TOPS-T Reproducibly Analyzing Wil
 
 1. Clone this repository
 2. Run `pip install -r requirements.txt` (it is recommended you do this within a virtual environment)
-3. (Optional) Edit the books source files located in the `climate_risk_book/` directory
-4. Run `jupyter-book clean climate_risk_book/` to remove any existing builds
-5. Run `jupyter-book build climate_risk_book/`
+3. (Optional) Edit the books source files located in the `book/` directory
+4. Run `jupyter-book clean book/` to remove any existing builds
+5. Run `jupyter-book build book/`
 
-A fully-rendered HTML version of the book will be built in `climate_risk_book/_build/html/`.
+A fully-rendered HTML version of the book will be built in `book/_build/html/`.
 
 ### Hosting the book
 
@@ -26,7 +26,7 @@ For GitHub and GitLab deployment specifically, the [cookiecutter-jupyter-book](h
 
 ## Contributors
 
-We welcome and recognize all contributions. You can see a list of current contributors in the [contributors tab](https://github.com/jmunroe/climate_risk_book/graphs/contributors).
+We welcome and recognize all contributions. You can see a list of current contributors in the [contributors tab](https://github.com/jmunroe/nasa-topst/graphs/contributors).
 
 ## Credits
 
