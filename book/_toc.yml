@@ -4,6 +4,8 @@
 format: jb-book
 root: intro
 chapters:
+- file: lesson_design
+- file: disenio_leccion
 - file: remote-sensing
 - file: earthdata-cloud
 - file: flood
