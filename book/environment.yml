@@ -1,0 +1,8 @@
+name: nasa_topst
+channels:
+  - conda-forge
+dependencies:
+  - python==3.9
+  - jupyterlab
+  - rasterio
+  - matplotlib
