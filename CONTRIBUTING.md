@@ -2,7 +2,7 @@
 
 This repository is being created by a partnerships between 2i2c and MetaDocencia. To make a change to this repo, please create a pull request.
 
-If the change is trivial (like a styling fix or a grammatical correction), maintainers are invited to self-merge without review.
+If the change is trivial (like a styling fix or a grammatical correction), maintainers are invited to self-merge without review (bypassing branch protections).
 
 If the change is non-trivial, please request a review from any other member of the ScienceCore:climaterisk team. 
 
