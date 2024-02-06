@@ -1,56 +1,14 @@
 # Contributing
 
-Contributions are welcome, and they are greatly appreciated! Every little bit
-helps, and credit will always be given. You can contribute in the ways listed below.
+This repository is being created by a partnerships between 2i2c and MetaDocencia. To make a change to this repo, please create a pull request.
 
-## Report Bugs
+If the change is trivial (like a styling fix or a grammatical correction), maintainers are invited to self-merge without review.
 
-Report bugs using GitHub issues.
+If the change is non-trivial, please request a review from any other member of the ScienceCore:climaterisk team. 
 
-If you are reporting a bug, please include:
+Once there has been an approval of the change, the PR can be merged. If the PR is from member of the ScienceCore:climaterisk team, the PR should normally be self-merged. If the PR is from outside of the ScienceCore:climaterisk team, any member of that team can perform the merge.
 
-* Your operating system name and version.
-* Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug.
-
-## Fix Bugs
-
-Look through the GitHub issues for bugs. Anything tagged with "bug" and "help
-wanted" is open to whoever wants to implement it.
-
-## Implement Features
-
-Look through the GitHub issues for features. Anything tagged with "enhancement"
-and "help wanted" is open to whoever wants to implement it.
-
-## Write Documentation
-
-NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud could always use more documentation, whether as part of the
-official NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud docs, in docstrings, or even on the web in blog posts,
-articles, and such.
-
-## Submit Feedback
-
-The best way to send feedback is to file an issue on GitHub.
-
-If you are proposing a feature:
-
-* Explain in detail how it would work.
-* Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
-
-## Get Started
-
-Ready to contribute? Here's how to set up `NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud` for local development.
-
-1. Fork the repo on GitHub.
-2. Clone your fork locally.
-3. Install your local copy into a virtualenv, e.g., using `conda`.
-4. Create a branch for local development and make changes locally.
-5. Commit your changes and push your branch to GitHub.
-6. Submit a pull request through the GitHub website.
 
 ## Code of Conduct
 
-Please note that the NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud project is released with a [Contributor Code of Conduct](CONDUCT.md). By contributing to this project you agree to abide by its terms.
+Please note that this ScienceCore: Determining Risks with NASA Earthdata Cloud project is released with a [Contributor Code of Conduct](CONDUCT.md). By contributing to this project you agree to abide by its terms.
