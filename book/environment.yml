@@ -6,3 +6,4 @@ dependencies:
   - jupyterlab
   - rasterio
   - matplotlib
+  - gdal
