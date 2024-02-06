@@ -7,3 +7,4 @@ dependencies:
   - rasterio
   - matplotlib
   - gdal
+  - pystac-client
