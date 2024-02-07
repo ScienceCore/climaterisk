@@ -1,4 +1,4 @@
-name: nasa_topst
+name: climaterisk
 channels:
   - conda-forge
 dependencies:
