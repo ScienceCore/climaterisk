@@ -1,0 +1,10 @@
+name: climaterisk
+channels:
+  - conda-forge
+dependencies:
+  - python==3.9
+  - jupyterlab
+  - rasterio
+  - matplotlib
+  - gdal
+  - pystac-client
