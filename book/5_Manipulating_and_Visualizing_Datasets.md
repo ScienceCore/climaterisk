@@ -1,0 +1,2 @@
+# Manipulating and Visualizing datasets
+AOIs may span multiple rasters, and in such situations it is useful to `mosaic` them together to obtain a single continuous image. We also show how to visualize raster images by using `rasterio`'s in-built plotting routines, as well as using additional python libraries such as `matplotlib` to generate scalebars.
