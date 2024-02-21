@@ -3,13 +3,30 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: lesson_design
-- file: disenio_leccion
-- file: remote-sensing
-- file: earthdata-cloud
-- file: flood
-- file: drought
-- file: wildfire
-- file: proposal
-  title: TOPS-T Proposal
+parts:
+  - caption: Flood Module
+    chapters:
+    - file: remote-sensing
+    - file: earthdata-cloud
+    - file: flood
+    - file: 1_Getting_Started_text
+    - file: 1_Getting_Started
+    - file: SLIDES-NASA-TOPS-setup
+    - file: SLIDES-NASA-TOPS-flood
+    - file: notebooks/version_in_spanish_DSWx_FloodProduct
+
+  - caption: Drought Module
+    chapters:
+    - file: drought
+
+  - caption: Wildfire Module
+    chapters:
+    - file: wildfire
+  
+  - caption: Appendix
+    chapters: 
+    - file: lesson_design
+    - file: disenio_leccion
+    - file: proposal
+      title: TOPS-T Proposal
+  
