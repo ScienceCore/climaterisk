@@ -4,6 +4,15 @@
 format: jb-book
 root: intro
 parts:
+  - caption: About this Module
+    chapters:
+    - file: about_the_tutorial/disenio_leccion
+    - file: about_the_tutorial/Assessment_Activities
+    - file: about_the_tutorial/Learner_Personas
+    - file: about_the_tutorial/Module_Objectives
+    - file: about_the_tutorial/Outcomes
+    - file: about_the_tutorial/Requirements
+    
   - caption: Flood Module
     chapters:
     - file: remote-sensing
@@ -11,9 +20,10 @@ parts:
     - file: flood
     - file: 1_Getting_Started_text
     - file: 1_Getting_Started
+    - file: 1_ES_Primeros_pasos
+    - file: notebooks/2_ES_Flood
     - file: SLIDES-NASA-TOPS-setup
     - file: SLIDES-NASA-TOPS-flood
-    - file: notebooks/version_in_spanish_DSWx_FloodProduct
 
   - caption: Drought Module
     chapters:
@@ -25,8 +35,6 @@ parts:
   
   - caption: Appendix
     chapters: 
-    - file: lesson_design
-    - file: disenio_leccion
     - file: proposal
       title: TOPS-T Proposal
   
