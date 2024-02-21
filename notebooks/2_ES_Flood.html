@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Generar mapas de inundación sin descargar localmente los productos OPERA DSWx-HLS &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+    <title>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
   
   
   
@@ -62,7 +62,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/version_in_spanish_DSWx_FloodProduct';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/2_ES_Flood';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -167,8 +167,6 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../lesson_design.html">Lesson design (English version)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../disenio_leccion.html">Diseño del curso</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../remote-sensing.html">Remote Sensing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../earthdata-cloud.html">NASA Earthdata Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../flood.html">Flood</a></li>
@@ -246,7 +244,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/2i2c-org/nasa-topst/issues/new?title=Issue%20on%20page%20%2Fnotebooks/version_in_spanish_DSWx_FloodProduct.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/2i2c-org/nasa-topst/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2_ES_Flood.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +274,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/notebooks/version_in_spanish_DSWx_FloodProduct.ipynb" target="_blank"
+      <li><a href="../_sources/notebooks/2_ES_Flood.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -360,7 +358,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Generar mapas de inundación sin descargar localmente los productos OPERA DSWx-HLS</h1>
+    <h1>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -370,28 +368,39 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Generar mapas de inundación sin descargar localmente los productos OPERA DSWx-HLS</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar"><strong>¡Antes de empezar!</strong></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-empezar"><strong>1. ¿Cómo empezar?</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-1-setear-el-ambiente-de-trabajo"><strong>Parte 1: Setear el Ambiente de Trabajo</strong></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importar-paquetes"><strong>1.1 Importar Paquetes</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setear-el-ambiente-de-trabajo"><strong>1.2 Setear el Ambiente de Trabajo</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generar-token-de-autenticacion"><strong>1.3 Generar token de autenticación</strong></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-2-seleccion-del-area-de-interes-aoi"><strong>Parte 2: Selección del Área de interés (AOI)</strong></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a"><strong>2. API CMR-STAC: Búsqueda de datos basada en consultas espaciales</strong> <a id="searchstac"></a></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a"><strong>2.1 Inicializar parámetros definidos por el usuario <a id="2.1"></a></strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-de-imagenes-dswx-hls-que-coincidan-con-el-area-de-interes"><strong>2.2 Búsqueda de imágenes DSWx-HLS que coincidan con el área de interés</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a"><strong>2.3 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion"><strong>3. Carga y visualización de la extensión de la inundación</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza"><strong>3.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fusionar-mosaicos"><strong>3.2 “Fusionar mosaicos”.</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualiza-las-imagenes-en-un-mapa-interactivo"><strong>3.3 Visualiza las imágenes en un mapa interactivo</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes"><strong>2.2 Búsqueda de imágenes (de la colección DSWx-HLS) que coincidan con el área de interés</strong></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-3-busqueda-y-obtencion-de-datos"><strong>Parte 3: Búsqueda y obtención de datos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-a-exploracion-y-obtencion-del-area-de-interes"><strong>Actividad práctica A</strong>: Exploración y obtención del área de interés.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-4-analisis-de-los-datos-obtenidos"><strong>Parte 4: Análisis de los datos obtenidos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes"><strong>Actividad práctica B: Series de tiempo aplicada al área de interés.</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-5-procesamiento-y-visualizacion-de-los-datos"><strong>Parte 5: Procesamiento y visualización de los datos</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a"><strong>5.1 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion"><strong>5.2. Carga y visualización de la extensión de la inundación</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza"><strong>5.2.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fusionar-mosaicos"><strong>5.2.2 “Fusionar mosaicos”.</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualiza-las-imagenes-en-un-mapa-interactivo"><strong>5.3 Visualiza las imágenes en un mapa interactivo</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada"><strong>Actividad práctica C: Visualización de la extensión de agua en el área seleccionada</strong></a></li>
 </ul>
 
             </nav>
@@ -404,21 +413,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="generar-mapas-de-inundacion-sin-descargar-localmente-los-productos-opera-dswx-hls">
-<h1><strong>Generar mapas de inundación sin descargar localmente los productos OPERA DSWx-HLS</strong><a class="headerlink" href="#generar-mapas-de-inundacion-sin-descargar-localmente-los-productos-opera-dswx-hls" title="Permalink to this heading">#</a></h1>
-<p><strong>Guía para principiantes:</strong> Este tutorial te enseñará cómo consultar y trabajar con los datos provisionales de OPERA DSWx-HLS desde la nube (OPERA_L3_DSWX-HLS_PROVISIONAL_V0: <a class="reference external" href="https://dx.doi.org/10.5067/OPDSW-PL3V0">https://dx.doi.org/10.5067/OPDSW-PL3V0</a>)</p>
-<p><strong>Cómo empezar con los mapas de agua OPERA DSWx-HLS:</strong>
-Esta guía te muestra cómo explorar los cambios en el agua en todo el mundo utilizando herramientas basadas en la nube. Usaremos OPERA DSWx-HLS, un conjunto de datos que rastrea la extensión del agua desde febrero de 2019 hasta septiembre de 2022.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-la-generacion-de-mapas-de-inundaciones-utilizando-datos-de-teledeteccion">
+<h1><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong><a class="headerlink" href="#introduccion-a-la-generacion-de-mapas-de-inundaciones-utilizando-datos-de-teledeteccion" title="Permalink to this heading">#</a></h1>
+<p><strong>Guía para principiantes:</strong> Este tutorial te enseñará cómo consultar y trabajar con los datos provisionales de OPERA DSWx-HLS desde la nube . Para conocer más sobre los datos utilizados en esta notebook, podes acceder a <a class="reference external" href="https://dx.doi.org/10.5067/OPDSW-PL3V0">OPERA_L3_DSWX-HLS_PROVISIONAL_V0</a> )</p>
+<p><strong>Cómo empezar con los mapas de agua utilizando el dataset de OPERA DSWx-HLS:</strong>
+Esta guía te muestrará cómo explorar los cambios en el agua en todo el mundo utilizando herramientas basadas en la nube. Usaremos OPERA DSWx-HLS, un conjunto de datos, obtenidos mediante teledetección, que rastrea la extensión de agua desde febrero de 2019 hasta septiembre de 2022 (ACTUALIZAR RANGO DE FECHA).</p>
 <p><strong>1. Conectándote a la información desde la nube:</strong></p>
 <p>Accederás a imágenes optimizadas de la Tierra (llamadas COG) directamente desde la nube, sin descargas pesadas.
-Usarás un catálogo espacial súper práctico  el Catálogo de Activos Espaciales y Temporales de CMR (CMR-STAC) para encontrar las imágenes que necesitas, como si buscaras un libro en una biblioteca.</p>
-<p><strong>2. Explorando los datos de OPERA DSWx-HLS:</strong></p>
-<p>Trabajarás con imágenes provisionales de la extensión de agua en la superficie terrestre (OPERA_L3_DSWX-HLS_PROVISIONAL_V0).
-Verás datos recopilados entre febrero de 2019 y septiembre de 2022, ¡una buena cantidad de información!
-Las imágenes combinan lo mejor de dos satélites: Landsat 8 y Sentinel-2A/B, para una visión más completa.
-Tendrás acceso a 10 capas de información por imagen, incluyendo clasificación de agua, confianza en los datos, cobertura del suelo, sombras del terreno, nubes, ¡y más!</p>
+Usarás un catálogo espacial súper práctico, denominado Catálogo de Activos Espaciales y Temporales de CMR (CMR-STAC), para encontrar las imágenes que necesitas, como si buscaras un libro en una biblioteca.</p>
+<p><strong>2. Explorando los datos de los productos OPERA DSWx-HLS:</strong></p>
+<p>Trabajarás con imágenes provisionales de la extensión de agua en la superficie terrestre (OPERA_L3_DSWX-HLS_PROVISIONAL_V0), recopiladas entre febrero de 2019 y septiembre de 2022, ¡una buena cantidad de información! (ACTUALIZAR RANGO DE FECHA). Dichas imágenes combinan lo mejor de dos satélites: Landsat 8 y Sentinel-2A/B, para una visión más completa.
+Además, tendrás acceso a 10 capas de información por imagen, incluyendo clasificación de agua, confianza en los datos, cobertura del suelo, sombras del terreno, nubes, ¡y más!</p>
 <p><strong>3. Visualizando los datos a tu gusto:</strong></p>
-<p>Aprenderás a visualizar estas imágenes en tu computadora de la forma que más te convenga para analizarlas.</p>
+<p>Aprenderás a visualizar estas imágenes de la forma que más te convenga para analizarlas.</p>
 <p><strong>Inundaciones en Pakistán con DSWx-HLS: Un ejemplo práctico</strong></p>
 <p>En 2022, las lluvias monzónicas de Pakistán alcanzaron niveles récord, provocando devastadoras inundaciones y deslizamientos de tierra que afectaron a las cuatro provincias del país y a alrededor del 14% de su población [CDP]. En este ejemplo, te mostramos cómo el sistema DSWx-HLS puede usarse para mapear la extensión de las inundaciones causadas por el monzón en septiembre de 2022.</p>
 <p>Capas del conjunto de datos científico (SDS):
@@ -446,20 +453,12 @@ Este es solo un ejemplo de cómo se puede usar DSWx-HLS para mapear las inundaci
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="antes-de-empezar">
 <h1><strong>¡Antes de empezar!</strong><a class="headerlink" href="#antes-de-empezar" title="Permalink to this heading">#</a></h1>
-<p>Para descargar los datos que usaremos en este tutorial, necesitas una cuenta en <a class="reference external" href="https://urs.earthdata.nasa.gov/">Earthdata</a>. ¡Es muy fácil! Solo tienes que hacer clic en el enlace y crear tu cuenta en unos pocos pasos.</p>
-<section id="como-empezar">
-<h2><strong>1. ¿Cómo empezar?</strong><a class="headerlink" href="#como-empezar" title="Permalink to this heading">#</a></h2>
+<p>Para estar preparado paa el tutorial y aprovechar al máximo, por favor revisa la sección<code class="docutils literal notranslate"> <span class="pre">1_Primeros</span> <span class="pre">pasos.md.</span></code></p>
+<section id="parte-1-setear-el-ambiente-de-trabajo">
+<h2><strong>Parte 1: Setear el Ambiente de Trabajo</strong><a class="headerlink" href="#parte-1-setear-el-ambiente-de-trabajo" title="Permalink to this heading">#</a></h2>
 <section id="importar-paquetes">
 <h3><strong>1.1 Importar Paquetes</strong><a class="headerlink" href="#importar-paquetes" title="Permalink to this heading">#</a></h3>
 <p>El código Python %load_ext autoreload y %autoreload 2 habilitan la recarga automática de módulos en un cuaderno de Jupyter. Esto significa que si modifica un módulo que ha importado en su cuaderno, los cambios se reflejarán automáticamente en su cuaderno sin tener que reiniciarlo.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
-</pre></div>
-</div>
-</div>
-</div>
 <p>En la siguiente sección se importa una variedad de bibliotecas y herramientas que permiten:</p>
 <ul class="simple">
 <li><p>Obtener datos geoespaciales de diferentes fuentes.</p></li>
@@ -519,7 +518,7 @@ Este es solo un ejemplo de cómo se puede usar DSWx-HLS para mapear las inundaci
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">system</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
 <span class="ne">----&gt; </span><span class="mi">7</span> <span class="kn">from</span> <span class="nn">pystac_client</span> <span class="kn">import</span> <span class="n">Client</span>
@@ -538,7 +537,6 @@ Este es solo un ejemplo de cómo se puede usar DSWx-HLS para mapear las inundaci
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">inDir</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -568,22 +566,6 @@ Este es solo un ejemplo de cómo se puede usar DSWx-HLS para mapear las inundaci
 <span class="k">try</span><span class="p">:</span>
     <span class="n">netrcDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;~/</span><span class="si">{</span><span class="n">netrc_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">netrc</span><span class="p">(</span><span class="n">netrcDir</span><span class="p">)</span><span class="o">.</span><span class="n">authenticators</span><span class="p">(</span><span class="n">urs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="c1"># Below, create a netrc file and prompt user for NASA Earthdata Login Username and Password</span>
-<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-    <span class="n">homeDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;touch </span><span class="si">{0}{2}</span><span class="s1"> | echo machine </span><span class="si">{1}</span><span class="s1"> &gt;&gt; </span><span class="si">{0}{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">urs</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;echo login </span><span class="si">{}</span><span class="s1"> &gt;&gt; </span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompts</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;echo </span><span class="se">\&#39;</span><span class="s1">password </span><span class="si">{}</span><span class="s1"> </span><span class="se">\&#39;</span><span class="s1">&gt;&gt; </span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompts</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1"># Set restrictive permissions</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;chmod 0600 </span><span class="si">{0}{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="c1"># Determine OS and edit netrc file if it exists but is not set up for NASA Earthdata Login</span>
-<span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-    <span class="n">homeDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;echo machine </span><span class="si">{1}</span><span class="s1"> &gt;&gt; </span><span class="si">{0}{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">urs</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;echo login </span><span class="si">{}</span><span class="s1"> &gt;&gt; </span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompts</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">Popen</span><span class="p">(</span><span class="s1">&#39;echo </span><span class="se">\&#39;</span><span class="s1">password </span><span class="si">{}</span><span class="s1"> </span><span class="se">\&#39;</span><span class="s1">&gt;&gt; </span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompts</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">homeDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">netrc_name</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -607,6 +589,9 @@ Este es solo un ejemplo de cómo se puede usar DSWx-HLS para mapear las inundaci
 </div>
 </section>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-2-seleccion-del-area-de-interes-aoi">
+<h1><strong>Parte 2: Selección del Área de interés (AOI)</strong><a class="headerlink" href="#parte-2-seleccion-del-area-de-interes-aoi" title="Permalink to this heading">#</a></h1>
 <section id="api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a">
 <h2><strong>2. API CMR-STAC: Búsqueda de datos basada en consultas espaciales</strong> <a id="searchstac"></a><a class="headerlink" href="#api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a" title="Permalink to this heading">#</a></h2>
 <section id="inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a">
@@ -660,8 +645,8 @@ With AOI: {&#39;type&#39;: &#39;Polygon&#39;, &#39;coordinates&#39;: (((68.0, 26
 </div>
 </div>
 </section>
-<section id="busqueda-de-imagenes-dswx-hls-que-coincidan-con-el-area-de-interes">
-<h3><strong>2.2 Búsqueda de imágenes DSWx-HLS que coincidan con el área de interés</strong><a class="headerlink" href="#busqueda-de-imagenes-dswx-hls-que-coincidan-con-el-area-de-interes" title="Permalink to this heading">#</a></h3>
+<section id="busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes">
+<h3><strong>2.2 Búsqueda de imágenes (de la colección DSWx-HLS) que coincidan con el área de interés</strong><a class="headerlink" href="#busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes" title="Permalink to this heading">#</a></h3>
 <p>El siguiente código:</p>
 <ul class="simple">
 <li><p>Mide la superposición: Calcula cuánto se solapa cada imagen con el área que te interesa.</p></li>
@@ -677,7 +662,7 @@ With AOI: {&#39;type&#39;: &#39;Polygon&#39;, &#39;coordinates&#39;: (((68.0, 26
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percent overlap before filtering: &quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">intersection_percent</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">intersects_geometry</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">search_dswx</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
 
-<span class="c1"># Apply spatial overlap and cloud cover filter</span>
+<span class="c1"># Apply spatial overlap and cloud cover filter # utilizamos la variable overloap definida anteriormente</span>
 <span class="n">dswx_filtered</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">search_dswx</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">intersection_percent</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">intersects_geometry</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">overlap_threshold</span><span class="p">)</span>
 <span class="p">)</span>
@@ -691,6 +676,11 @@ With AOI: {&#39;type&#39;: &#39;Polygon&#39;, &#39;coordinates&#39;: (((68.0, 26
 </div>
 </div>
 </div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-3-busqueda-y-obtencion-de-datos">
+<h1><strong>Parte 3: Búsqueda y obtención de datos</strong><a class="headerlink" href="#parte-3-busqueda-y-obtencion-de-datos" title="Permalink to this heading">#</a></h1>
 <p>El siguiente código:</p>
 <ol class="arabic simple">
 <li><p>Transforma los resultados filtrados en una lista para poder trabajar con ellos más fácilmente.</p></li>
@@ -789,6 +779,19 @@ With AOI: {&#39;type&#39;: &#39;Polygon&#39;, &#39;coordinates&#39;: (((68.0, 26
 </div>
 </div>
 </div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="actividad-practica-a-exploracion-y-obtencion-del-area-de-interes">
+<h1><strong>Actividad práctica A</strong>: Exploración y obtención del área de interés.<a class="headerlink" href="#actividad-practica-a-exploracion-y-obtencion-del-area-de-interes" title="Permalink to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-4-analisis-de-los-datos-obtenidos">
+<h1><strong>Parte 4: Análisis de los datos obtenidos</strong><a class="headerlink" href="#parte-4-analisis-de-los-datos-obtenidos" title="Permalink to this heading">#</a></h1>
+<p>Análisis de Series de tiempo con los datos de la zonade interés.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes">
+<h1><strong>Actividad práctica B: Series de tiempo aplicada al área de interés.</strong><a class="headerlink" href="#actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes" title="Permalink to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-5-procesamiento-y-visualizacion-de-los-datos">
+<h1><strong>Parte 5: Procesamiento y visualización de los datos</strong><a class="headerlink" href="#parte-5-procesamiento-y-visualizacion-de-los-datos" title="Permalink to this heading">#</a></h1>
 <p><strong>Crea un mapa para que puedas ver cómo encajan los datos con tu zona de interés:</strong></p>
 <ul class="simple">
 <li><p>Dibuja los límites de los archivos: Traza los bordes de cada archivo encontrado en color azul para que puedas ver su forma y ubicación.</p></li>
@@ -819,9 +822,8 @@ With AOI: {&#39;type&#39;: &#39;Polygon&#39;, &#39;coordinates&#39;: (((68.0, 26
 </div>
 </div>
 </div>
-</section>
 <section id="presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a">
-<h3><strong>2.3 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong><a class="headerlink" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a" title="Permalink to this heading">#</a></h3>
+<h2><strong>5.1 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong><a class="headerlink" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a" title="Permalink to this heading">#</a></h2>
 <p>Crea una tabla para que puedas revisar los resultados de forma organizada:</p>
 <ul class="simple">
 <li><p>Recorre los resultados: Lee cada uno de los archivos encontrados y extrae la información más relevante.</p></li>
@@ -861,9 +863,8 @@ Enlaces para descargar las bandas del archivo</p></li>
 </div>
 </div>
 </section>
-</section>
 <section id="carga-y-visualizacion-de-la-extension-de-la-inundacion">
-<h2><strong>3. Carga y visualización de la extensión de la inundación</strong><a class="headerlink" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion" title="Permalink to this heading">#</a></h2>
+<h2><strong>5.2. Carga y visualización de la extensión de la inundación</strong><a class="headerlink" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion" title="Permalink to this heading">#</a></h2>
 <p>Antes de avanzar, repasemos los pasos necesarios para visualizar la extensión de inundación:</p>
 <ol class="arabic simple">
 <li><p><strong>Obtención de los datos de inundación:</strong></p></li>
@@ -883,7 +884,7 @@ También será de utilidad añadir leyendas, escalas, rótulos y otros elementos
 <p>Ejemplo de visualización:</p>
 <p>[Imagen de un mapa que muestra la extensión de inundación en una ciudad. Las áreas inundadas están representadas en azul claro, con mayor transparencia para las zonas de menor profundidad. El mapa base es una imagen aérea y se incluyen una leyenda, una escala y rótulos.][Agregar imagen]</p>
 <section id="cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza">
-<h3><strong>3.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong><a class="headerlink" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza" title="Permalink to this heading">#</a></h3>
+<h3><strong>5.2.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong><a class="headerlink" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza" title="Permalink to this heading">#</a></h3>
 <p>Para cargar estas capas, necesitarás un programa compatible con el formato de los datos y las herramientas específicas de carga. Utilizamos GDAL y Rasterio para el procesamiento de imágenes comunes que te permitirán cargar estas capas.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -895,7 +896,7 @@ También será de utilidad añadir leyendas, escalas, rótulos y otros elementos
 </div>
 </section>
 <section id="fusionar-mosaicos">
-<h3><strong>3.2 “Fusionar mosaicos”.</strong><a class="headerlink" href="#fusionar-mosaicos" title="Permalink to this heading">#</a></h3>
+<h3><strong>5.2.2 “Fusionar mosaicos”.</strong><a class="headerlink" href="#fusionar-mosaicos" title="Permalink to this heading">#</a></h3>
 <p>“Fusionar mosaicos”. Esta frase se refiere a la acción de combinar dos o más mosaicos de datos para crear un mosaico más grande.</p>
 <p>En el contexto de imágenes satelitales, los mosaicos son imágenes individuales que se superponen para cubrir un área más grande. La fusión de mosaicos se utiliza a menudo para crear imágenes de mayor resolución espacial o temporal que las que se pueden obtener a partir de un solo mosaico.</p>
 <p>Para fusionar mosaicos, se necesitan dos o más mosaicos que tengan el mismo formato y resolución. Los mosaicos se pueden fusionar utilizando un software de SIG o una biblioteca de procesamiento de imágenes.</p>
@@ -927,7 +928,7 @@ Las coloca en la posición correcta sobre el mapa (como ir poniendo las piezas e
 </div>
 </section>
 <section id="visualiza-las-imagenes-en-un-mapa-interactivo">
-<h3><strong>3.3 Visualiza las imágenes en un mapa interactivo</strong><a class="headerlink" href="#visualiza-las-imagenes-en-un-mapa-interactivo" title="Permalink to this heading">#</a></h3>
+<h3><strong>5.3 Visualiza las imágenes en un mapa interactivo</strong><a class="headerlink" href="#visualiza-las-imagenes-en-un-mapa-interactivo" title="Permalink to this heading">#</a></h3>
 <p>El código está prepara los colores para que las imágenes sean claras y fáciles de interpretar. Podes imagianr que tenes un libro para colorear con áreas numeradas, y cada número corresponde a un color específico. El código está haciendo lo siguiente:</p>
 <ul class="simple">
 <li><p>Toma los dibujos en blanco y negro: Busca las imágenes que ya preparó (las que muestran el agua y la confianza).</p></li>
@@ -1002,6 +1003,9 @@ para tener un fondo sobre el que trabajar.</p></li>
 </section>
 </section>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada">
+<h1><strong>Actividad práctica C: Visualización de la extensión de agua en el área seleccionada</strong><a class="headerlink" href="#actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada" title="Permalink to this heading">#</a></h1>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1048,28 +1052,39 @@ para tener un fondo sobre el que trabajar.</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Generar mapas de inundación sin descargar localmente los productos OPERA DSWx-HLS</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar"><strong>¡Antes de empezar!</strong></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-empezar"><strong>1. ¿Cómo empezar?</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-1-setear-el-ambiente-de-trabajo"><strong>Parte 1: Setear el Ambiente de Trabajo</strong></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importar-paquetes"><strong>1.1 Importar Paquetes</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setear-el-ambiente-de-trabajo"><strong>1.2 Setear el Ambiente de Trabajo</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generar-token-de-autenticacion"><strong>1.3 Generar token de autenticación</strong></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-2-seleccion-del-area-de-interes-aoi"><strong>Parte 2: Selección del Área de interés (AOI)</strong></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a"><strong>2. API CMR-STAC: Búsqueda de datos basada en consultas espaciales</strong> <a id="searchstac"></a></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a"><strong>2.1 Inicializar parámetros definidos por el usuario <a id="2.1"></a></strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-de-imagenes-dswx-hls-que-coincidan-con-el-area-de-interes"><strong>2.2 Búsqueda de imágenes DSWx-HLS que coincidan con el área de interés</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a"><strong>2.3 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion"><strong>3. Carga y visualización de la extensión de la inundación</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza"><strong>3.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fusionar-mosaicos"><strong>3.2 “Fusionar mosaicos”.</strong></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualiza-las-imagenes-en-un-mapa-interactivo"><strong>3.3 Visualiza las imágenes en un mapa interactivo</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes"><strong>2.2 Búsqueda de imágenes (de la colección DSWx-HLS) que coincidan con el área de interés</strong></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-3-busqueda-y-obtencion-de-datos"><strong>Parte 3: Búsqueda y obtención de datos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-a-exploracion-y-obtencion-del-area-de-interes"><strong>Actividad práctica A</strong>: Exploración y obtención del área de interés.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-4-analisis-de-los-datos-obtenidos"><strong>Parte 4: Análisis de los datos obtenidos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes"><strong>Actividad práctica B: Series de tiempo aplicada al área de interés.</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-5-procesamiento-y-visualizacion-de-los-datos"><strong>Parte 5: Procesamiento y visualización de los datos</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a"><strong>5.1 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion"><strong>5.2. Carga y visualización de la extensión de la inundación</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza"><strong>5.2.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fusionar-mosaicos"><strong>5.2.2 “Fusionar mosaicos”.</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualiza-las-imagenes-en-un-mapa-interactivo"><strong>5.3 Visualiza las imágenes en un mapa interactivo</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada"><strong>Actividad práctica C: Visualización de la extensión de agua en el área seleccionada</strong></a></li>
 </ul>
 
   </nav></div>
