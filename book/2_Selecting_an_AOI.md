@@ -1,5 +1,5 @@
 # Selecting an Area of Interest (AOI) for data analysis
-An `AOI` refers to the geographical extent of our study area, expressed in a specific co-ordinate reference frame [(CRS)](https://docs.qgis.org/3.28/en/docs/gentle_gis_introduction/coordinate_reference_systems.html#coordinate-reference-system-crs-in-detail).
+An `AOI` refers to the geographical extent of our study area, expressed in a specific co-ordinate reference system [(CRS)](https://docs.qgis.org/3.28/en/docs/gentle_gis_introduction/coordinate_reference_systems.html#coordinate-reference-system-crs-in-detail).
 
 An AOI can be expressed in various formats, for example we can express an area covering the Yellowstone National Park in the United States as:
 ```
