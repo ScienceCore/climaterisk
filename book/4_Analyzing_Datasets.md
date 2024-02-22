@@ -1,0 +1,2 @@
+# Time-series analysis of datasets
+Now that we are able to identify and retrieve datasets of interest, we can perform a simple time series analysis of our dataset - for example, we will try to answer the question, "How does the amount of water present in our scene change over time?"
