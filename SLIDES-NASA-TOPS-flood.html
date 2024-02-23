@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Primeros pasos &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+    <title>Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
   
   
   
@@ -62,11 +62,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '1_ES_Primeros_pasos';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'SLIDES-NASA-TOPS-flood';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introducción a la generación de mapas de inundaciones utilizando datos de teledetección" href="notebooks/2_ES_Flood.html" />
-    <link rel="prev" title="1 Getting Started" href="1_Getting_Started.html" />
+    <link rel="next" title="Drought" href="drought.html" />
+    <link rel="prev" title="Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud" href="SLIDES-NASA-TOPS-setup.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -184,7 +184,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="flood.html">Flood</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_Getting_Started_text.html">Getting Started with 2i2c Hub and NASA EarthData credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_Getting_Started.html">1 Getting Started</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Primeros pasos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_ES_Primeros_pasos.html">Primeros pasos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/2_ES_Flood.html"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
 
 
@@ -195,7 +195,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <li class="toctree-l1"><a class="reference internal" href="SLIDES-NASA-TOPS-setup.html">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SLIDES-NASA-TOPS-flood.html">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Drought Module</span></p>
 <ul class="nav bd-sidenav">
@@ -254,6 +254,37 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://showcase.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/ScienceCore/climaterisk&urlpath=tree/climaterisk/book/SLIDES-NASA-TOPS-flood.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -279,7 +310,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F1_ES_Primeros_pasos.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2FSLIDES-NASA-TOPS-flood.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -309,7 +340,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/1_ES_Primeros_pasos.md" target="_blank"
+      <li><a href="_sources/SLIDES-NASA-TOPS-flood.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -319,7 +350,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -393,7 +424,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Primeros pasos</h1>
+    <h1>Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -403,8 +434,21 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-hub-de-2i2c">¿Cómo utilizar el hub de 2i2c?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa">¿Cómo acceder a los datos disponibles en el sitio Earthdata de la NASA?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar">Antes de empezar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentacion-de-los-docentes">Presentación de los docentes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">Objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#para-poder-seguir-el-taller-necesitas-contar-con">Para poder seguir el taller necesitas contar con:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#te-mostramos-el-mapa">Te mostramos el mapa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejercicio-1">Ejercicio 1</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuentanos-algo-sobre-ti">Cuéntanos algo sobre tí</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#opera-dswx-hls">Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias-que-vamos-a-utilizar">Librerías que vamos a utilizar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Librerías que vamos a utilizar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inicializar-parametros-definidos-por-el-usuario">Inicializar parámetros definidos por el usuario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tomamos-un-descanso-de-5-min">Tomamos un descanso de 5 min</a></li>
 </ul>
             </nav>
         </div>
@@ -416,25 +460,147 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="primeros-pasos">
-<h1>Primeros pasos<a class="headerlink" href="#primeros-pasos" title="Permalink to this heading">#</a></h1>
-<section id="como-utilizar-el-hub-de-2i2c">
-<h2>¿Cómo utilizar el hub de 2i2c?<a class="headerlink" href="#como-utilizar-el-hub-de-2i2c" title="Permalink to this heading">#</a></h2>
-<p>Para acceder al 2i2c Hub seguí estos sencillos pasos:</p>
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="analizando-el-riesgo-de-inundaciones-de-manera-reproducible-con-nasa-earthdata-cloud">
+<h1>Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud<a class="headerlink" href="#analizando-el-riesgo-de-inundaciones-de-manera-reproducible-con-nasa-earthdata-cloud" title="Permalink to this heading">#</a></h1>
+<section id="antes-de-empezar">
+<h2>Antes de empezar<a class="headerlink" href="#antes-de-empezar" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Accede al <a class="reference external" href="https://showcase.2i2c.cloud/hub/login">Hub de 2i2c</a></p></li>
-<li><p>Introduce tus credenciales: Ingresa tu nombre de usuario y contraseña del 2i2c Hub</p></li>
+<li><p>Aceptaste estas <a class="reference external" href="https://www.metadocencia.org/pdc/">pautas de convivencia</a>.</p></li>
+<li><p>Si hablas, luego silencia tu micrófono para evitar interrupciones por ruidos de fondo. Puede que lo hagamos por ti.</p></li>
+<li><p>Para decir algo, pide la palabra o usa el chat.</p></li>
+<li><p>¿Podemos grabar el chat? ¿Podemos “sacar fotos”?</p></li>
 </ul>
 </section>
-<section id="como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa">
-<h2>¿Cómo acceder a los datos disponibles en el sitio Earthdata de la NASA?<a class="headerlink" href="#como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa" title="Permalink to this heading">#</a></h2>
-<p>El programa <strong>Earth Science Data Systems (ESDS)</strong>, <strong>Programa de Sistemas de Datos de Ciencias de la Tierra</strong> de la NASA, supervisa el ciclo de vida de los datos científicos de la Tierra de todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.</p>
-<p>A los efectos de esta guía, el sitio web Earthdata de la NASA es el punto de entrada que permite acceder de manera completa, gratuita y abierta a las colecciones de datos de ciencias de la Tierra de la NASA, con el fin de acelerar el avance científico en beneficio de la sociedad. Para acceder a los datos a través de este portal, los usuarios deben definir primero sus credenciales de acceso.</p>
-<p>Para crear una cuenta en EarthData, seguí este sencillo [tutorial], el cual te guíara paso a paso. Como sugerencia, elige un <em>nombre de usuario</em> y <em>contraseña</em> que recuerdes bien, ya que los necesitarás más adelante.
-Ahora viene la parte técnica: para acceder a los datos desde programas de Python y Jupyter notebooks, es necesario guardar las credenciales (de EarthData) en un archivo especial.  En este repositorio encontrarás un archivo llamado <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> con un ejemplo (puedes pensar en él como una plantilla). Abre ese archivo y edita la siguiente línea:</p>
-<p><code class="docutils literal notranslate"><span class="pre">machine</span> <span class="pre">urs.earthdata.nasa.gov</span> <span class="pre">login</span> <span class="pre">{tu_nombre_de_usuario}</span> <span class="pre">password</span> <span class="pre">{tu_contraseña}</span></code></p>
-<p>Luego, reemplaza <code class="docutils literal notranslate"><span class="pre">{tu_nombre_de_usuario</span></code>} y <code class="docutils literal notranslate"><span class="pre">{tu_contraseña}</span></code> con los datos de tu cuenta. Guarda el archivo y ¡listo!  Ya tienes todo lo necesario para acceder a los datos de observación de la Tierra a través del portal de EarthData. ️
-Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<code class="docutils literal notranslate"><span class="pre">_primeros_pasos.ipynb</span> </code>y sigue las indicaciones.  ¡Con esto ya podrás explorar el mundo de los datos de la NASA!</p>
+<section id="presentacion-de-los-docentes">
+<h2>Presentación de los docentes<a class="headerlink" href="#presentacion-de-los-docentes" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this heading">#</a></h2>
+<p>Uitilzar los productos abiertos de la NASA llamados Dynamic Surface Water eXtent (DSWx) - Landsat Sentinel-2 armonizado (HLS) para mapear la extensión de la inundación como resultado del evento monzónico de septiembre de 2022 en Pakistán.</p>
+</section>
+<section id="para-poder-seguir-el-taller-necesitas-contar-con">
+<h2>Para poder seguir el taller necesitas contar con:<a class="headerlink" href="#para-poder-seguir-el-taller-necesitas-contar-con" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Una cuenta de usuario gratuita en NASA EarthData: <a class="reference external" href="https://urs.earthdata.nasa.gov/">https://urs.earthdata.nasa.gov/</a></p></li>
+<li><p>Una cuenta de usuario gratuita en GitHub: <a class="github reference external" href="https://github.com/"></a></p></li>
+<li><p>Una cuenta de usuario en hub 2i2c: <a class="reference external" href="https://showcase.2i2c.cloud/hub/login">https://showcase.2i2c.cloud/hub/login</a></p></li>
+</ul>
+</section>
+<section id="te-mostramos-el-mapa">
+<h2>Te mostramos el mapa<a class="headerlink" href="#te-mostramos-el-mapa" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Opera DSWx-HLS</p></li>
+<li><p>API CMR-STAC: Búsqueda de datos basada en consultas espaciales</p></li>
+<li><p>Inundaciones en Pakistán: un ejemplo práctico</p></li>
+<li><p>Evaluación</p></li>
+<li><p>Feedback</p></li>
+</ul>
+</section>
+<section id="ejercicio-1">
+<h2>Ejercicio 1<a class="headerlink" href="#ejercicio-1" title="Permalink to this heading">#</a></h2>
+<section id="cuentanos-algo-sobre-ti">
+<h3>Cuéntanos algo sobre tí<a class="headerlink" href="#cuentanos-algo-sobre-ti" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Duración: 3 minutos</p></li>
+<li><p>Usa el <span class="xref myst">documento que compartimos</span> en el chat, ubicate en la línea XX y cuéntanos:</p>
+<ul>
+<li><p>Tu nombre</p></li>
+<li><p>Desde qué ciudad participas</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="opera-dswx-hls">
+<h2>Opera DSWx-HLS<a class="headerlink" href="#opera-dswx-hls" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Conjunto de datos que rastrea la extensión del agua en la superficie terrestre desde febrero de 2019 hasta septiembre de 2022.</p></li>
+<li><p>Las imágenes combinan información de dos satélites: Landsat 8 y Sentinel-2A/B.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>Opera DSWx-HLS<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Cada imagen condensa 10 capas de información pero nos centraremos en:</p>
+<ul>
+<li><p>B02_BWTR (Capa binaria de agua):</p>
+<ul>
+<li><p>En el área en dónde hay agua, la capa vale 1 (blanco) y donde no hay agua, toma valor 0 (negro).</p></li>
+</ul>
+</li>
+<li><p>B03_CONF (Capa de confianza):</p>
+<ul>
+<li><p>Indica qué tan seguro está el sistema DSWx-HLS de sus predicciones de agua. Valores altos (cerca de 100%) sugieren mayor certeza. En áreas con valores más bajos la confianza disminuye (¿sombras o nubes?).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="librerias-que-vamos-a-utilizar">
+<h2>Librerías que vamos a utilizar<a class="headerlink" href="#librerias-que-vamos-a-utilizar" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># library to handle filepath operations</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># library for handling geospatial data</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># library for handling geospatial data</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;rasterio&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h2>Librerías que vamos a utilizar<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># libraries to help with visualization</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
+
+<span class="c1"># handle numbers</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># imports for system calls</span>
+<span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="inicializar-parametros-definidos-por-el-usuario">
+<h2>Inicializar parámetros definidos por el usuario<a class="headerlink" href="#inicializar-parametros-definidos-por-el-usuario" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Define la zona de búsqueda.</p></li>
+<li><p>Establece un periodo de tiempo específico para la búsqueda.</p></li>
+<li><p>Imprime en la pantalla los detalles de la zona de búsqueda y las fechas elegidas para que puedas verificarlos.</p></li>
+</ul>
+</section>
+<section id="tomamos-un-descanso-de-5-min">
+<h2>Tomamos un descanso de 5 min<a class="headerlink" href="#tomamos-un-descanso-de-5-min" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -469,20 +635,20 @@ Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="1_Getting_Started.html"
+       href="SLIDES-NASA-TOPS-setup.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">1 Getting Started</p>
+        <p class="prev-next-title">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</p>
       </div>
     </a>
     <a class="right-next"
-       href="notebooks/2_ES_Flood.html"
+       href="drought.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></p>
+        <p class="prev-next-title">Drought</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -501,8 +667,21 @@ Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-hub-de-2i2c">¿Cómo utilizar el hub de 2i2c?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa">¿Cómo acceder a los datos disponibles en el sitio Earthdata de la NASA?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar">Antes de empezar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentacion-de-los-docentes">Presentación de los docentes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">Objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#para-poder-seguir-el-taller-necesitas-contar-con">Para poder seguir el taller necesitas contar con:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#te-mostramos-el-mapa">Te mostramos el mapa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejercicio-1">Ejercicio 1</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuentanos-algo-sobre-ti">Cuéntanos algo sobre tí</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#opera-dswx-hls">Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias-que-vamos-a-utilizar">Librerías que vamos a utilizar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Librerías que vamos a utilizar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inicializar-parametros-definidos-por-el-usuario">Inicializar parámetros definidos por el usuario</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tomamos-un-descanso-de-5-min">Tomamos un descanso de 5 min</a></li>
 </ul>
   </nav></div>
 

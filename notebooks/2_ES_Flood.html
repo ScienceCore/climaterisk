@@ -65,6 +65,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/2_ES_Flood';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud" href="../SLIDES-NASA-TOPS-setup.html" />
+    <link rel="prev" title="Primeros pasos" href="../1_ES_Primeros_pasos.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -166,12 +168,45 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">About this Module</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../about_the_tutorial/disenio_leccion.html">Diseño del curso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about_the_tutorial/Assessment_Activities.html">Assessment of the learner’s progress:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about_the_tutorial/Learner_Personas.html">Learner personas:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about_the_tutorial/Module_Objectives.html">Module Objectives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about_the_tutorial/Outcomes.html">Outcomes (medium-term impact)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about_the_tutorial/Requirements.html">Participant requirements</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Flood Module</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../remote-sensing.html">Remote Sensing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../earthdata-cloud.html">NASA Earthdata Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../flood.html">Flood</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_Getting_Started_text.html">Getting Started with 2i2c Hub and NASA EarthData credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_Getting_Started.html">1 Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_ES_Primeros_pasos.html">Primeros pasos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../SLIDES-NASA-TOPS-setup.html">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SLIDES-NASA-TOPS-flood.html">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Drought Module</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../drought.html">Drought</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Wildfire Module</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../wildfire.html">Wildfire</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../proposal.html">TOPS-T Proposal</a></li>
 </ul>
 
@@ -219,6 +254,37 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://showcase.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/ScienceCore/climaterisk&urlpath=tree/climaterisk/book/notebooks/2_ES_Flood.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -227,7 +293,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/2i2c-org/nasa-topst" target="_blank"
+      <li><a href="https://github.com/ScienceCore/climaterisk" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -244,7 +310,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/2i2c-org/nasa-topst/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2_ES_Flood.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2_ES_Flood.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -1037,6 +1103,24 @@ para tener un fondo sobre el que trabajar.</p></li>
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../1_ES_Primeros_pasos.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Primeros pasos</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../SLIDES-NASA-TOPS-setup.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1100,7 +1184,7 @@ para tener un fondo sobre el que trabajar.</p></li>
   <div class="footer-item">
     
 <p class="component-author">
-By 2i2c
+By 2i2c / MetaDocencia
 </p>
 
   </div>
