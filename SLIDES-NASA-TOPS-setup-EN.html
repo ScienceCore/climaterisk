@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+    <title>First steps &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
   
   
   
@@ -62,11 +62,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'SLIDES-NASA-TOPS-setup';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'SLIDES-NASA-TOPS-setup-EN';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud" href="SLIDES-NASA-TOPS-flood.html" />
-    <link rel="prev" title="Introducción a la generación de mapas de inundaciones utilizando datos de teledetección" href="notebooks/2_ES_Flood.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,7 +176,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="about_the_tutorial/Requirements.html">Participant requirements</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Flood Module</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="remote-sensing.html">Remote Sensing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="earthdata-cloud.html">NASA Earthdata Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flood.html">Flood</a></li>
@@ -194,8 +192,6 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SLIDES-NASA-TOPS-flood.html">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Drought Module</span></p>
 <ul class="nav bd-sidenav">
@@ -262,7 +258,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://showcase.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/ScienceCore/climaterisk&urlpath=tree/climaterisk/book/SLIDES-NASA-TOPS-setup.ipynb&branch=main" target="_blank"
+      <li><a href="https://showcase.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A//github.com/ScienceCore/climaterisk&urlpath=tree/climaterisk/book/SLIDES-NASA-TOPS-setup-EN.ipynb&branch=main" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onJupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -310,7 +306,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2FSLIDES-NASA-TOPS-setup.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2FSLIDES-NASA-TOPS-setup-EN.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -340,7 +336,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/SLIDES-NASA-TOPS-setup.ipynb" target="_blank"
+      <li><a href="_sources/SLIDES-NASA-TOPS-setup-EN.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -424,7 +420,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</h1>
+    <h1>First steps</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -434,11 +430,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cofiguracion-del-hub-de-2i2c-y-las-credenciales-de-nasa-earthdata">Cofiguración del hub de 2i2c y las credenciales de NASA EarthData</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar">Antes de empezar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#para-poder-seguir-el-taller-necesitas-contar-con">Para poder seguir el taller necesitas contar con:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demostracion-en-vivo">Demostración en vivo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumiendo">Resumiendo..</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-2i2c-hub-and-earthdata-credentials">Setting up the 2i2c Hub and EarthData credentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-the-2i2c-hub">Connect to the 2i2c Hub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nasa-earthdata">NASA EarthData</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-earthdata-credentials">Create EarthData credentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-earthdata-from-python">Access EarthData from Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-1">Actividad 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-coding-let-s-go-to-the-notebook-1-getting-started-ipynb">Live coding: Let’s go to the notebook <code class="docutils literal notranslate"><span class="pre">1_Getting_Started.ipynb</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -450,81 +448,70 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span>
-</pre></div>
+  <section class="tex2jax_ignore mathjax_ignore" id="first-steps">
+<h1>First steps<a class="headerlink" href="#first-steps" title="Permalink to this heading">#</a></h1>
+<section id="setting-up-the-2i2c-hub-and-earthdata-credentials">
+<h2>Setting up the 2i2c Hub and EarthData credentials<a class="headerlink" href="#setting-up-the-2i2c-hub-and-earthdata-credentials" title="Permalink to this heading">#</a></h2>
+<div style="display: flex; align-items: center;">
+    <img src="TOPS.png" alt="Image" style="width: 100px; height: auto; margin-right: 10px;">
+    <h3>ScienceCore:<br>Climate Risk</h3>
 </div>
-</div>
-</div>
-<section class="tex2jax_ignore mathjax_ignore" id="analizando-el-riesgo-de-inundaciones-de-manera-reproducible-con-nasa-earthdata-cloud">
-<h1>Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud<a class="headerlink" href="#analizando-el-riesgo-de-inundaciones-de-manera-reproducible-con-nasa-earthdata-cloud" title="Permalink to this heading">#</a></h1>
-<section id="cofiguracion-del-hub-de-2i2c-y-las-credenciales-de-nasa-earthdata">
-<h2>Cofiguración del hub de 2i2c y las credenciales de NASA EarthData<a class="headerlink" href="#cofiguracion-del-hub-de-2i2c-y-las-credenciales-de-nasa-earthdata" title="Permalink to this heading">#</a></h2>
+<p>In this section, you will find information on how to setup your 2i2c Hub account and your EarthData credentials. Both are necessary to complete the following modules.</p>
 </section>
-<section id="antes-de-empezar">
-<h2>Antes de empezar<a class="headerlink" href="#antes-de-empezar" title="Permalink to this heading">#</a></h2>
+<section id="connect-to-the-2i2c-hub">
+<h2>Connect to the 2i2c Hub<a class="headerlink" href="#connect-to-the-2i2c-hub" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Aceptaste estas <a class="reference external" href="https://www.metadocencia.org/pdc/">pautas de convivencia</a>.</p></li>
-<li><p>Si hablas, luego silencia tu micrófono para evitar interrupciones por ruidos de fondo. Puede que lo hagamos por ti.</p></li>
-<li><p>Para decir algo, pide la palabra o usa el chat.</p></li>
-<li><p>¿Podemos grabar el chat? ¿Podemos “sacar fotos”?</p></li>
+<li><p>Collaborative cloud service for communities in research and education.</p></li>
+<li><p>Connect to the Hub by following this link: <a class="reference external" href="https://showcase.2i2c.cloud/hub/login">https://showcase.2i2c.cloud/hub/login</a></p></li>
 </ul>
-<style>
-  .container {
-    text-align: center;
-  }
-  .title {
-    font-size: 40px; 
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  .centered-image {
-    display: flex;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    justify-content: center;
-  }
-  .sub-images {
-    display: flex;
-    justify-content: center;
-  }
-  .sub-images img {
-    margin: 0 10px;
-  }
-</style>
-<div class="container">
-  <div class="title" >NASA Transform to Open Science</div>
-  <img width="300" height="300" src="imgs/TOPS.png" alt="Logo de NASA TOPS" class="centered-image">
-  <div class="sub-images">
-    <img width="100" height="100" src="imgs/MD_logo.png" alt="Logo de MetaDocencia">
-    <img width="100" height="100" src="imgs/2i2c_logo.png" alt="Logo de 2i2c">
-  </div>
-</div>
+<p>The 2i2c Hub is a collaborative cloud service for communities in research and education.
+The classes you will find in the modules of this Jupyter book are designed to run on the 2i2c hub.</p>
 </section>
-<section id="para-poder-seguir-el-taller-necesitas-contar-con">
-<h2>Para poder seguir el taller necesitas contar con:<a class="headerlink" href="#para-poder-seguir-el-taller-necesitas-contar-con" title="Permalink to this heading">#</a></h2>
+<section id="nasa-earthdata">
+<h2>NASA EarthData<a class="headerlink" href="#nasa-earthdata" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Una cuenta de usuario gratuita en NASA EarthData: <a class="reference external" href="https://urs.earthdata.nasa.gov/">https://urs.earthdata.nasa.gov/</a></p></li>
-<li><p>Una cuenta de usuario gratuita en GitHub: <a class="github reference external" href="https://github.com/"></a></p></li>
-<li><p>Una cuenta de usuario en hub 2i2c: <a class="reference external" href="https://showcase.2i2c.cloud/hub/login">https://showcase.2i2c.cloud/hub/login</a></p></li>
+<li><p>Platform designed to facilitate access and use of Earth science data (images, satellite observations, climate data, and environmental measurements).</p></li>
+<li><p>Free and open access.</p></li>
 </ul>
+<p>NASA’s Earth Science Data Systems program oversees the life cycle of NASA’s Earth science data from all of its Earth Observation missions — from acquisition through processing and distribution.</p>
+<p>The Earthdata platform is designed to facilitate the discovery, access, and use of Earth science data for research, applications, and decision-making purposes. It provides data in various formats, including images, satellite observations, climate data, and environmental measurements, among others.</p>
+<p>the NASA Earthdata website is the starting point for full and open access to NASA’s Earth science data collections, which is provided free of cost towards accelerating scientific advancement for societal benefit.</p>
 </section>
-<section id="demostracion-en-vivo">
-<h2>Demostración en vivo<a class="headerlink" href="#demostracion-en-vivo" title="Permalink to this heading">#</a></h2>
+<section id="create-earthdata-credentials">
+<h2>Create EarthData credentials<a class="headerlink" href="#create-earthdata-credentials" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Page to register: <a class="reference external" href="https://urs.earthdata.nasa.gov/home">https://urs.earthdata.nasa.gov/home</a></p></li>
+<li><p>Tutorial: <a class="reference external" href="https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register">https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register</a></p></li>
+<li><p>Important! Remember to save your <strong>username</strong> and <strong>password</strong>, you will need it later!</p></li>
+</ul>
+<p>To access data through this portal, users are required to first set up log in credentials.</p>
+<p>You must register at this link: <a class="reference external" href="https://urs.earthdata.nasa.gov/home">https://urs.earthdata.nasa.gov/home</a></p>
+<p>You can find a tutorial on how to do it at this link: <a class="reference external" href="https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register">https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register</a></p>
+<p>Be sure to remember the username and password you set up in this step, you will need them in the next one!</p>
 </section>
-<section id="resumiendo">
-<h2>Resumiendo..<a class="headerlink" href="#resumiendo" title="Permalink to this heading">#</a></h2>
+<section id="access-earthdata-from-python">
+<h2>Access EarthData from Python<a class="headerlink" href="#access-earthdata-from-python" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Debes registrarte a EarthData. Puedes encontrar un <a class="reference external" href="https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register">tutorial aquí</a>: <a class="reference external" href="https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register">https://urs.earthdata.nasa.gov/documentation/for_users/how_to_register</a></p></li>
-<li><p>¡No olvides tu usuario y contraseña!</p></li>
-<li><p>En el archivo <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> que pueden encontrar en el repositorio, ubica la siguiente línea:</p></li>
+<li><p>Store the created credentials in a file.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file provided in this repository, including your data on the following line:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">machine</span> <span class="pre">urs.earthdata.nasa.gov</span> <span class="pre">login</span> <span class="pre">{username}</span> <span class="pre">password</span> <span class="pre">{password}</span></code></p>
-<p>Reemplaza <code class="docutils literal notranslate"><span class="pre">{usuario}</span></code> y <code class="docutils literal notranslate"><span class="pre">{contraseña}</span></code> por los tuyos.</p>
+<p>machine <a class="reference external" href="http://urs.earthdata.nasa.gov">urs.earthdata.nasa.gov</a> login <strong>{username}</strong> password <strong>{password}</strong></p>
 <ul class="simple">
-<li><p>Abre y sigue paso a paso <code class="docutils literal notranslate"><span class="pre">1_Getting_Started.ipynb</span></code> para confirmar que tus credenciales están configuradas correctamente.</p></li>
+<li><p>Save the changes and close the file.</p></li>
 </ul>
+<p>To successfully access NASA data through Python programs and Jupyter notebooks, we need to store the login credentials in a file.</p>
+<p>In this project’s repository, a .netrc file is provided where users can enter their credentials.</p>
+<p>Open the .netrc file and edit where it says username and password, replacing them with the username and password you created in the previous step.</p>
+<p>Save the changes and close the file. You are now ready to access Earth Observation data through the Earthdata portal!</p>
+</section>
+<section id="actividad-1">
+<h2>Actividad 1<a class="headerlink" href="#actividad-1" title="Permalink to this heading">#</a></h2>
+<p>Ejecuta la notebook <code class="docutils literal notranslate"><span class="pre">1_Getting_Started.ipynb</span></code> para obtener la siguiente imagen:</p>
+<p><img alt="Setup1" src="_images/SETUP1.png" /></p>
+</section>
+<section id="live-coding-let-s-go-to-the-notebook-1-getting-started-ipynb">
+<h2>Live coding: Let’s go to the notebook <code class="docutils literal notranslate"><span class="pre">1_Getting_Started.ipynb</span></code><a class="headerlink" href="#live-coding-let-s-go-to-the-notebook-1-getting-started-ipynb" title="Permalink to this heading">#</a></h2>
+<p>To ensure that your credentials are correctly set up and working, you can run the Jupyter notebook titled 1_Getting_Started.ipynb.</p>
 </section>
 </section>
 
@@ -558,24 +545,6 @@ document.write(`
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="notebooks/2_ES_Flood.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="SLIDES-NASA-TOPS-flood.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Analizando el Riesgo de Inundaciones de manera Reproducible con NASA Earthdata Cloud</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -591,11 +560,13 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cofiguracion-del-hub-de-2i2c-y-las-credenciales-de-nasa-earthdata">Cofiguración del hub de 2i2c y las credenciales de NASA EarthData</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar">Antes de empezar</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#para-poder-seguir-el-taller-necesitas-contar-con">Para poder seguir el taller necesitas contar con:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demostracion-en-vivo">Demostración en vivo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumiendo">Resumiendo..</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-2i2c-hub-and-earthdata-credentials">Setting up the 2i2c Hub and EarthData credentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-the-2i2c-hub">Connect to the 2i2c Hub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nasa-earthdata">NASA EarthData</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-earthdata-credentials">Create EarthData credentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-earthdata-from-python">Access EarthData from Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-1">Actividad 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-coding-let-s-go-to-the-notebook-1-getting-started-ipynb">Live coding: Let’s go to the notebook <code class="docutils literal notranslate"><span class="pre">1_Getting_Started.ipynb</span></code></a></li>
 </ul>
   </nav></div>
 
