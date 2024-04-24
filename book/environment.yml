@@ -8,3 +8,6 @@ dependencies:
   - matplotlib
   - gdal
   - pystac-client
+  - geopandas
+  - basemap
+  - jupytext
