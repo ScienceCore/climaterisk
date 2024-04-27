@@ -1,6 +1,7 @@
 name: climaterisk
 channels:
   - conda-forge
+  - pyviz
 dependencies:
   - jupyterlab
   - rasterio
@@ -10,3 +11,4 @@ dependencies:
   - geopandas
   - basemap
   - jupytext
+  - geoviews
