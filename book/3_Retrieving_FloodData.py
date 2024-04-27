@@ -14,15 +14,22 @@
 
 # ## Retrieving OPERA DSWx-HLS data for a flood event
 #
-# Heavy rains severly impacted Argentina in March 2024 [1](https://www.reuters.com/world/americas/argentina-downpour-drenches-crop-fields-flash-floods-buenos-aires-2024-03-12/). The event resulted in flash floods and impacted crop yields, severely impacting the Buenos Aires metropolitan area, and caused significant damage to property and human life. In this notebook, we will retrieve OPERA DSWx-HLS data associated to understand the extent of flooding and damage, and compare data from before and after the event.
+# Heavy rains severly impacted Argentina in March 2024 [[1]](https://www.reuters.com/world/americas/argentina-downpour-drenches-crop-fields-flash-floods-buenos-aires-2024-03-12/). The event resulted in flash floods and impacted crop yields, severely impacting the Buenos Aires metropolitan area, and caused significant damage to property and human life. In this notebook, we will retrieve OPERA DSWx-HLS data associated to understand the extent of flooding and damage, and compare data from before and after the event.
 
 # +
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import defaultdict
 import matplotlib.pyplot as plt
 from shapely.geometry import box
 from osgeo import gdal
 from pystac_client import Client
+import rioxarray
+import geoviews as gv
+from rioxarray import merge as rioxarray_merge
+from rasterio.merge import merge
+import rasterio
+import xarray as xr
+import numpy as np
 
 # sys.path.append('../../')
 # from src.dswx_utils import intersection_percent, colorize, getbasemaps, transform_data_for_folium
@@ -95,3 +102,43 @@ ax.set_xticklabels(xlabels, rotation=45, ha='right')
 
 
 ax.grid()
+# -
+
+# The floods primarily occurred between March 11th and 13th. Let us mosaic and visualize the data for these days
+
+len(x_coords), len(y_coords), merged_array.shape
+
+x_coords[0], x_coords[-1], bounds[0], bounds[2]
+
+(409800.0 - 199980.0)/30.
+
+(bounds[3] - bounds[1])/30
+
+merged_array.shape, bounds
+
+# +
+# First, generate a list of files that we would like to mosaic
+# specify search window
+dates_range = [datetime(year=2024, month=3, day=1) + timedelta(days=i) for i in range(10)]
+
+data_arrays, timesteps = [], []
+
+for key in sorted(results_dict.keys()):
+    merged_array, transform = merge(results_dict[key])
+    x_res, y_res = abs(transform[0]), abs(transform[4])
+
+    bounds = rasterio.transform.array_bounds(merged_array.shape[-2], merged_array.shape[-1], transform)
+    
+    x_coords = np.arange(bounds[0], bounds[2], x_res)
+    y_coords = np.arange(bounds[1], bounds[3], y_res)
+    
+    current_timestep = datetime.strptime(key, "%Y-%m-%d")
+    
+    timesteps.append(current_timestep)
+    tmp_xr_da = xr.DataArray(np.squeeze(merged_array), coords={'latitude':y_coords, 'longitude':x_coords})
+    data_arrays.append(tmp_xr_da)
+# -
+
+concat_array = xr.concat(data_arrays, dim='time')
+
+concat_array['time']= timesteps
