@@ -17,22 +17,33 @@
 # Heavy rains severly impacted Argentina in March 2024 [[1]](https://www.reuters.com/world/americas/argentina-downpour-drenches-crop-fields-flash-floods-buenos-aires-2024-03-12/). The event resulted in flash floods and impacted crop yields, severely impacting the Buenos Aires metropolitan area, and caused significant damage to property and human life. In this notebook, we will retrieve OPERA DSWx-HLS data associated to understand the extent of flooding and damage, and compare data from before and after the event.
 
 # +
-from datetime import datetime, timedelta
-from collections import defaultdict
-import matplotlib.pyplot as plt
+# GIS imports
 from shapely.geometry import box
 from osgeo import gdal
-from pystac_client import Client
-import rioxarray
-import geoviews as gv
-from rioxarray import merge as rioxarray_merge
 from rasterio.merge import merge
 import rasterio
-import xarray as xr
+
+# plotting imports
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+import contextily as cx
+from rasterio.plot import show
+from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
+
+# data wrangling imports
 import numpy as np
 
-# sys.path.append('../../')
-# from src.dswx_utils import intersection_percent, colorize, getbasemaps, transform_data_for_folium
+# misc imports
+from datetime import datetime, timedelta
+from collections import defaultdict
+
+# STAC imports to retrieve cloud data
+from pystac_client import Client
+
+# Setting up backend for plotting
+# gv.extension('matplotlib')
+# gv.extension('bokeh')
+# gv.output(size=400)
 
 # GDAL setup for accessing cloud data
 gdal.SetConfigOption('GDAL_HTTP_COOKIEFILE','~/cookies.txt')
@@ -106,39 +117,65 @@ ax.grid()
 
 # The floods primarily occurred between March 11th and 13th. Let us mosaic and visualize the data for these days
 
-len(x_coords), len(y_coords), merged_array.shape
-
-x_coords[0], x_coords[-1], bounds[0], bounds[2]
-
-(409800.0 - 199980.0)/30.
-
-(bounds[3] - bounds[1])/30
-
-merged_array.shape, bounds
-
 # +
-# First, generate a list of files that we would like to mosaic
-# specify search window
-dates_range = [datetime(year=2024, month=3, day=1) + timedelta(days=i) for i in range(10)]
-
-data_arrays, timesteps = [], []
+data_arrays, timesteps, transform_list, stacked_array = [], [], [], []
 
 for key in sorted(results_dict.keys()):
-    merged_array, transform = merge(results_dict[key])
-    x_res, y_res = abs(transform[0]), abs(transform[4])
+    if key not in ['2024-03-01', '2024-03-17', '2024-03-28']:
+        continue
 
-    bounds = rasterio.transform.array_bounds(merged_array.shape[-2], merged_array.shape[-1], transform)
-    
-    x_coords = np.arange(bounds[0], bounds[2], x_res)
-    y_coords = np.arange(bounds[1], bounds[3], y_res)
-    
+    merged_array, transform = merge(results_dict[key])
+    transform_list.append(transform)
+    stacked_array.append(merged_array)
+
     current_timestep = datetime.strptime(key, "%Y-%m-%d")
     
     timesteps.append(current_timestep)
-    tmp_xr_da = xr.DataArray(np.squeeze(merged_array), coords={'latitude':y_coords, 'longitude':x_coords})
-    data_arrays.append(tmp_xr_da)
-# -
 
-concat_array = xr.concat(data_arrays, dim='time')
+stacked_array = np.concatenate(stacked_array, axis=0)
 
-concat_array['time']= timesteps
+# +
+# Load up color maps for visualization
+# Pick the first file for the first key available in results_dict
+with rasterio.open(results_dict[list(results_dict.keys())[0]][0]) as src:
+    colormap = src.colormap(1)
+    crs = src.crs
+
+for k, v in colormap.items():
+    if k in [1, 2, 252]: # 
+        colormap[k] = (0, 0, 255, 255)
+
+    # turn off opacity for not-water/no data
+    if k in [0, 255]: # 
+        colormap[k] = (0, 0, 0, 0)
+
+    # turn the opacity of all other classes to zero
+    # else:
+    #     v = list(v)
+    #     v[3] = 0
+    #     colormap[k] = tuple(v)
+
+cmap = ListedColormap([np.array(colormap[key]) / 255 for key in range(256)])
+
+# +
+fig, ax = plt.subplots(1, 3, figsize = (30, 10))
+
+for i in range(3):
+    show(stacked_array[i], ax=ax[i], cmap=cmap, transform=transform_list[i], interpolation=None)
+    cx.add_basemap(ax[i], crs=crs, zoom=10, source=cx.providers.OpenStreetMap.Mapnik)
+    show(stacked_array[i], ax=ax[i], cmap=cmap, transform=transform_list[i], interpolation=None)
+
+    scalebar = AnchoredSizeBar(ax[i].transData,
+                            5000, '5 km', 'lower right', 
+                            color='black',
+                            frameon=False,
+                            pad = 0.25,
+                            sep=5,
+                            fontproperties = {'weight':'semibold', 'size':12},
+                            size_vertical=300)
+
+    ax[i].add_artist(scalebar)
+    ax[i].ticklabel_format(axis='both', style='scientific',scilimits=(0,0),useOffset=False,useMathText=True)
+    ax[i].set_xlabel('UTM easting (meters)')
+    ax[i].set_ylabel('UTM northing (meters)')
+    ax[i].set_title(f"Water extent on: {timesteps[i].strftime('%Y-%m-%d')}")
