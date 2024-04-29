@@ -12,3 +12,5 @@ dependencies:
   - basemap
   - jupytext
   - geoviews
+  - rioxarray
+  - contextily
