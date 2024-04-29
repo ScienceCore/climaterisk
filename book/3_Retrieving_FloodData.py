@@ -7,7 +7,7 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.16.1
 #   kernelspec:
-#     display_name: opera_app_dev
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -30,8 +30,12 @@ import contextily as cx
 from rasterio.plot import show
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 
+import hvplot.xarray, hvplot.pandas
+
 # data wrangling imports
 import numpy as np
+import pandas as pd
+import xarray as xr
 
 # misc imports
 from datetime import datetime, timedelta
@@ -71,7 +75,7 @@ catalog = Client.open(f'{STAC_URL}/POCLOUD/')
 collections = ["OPERA_L3_DSWX-HLS_PROVISIONAL_V1"]
 
 # We would like to search data for March 2024
-date_range = f"{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}"
+date_range = f'{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}'
 
 opts = {
     'bbox' : aoi.bounds, 
@@ -80,80 +84,94 @@ opts = {
 }
 
 search = catalog.search(**opts)
-
-print("Number of tiles found intersecting given polygon: ", len(list(search.items())))
 # -
+
+results = list(search.items_as_dicts())
+print(f"Number of tiles found intersecting given polygon: {len(results)}")
 
 # Let's parse the results and organize them by the date of acquisition
 
 # +
-results_dict = defaultdict(list)
+# Look at very first item from search as a dict
+results[0]['properties']['datetime']
 
-for item in search.items():
-    item_dict = item.to_dict()
-    item_datetime_str = item_dict['properties']['datetime'].split('T')[0]
-    results_dict[item_datetime_str].append(item_dict['assets']['0_B01_WTR']['href'])
+results[0]['assets']['0_B01_WTR']['href']
 # -
+
+# Each element of `results` is a nested dictionary; the particular values we want to pick out from a given `result` are:
+# + `result['properties']['datetime']` : timestamp associated with a particular granule; and
+# + `result['assets']['0_B01_WTR']['href']` : URI associated with a particular granule
+#
+# Let's extract these into a Pandas DataFrame for convenience.
+
+times = pd.DatetimeIndex([result['properties']['datetime'] for result in results])
+hrefs = {'hrefs': [result['assets']['0_B01_WTR']['href'] for result in results]}
+
+# Construct Pandas DataFrame to summarize granules from search results
+granules = pd.DataFrame(index=times, data=hrefs)
+granules.index.name = 'times'
+
+len(granules.hrefs.unique()) / len(granules) # Make sure all the hrefs are unique
+
+len(granules.index.unique()) / len(granules) # Notice the timestamps are not all unique, i.e., some are repeated
 
 # Let's get a sense of how many granules are available for each day of the month. Note, we don't know how many of these tiles contain cloud cover obscuring features of interest yet
 
-# +
-granule_count = {}
-for key, value in results_dict.items():
-    granule_count[datetime.strptime(key, "%Y-%m-%d")] = len(results_dict[key])
+granules_by_day = granules.resample('1d')  # Grouping by day, i.e., "resampling"
 
-fig, ax = plt.subplots(1, 1, figsize=(12, 6))
-ax.plot(granule_count.keys(), granule_count.values())
-ax.set_title('# of DSWx-HLS granules available / day')
-ax.set_xlabel('Day of Month')
-ax.set_ylabel('Granule count')
-ax.set_xlim([datetime(2024, 3, 1), datetime(2024, 3, 31)])
-xlabels = ax.get_xticklabels()
-ax.set_xticklabels(xlabels, rotation=45, ha='right')
+granule_counts = granules_by_day.count() # Aggregating counts
 
+# Ignore the days with no associated granules
+granule_counts = granule_counts[granule_counts.hrefs > 0]
 
-ax.grid()
-# -
+# Relabel the index & column of the DataFrame
+granule_counts.index.name = 'Day of Month'
+granule_counts.rename({'hrefs':'Granule count'}, inplace=True, axis=1)
+
+count_title = '# of DSWx-HLS granules available / day'
+granule_counts.hvplot.line(title=count_title,grid=True)
+
+granules_by_day # Recall our earlier resampling by day
+
+# Aggregate all granules by day into a list
+granules_by_day = granules_by_day['hrefs'].apply(list)
+
+granules_by_day.head().map(len) # Should match granule_counts from earlier
 
 # The floods primarily occurred between March 11th and 13th. Let us mosaic and visualize the data for these days
 
-# +
-data_arrays, timesteps, transform_list, stacked_array = [], [], [], []
+# Note: these dates do not agree with the text in the Markdown block above; fix?
+dates_of_interest = ['2024-03-01', '2024-03-17', '2024-03-28'] 
+granules_by_day.loc[dates_of_interest[-1]]
 
-for key in sorted(results_dict.keys()):
-    if key not in ['2024-03-01', '2024-03-17', '2024-03-28']:
-        continue
-
-    merged_array, transform = merge(results_dict[key])
+import xarray as xr
+da_list, transform_list = [], []
+for date in dates_of_interest:
+    merged_array, transform = merge(granules_by_day.loc[date])
+    dims = merged_array.shape
+    da_list.append( xr.DataArray(data=merged_array,
+                                       coords=[('t',[date]), ('x', range(dims[1])), ('y', range(dims[2]))]))
     transform_list.append(transform)
-    stacked_array.append(merged_array)
 
-    current_timestep = datetime.strptime(key, "%Y-%m-%d")
-    
-    timesteps.append(current_timestep)
+da = xr.concat(da_list, dim='t')
 
-stacked_array = np.concatenate(stacked_array, axis=0)
+da.hvplot.quadmesh(x='x', y='y', rasterize=True) # First attempt at an hvplot
 
-# +
+da.isel(t=2).hvplot.quadmesh(x='x', y='y', rasterize=True) # Second attempt at an hvplot
+
+# Pick the first file for the first key available
+first_file = granules_by_day.loc[dates_of_interest[0]][0]
 # Load up color maps for visualization
-# Pick the first file for the first key available in results_dict
-with rasterio.open(results_dict[list(results_dict.keys())[0]][0]) as src:
-    colormap = src.colormap(1)
+with rasterio.open(first_file) as src:
+    colormap = pd.Series(src.colormap(1)) # What does the argument "1" mean here?
     crs = src.crs
 
-for k, v in colormap.items():
-    if k in [1, 2, 252]: # 
-        colormap[k] = (0, 0, 255, 255)
-
-    # turn off opacity for not-water/no data
-    if k in [0, 255]: # 
-        colormap[k] = (0, 0, 0, 0)
-
-    # turn the opacity of all other classes to zero
-    # else:
-    #     v = list(v)
-    #     v[3] = 0
-    #     colormap[k] = tuple(v)
+blue_bands = [1, 2, 252]
+black_bands = [0, 255]
+for k in blue_bands:
+    colormap.loc[k] = (0,0,255,255)
+for k in black_bands:
+    colormap.loc[k] = (0,0,0,0)
 
 cmap = ListedColormap([np.array(colormap[key]) / 255 for key in range(256)])
 
@@ -161,9 +179,9 @@ cmap = ListedColormap([np.array(colormap[key]) / 255 for key in range(256)])
 fig, ax = plt.subplots(1, 3, figsize = (30, 10))
 
 for i in range(3):
-    show(stacked_array[i], ax=ax[i], cmap=cmap, transform=transform_list[i], interpolation=None)
+    show(da.isel(t=i).values, ax=ax[i], cmap=cmap, transform=transform_list[i], interpolation=None)
     cx.add_basemap(ax[i], crs=crs, zoom=10, source=cx.providers.OpenStreetMap.Mapnik)
-    show(stacked_array[i], ax=ax[i], cmap=cmap, transform=transform_list[i], interpolation=None)
+    show(da.isel(t=i).values, ax=ax[i], cmap=cmap, transform=transform_list[i], interpolation=None)
 
     scalebar = AnchoredSizeBar(ax[i].transData,
                             5000, '5 km', 'lower right', 
@@ -178,4 +196,4 @@ for i in range(3):
     ax[i].ticklabel_format(axis='both', style='scientific',scilimits=(0,0),useOffset=False,useMathText=True)
     ax[i].set_xlabel('UTM easting (meters)')
     ax[i].set_ylabel('UTM northing (meters)')
-    ax[i].set_title(f"Water extent on: {timesteps[i].strftime('%Y-%m-%d')}")
+    ax[i].set_title(f"Water extent on: {da.coords['t'].values[i]}")
