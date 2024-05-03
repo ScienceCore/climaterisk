@@ -4,30 +4,35 @@
 
 Para acceder al 2i2c Hub seguí estos sencillos pasos:
 * Accede al [Hub de 2i2c](https://showcase.2i2c.cloud/hub/login)
+  
 
 
-![2i2c_login](https://github.com/PatriLoto/nasa-topst/blob/main/assets/2i2c_login.png)
+![2i2c_login](../assets/2i2c_login.png)
 
 
 
 * Introducí tus credenciales: Ingresa tu nombre de usuario y contraseña (Nota: Para esto deberías haber enviado tu correo asociado a tu cuenta de Github para que se te habilite el acceso con dicha cuenta). 
 
 * Si el acceso es correcto, verás la pantalla que se muestra a continuación. Por último elegí la opción Start para ingresar al ambiente de Jupyter lab en la nube.
-![start_server](https://github.com/PatriLoto/nasa-topst/blob/main/assets/start_server.png)
+
+
+![start_server](../assets/start_server.png)
 
 
 
+* Listo, ya estás listo para empezar a trabajar. 
 
-* Listo, ya estás listo para empezar a trabajar.
 
-![ambiente_trabajo_jupyter_lab](https://github.com/PatriLoto/nasa-topst/blob/main/assets/work_environment_jupyter_lab.png)
+  
+
+![ambiente_trabajo_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
 
 
 ## 2- ¿Cómo utilizar el Earthdata de la NASA?
 
 
-* Breve introducción
+#### Breve introducción
 
 El programa **Earth Science Data Systems (ESDS)**, **Programa de Sistemas de Datos de Ciencias de la Tierra** de la NASA, supervisa el ciclo de vida de los datos científicos de la Tierra de todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.
 
@@ -36,13 +41,15 @@ A los efectos de esta guía, el sitio web Earthdata de la NASA es el punto de en
  Para crear una cuenta en EarthData, seguí los pasos que se indica:
  
  * Ingresa al sitio de Earth Nasa: https://www.earthdata.nasa.gov/. Luego selecciona la opción "Use Data" y a continuación "Register". Por último, ingresa a https://urs.earthdata.nasa.gov/.
+   
 
-![earthdata_login](https://github.com/PatriLoto/nasa-topst/blob/main/assets/earthdata_login.png)
+![earthdata_login](../assets/earthdata_login.png) 
 
 
  * Selecciona la opción "Register for a profile", allí elige un *nombre de usuario* y *contraseña*.  Como sugerencia, elige aquellos que recuerdes bien, ya que los necesitarás más adelante. También deberás cargar tu perfil para compeltar el registro, en el mismo se te pedirán datos como correo, país, afiliación, entre otros. Al final, elige "Register for Earthdata Login".
+   
 
-![earthdata_profile](https://github.com/PatriLoto/nasa-topst/blob/main/assets/earthdata_profile.png)
+![earthdata_profile](../assets/earthdata_profile.png) 
 
  
  
