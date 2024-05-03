@@ -6,7 +6,7 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
 * Accede al [Hub de 2i2c](https://showcase.2i2c.cloud/hub/login)
 
 
-![2i2c_login]("../assets/2i2c_login.png\")
+![2i2c_login](https://github.com/PatriLoto/nasa-topst/blob/main/assets/2i2c_login.png)
 
 
 
