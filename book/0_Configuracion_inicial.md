@@ -20,7 +20,7 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
 
 * Listo, ya estás listo para empezar a trabajar.
 
-![ambiente_trabajo_jupyter_lab](https://hackmd.io/_uploads/HydboIGfA.png)
+![ambiente_trabajo_jupyter_lab](https://github.com/PatriLoto/nasa-topst/blob/main/assets/work_environment_jupyter_lab.png)
 
 
 
