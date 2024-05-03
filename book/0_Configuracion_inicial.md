@@ -42,7 +42,7 @@ A los efectos de esta guía, el sitio web Earthdata de la NASA es el punto de en
 
  * Selecciona la opción "Register for a profile", allí elige un *nombre de usuario* y *contraseña*.  Como sugerencia, elige aquellos que recuerdes bien, ya que los necesitarás más adelante. También deberás cargar tu perfil para compeltar el registro, en el mismo se te pedirán datos como correo, país, afiliación, entre otros. Al final, elige "Register for Earthdata Login".
 
-![earthdata_profile](https://hackmd.io/_uploads/SyB21vfG0.png)
+![earthdata_profile](https://github.com/PatriLoto/nasa-topst/blob/main/assets/earthdata_profile.png)
 
  
  
