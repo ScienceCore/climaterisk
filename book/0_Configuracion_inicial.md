@@ -13,7 +13,7 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
 * Introducí tus credenciales: Ingresa tu nombre de usuario y contraseña (Nota: Para esto deberías haber enviado tu correo asociado a tu cuenta de Github para que se te habilite el acceso con dicha cuenta). 
 
 * Si el acceso es correcto, verás la pantalla que se muestra a continuación. Por último elegí la opción Start para ingresar al ambiente de Jupyter lab en la nube.
-![start_server](https://hackmd.io/_uploads/SJajL8zfR.png)
+![start_server](https://github.com/PatriLoto/nasa-topst/blob/main/assets/start_server.png)
 
 
 
