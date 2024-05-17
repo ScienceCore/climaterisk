@@ -21,7 +21,7 @@ To access the 2i2c Hub, follow these simple steps:
 * If the login is successful, you will see the following screen. Choose the Start option to enter the JupyterLab environment in the cloud.
   
 
-![2i2c_login](../assets/start.png)
+![2i2c_login](../assets/start_server.png)
 
 * Finally, if you see the following JupyterLab screen, you are ready to start working.
 
