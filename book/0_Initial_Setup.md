@@ -14,14 +14,18 @@ To access the 2i2c Hub, follow these simple steps:
 
 * Go to the 2i2c Hub.
 
-![2i2c_login](https://hackmd.io/_uploads/rJBeLUMfR.png)
+![2i2c_login](../assets/2i2c_login.png)
 
 * Enter your credentials: username and password (Note: You must have previously sent your Github account username to be enabled for access with that account).
 
 * If the login is successful, you will see the following screen. Choose the Start option to enter the JupyterLab environment in the cloud.
+  
+
+![2i2c_login](../assets/2i2c_login.png)
 
 * Finally, if you see the following JupyterLab screen, you are ready to start working.
 
+![ambiente_trabajo_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
 ## 2. Using NASA's Earthdata
 
@@ -33,7 +37,11 @@ For the purposes of this guide, the NASA Earthdata website is the entry point th
 
 Go to the Earth Nasa website: https://www.earthdata.nasa.gov/. Then, select the option "Use Data" and then "Register". Finally, go to https://urs.earthdata.nasa.gov/.
 
+![earthdata_login](../assets/earthdata_login.png) 
+
 Select the "Register for a profile" option, there choose a username and password. As a suggestion, choose ones that you remember well, as you will need them later. You will also need to complete your profile to complete the registration, where you will be asked for information such as email, country, affiliation, among others. Finally, choose "Register for Earthdata Login".
+
+![earthdata_profile](../assets/earthdata_profile.png) 
 
 ## 3. Data Configuration for Access from Jupyter Notebooks
 
