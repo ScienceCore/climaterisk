@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Time-series analysis of datasets &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+    <title>Configuración Inicial &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
   
   
   
@@ -62,7 +62,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '4_Analyzing_Datasets';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '0_Configuracion_inicial';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -274,7 +274,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F4_Analyzing_Datasets.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F0_Configuracion_inicial.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -304,7 +304,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/4_Analyzing_Datasets.md" target="_blank"
+      <li><a href="_sources/0_Configuracion_inicial.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +375,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -386,11 +388,24 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Time-series analysis of datasets</h1>
+    <h1>Configuración Inicial</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-hub-de-2i2c">1-¿Cómo utilizar el hub de 2i2c?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-earthdata-de-la-nasa">2- ¿Cómo utilizar el Earthdata de la NASA?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breve-introduccion">Breve introducción</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracion-de-datos-para-acceder-desde-jupyter-notebooks">3- Configuración de datos para acceder desde Jupyter notebooks</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -400,9 +415,49 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="time-series-analysis-of-datasets">
-<h1>Time-series analysis of datasets<a class="headerlink" href="#time-series-analysis-of-datasets" title="Permalink to this heading">#</a></h1>
-<p>Now that we are able to identify and retrieve datasets of interest, we can perform a simple time series analysis of our dataset - for example, we will try to answer the question, “How does the amount of water present in our scene change over time?”</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="configuracion-inicial">
+<h1>Configuración Inicial<a class="headerlink" href="#configuracion-inicial" title="Permalink to this heading">#</a></h1>
+<section id="como-utilizar-el-hub-de-2i2c">
+<h2>1-¿Cómo utilizar el hub de 2i2c?<a class="headerlink" href="#como-utilizar-el-hub-de-2i2c" title="Permalink to this heading">#</a></h2>
+<p>Para acceder al 2i2c Hub seguí estos sencillos pasos:</p>
+<ul class="simple">
+<li><p>Accede al <a class="reference external" href="https://showcase.2i2c.cloud/hub/login">Hub de 2i2c</a></p></li>
+</ul>
+<p><img alt="2i2c_login" src="_images/2i2c_login.png" /></p>
+<ul class="simple">
+<li><p>Introducí tus credenciales: Ingresa tu nombre de usuario y contraseña (Nota: Para esto deberías haber enviado tu correo asociado a tu cuenta de Github para que se te habilite el acceso con dicha cuenta).</p></li>
+<li><p>Si el acceso es correcto, verás la pantalla que se muestra a continuación. Por último elegí la opción Start para ingresar al ambiente de Jupyter lab en la nube.</p></li>
+</ul>
+<p><img alt="start_server" src="_images/start_server.png" /></p>
+<ul class="simple">
+<li><p>Listo, ya estás listo para empezar a trabajar.</p></li>
+</ul>
+<p><img alt="ambiente_trabajo_jupyter_lab" src="_images/work_environment_jupyter_lab.png" /></p>
+</section>
+<section id="como-utilizar-el-earthdata-de-la-nasa">
+<h2>2- ¿Cómo utilizar el Earthdata de la NASA?<a class="headerlink" href="#como-utilizar-el-earthdata-de-la-nasa" title="Permalink to this heading">#</a></h2>
+<section id="breve-introduccion">
+<h3>Breve introducción<a class="headerlink" href="#breve-introduccion" title="Permalink to this heading">#</a></h3>
+<p>El programa <strong>Earth Science Data Systems (ESDS)</strong>, <strong>Programa de Sistemas de Datos de Ciencias de la Tierra</strong> de la NASA, supervisa el ciclo de vida de los datos científicos de la Tierra de todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.</p>
+<p>A los efectos de esta guía, el sitio web Earthdata de la NASA es el punto de entrada que permite acceder de manera completa, gratuita y abierta a las colecciones de datos de ciencias de la Tierra de la NASA, con el fin de acelerar el avance científico en beneficio de la sociedad. Para acceder a los datos a través de este portal, los usuarios deben definir primero sus credenciales de acceso.</p>
+<p>Para crear una cuenta en EarthData, seguí los pasos que se indica:</p>
+<ul class="simple">
+<li><p>Ingresa al sitio de Earth Nasa: <a class="reference external" href="https://www.earthdata.nasa.gov/">https://www.earthdata.nasa.gov/</a>. Luego selecciona la opción “Use Data” y a continuación “Register”. Por último, ingresa a <a class="reference external" href="https://urs.earthdata.nasa.gov/">https://urs.earthdata.nasa.gov/</a>.</p></li>
+</ul>
+<p><img alt="earthdata_login" src="_images/earthdata_login.png" /></p>
+<ul class="simple">
+<li><p>Selecciona la opción “Register for a profile”, allí elige un <em>nombre de usuario</em> y <em>contraseña</em>.  Como sugerencia, elige aquellos que recuerdes bien, ya que los necesitarás más adelante. También deberás cargar tu perfil para compeltar el registro, en el mismo se te pedirán datos como correo, país, afiliación, entre otros. Al final, elige “Register for Earthdata Login”.</p></li>
+</ul>
+<p><img alt="earthdata_profile" src="_images/earthdata_profile2.png" /></p>
+</section>
+</section>
+<section id="configuracion-de-datos-para-acceder-desde-jupyter-notebooks">
+<h2>3- Configuración de datos para acceder desde Jupyter notebooks<a class="headerlink" href="#configuracion-de-datos-para-acceder-desde-jupyter-notebooks" title="Permalink to this heading">#</a></h2>
+<p>Ahora viene la parte técnica: para acceder a los datos desde programas de Python y Jupyter notebooks, es necesario guardar las credenciales (de EarthData) en un archivo especial.  En este repositorio encontrarás un archivo llamado <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> con un ejemplo (puedes pensar en él como una plantilla). Abre ese archivo y edita la siguiente línea:</p>
+<p><code class="docutils literal notranslate"><span class="pre">machine</span> <span class="pre">urs.earthdata.nasa.gov</span> <span class="pre">login</span> <span class="pre">{tu_nombre_de_usuario}</span> <span class="pre">password</span> <span class="pre">{tu_contraseña}</span></code></p>
+<p>Luego, reemplaza <code class="docutils literal notranslate"><span class="pre">{tu_nombre_de_usuario</span></code>} y <code class="docutils literal notranslate"><span class="pre">{tu_contraseña}</span></code> con los datos de tu cuenta. Guarda el archivo y ¡listo!  Ya tienes todo lo necesario para acceder a los datos de observación de la Tierra a través del portal de EarthData. ️
+Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<code class="docutils literal notranslate"><span class="pre">_primeros_pasos.ipynb</span> </code>y sigue las indicaciones.  ¡Con esto ya podrás explorar el mundo de los datos de la NASA!</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -441,6 +496,25 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-hub-de-2i2c">1-¿Cómo utilizar el hub de 2i2c?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-earthdata-de-la-nasa">2- ¿Cómo utilizar el Earthdata de la NASA?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breve-introduccion">Breve introducción</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracion-de-datos-para-acceder-desde-jupyter-notebooks">3- Configuración de datos para acceder desde Jupyter notebooks</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

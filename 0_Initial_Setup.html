@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Primeros pasos &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+    <title>Initial Setup &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
   
   
   
@@ -62,11 +62,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '1_ES_Primeros_pasos';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '0_Initial_Setup';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introducción a la generación de mapas de inundaciones utilizando datos de teledetección" href="notebooks/2_ES_Flood.html" />
-    <link rel="prev" title="1 Getting Started" href="1_Getting_Started.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,13 +176,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="about_the_tutorial/Requirements.html">Participant requirements</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Flood Module</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="remote-sensing.html">Remote Sensing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="earthdata-cloud.html">NASA Earthdata Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flood.html">Flood</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_Getting_Started_text.html">Getting Started with 2i2c Hub and NASA EarthData credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_Getting_Started.html">1 Getting Started</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Primeros pasos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/2_ES_Flood.html"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
 
 
@@ -277,7 +274,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F1_ES_Primeros_pasos.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F0_Initial_Setup.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -307,7 +304,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/1_ES_Primeros_pasos.md" target="_blank"
+      <li><a href="_sources/0_Initial_Setup.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -391,7 +388,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Primeros pasos</h1>
+    <h1>Initial Setup</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -401,9 +398,21 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-hub-de-2i2c">¿Cómo utilizar el hub de 2i2c?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa">¿Cómo acceder a los datos disponibles en el sitio Earthdata de la NASA?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Initial Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-the-2i2c-hub">1- How to use the 2i2c Hub</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-configuration-steps-for-2i2c-hub-and-earthdata-nasa-access">Initial Configuration Steps for 2i2c Hub and EarthData NASA Access</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-2i2c-hub">1. Accessing the 2i2c Hub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nasa-s-earthdata">2. Using NASA’s Earthdata</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-introduction">Brief Introduction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-configuration-for-access-from-jupyter-notebooks">3. Data Configuration for Access from Jupyter Notebooks</a></li>
+</ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -414,25 +423,56 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="primeros-pasos">
-<h1>Primeros pasos<a class="headerlink" href="#primeros-pasos" title="Permalink to this heading">#</a></h1>
-<section id="como-utilizar-el-hub-de-2i2c">
-<h2>¿Cómo utilizar el hub de 2i2c?<a class="headerlink" href="#como-utilizar-el-hub-de-2i2c" title="Permalink to this heading">#</a></h2>
-<p>Para acceder al 2i2c Hub seguí estos sencillos pasos:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="initial-setup">
+<h1>Initial Setup<a class="headerlink" href="#initial-setup" title="Permalink to this heading">#</a></h1>
+<section id="how-to-use-the-2i2c-hub">
+<h2>1- How to use the 2i2c Hub<a class="headerlink" href="#how-to-use-the-2i2c-hub" title="Permalink to this heading">#</a></h2>
+<p>To access the 2i2c Hub, follow these simple steps:</p>
 <ul class="simple">
-<li><p>Accede al <a class="reference external" href="https://showcase.2i2c.cloud/hub/login">Hub de 2i2c</a></p></li>
-<li><p>Introduce tus credenciales: Ingresa tu nombre de usuario y contraseña del 2i2c Hub</p></li>
+<li><p>Access the 2i2c Hub: Go to <a class="reference external" href="https://2i2c.org/platform/">https://2i2c.org/platform/</a>}</p></li>
 </ul>
 </section>
-<section id="como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa">
-<h2>¿Cómo acceder a los datos disponibles en el sitio Earthdata de la NASA?<a class="headerlink" href="#como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa" title="Permalink to this heading">#</a></h2>
-<p>El programa <strong>Earth Science Data Systems (ESDS)</strong>, <strong>Programa de Sistemas de Datos de Ciencias de la Tierra</strong> de la NASA, supervisa el ciclo de vida de los datos científicos de la Tierra de todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.</p>
-<p>A los efectos de esta guía, el sitio web Earthdata de la NASA es el punto de entrada que permite acceder de manera completa, gratuita y abierta a las colecciones de datos de ciencias de la Tierra de la NASA, con el fin de acelerar el avance científico en beneficio de la sociedad. Para acceder a los datos a través de este portal, los usuarios deben definir primero sus credenciales de acceso.</p>
-<p>Para crear una cuenta en EarthData, seguí este sencillo [tutorial], el cual te guíara paso a paso. Como sugerencia, elige un <em>nombre de usuario</em> y <em>contraseña</em> que recuerdes bien, ya que los necesitarás más adelante.
-Ahora viene la parte técnica: para acceder a los datos desde programas de Python y Jupyter notebooks, es necesario guardar las credenciales (de EarthData) en un archivo especial.  En este repositorio encontrarás un archivo llamado <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> con un ejemplo (puedes pensar en él como una plantilla). Abre ese archivo y edita la siguiente línea:</p>
-<p><code class="docutils literal notranslate"><span class="pre">machine</span> <span class="pre">urs.earthdata.nasa.gov</span> <span class="pre">login</span> <span class="pre">{tu_nombre_de_usuario}</span> <span class="pre">password</span> <span class="pre">{tu_contraseña}</span></code></p>
-<p>Luego, reemplaza <code class="docutils literal notranslate"><span class="pre">{tu_nombre_de_usuario</span></code>} y <code class="docutils literal notranslate"><span class="pre">{tu_contraseña}</span></code> con los datos de tu cuenta. Guarda el archivo y ¡listo!  Ya tienes todo lo necesario para acceder a los datos de observación de la Tierra a través del portal de EarthData. ️
-Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<code class="docutils literal notranslate"><span class="pre">_primeros_pasos.ipynb</span> </code>y sigue las indicaciones.  ¡Con esto ya podrás explorar el mundo de los datos de la NASA!</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="initial-configuration-steps-for-2i2c-hub-and-earthdata-nasa-access">
+<h1>Initial Configuration Steps for 2i2c Hub and EarthData NASA Access<a class="headerlink" href="#initial-configuration-steps-for-2i2c-hub-and-earthdata-nasa-access" title="Permalink to this heading">#</a></h1>
+<section id="accessing-the-2i2c-hub">
+<h2>1. Accessing the 2i2c Hub<a class="headerlink" href="#accessing-the-2i2c-hub" title="Permalink to this heading">#</a></h2>
+<p>To access the 2i2c Hub, follow these simple steps:</p>
+<ul class="simple">
+<li><p>Go to the 2i2c Hub.</p></li>
+</ul>
+<p><img alt="2i2c_login" src="_images/2i2c_login.png" /></p>
+<ul class="simple">
+<li><p>Enter your credentials: username and password (Note: You must have previously sent your Github account username to be enabled for access with that account).</p></li>
+<li><p>If the login is successful, you will see the following screen. Choose the Start option to enter the JupyterLab environment in the cloud.</p></li>
+</ul>
+<p><img alt="2i2c_login" src="_images/start_server.png" /></p>
+<ul class="simple">
+<li><p>Finally, if you see the following JupyterLab screen, you are ready to start working.</p></li>
+</ul>
+<p><img alt="ambiente_trabajo_jupyter_lab" src="_images/work_environment_jupyter_lab.png" /></p>
+</section>
+<section id="using-nasa-s-earthdata">
+<h2>2. Using NASA’s Earthdata<a class="headerlink" href="#using-nasa-s-earthdata" title="Permalink to this heading">#</a></h2>
+<section id="brief-introduction">
+<h3>Brief Introduction<a class="headerlink" href="#brief-introduction" title="Permalink to this heading">#</a></h3>
+<p>The NASA Earth Science Data Systems (ESDS) program oversees the lifecycle of Earth science data from all its Earth observation missions, from acquisition to processing and distribution.</p>
+<p>For the purposes of this guide, the NASA Earthdata website is the entry point that allows full, free and open access to NASA’s Earth science data collections, in order to accelerate scientific progress for the benefit of society. To access the data through this portal, users must first define their access credentials. To create an EarthData account, follow these steps:</p>
+<p>Go to the Earth Nasa website: <a class="reference external" href="https://www.earthdata.nasa.gov/">https://www.earthdata.nasa.gov/</a>. Then, select the option “Use Data” and then “Register”. Finally, go to <a class="reference external" href="https://urs.earthdata.nasa.gov/">https://urs.earthdata.nasa.gov/</a>.</p>
+<p><img alt="earthdata_login" src="_images/earthdata_login.png" /></p>
+<p>Select the “Register for a profile” option, there choose a username and password. As a suggestion, choose ones that you remember well, as you will need them later. You will also need to complete your profile to complete the registration, where you will be asked for information such as email, country, affiliation, among others. Finally, choose “Register for Earthdata Login”.</p>
+<p><img alt="earthdata_profile" src="_images/earthdata_profile2.png" /></p>
+</section>
+</section>
+<section id="data-configuration-for-access-from-jupyter-notebooks">
+<h2>3. Data Configuration for Access from Jupyter Notebooks<a class="headerlink" href="#data-configuration-for-access-from-jupyter-notebooks" title="Permalink to this heading">#</a></h2>
+<p>Now comes the technical part: to access data from Python programs and Jupyter notebooks, it is necessary to save the credentials (from EarthData) in a special file. In this repository you will find a file called .netrc with an example (you can think of it as a template). Open that file and edit the following line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">machine</span> <span class="n">urs</span><span class="o">.</span><span class="n">earthdata</span><span class="o">.</span><span class="n">nasa</span><span class="o">.</span><span class="n">gov</span> <span class="n">login</span> <span class="p">{</span><span class="n">your_username</span><span class="p">}</span> <span class="n">password</span> <span class="p">{</span><span class="n">your_password</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Then, replace <code class="docutils literal notranslate"><span class="pre">{your_username}</span></code> and <code class="docutils literal notranslate"><span class="pre">{your_password}</span> </code>with your account details. Save the file and you’re done! You now have everything you need to access Earth observation data through the EarthData portal. ️</p>
+<p>To make sure everything is working properly, open the notebook titled <code class="docutils literal notranslate"><span class="pre">1_getting_started.ipynb</span></code> and follow the instructions. With this, you will be able to explore the world of NASA data!</p>
 </section>
 </section>
 
@@ -466,24 +506,6 @@ Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="1_Getting_Started.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">1 Getting Started</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="notebooks/2_ES_Flood.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -499,9 +521,21 @@ Para asegurarte de que todo funciona correctamente, abre la notebook titulada 1<
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-utilizar-el-hub-de-2i2c">¿Cómo utilizar el hub de 2i2c?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#como-acceder-a-los-datos-disponibles-en-el-sitio-earthdata-de-la-nasa">¿Cómo acceder a los datos disponibles en el sitio Earthdata de la NASA?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Initial Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-the-2i2c-hub">1- How to use the 2i2c Hub</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-configuration-steps-for-2i2c-hub-and-earthdata-nasa-access">Initial Configuration Steps for 2i2c Hub and EarthData NASA Access</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-2i2c-hub">1. Accessing the 2i2c Hub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-nasa-s-earthdata">2. Using NASA’s Earthdata</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-introduction">Brief Introduction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-configuration-for-access-from-jupyter-notebooks">3. Data Configuration for Access from Jupyter Notebooks</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
