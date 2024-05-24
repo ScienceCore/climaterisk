@@ -5,6 +5,7 @@ dependencies:
   - jupyterhub-singleuser>=3.0,<4.0
   - jupyterlab
   - jupyter-book
+  - jupyterlab-myst
   - rasterio
   - numpy  
   - matplotlib
@@ -17,4 +18,5 @@ dependencies:
   - rioxarray
   - contextily
   - ghp-import
+  - gh-scoped-creds
   - nbgitpuller=1.1.*
