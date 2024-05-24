@@ -6,6 +6,7 @@ dependencies:
   - jupyterlab
   - jupyter-book
   - jupyterlab-myst
+  - jupyterlab-git
   - rasterio
   - numpy  
   - matplotlib
