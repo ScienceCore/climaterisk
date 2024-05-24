@@ -36,7 +36,7 @@ jobs:
         LATEST_TAG_OFF: true
 
         # Uncomment and modify the following line with your image name, otherwise no push will happen
-        IMAGE_NAME: "quay.io/2i2c/sciencecore-climaterisk-image"
+        IMAGE_NAME: "2i2c/sciencecore-climaterisk-image"
 
     # Lets us monitor disks getting full as images get bigger over time
     - name: Show how much disk space is left
