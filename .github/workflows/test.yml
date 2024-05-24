@@ -28,7 +28,8 @@ jobs:
     - name: Checkout files in repo
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.event.pull_request.head.sha }}
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
 
     - name: Build and push the image to quay.io
       uses: jupyterhub/repo2docker-action@master
