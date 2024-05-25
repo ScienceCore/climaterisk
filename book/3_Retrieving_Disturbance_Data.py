@@ -108,7 +108,7 @@ STAC_URL = 'https://cmr.earthdata.nasa.gov/stac'
 # LPCLOUD refers to the LP DAAC cloud environment that hosts earth observation data
 catalog = Client.open(f'{STAC_URL}/LPCLOUD/') 
 
-collections = ["OPERA_L3_DIST-ALERT-HLS_PROVISIONAL_V0"]
+collections = ["OPERA_L3_DIST-ALERT-HLS_V1"]
 
 # We would like to search data for August-September 2023
 date_range = f'{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}'
@@ -126,6 +126,17 @@ search = catalog.search(**opts)
 
 results = list(search.items_as_dicts())
 print(f"Number of tiles found intersecting given AOI: {len(results)}")
+
+# Let's load the search results into a pandas dataframe
+
+# +
+times = pd.DatetimeIndex([result['properties']['datetime'] for result in results]) # parse of timestamp for each result
+hrefs = {'hrefs': [value['href'] for result in results for key, value in result['assets'].items() if 'VEG-DIST-STATUS' in key]} # parse out links only to DIST-STATUS data layer
+
+# # Construct pandas dataframe to summarize granules from search results
+granules = pd.DataFrame(index=times, data=hrefs)
+granules.index.name = 'times'
+# -
 
 # **Layer Values:**
 # * **0:** No disturbance<br>
