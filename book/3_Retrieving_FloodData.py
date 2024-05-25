@@ -79,7 +79,7 @@ STAC_URL = 'https://cmr.earthdata.nasa.gov/stac'
 # Setup PySTAC client
 provider_cat = Client.open(STAC_URL)
 catalog = Client.open(f'{STAC_URL}/POCLOUD/')
-collections = ["OPERA_L3_DSWX-HLS_PROVISIONAL_V1"]
+collections = ["OPERA_L3_DSWX-HLS_V1"]
 
 # We would like to search data for March 2024
 date_range = f'{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}'
