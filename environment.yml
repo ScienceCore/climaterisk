@@ -22,11 +22,12 @@ dependencies:
   - ipyleaflet
   - ipympl
   - ipython
-  - jupyterlab>=4.15
+  - jupyterlab
   - jupyter-book
   - jupyter-server-proxy>=4.1.1
   - jupyterlab-myst
   - jupyterlab-git
+  - jupyterhub>=4.1.5
   - jupyterhub-singleuser
   - jupytext  
   - leafmap
@@ -37,6 +38,7 @@ dependencies:
   - nodejs
   - notebook
   - numba
+  - numexpr>=2.8.7
   - numpy
   - panel
   - pystac-client
