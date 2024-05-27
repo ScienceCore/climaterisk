@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - environment.yml
-  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -43,18 +42,3 @@ jobs:
     # Lets us monitor disks getting full as images get bigger over time
     - name: Show how much disk space is left
       run: df -h
-      
-    - name: Add PR comment with image tag
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}        
-        script: |
-          var IMAGE_SHA_NAME = process.env.IMAGE_SHA_NAME;
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: 'Quay.io image tag 👉 [${IMAGE_SHA_NAME}](https://${IMAGE_SHA_NAME})'
-          })
-      env:
-        IMAGE_SHA_NAME: ${{ steps.build-push.outputs.IMAGE_SHA_NAME }}
