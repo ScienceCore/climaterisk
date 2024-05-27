@@ -22,24 +22,24 @@ dependencies:
   - ipyleaflet
   - ipympl
   - ipython
-  - jupyterlab
+  - jupyterlab>=4.15
   - jupyter-book
-  - jupyter-server-proxy
+  - jupyter-server-proxy>=4.1.1
   - jupyterlab-myst
   - jupyterlab-git
+  - jupyterhub-singleuser
   - jupytext  
   - leafmap
   - localtileserver
   - lxml  
   - matplotlib
-  - nbgitpuller  
+  - nbgitpuller>=1.2.1
   - nodejs
   - notebook
   - numba
   - numpy
   - panel
   - pystac-client
-  - python[version='>=3.10']  
   - rasterio
   - requests
   - rioxarray
