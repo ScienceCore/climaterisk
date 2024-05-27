@@ -27,7 +27,6 @@ dependencies:
   - jupyter-server-proxy>=4.1.1
   - jupyterlab-myst
   - jupyterlab-git
-  - jupyterhub>=4.1.5
   - jupyterhub-singleuser
   - jupytext  
   - leafmap
