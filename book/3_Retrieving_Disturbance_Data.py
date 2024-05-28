@@ -12,7 +12,7 @@
 #     name: python3
 # ---
 
-# The [OPERA DIST-HLS data product](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) can be used to study the impacts and evolution of wildfires at a large scale. In this notebook, we will retrieve data associated with the [2023 Greece wildfires](`https://en.wikipedia.org/wiki/2023_Greece_wildfire`s) to understand its evolution and extent. We will also generate a time series visualization of the event.
+# The [OPERA DIST-HLS data product](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) can be used to study the impacts and evolution of wildfires at a large scale. In this notebook, we will retrieve data associated with the [2023 Greece wildfires](https://en.wikipedia.org/wiki/2023_Greece_wildfires) to understand its evolution and extent. We will also generate a time series visualization of the event.
 #
 # In particular, we will be examining the area around the city of [Alexandroupolis](https://en.wikipedia.org/wiki/Alexandroupolis) which was severely impacted by the wildfires, resulting in loss of lives, property, and forested areas.
 
@@ -64,6 +64,7 @@ import xarray as xr
 
 # misc imports
 from datetime import datetime, timedelta
+from collections import defaultdict
 
 # STAC imports to retrieve cloud data
 from pystac_client import Client
@@ -94,7 +95,8 @@ from dist_utils import stack_bands, time_and_area_cube
 # Define data search parameters
 
 # Define AOI as left, bottom, right and top lat/lon extent
-aoi = box(22.93945, 40.69742,25.57617, 41.68221)
+# aoi = box(22.93945, 40.69742,25.57617, 41.68221)
+dadia_forest = Point(26.18798, 41.08474).buffer(0.1)
 
 # We will search data for the month of March 2024
 start_date = datetime(year=2023, month=8, day=1)
@@ -114,7 +116,7 @@ collections = ["OPERA_L3_DIST-ALERT-HLS_V1"]
 date_range = f'{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}'
 
 opts = {
-    'bbox' : aoi.bounds, 
+    'bbox' : dadia_forest.bounds, 
     'collections': collections,
     'datetime' : date_range,
 }
@@ -130,15 +132,42 @@ print(f"Number of tiles found intersecting given AOI: {len(results)}")
 # Let's load the search results into a pandas dataframe
 
 # +
+layer_name = 'VEG-DIST-STATUS'
+
 times = pd.DatetimeIndex([result['properties']['datetime'] for result in results]) # parse of timestamp for each result
-hrefs = {'hrefs': [value['href'] for result in results for key, value in result['assets'].items() if 'VEG-DIST-STATUS' in key]} # parse out links only to DIST-STATUS data layer
+data = {'hrefs': [value['href'] for result in results for key, value in result['assets'].items() if layer_name in key],  # parse out links only to DIST-STATUS data layer
+        'tile_id': [value['href'].split('/')[-1].split('_')[3] for result in results for key, value in result['assets'].items() if layer_name in key]}
 
 # # Construct pandas dataframe to summarize granules from search results
-granules = pd.DataFrame(index=times, data=hrefs)
+granules = pd.DataFrame(index=times, data=data)
 granules.index.name = 'times'
 # -
 
+granules.head()
+
+# +
+# Let's refine the dataframe a bit more so that we group together granules by 
+# date of acquisition - we don't mind if they were acquired at different times 
+# of the same day
+
+refined_granules = defaultdict(list)
+
+for i, row in granules.iterrows():
+    refined_granules[i.strftime('%y-%m-%d')].append(row.hrefs)
+
+refined_granules = pd.DataFrame(index=refined_granules.keys(), data = {'hrefs':refined_granules.values()})
+
+# +
+# The wildfire near Alexandroupolis started on August 21st and rapidly spread, particularly affecting the nearby Dadia Forest
+# For demonstration purposes, let's look at three dates to study the extent of the fire - 
+# August 1st, August 25th, and September 1st
+# We will plot the OPERA-DIST-ALERT data product, highlighting only those pixels corresponding to confirmed vegetation damage,
+# and in particular only those pixels where at least 50% of the area was affected (layer value 6)
+# -
+
 # **Layer Values:**
+#
+# **These need updating since the DIST product update in early 2024**
 # * **0:** No disturbance<br>
 # * **1:** Provisional (**first detection**) Disturbance with vegetation cover change <50% <br>
 # * **2:** Confirmed (**recurrent detection**) Disturbance with vegetation cover change < 50% <br> 
