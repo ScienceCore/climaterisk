@@ -14,7 +14,7 @@
 
 # ## Retrieving OPERA DSWx-HLS data for a flood event
 #
-# Heavy rains severly impacted Argentina in March 2024 [[1]](https://www.reuters.com/world/americas/argentina-downpour-drenches-crop-fields-flash-floods-buenos-aires-2024-03-12/). The event resulted in flash floods and impacted crop yields, severely impacting the Buenos Aires metropolitan area, and caused significant damage to property and human life. In this notebook, we will retrieve OPERA DSWx-HLS data associated to understand the extent of flooding and damage, and compare data from before and after the event.
+# Heavy rains severly impacted Argentina in March 2024 [[1]](https://www.reuters.com/world/americas/argentina-downpour-drenches-crop-fields-flash-floods-buenos-aires-2024-03-12/). The event resulted in flash floods and impacted crop yields, severely impacting the Buenos Aires metropolitan area, and caused significant damage to property and human life. In this notebook, we will retrieve [OPERA DSWx-HLS](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf) data associated to understand the extent of flooding and damage, and compare data from before and after the event.
 
 # +
 # Imports for plotting
@@ -79,7 +79,7 @@ STAC_URL = 'https://cmr.earthdata.nasa.gov/stac'
 # Setup PySTAC client
 provider_cat = Client.open(STAC_URL)
 catalog = Client.open(f'{STAC_URL}/POCLOUD/')
-collections = ["OPERA_L3_DSWX-HLS_PROVISIONAL_V1"]
+collections = ["OPERA_L3_DSWX-HLS_V1"]
 
 # We would like to search data for March 2024
 date_range = f'{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}'
