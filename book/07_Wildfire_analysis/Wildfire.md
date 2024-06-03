@@ -1,3 +1,3 @@
 # Wildfire
 
-![](../../asset/climate_risks_fire_color.png)
+![](../assets/climate_risks_fire_color.png)

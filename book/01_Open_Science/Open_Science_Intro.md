@@ -24,7 +24,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 
 <!-- #region -->
 
-<img src="../../assets/image165.png" width="800">
+<img src="../assets/image165.png" width="800">
 
 ### Availability of Open Science Resources:
 
@@ -47,7 +47,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 - And much more..
 
 
-<img src="../../assets/image377.jpg" width="800">
+<img src="../assets/image377.jpg" width="800">
 
 <!-- #endregion -->
 
@@ -64,7 +64,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 
 Scientific knowledge, or research products, take the form of:
 
-<img src="../../assets/image5.png" width="500">
+<img src="../assets/image5.png" width="500">
 
 ### What is data?
 
@@ -98,7 +98,7 @@ Results capture the different research outputs of the scientific process. Public
 Products are created throughout the scientific process that are needed to enable others to reproduce the findings. The products of research include data, code, analysis pipelines, papers, and more!
 
 
-<img src="../../assets/image7.jpeg" width="800">
+<img src="../assets/image7.jpeg" width="800">
 
 
 

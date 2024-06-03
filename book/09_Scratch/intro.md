@@ -1,6 +1,6 @@
 # Determining Climate Risks with NASA Earthdata Cloud
 
-![](../../asset/banner.jpg)
+![](../assets/banner.jpg)
 
 
 GitHub Repo: https://github.com/ScienceCore/climaterisk
@@ -8,12 +8,12 @@ GitHub Repo: https://github.com/ScienceCore/climaterisk
 
 Under joint development by 
 
-![](../../asset/MD_logo.png)
+![](../assets/MD_logo.png)
 
 and
 
-![](../../asset/2i2c_logo.png)
+![](../assets/2i2c_logo.png)
 
 as ScienceCore module for 
 
-![](../../asset/TOPS.png):w
+![](../assets/TOPS.png):w
