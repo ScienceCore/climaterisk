@@ -12,6 +12,8 @@ jupyter:
     name: python3
 ---
 
+# Selecting an AOI
+
 Selecting and modifying Areas of Interest (AOIs) is an important part of geospatial data analysis workflows. The Python ecosystem of libraries provide a number ways to do this, some of which will be explored and demonstrated in this notebook. In particular, we will demonstrate the following: 
 1. How to specify AOIs in different ways
 2. How to use `geopandas` to load shapely geometries, visualize them, and perform operations such as `intersection`
