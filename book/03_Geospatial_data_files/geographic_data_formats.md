@@ -12,7 +12,7 @@ Line data is used to represent linear features. Common examples would be rivers,
 **Polygon data**
 Polygons are used to represent areas such as the boundary of a city (on a large scale map), lake, or forest.  Polygon features are two dimensional and therefore can be used to measure the area and perimeter of a geographic feature.^1^
 
-![points-lines-polygons-vector-data-types](../assets/points-lines-polygons-vector-data-types.png)
+![points-lines-polygons-vector-data-types](../../assets/points-lines-polygons-vector-data-types.png)
 
 <p style="text-align: center;">This image shows the three vector types: points, lines and polygons. Source: National Ecological Observatory Network.
 </p>

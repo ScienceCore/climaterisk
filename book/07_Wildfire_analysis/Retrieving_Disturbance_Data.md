@@ -1,22 +1,22 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.16.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.16.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
 
-# The [OPERA DIST-HLS data product](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) can be used to study the impacts and evolution of wildfires at a large scale. In this notebook, we will retrieve data associated with the [2023 Greece wildfires](https://en.wikipedia.org/wiki/2023_Greece_wildfires) to understand its evolution and extent. We will also generate a time series visualization of the event.
-#
-# In particular, we will be examining the area around the city of [Alexandroupolis](https://en.wikipedia.org/wiki/Alexandroupolis) which was severely impacted by the wildfires, resulting in loss of lives, property, and forested areas.
+The [OPERA DIST-HLS data product](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) can be used to study the impacts and evolution of wildfires at a large scale. In this notebook, we will retrieve data associated with the [2023 Greece wildfires](https://en.wikipedia.org/wiki/2023_Greece_wildfires) to understand its evolution and extent. We will also generate a time series visualization of the event.
 
-# +
+In particular, we will be examining the area around the city of [Alexandroupolis](https://en.wikipedia.org/wiki/Alexandroupolis) which was severely impacted by the wildfires, resulting in loss of lives, property, and forested areas.
+
+```python
 # Plotting imports
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
@@ -46,8 +46,9 @@ gdal.SetConfigOption('GDAL_HTTP_COOKIEFILE','~/cookies.txt')
 gdal.SetConfigOption('GDAL_HTTP_COOKIEJAR', '~/cookies.txt')
 gdal.SetConfigOption('GDAL_DISABLE_READDIR_ON_OPEN','EMPTY_DIR')
 gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
+```
 
-# +
+```python
 # Define data search parameters
 
 # Define AOI as left, bottom, right and top lat/lon extent
@@ -56,8 +57,9 @@ dadia_forest = Point(26.18, 41.08).buffer(0.1)
 # We will search data for the month of March 2024
 start_date = datetime(year=2023, month=8, day=1)
 stop_date = datetime(year=2023, month=9, day=30)
+```
 
-# +
+```python
 # We open a client instance to search for data, and retrieve relevant data records
 STAC_URL = 'https://cmr.earthdata.nasa.gov/stac'
 
@@ -77,16 +79,18 @@ opts = {
 }
 
 search = catalog.search(**opts)
-# -
+```
 
-# NOTE: The OPERA DIST data product is hosted on [LP DAAC](https://lpdaac.usgs.gov/news/lp-daac-releases-opera-land-surface-disturbance-alert-version-1-data-product/), and this is specified when setting up the PySTAC client to search their catalog of data products in the above code cell.
+NOTE: The OPERA DIST data product is hosted on [LP DAAC](https://lpdaac.usgs.gov/news/lp-daac-releases-opera-land-surface-disturbance-alert-version-1-data-product/), and this is specified when setting up the PySTAC client to search their catalog of data products in the above code cell.
 
+```python
 results = list(search.items_as_dicts())
 print(f"Number of tiles found intersecting given AOI: {len(results)}")
+```
 
-# Let's load the search results into a pandas dataframe
+Let's load the search results into a pandas dataframe
 
-# +
+```python
 layer_name = 'VEG-DIST-STATUS'
 
 times = pd.DatetimeIndex([result['properties']['datetime'] for result in results]) # parse of timestamp for each result
@@ -96,11 +100,13 @@ data = {'hrefs': [value['href'] for result in results for key, value in result['
 # # Construct pandas dataframe to summarize granules from search results
 granules = pd.DataFrame(index=times, data=data)
 granules.index.name = 'times'
-# -
+```
 
+```python
 granules.head()
+```
 
-# +
+```python
 # Let's refine the dataframe a bit more so that we group together granules by 
 # date of acquisition - we don't mind if they were acquired at different times 
 # of the same day
@@ -111,8 +117,9 @@ for i, row in granules.iterrows():
     refined_granules[i.strftime('%Y-%m-%d')].append(row.hrefs)
 
 refined_granules = pd.DataFrame(index=refined_granules.keys(), data = {'hrefs':refined_granules.values()})
+```
 
-# +
+```python
 # The wildfire near Alexandroupolis started on August 21st and rapidly spread, particularly affecting the nearby Dadia Forest
 # For demonstration purposes, let's look at three dates to study the extent of the fire - 
 # August 1st, August 25th, and September 19th
@@ -121,27 +128,28 @@ refined_granules = pd.DataFrame(index=refined_granules.keys(), data = {'hrefs':r
 
 dates_of_interest = [datetime(year=2023, month=8, day=1), datetime(year=2023, month=8, day=26), datetime(year=2023, month=9, day=18)]
 hrefs_of_interest = [x.hrefs for i, x in refined_granules.iterrows() if datetime.strptime(i, '%Y-%m-%d') in dates_of_interest]
-# -
+```
 
-# **Relevant layer Values for DIST-ALERT product:**
-#
-# * **0:** No disturbance<br>
-# * **1:** First detection of disturbance with vegetation cover change <50% <br>
-# * **2:** Provisional detection of disturbance with vegetation cover change <50% <br>
-# * **3:** Confirmed detection of disturbance with vegetation cover change <50% <br>
-# * **4:** First detection of disturbance with vegetation cover change >50% <br>
-# * **5:** Provisional detection of disturbance with vegetation cover change >50% <br>
-# * **6:** Confirmed detection of disturbance with vegetation cover change >50% <br>
+**Relevant layer Values for DIST-ALERT product:**
 
-# +
+* **0:** No disturbance<br>
+* **1:** First detection of disturbance with vegetation cover change <50% <br>
+* **2:** Provisional detection of disturbance with vegetation cover change <50% <br>
+* **3:** Confirmed detection of disturbance with vegetation cover change <50% <br>
+* **4:** First detection of disturbance with vegetation cover change >50% <br>
+* **5:** Provisional detection of disturbance with vegetation cover change >50% <br>
+* **6:** Confirmed detection of disturbance with vegetation cover change >50% <br>
+
+```python
 # Define color map to generate plot (Red, Green, Blue, Alpha)
 colors = [(1, 1, 1, 0)] * 256  # Initial set all values to white, with zero opacity
 colors[6] = (1, 0, 0, 1)       # Set class 6 to Red with 100% opacity
 
 # Create a ListedColormap
 cmap = ListedColormap(colors)
+```
 
-# +
+```python
 fig, ax = plt.subplots(1, 3, figsize = (30, 10))
 crs = None
 
@@ -177,11 +185,11 @@ for i, (date, hrefs) in enumerate(zip(dates_of_interest, hrefs_of_interest)):
     ax[i].set_xlabel('UTM easting (meters)')
     ax[i].set_ylabel('UTM northing (meters)')
     ax[i].set_title(f"Disturbance extent on: {date.strftime('%Y-%m-%d')}")
-# -
+```
 
-# Next, let's calculate the area extent of damage over time
+Next, let's calculate the area extent of damage over time
 
-# +
+```python
 damage_area = []
 conversion_factor = (30*1e-3)**2 # to convert pixel count to area in km^2; each pixel is 30x30 meters
 
@@ -192,8 +200,9 @@ for index, row in refined_granules.iterrows():
 
 refined_granules['damage_area'] = damage_area
 
-# -
+```
 
+```python
 fig, ax = plt.subplots(1, 1, figsize=(20, 10))
 ax.plot([datetime.strptime(i, '%Y-%m-%d') for i in refined_granules.index], refined_granules['damage_area'], color='red')
 ax.grid()
@@ -201,3 +210,4 @@ plt.ylabel('Area damaged by wildfire (km$^2$)', size=15)
 plt.xlabel('Date', size=15)
 plt.xticks([datetime(year=2023, month=8, day=1) + timedelta(days=6*i) for i in range(11)], size=14)
 plt.title('2023 Dadia forest wildfire detected extent', size=14)
+```
