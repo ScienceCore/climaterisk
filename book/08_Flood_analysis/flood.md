@@ -1,4 +1,4 @@
 # Flood
 
 
-![](../../asset/climate_risks_flood_color.png)
+![](../assets/climate_risks_flood_color.png)

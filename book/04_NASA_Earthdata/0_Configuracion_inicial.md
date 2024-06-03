@@ -7,7 +7,7 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
   
 
 
-![2i2c_login](../../asset/2i2c_login.png)
+![2i2c_login](../assets/2i2c_login.png)
 
 
 
@@ -16,7 +16,7 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
 * Si el acceso es correcto, verás la pantalla que se muestra a continuación. Por último elegí la opción Start para ingresar al ambiente de Jupyter lab en la nube.
 
 
-![start_server](../../asset/start_server.png)
+![start_server](../assets/start_server.png)
 
 
 
@@ -25,14 +25,14 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
 
   
 
-![ambiente_trabajo_jupyter_lab](../../asset/work_environment_jupyter_lab.png) 
+![ambiente_trabajo_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
 
 
 ## 2- ¿Cómo utilizar el Earthdata de la NASA?
 
 
-#### Breve introducción
+### Breve introducción
 
 El programa **Earth Science Data Systems (ESDS)**, **Programa de Sistemas de Datos de Ciencias de la Tierra** de la NASA, supervisa el ciclo de vida de los datos científicos de la Tierra de todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.
 
@@ -43,13 +43,13 @@ A los efectos de esta guía, el sitio web Earthdata de la NASA es el punto de en
  * Ingresa al sitio de Earth Nasa: https://www.earthdata.nasa.gov/. Luego selecciona la opción "Use Data" y a continuación "Register". Por último, ingresa a https://urs.earthdata.nasa.gov/.
    
 
-![earthdata_login](../../asset/earthdata_login.png) 
+![earthdata_login](../assets/earthdata_login.png) 
 
 
  * Selecciona la opción "Register for a profile", allí elige un *nombre de usuario* y *contraseña*.  Como sugerencia, elige aquellos que recuerdes bien, ya que los necesitarás más adelante. También deberás cargar tu perfil para compeltar el registro, en el mismo se te pedirán datos como correo, país, afiliación, entre otros. Al final, elige "Register for Earthdata Login".
    
 
-![earthdata_profile](../../asset/earthdata_profile2.png) 
+![earthdata_profile](../assets/earthdata_profile2.png) 
 
  
  
