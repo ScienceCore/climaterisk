@@ -2,37 +2,36 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: intro
+root: 09_Scratch/intro
 parts:
-  - caption: About this Module
+  - caption: Open Science
     chapters:
-    - file: about_the_tutorial/disenio_leccion
-    - file: about_the_tutorial/Assessment_Activities
-    - file: about_the_tutorial/Learner_Personas
-    - file: about_the_tutorial/Module_Objectives
-    - file: about_the_tutorial/Outcomes
-    - file: about_the_tutorial/Requirements
-    
-  - caption: Flood Module
+    - file: 01_Open_Science/Open_Science_Intro
+
+  - caption: Geospatial fundamentals
     chapters:
+    - file: 02_Geospatial_fundamentals/2_Selecting_an_AOI
     - file: remote-sensing
-    - file: earthdata-cloud
-    - file: flood
-    - file: 1_Getting_Started_text
-    - file: 1_Getting_Started
-    - file: 1_ES_Primeros_pasos
-    - file: notebooks/2_ES_Flood
-    - file: SLIDES-NASA-TOPS-setup
-    - file: SLIDES-NASA-TOPS-flood
 
-  - caption: Drought Module
+  - caption: Geospatial data files
     chapters:
-    - file: drought
+    - file: 03_Geospatial_data_files/geographic_data_formats
 
-  - caption: Wildfire Module
+  - caption: NASA EarthData
     chapters:
-    - file: wildfire
-  
+    - file: 04_NASA_Earthdata/0_Initial_Setup
+    - file: 04_NASA_Earthdata/0_Configuracion_inicial
+
+  - caption: Wildfire Analysis
+    chapters:
+    - file: 07_Wildfire_analysis/Retrieving_Disturbance_Data
+    - file: 07_Wildfire_analysis/Wildfire
+
+  - caption: Flood Analysis
+    chapters:
+    - file: 08_Flood_analysis/3_Retrieving_FloodData
+    - file: 08_Flood_analysis/flood
+
   - caption: Appendix
     chapters: 
     - file: proposal
