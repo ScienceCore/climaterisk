@@ -11,7 +11,7 @@ parts:
   - caption: Geospatial fundamentals
     chapters:
     - file: 02_Geospatial_fundamentals/2_Selecting_an_AOI
-    - file: remote-sensing
+    - file: 02_Geospatial_fundamentals/remote-sensing
 
   - caption: Geospatial data files
     chapters:
@@ -31,9 +31,4 @@ parts:
     chapters:
     - file: 08_Flood_analysis/3_Retrieving_FloodData
     - file: 08_Flood_analysis/flood
-
-  - caption: Appendix
-    chapters: 
-    - file: proposal
-      title: TOPS-T Proposal
   
