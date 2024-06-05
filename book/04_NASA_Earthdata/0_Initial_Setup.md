@@ -4,7 +4,7 @@
 
 To access the 2i2c Hub, follow these simple steps:
 
-* Access the 2i2c Hub: Go to https://2i2c.org/platform/}
+* Access the 2i2c Hub: Go to https://2i2c.org/platform/
 
 # Initial Configuration Steps for 2i2c Hub and EarthData NASA Access
 
