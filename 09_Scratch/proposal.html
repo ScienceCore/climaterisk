@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '09_Scratch/proposal';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Determining Climate Risks with NASA Earthdata Cloud
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F09_Scratch/proposal.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/09_Scratch/proposal.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-summary">Project summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scientific-technical-management">Scientific/Technical Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objectives-and-expected-significance">Objectives and Expected Significance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impact-of-proposed-work-to-state-of-the-art">Impact of proposed work to state of the art</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevance-of-proposed-work-to-announcement">Relevance of proposed work to announcement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-approach-and-methodology">Technical approach and methodology</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reproducibly-analyzing-wildfire-drought-and-flood-risk-with-nasa-earthdata-cloud">
+<h1>Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud<a class="headerlink" href="#reproducibly-analyzing-wildfire-drought-and-flood-risk-with-nasa-earthdata-cloud" title="Permalink to this heading">#</a></h1>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>This text is excerpted from the original project proposal:</p>
+<p>Munroe, James, Palopoli, Nicolas, &amp; Acion, Laura. (2023). Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud. Zenodo. <a class="reference external" href="https://doi.org/10.5281/zenodo.8212073">https://doi.org/10.5281/zenodo.8212073</a></p>
+</div>
+<section id="project-summary">
+<h2>Project summary<a class="headerlink" href="#project-summary" title="Permalink to this heading">#</a></h2>
+<p>As the climate changes, prediction and management of the risk of wildfire, drought, and floods has become increasingly challenging. It is no longer sufficient to assume that what has been normal and historic for the last century will occur with the same frequency into the future. These natural risks are intrinsically linked to the changing distributions of surface water, precipitation, vegetation, and land use in both time and space. At the same time, there are now hundreds of petabytes of relevant Earth science data available through the NASA Earthdata Cloud that can be used to understand and forecast these water-dependent environmental risks. With the volume of Earth science data growing dramatically year over year, it is important for scientists to understand how open science and cloud-based data intensive computing can be used to reproducibly analyze and assess the changing risk profile of wildfire, drought, and floods.</p>
+<p>In this proposed TOPS ScienceCore module, learners will learn to identify, extract, analyze, visualize, and report on data available through NASA Earthdata Cloud for three different scenarios: wildfire, drought, and flood risk. The module will build upon TOPS OpenCore and reinforce principles of reproducibility and open science-based workflows. Computationally, the scenarios will estimate changes in the hydrological water mass balance for defined regions primarily using remote sensing data. We will demonstrate best practices in “data-proximate computing” by considering examples that involve computing climatologies and other statistics from long-time series using numerical methods that scale well with the data being available on the cloud. This module will leverage scientific Python libraries such as Xarray and Dask to perform the computations. The focus of this module will be on data processing and visualization and doing so in a reproducible and transparent way.</p>
+<p>After completing this module, learners will be able to adapt and remix the scenarios for their own open science objectives regarding environmental risks such as wildfire, drought, and flood. These risks are common worldwide yet need to be each analyzed in a regional context. The module will provide concrete examples that showcase how open science can be done.</p>
+<p>The module will be written as an extension to the OpenCore framework and all course materials will be open, available in English and Spanish, and accessible in the vision, hearing, mobility, and attention dimensions. The ScienceCore module will be released as one or more Jupyter notebooks on GitHub with supporting material for delivering the course using the cloud either for in-person or for virtual cohorts.</p>
+</section>
+<section id="scientific-technical-management">
+<h2>Scientific/Technical Management<a class="headerlink" href="#scientific-technical-management" title="Permalink to this heading">#</a></h2>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h3>
+<p>With a changing climate, wildfires, droughts, and floods continue to be significant risks across the United States and the rest of the world <span id="id1">[]</span>. Events that used to occur only once a century are now occurring every few years. Historical norms for frequency of extreme climate leading to episodic disaster are not sufficient to infer the frequency into the future.</p>
+<p>Flooding is the most significant environmental disaster affecting more than two billion people a year.  Floods cause significant damage to infrastructure, displace people, and lead to disease. The frequency of flooding has increased in recent years due to changes in rainfall and land use.</p>
+<p>The data from the <a class="reference external" href="https://www.nifc.gov/">National Interagency Fire Center</a> shows significant growth in the size of wildfires in the US over the last 25 years. In some years, over 10 million acres in the US have been burned by wildfires. Canada has also experienced significant recent wildfires resulting in loss of property, livestock, and industry.</p>
+<p>Floods and wildfires are intrinsically linked to underlying water conditions: too much or too little water. Droughts, although on a longer timescale, are also caused by too little water being retained in the environment. Droughts, wildfires, and floods can all occur over the course of a few short months in the same region. The key factor is the abundance, or absence, of precipitation (rain and snowfall) either in short-term events or long-term shifts of how that water is retained by the land.</p>
+<p>Floods, wildfires, and droughts are at risk to increase in frequency and intensity due to fundamental shifts in extreme precipitation caused by climate change. Fundamentally, these three environmental risks are about water no longer having the distribution that they have had in the past. We can recognize that our world is changing and causing risk. How can we mitigate that risk?</p>
+<p><a class="reference external" href="https://www.earthdata.nasa.gov/eosdis/cloud-evolution">NASA Earthdata Cloud</a> has moved petabytes of data into the cloud and that data is ideally suited to answering questions about climate change risk. However, practitioners don’t yet have the proper skills and training to take advantage of these amazing resources. It is no longer sufficient to search for a dataset and then download it locally. The sheer size of the available data makes this not just impractical but, in many cases, impossible. But how do scientists attempting risk assessment complete their work when it is so difficult to download the needed data to a computer to allow running their analysis code locally? The answer is to instead perform data-proximate computing by pushing the analysis code to a computer that is very close (in terms of both costs and latency using the Internet) to where the data is hosted. For data that is hosted in the commercial cloud (such as NASA Earthdata), this means running data analysis on computers in that same cloud environment.</p>
+<p>This ScienceCore module, building on top of the OpenCore modules, will teach learners how to access the NASA Earthdata Cloud and produce dashboard-based visualizations and analyses of water sensing data. This data can then be compared with model outputs to forecasts, the new ‘normals’ for wildfire, drought, and flood risk across the world.
+This risk assessment is highly localized and needs to be repeated for every country, state, city, and village. Demonstrating how to leverage NASA Earthdata cloud data in an open, reproducible way will aid thousands of scientists and analysts to produce the reports they need for their own communities.</p>
+<p>There is currently a barrier for scientists to use NASA Earthdata Cloud. They do not have the skills and expertise to analyze data at scale in the cloud. This ScienceCore module will teach that skill.</p>
+</section>
+<section id="objectives-and-expected-significance">
+<h3>Objectives and Expected Significance<a class="headerlink" href="#objectives-and-expected-significance" title="Permalink to this heading">#</a></h3>
+<p>Teaching a large number of users about reproducibly analyzing earth data will accelerate our ability to mitigate and adapt to climate change. So a ‘science objective’ is determining if this ScienceCore module will actually help with those adaptation efforts.</p>
+<p>This new ScienceCore module will solve the need to apply earth sensing data to climate risk assessment. More generally, it will serve as a template for future ScienceCore modules in this domain. As part of this work, we will not only develop the ScienceCore module but measure its effectiveness in meeting its learning objectives.</p>
+<p>Open science is important for climate change because it helps to ensure that the research and data related to climate change is accessible to everyone. This means that anyone, regardless of their expertise or background, can review and verify the research, which helps to build trust in the findings. In addition, open science promotes collaboration and sharing of ideas among researchers, which can lead to more rapid progress in understanding and addressing climate change. By making research open and transparent, we can ensure that the best science is being used to inform decisions about how to address climate change.</p>
+</section>
+<section id="impact-of-proposed-work-to-state-of-the-art">
+<h3>Impact of proposed work to state of the art<a class="headerlink" href="#impact-of-proposed-work-to-state-of-the-art" title="Permalink to this heading">#</a></h3>
+<p>Climate risk needs to be reevaluated at the national, state, and municipality levels. Companies and non-governmental organizations also need to assess climate risk. NASA data contained in the Earthdata cloud is highly relevant to answering the question of assigning climate risk. This ScienceCore module will provide a template for accessing the data and then analyzing it reproducibly, in a consistent and open manner that exemplifies the best practices identified in the TOPS OpenCore content.</p>
+<p>The intended audience for this ScienceCore module is people tasked with producing climate risk assessments. There is potential for taking the tooling and data that we collectively now have available from these global models and downscaling that information to every country, region, state, city, town, and village on anticipated climate impacts. Policy and planners at all levels are beginning to tackle the questions of taking these large, global scale data products and figuring out what they mean for their locality. The community is thinking about how the physical climate variables (e.g. temperature and precipitation) affect risks such as flooding, wildfires, droughts, sea level rise, food sustainability, among many others.</p>
+<p>JupyterHub infrastructure will provide a platform to deliver this module. This infrastructure can be deployed by any team with intermediate DevOps and Kubernetes knowledge. Using the open infrastructure allows the content to be run by any organization.</p>
+</section>
+<section id="relevance-of-proposed-work-to-announcement">
+<h3>Relevance of proposed work to announcement<a class="headerlink" href="#relevance-of-proposed-work-to-announcement" title="Permalink to this heading">#</a></h3>
+<p>This ScienceCore module is focused on helping people access and analyze data from NASA, including data that is stored in the cloud. This includes using open-source tools and libraries to analyze and visualize the data, and to create and share reproducible research workflows. The project also includes modules that build on existing OpenCore concepts, and that cover important topics in different scientific disciplines.</p>
+<p>These modules can be accessed through the TOPS Open edX platform or as Jupyter Books on the TOPS GitHub. The goal of ScienceCore is to make it easy for people to work with NASA data, and to collaborate and share their research with others. The project is designed to be accessible, open, collaborative, multilingual, and interactive. All of the final products created through ScienceCore will be openly licensed and shared on the TOPS GitHub, and proposals for funded projects must include plans for collaboration and participation in annual coordination meetings.</p>
+</section>
+<section id="technical-approach-and-methodology">
+<h3>Technical approach and methodology<a class="headerlink" href="#technical-approach-and-methodology" title="Permalink to this heading">#</a></h3>
+<p>To create this OpenCore module we will bring together <strong>pedagogical experts</strong>, with training in open and inclusive content design, alongside <strong>scientific content specialists</strong> to design course material that follows best-practices in open science, data analysis, and domain methodologies.</p>
+<p>This module will contain three fully worked examples of reproducible analysis of an environmental risk. During course delivery, an instructor may choose to only go through one of these worked examples and leave the others for reference. Each example will be independent.</p>
+<p>The largest risk is that the technology for accessing cloud enabled data is rapidly changing. It is possible that the specific code examples developed in this ScienceCore module will be obsolete or otherwise out of date in the near term. However, the science content and especially the open science content has a much longer persistence.</p>
+<p>Any of the ‘code exercises’ will be written so that they can be replaced in the future without having to fundamentally change the narrative of the module. The science objectives (data discovery, data reduction, visualization, comparison to model output, use in machine learning) will remain even if the libraries we use continue to undergo rapid development.</p>
+<p>Another problem is how to scope this module so that participants have the right background for it to be useful. In a relatively short half-day course, learners will already have to have a sufficient background knowledge in data driving computing, programming, visualization as well as risk assessment, remote sensing data, and statistical analysis to be able to directly apply this module. This ScienceCore module will contain links and reference to ‘additional material’ that can help learners to prepare in advance with background material as needed. So the module is taught to those for whom it was designed, the module will provide six learner personas <span id="id2">[]</span> including the person’s general background, what they already know, what they want to achieve, and any special needs they have.</p>
+<p>As well, the module will include pre-assessment tools for assessing learners’ knowledge of climate science and risk assessment, proficiency with Jupyter notebooks and Python programming, as well as years of experience related with these areas to control for those piloting the ScienceCore module who may have not yet developed the adequate skills.</p>
+<p>The module will be designed using a backward design
+<span id="id3">[]</span>
+incorporating guidelines like those in <span id="id4">[]</span>,
+<span id="id5">[]</span>, and <span id="id6">[]</span>. Module backward design entails:</p>
+<ol class="arabic simple">
+<li><p>Creating learner personas to determine and clearly communicate what audience the module is designed for.</p></li>
+<li><p>Writing an initial draft of topics that will be included and not included.</p></li>
+<li><p>Creating one summative assessment including the contents learners will have to master to obtain this module badge.</p></li>
+<li><p>Creating all the formative assessments so learners practice contents throughout the module. About one formative assessment per teaching unit, comprising 5 to 9 new concepts and at most after every 15 minutes of content, ensures the module uses an active teaching style and allows both trainers and learners to assess their progress and adapt to the requirements of the occasion.</p></li>
+<li><p>Ordering formative assessments considering complexity, dependencies, and how a topic motivates learners.</p></li>
+<li><p>Writing the content that will guide learners between formative assessments.</p></li>
+<li><p>Generating a succinct module description for promoting it and reaching interested learners.</p></li>
+</ol>
+<span class="target" id="id7"></span></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./09_Scratch"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-summary">Project summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scientific-technical-management">Scientific/Technical Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objectives-and-expected-significance">Objectives and Expected Significance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impact-of-proposed-work-to-state-of-the-art">Impact of proposed work to state of the art</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevance-of-proposed-work-to-announcement">Relevance of proposed work to announcement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-approach-and-methodology">Technical approach and methodology</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 2i2c / MetaDocencia
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

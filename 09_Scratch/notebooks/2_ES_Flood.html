@@ -1,0 +1,1067 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '09_Scratch/notebooks/2_ES_Flood';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Determining Climate Risks with NASA Earthdata Cloud
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F09_Scratch/notebooks/2_ES_Flood.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/09_Scratch/notebooks/2_ES_Flood.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar"><strong>¡Antes de empezar!</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-1-setear-el-ambiente-de-trabajo"><strong>Parte 1: Setear el Ambiente de Trabajo</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importar-paquetes"><strong>1.1 Importar Paquetes</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setear-el-ambiente-de-trabajo"><strong>1.2 Setear el Ambiente de Trabajo</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generar-token-de-autenticacion"><strong>1.3 Generar token de autenticación</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-2-seleccion-del-area-de-interes-aoi"><strong>Parte 2: Selección del Área de interés (AOI)</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a"><strong>2. API CMR-STAC: Búsqueda de datos basada en consultas espaciales</strong> <a id="searchstac"></a></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a"><strong>2.1 Inicializar parámetros definidos por el usuario <a id="2.1"></a></strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes"><strong>2.2 Búsqueda de imágenes (de la colección DSWx-HLS) que coincidan con el área de interés</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-3-busqueda-y-obtencion-de-datos"><strong>Parte 3: Búsqueda y obtención de datos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-a-exploracion-y-obtencion-del-area-de-interes"><strong>Actividad práctica A</strong>: Exploración y obtención del área de interés.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-4-analisis-de-los-datos-obtenidos"><strong>Parte 4: Análisis de los datos obtenidos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes"><strong>Actividad práctica B: Series de tiempo aplicada al área de interés.</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-5-procesamiento-y-visualizacion-de-los-datos"><strong>Parte 5: Procesamiento y visualización de los datos</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a"><strong>5.1 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion"><strong>5.2. Carga y visualización de la extensión de la inundación</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza"><strong>5.2.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fusionar-mosaicos"><strong>5.2.2 “Fusionar mosaicos”.</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualiza-las-imagenes-en-un-mapa-interactivo"><strong>5.3 Visualiza las imágenes en un mapa interactivo</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada"><strong>Actividad práctica C: Visualización de la extensión de agua en el área seleccionada</strong></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <!-- #region id="Ii5lh32eyTz_" -->
+<section class="tex2jax_ignore mathjax_ignore" id="introduccion-a-la-generacion-de-mapas-de-inundaciones-utilizando-datos-de-teledeteccion">
+<h1><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong><a class="headerlink" href="#introduccion-a-la-generacion-de-mapas-de-inundaciones-utilizando-datos-de-teledeteccion" title="Permalink to this heading">#</a></h1>
+<p><strong>Guía para principiantes:</strong> Este tutorial te enseñará cómo consultar y trabajar con los datos provisionales de OPERA DSWx-HLS desde la nube . Para conocer más sobre los datos utilizados en esta notebook, podes acceder a <a class="reference external" href="https://dx.doi.org/10.5067/OPDSW-PL3V0">OPERA_L3_DSWX-HLS_PROVISIONAL_V0</a> )</p>
+<!-- #endregion -->
+<!-- #region id="NMdZpg37zMG6" -->
+<p><strong>Cómo empezar con los mapas de agua utilizando el dataset de OPERA DSWx-HLS:</strong>
+Esta guía te muestrará cómo explorar los cambios en el agua en todo el mundo utilizando herramientas basadas en la nube. Usaremos OPERA DSWx-HLS, un conjunto de datos, obtenidos mediante teledetección, que rastrea la extensión de agua desde febrero de 2019 hasta septiembre de 2022 (ACTUALIZAR RANGO DE FECHA).</p>
+<p><strong>1. Conectándote a la información desde la nube:</strong></p>
+<p>Accederás a imágenes optimizadas de la Tierra (llamadas COG) directamente desde la nube, sin descargas pesadas.
+Usarás un catálogo espacial súper práctico, denominado Catálogo de Activos Espaciales y Temporales de CMR (CMR-STAC), para encontrar las imágenes que necesitas, como si buscaras un libro en una biblioteca.</p>
+<p><strong>2. Explorando los datos de los productos OPERA DSWx-HLS:</strong></p>
+<p>Trabajarás con imágenes provisionales de la extensión de agua en la superficie terrestre (OPERA_L3_DSWX-HLS_PROVISIONAL_V0), recopiladas entre febrero de 2019 y septiembre de 2022, ¡una buena cantidad de información! (ACTUALIZAR RANGO DE FECHA). Dichas imágenes combinan lo mejor de dos satélites: Landsat 8 y Sentinel-2A/B, para una visión más completa.
+Además, tendrás acceso a 10 capas de información por imagen, incluyendo clasificación de agua, confianza en los datos, cobertura del suelo, sombras del terreno, nubes, ¡y más!</p>
+<p><strong>3. Visualizando los datos a tu gusto:</strong></p>
+<p>Aprenderás a visualizar estas imágenes de la forma que más te convenga para analizarlas.</p>
+<p><strong>Inundaciones en Pakistán con DSWx-HLS: Un ejemplo práctico</strong></p>
+<p>En 2022, las lluvias monzónicas de Pakistán alcanzaron niveles récord, provocando devastadoras inundaciones y deslizamientos de tierra que afectaron a las cuatro provincias del país y a alrededor del 14% de su población [CDP]. En este ejemplo, te mostramos cómo el sistema DSWx-HLS puede usarse para mapear la extensión de las inundaciones causadas por el monzón en septiembre de 2022.</p>
+<p>Capas del conjunto de datos científico (SDS):
+DSWx-HLS nos brinda capas de información que nos permiten visualizar y analizar la situación con mayor detalle.</p>
+<ol class="arabic simple">
+<li><p><strong>B02_BWTR (Capa binaria de agua):</strong>
+Esta capa nos brinda una imagen simple de las áreas inundadas. Donde hay agua, la capa vale 1 (blanco) y donde no hay agua, toma valor 0 (negro). Es como un mapa binario de las inundaciones, ideal para obtener una visión general rápida de la extensión del desastre.</p></li>
+<li><p><strong>B03_CONF (Capa de confianza):</strong>
+Esta capa nos indica qué tan seguro está el sistema DSWx-HLS de sus predicciones de agua. Donde la capa muestra valores altos (cerca de 100%), podemos estar muy seguros de que hay agua. En áreas con valores más bajos, la confianza disminuye, lo que significa que lo que parece agua podría ser otra cosa, como sombras o nubes.</p></li>
+</ol>
+<p>Para ayudarte a visualizar mejor cómo funciona esto piensa en una imagen satelital de la zona afectada por las inundaciones. Las áreas con agua se ven azul oscuro, mientras que las áreas secas se ven de color marrón o verde.
+La capa binaria de agua (B02_BWTR), superpuesta sobre la imagen, sombrearía de blanco todas las áreas azules, creando un mapa simple de agua sí/no.
+En cambio, la capa de confianza (B03_CONF) funcionaría como una transparencia superpuesta sobre la imagen, con áreas blancas sólidas donde la confianza es alta y transparencia creciente hacia el negro donde la confianza es baja. Esto te permite ver dónde el sistema DSWx-HLS está más seguro de que sus predicciones de agua son correctas.
+Al combinar estas capas, los científicos y los trabajadores humanitarios pueden obtener una imagen clara de la extensión de las inundaciones y priorizar los esfuerzos de rescate y recuperación.</p>
+<p><strong>Recuerda:</strong>
+DSWx-HLS es una herramienta poderosa, pero los datos no son perfectos. Siempre es importante tener en cuenta la capa de confianza al interpretar los resultados.
+Este es solo un ejemplo de cómo se puede usar DSWx-HLS para mapear las inundaciones. Hay muchas otras aplicaciones potenciales para este sistema.</p>
+<p><strong>Qué necesitas:</strong></p>
+<ul class="simple">
+<li><p>Una computadora con acceso a Internet
+(Opcional)</p></li>
+<li><p>Conocimientos básicos de mapas e imágenes satelitales</p></li>
+</ul>
+<p><strong>Bono:</strong> Para obtener más detalles técnicos, consulta el documento de especificación del <a class="reference external" href="https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf">producto OPERA</a>.</p>
+<!-- #endregion -->
+<!-- #region id="HtKY5dao0m66" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="antes-de-empezar">
+<h1><strong>¡Antes de empezar!</strong><a class="headerlink" href="#antes-de-empezar" title="Permalink to this heading">#</a></h1>
+<p>Para estar preparado paa el tutorial y aprovechar al máximo, por favor revisa la sección<code class="docutils literal notranslate"> <span class="pre">1_Primeros</span> <span class="pre">pasos.md.</span></code></p>
+<!-- #endregion -->
+<!-- #region id="DUqf_BgZ0CSD" -->
+<section id="parte-1-setear-el-ambiente-de-trabajo">
+<h2><strong>Parte 1: Setear el Ambiente de Trabajo</strong><a class="headerlink" href="#parte-1-setear-el-ambiente-de-trabajo" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region id="hiKMPoJq0CSD" -->
+<section id="importar-paquetes">
+<h3><strong>1.1 Importar Paquetes</strong><a class="headerlink" href="#importar-paquetes" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="bwthxJRN3stl" -->
+<p>El código Python %load_ext autoreload y %autoreload 2 habilitan la recarga automática de módulos en un cuaderno de Jupyter. Esto significa que si modifica un módulo que ha importado en su cuaderno, los cambios se reflejarán automáticamente en su cuaderno sin tener que reiniciarlo.</p>
+<!-- #endregion -->
+<!-- #region id="pT1s6zEy3uip" -->
+<p>En la siguiente sección se importa una variedad de bibliotecas y herramientas que permiten:</p>
+<ul class="simple">
+<li><p>Obtener datos geoespaciales de diferentes fuentes.</p></li>
+<li><p>Procesar y analizar estos datos.</p></li>
+<li><p>Crear visualizaciones estáticas e interactivas para explorar y comunicar los resultados.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">netrc</span> <span class="kn">import</span> <span class="n">netrc</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span>
+<span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">system</span>
+<span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
+
+<span class="kn">from</span> <span class="nn">pystac_client</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">pystac_client</span> <span class="kn">import</span> <span class="n">ItemSearch</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">box</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">shape</span>
+<span class="kn">from</span> <span class="nn">shapely.ops</span> <span class="kn">import</span> <span class="n">transform</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">io</span>
+
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">from</span> <span class="nn">rioxarray.merge</span> <span class="kn">import</span> <span class="n">merge_arrays</span>
+
+<span class="kn">import</span> <span class="nn">pyproj</span>
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">Proj</span>
+
+<span class="kn">import</span> <span class="nn">folium</span>
+<span class="kn">from</span> <span class="nn">folium</span> <span class="kn">import</span> <span class="n">plugins</span>
+<span class="kn">import</span> <span class="nn">geoviews</span> <span class="k">as</span> <span class="nn">gv</span>
+<span class="kn">import</span> <span class="nn">hvplot.xarray</span>
+<span class="kn">import</span> <span class="nn">holoviews</span> <span class="k">as</span> <span class="nn">hv</span>
+<span class="n">hv</span><span class="o">.</span><span class="n">extension</span><span class="p">(</span><span class="s1">&#39;bokeh&#39;</span><span class="p">)</span>
+<span class="n">gv</span><span class="o">.</span><span class="n">extension</span><span class="p">(</span><span class="s1">&#39;bokeh&#39;</span><span class="p">,</span> <span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">src.dswx_utils</span> <span class="kn">import</span> <span class="n">intersection_percent</span><span class="p">,</span> <span class="n">colorize</span><span class="p">,</span> <span class="n">getbasemaps</span><span class="p">,</span> <span class="n">transform_data_for_folium</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<!-- #region id="zS82xJxi0CSH" -->
+</section>
+<section id="setear-el-ambiente-de-trabajo">
+<h3><strong>1.2 Setear el Ambiente de Trabajo</strong><a class="headerlink" href="#setear-el-ambiente-de-trabajo" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="ovo0W8xW3JcA" -->
+<p>El código siguiente proporciona instrucciones para establecer el entorno de trabajo. Primero, se obtiene la ruta del directorio de trabajo actual y luego se define como directorio de trabajo.</p>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+</pre></div>
+</div>
+<!-- #region id="lkPCUGEs0CSI" -->
+</section>
+<section id="generar-token-de-autenticacion">
+<h3><strong>1.3 Generar token de autenticación</strong><a class="headerlink" href="#generar-token-de-autenticacion" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="pd0nj_CY5h8I" -->
+<p>Este código te ayuda a acceder a datos de la NASA de forma segura:</p>
+<ul class="simple">
+<li><p>Revisa si ya guardaste tus datos de acceso: Si encuentra tu usuario y contraseña guardados, los usa automáticamente.</p></li>
+<li><p>Si es necesario, pide tu usuario y contraseña: Si no encuentra tus datos, te pide ingresarlos para guardarlos de forma segura para la próxima vez.</p></li>
+<li><p>Genera un token de autenticación: Este token permite que el código acceda a los datos de la NASA sin que tengas que ingresar tu usuario y contraseña cada vez.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generates authentication token</span>
+<span class="c1"># Asks for your Earthdata username and password for first time, if netrc does not exists in your home directory.</span>
+
+<span class="n">urs</span> <span class="o">=</span> <span class="s1">&#39;urs.earthdata.nasa.gov&#39;</span>    <span class="c1"># Earthdata URL endpoint for authentication</span>
+<span class="n">prompts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Enter NASA Earthdata Login Username: &#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Enter NASA Earthdata Login Password: &#39;</span><span class="p">]</span>
+
+<span class="c1"># Determine the OS (Windows machines usually use an &#39;_netrc&#39; file)</span>
+<span class="n">netrc_name</span> <span class="o">=</span> <span class="s2">&quot;_netrc&quot;</span> <span class="k">if</span> <span class="n">system</span><span class="p">()</span><span class="o">==</span><span class="s2">&quot;Windows&quot;</span> <span class="k">else</span> <span class="s2">&quot;.netrc&quot;</span>
+
+<span class="c1"># Determine if netrc file exists, and if so, if it includes NASA Earthdata Login Credentials</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">netrcDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;~/</span><span class="si">{</span><span class="n">netrc_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">netrc</span><span class="p">(</span><span class="n">netrcDir</span><span class="p">)</span><span class="o">.</span><span class="n">authenticators</span><span class="p">(</span><span class="n">urs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+</pre></div>
+</div>
+<!-- #region id="jQkRQz2P58z2" -->
+<p>El siguiente código:</p>
+<ul class="simple">
+<li><p>Prepara el acceso a los datos en la nube: Guarda la información necesaria para conectarse a los datos de PODAAC en un archivo llamado “cookies.txt”.</p></li>
+<li><p>Evita errores al buscar archivos: Le indica a la herramienta GDAL que no pierda tiempo buscando archivos en carpetas vacías.</p></li>
+<li><p>Se enfoca en los archivos que necesitas: Le dice a GDAL que solo trabaje con archivos que tengan la extensión TIF o TIFF.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GDAL configurations used to successfully access PODAAC Cloud Assets via vsicurl</span>
+<span class="n">gdal</span><span class="o">.</span><span class="n">SetConfigOption</span><span class="p">(</span><span class="s1">&#39;GDAL_HTTP_COOKIEFILE&#39;</span><span class="p">,</span><span class="s1">&#39;~/cookies.txt&#39;</span><span class="p">)</span>
+<span class="n">gdal</span><span class="o">.</span><span class="n">SetConfigOption</span><span class="p">(</span><span class="s1">&#39;GDAL_HTTP_COOKIEJAR&#39;</span><span class="p">,</span> <span class="s1">&#39;~/cookies.txt&#39;</span><span class="p">)</span>
+<span class="n">gdal</span><span class="o">.</span><span class="n">SetConfigOption</span><span class="p">(</span><span class="s1">&#39;GDAL_DISABLE_READDIR_ON_OPEN&#39;</span><span class="p">,</span><span class="s1">&#39;EMPTY_DIR&#39;</span><span class="p">)</span>
+<span class="n">gdal</span><span class="o">.</span><span class="n">SetConfigOption</span><span class="p">(</span><span class="s1">&#39;CPL_VSIL_CURL_ALLOWED_EXTENSIONS&#39;</span><span class="p">,</span><span class="s1">&#39;TIF, TIFF&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<!-- #region id="CcSEXWZYyjPO" -->
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-2-seleccion-del-area-de-interes-aoi">
+<h1><strong>Parte 2: Selección del Área de interés (AOI)</strong><a class="headerlink" href="#parte-2-seleccion-del-area-de-interes-aoi" title="Permalink to this heading">#</a></h1>
+<!-- #endregion -->
+<!-- #region id="AY6x31sX0CSK" -->
+<section id="api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a">
+<h2><strong>2. API CMR-STAC: Búsqueda de datos basada en consultas espaciales</strong> <a id="searchstac"></a><a class="headerlink" href="#api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region id="kXk3qSE60CSK" -->
+<section id="inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a">
+<h3><strong>2.1 Inicializar parámetros definidos por el usuario <a id="2.1"></a></strong><a class="headerlink" href="#inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="hakyfFya7m3F" -->
+<ul class="simple">
+<li><p>Define la zona de búsqueda: Dibuja un rectángulo en el mapa para indicar el área donde quieres buscar datos.</p></li>
+<li><p>Establece el periodo de búsqueda: Marca la fecha de inicio y de fin para acotar los resultados a un rango de tiempo específico.</p></li>
+<li><p>Muestra los parámetros: Imprime en la pantalla los detalles de la zona de búsqueda y las fechas elegidas para que puedas verificarlos.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># USER-DEFINED PARAMETERS</span>
+<span class="n">aoi</span> <span class="o">=</span> <span class="n">box</span><span class="p">(</span><span class="mf">67.4</span><span class="p">,</span> <span class="mf">26.2</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span> <span class="mf">27.5</span><span class="p">)</span>
+<span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                                       <span class="c1"># in 2022-01-01 00:00:00 format</span>
+<span class="n">stop_date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> 23:59:59&quot;</span>         <span class="c1"># in 2022-01-01 00:00:00 format</span>
+<span class="n">overlap_threshold</span> <span class="o">=</span> <span class="mi">10</span>                                                  <span class="c1"># in percent</span>
+<span class="c1">#cloud_cover_threshold = 20                                             # in percent</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Search between </span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">stop_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;With AOI: </span><span class="si">{</span><span class="n">aoi</span><span class="o">.</span><span class="n">__geo_interface__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<!-- #region id="0uO50wXF74MV" -->
+<p>Este código busca datos específicos en la NASA:</p>
+<ul class="simple">
+<li><p>Se conecta a la base de datos: Enlaza con la API CMR-STAC de la NASA para poder acceder a sus archivos.</p></li>
+<li><p>Especifica la colección: Indica que quiere buscar datos de la colección “OPERA_L3_DSWX-HLS_PROVISIONAL_V0”.</p></li>
+<li><p>Realiza la búsqueda: Filtra los resultados según la zona de búsqueda, las fechas y un límite máximo de 1000 resultados.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Search data through CMR-STAC API</span>
+<span class="n">stac</span> <span class="o">=</span> <span class="s1">&#39;https://cmr.earthdata.nasa.gov/cloudstac/&#39;</span>    <span class="c1"># CMR-STAC API Endpoint</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">stac</span><span class="si">}</span><span class="s1">/POCLOUD/&#39;</span><span class="p">)</span>
+<span class="n">collections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OPERA_L3_DSWX-HLS_PROVISIONAL_V0&#39;</span><span class="p">]</span>
+
+<span class="n">search_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;collections&quot;</span><span class="p">:</span> <span class="n">collections</span><span class="p">,</span>
+                 <span class="s2">&quot;intersects&quot;</span><span class="p">:</span> <span class="n">aoi</span><span class="o">.</span><span class="n">__geo_interface__</span><span class="p">,</span>
+                 <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">start_date</span><span class="p">,</span> <span class="n">stop_date</span><span class="p">],</span>
+                 <span class="s2">&quot;max_items&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">}</span>
+<span class="n">search_dswx</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="o">**</span><span class="n">search_params</span><span class="p">)</span>
+</pre></div>
+</div>
+<!-- #region id="WQyuJWhv0CSL" -->
+</section>
+<section id="busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes">
+<h3><strong>2.2 Búsqueda de imágenes (de la colección DSWx-HLS) que coincidan con el área de interés</strong><a class="headerlink" href="#busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="oNa7hFHu-Dtu" -->
+<p>El siguiente código:</p>
+<ul class="simple">
+<li><p>Mide la superposición: Calcula cuánto se solapa cada imagen con el área que te interesa.</p></li>
+<li><p>Muestra los porcentajes: Imprime en la pantalla estos porcentajes para que puedas ver la cobertura.</p></li>
+<li><p>Filtra las imágenes: Selecciona solo aquellas que tengan una superposición mayor a un límite establecido.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter datasets based on spatial overlap</span>
+<span class="n">intersects_geometry</span> <span class="o">=</span> <span class="n">aoi</span><span class="o">.</span><span class="n">__geo_interface__</span>
+
+<span class="c1">#Check percent overlap values</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percent overlap before filtering: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">intersection_percent</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">intersects_geometry</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">search_dswx</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+
+<span class="c1"># Apply spatial overlap and cloud cover filter # utilizamos la variable overloap definida anteriormente</span>
+<span class="n">dswx_filtered</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">search_dswx</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">intersection_percent</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">intersects_geometry</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">overlap_threshold</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<!-- #region id="HSZU2BmB1IZv" -->
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-3-busqueda-y-obtencion-de-datos">
+<h1><strong>Parte 3: Búsqueda y obtención de datos</strong><a class="headerlink" href="#parte-3-busqueda-y-obtencion-de-datos" title="Permalink to this heading">#</a></h1>
+<!-- #endregion -->
+<!-- #region id="6ejmlI7yCCRH" -->
+<p>El siguiente código:</p>
+<ol class="arabic simple">
+<li><p>Transforma los resultados filtrados en una lista para poder trabajar con ellos más fácilmente.</p></li>
+<li><p>Muestra los detalles del primer resultado para ver cómo es la información que contiene.</p></li>
+</ol>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect the items inside the filtered query</span>
+<span class="n">dswx_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dswx_filtered</span><span class="p">)</span>
+<span class="c1"># Inspect one data</span>
+<span class="n">dswx_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</pre></div>
+</div>
+<!-- #region id="wL__Zq8YC329" -->
+<p><strong>A continuación, se muestra un resumen de los resultados de la búsqueda:</strong></p>
+<ul class="simple">
+<li><p>Cuenta los resultados: Te dice cuántos archivos encontró después de aplicar los filtros.</p></li>
+<li><p>Muestra la superposición: Te indica cuánto se solapa cada archivo con la zona que buscas, para que sepas qué tan bien cubren el área.</p></li>
+<li><p>Indica la nubosidad: Te informa la cantidad de nubes que había en cada archivo antes de filtrarlo, para que puedas considerar si la cobertura de nubes es un factor importante para ti.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Print search information</span>
+<span class="c1"># Tota granules</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total granules after search filter: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dswx_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1">#Check percent overlap values</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percent-overlap: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">intersection_percent</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">intersects_geometry</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dswx_data</span><span class="p">])</span>
+
+<span class="c1"># Check percent cloud cover values</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Percent cloud cover before filtering: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;eo:cloud_cover&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">search_dswx</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+</pre></div>
+</div>
+<!-- #region id="Q9xi2biGKLVA" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="actividad-practica-a-exploracion-y-obtencion-del-area-de-interes">
+<h1><strong>Actividad práctica A</strong>: Exploración y obtención del área de interés.<a class="headerlink" href="#actividad-practica-a-exploracion-y-obtencion-del-area-de-interes" title="Permalink to this heading">#</a></h1>
+<!-- #endregion -->
+<!-- #region id="pAW9vtLZ6z9y" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-4-analisis-de-los-datos-obtenidos">
+<h1><strong>Parte 4: Análisis de los datos obtenidos</strong><a class="headerlink" href="#parte-4-analisis-de-los-datos-obtenidos" title="Permalink to this heading">#</a></h1>
+<p>Análisis de Series de tiempo con los datos de la zonade interés.</p>
+<!-- #endregion -->
+<!-- #region id="fOrYeX9uKVs6" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes">
+<h1><strong>Actividad práctica B: Series de tiempo aplicada al área de interés.</strong><a class="headerlink" href="#actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes" title="Permalink to this heading">#</a></h1>
+<!-- #endregion -->
+<!-- #region id="PYkoYYgB7BnC" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-5-procesamiento-y-visualizacion-de-los-datos">
+<h1><strong>Parte 5: Procesamiento y visualización de los datos</strong><a class="headerlink" href="#parte-5-procesamiento-y-visualizacion-de-los-datos" title="Permalink to this heading">#</a></h1>
+<!-- #endregion -->
+<!-- #region id="i5lldnSVDb2s" -->
+<p><strong>Crea un mapa para que puedas ver cómo encajan los datos con tu zona de interés:</strong></p>
+<ul class="simple">
+<li><p>Dibuja los límites de los archivos: Traza los bordes de cada archivo encontrado en color azul para que puedas ver su forma y ubicación.</p></li>
+<li><p>Coloca un mapa de fondo: Agrega un mapa base de la zona para que tengas una referencia visual del terreno.</p></li>
+<li><p>Marca tu área de interés: Dibuja un rectángulo amarillo alrededor de la zona que especificaste en la búsqueda para que puedas ver cómo se superponen los archivos con ella.</p></li>
+<li><p>Muestra el mapa: Te presenta el mapa resultante para que puedas analizar la cobertura de los datos y la coincidencia con tu zona de interés.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the DSWx tile boundary and the user-defined bbox</span>
+<span class="n">geom_df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">d</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dswx_data</span><span class="p">):</span>
+    <span class="n">geom_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">dswx_data</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">geometry</span><span class="p">))</span>
+
+<span class="n">geom_granules</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">({</span><span class="s1">&#39;geometry&#39;</span><span class="p">:</span><span class="n">geom_df</span><span class="p">})</span>
+<span class="n">granules_poly</span> <span class="o">=</span> <span class="n">gv</span><span class="o">.</span><span class="n">Polygons</span><span class="p">(</span><span class="n">geom_granules</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;DSWx tile boundary&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Use geoviews to combine a basemap with the shapely polygon of our Region of Interest (ROI)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">gv</span><span class="o">.</span><span class="n">tile_sources</span><span class="o">.</span><span class="n">EsriImagery</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Get the user-specified aoi</span>
+<span class="n">geom_aoi</span> <span class="o">=</span> <span class="n">shape</span><span class="p">(</span><span class="n">intersects_geometry</span><span class="p">)</span>
+<span class="n">aoi_poly</span> <span class="o">=</span> <span class="n">gv</span><span class="o">.</span><span class="n">Polygons</span><span class="p">(</span><span class="n">geom_aoi</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;User-specified bbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plot using geoviews wrapper</span>
+<span class="n">granules_poly</span><span class="o">*</span><span class="n">base</span><span class="o">*</span><span class="n">aoi_poly</span>
+</pre></div>
+</div>
+<!-- #region id="hFxiVD8M0CSM" -->
+<section id="presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a">
+<h2><strong>5.1 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong><a class="headerlink" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region id="owZ5qAmSDwGl" -->
+<p>Crea una tabla para que puedas revisar los resultados de forma organizada:</p>
+<ul class="simple">
+<li><p>Recorre los resultados: Lee cada uno de los archivos encontrados y extrae la información más relevante.</p></li>
+<li><p>Organiza los datos: Coloca la información en columnas para que sea fácil de leer y comparar:
+ID del archivo
+Sensor que lo capturó
+Fecha de la captura
+Coordenadas del archivo
+Límites del área que cubre
+Porcentaje de superposición con tu área de interés
+Cobertura de nubes en el archivo
+Enlaces para descargar las bandas del archivo</p></li>
+<li><p>Muestra la tabla: Te presenta la tabla completa para que puedas analizar los resultados y seleccionar los archivos que mejor se adapten a tus necesidades.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create table of search results</span>
+<span class="n">dswx_data_df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dswx_data</span><span class="p">:</span>
+    <span class="n">item</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">ID</span> <span class="o">=</span> <span class="n">fn</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">sensor</span> <span class="o">=</span> <span class="n">fn</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">spatial_overlap</span> <span class="o">=</span> <span class="n">intersection_percent</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">intersects_geometry</span><span class="p">)</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">geometry</span>
+    <span class="n">bbox</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">bbox</span>
+
+    <span class="c1"># Take all the band href information</span>
+    <span class="n">band_links</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">assets</span><span class="p">[</span><span class="n">links</span><span class="p">]</span><span class="o">.</span><span class="n">href</span> <span class="k">for</span> <span class="n">links</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+    <span class="n">dswx_data_df</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ID</span><span class="p">,</span><span class="n">sensor</span><span class="p">,</span><span class="n">dat</span><span class="p">,</span><span class="n">geom</span><span class="p">,</span><span class="n">bbox</span><span class="p">,</span><span class="n">spatial_overlap</span><span class="p">,</span><span class="n">cloud_cover</span><span class="p">,</span><span class="n">band_links</span><span class="p">])</span>
+
+<span class="n">dswx_data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dswx_data_df</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TileID&#39;</span><span class="p">,</span> <span class="s1">&#39;Sensor&#39;</span><span class="p">,</span> <span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;Coords&#39;</span><span class="p">,</span> <span class="s1">&#39;bbox&#39;</span><span class="p">,</span> <span class="s1">&#39;SpatialOverlap&#39;</span><span class="p">,</span> <span class="s1">&#39;CloudCover&#39;</span><span class="p">,</span> <span class="s1">&#39;BandLinks&#39;</span><span class="p">])</span>
+<span class="n">dswx_data_df</span>
+</pre></div>
+</div>
+<!-- #region id="Ah4Kj7Hv0CSN" -->
+</section>
+<section id="carga-y-visualizacion-de-la-extension-de-la-inundacion">
+<h2><strong>5.2. Carga y visualización de la extensión de la inundación</strong><a class="headerlink" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region id="9HcbKIiAEQE1" -->
+<p>Antes de avanzar, repasemos los pasos necesarios para visualizar la extensión de inundación:</p>
+<ol class="arabic simple">
+<li><p><strong>Obtención de los datos de inundación:</strong></p></li>
+</ol>
+<p>En este ejemplo se utilizan imágenes satelitales del sitio de la NASA.
+En cuanto al formato de datos, existen diferentes tipos como ráster, shapefile, KML, o GeoJSON. En nuestro caso, trabajamos con ráster.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Carga de datos:</strong></p></li>
+</ol>
+<p>Utilizamos las bibliotecas como GDAL o rasterio en Python para cargar los datos de inundación.</p>
+<ol class="arabic simple" start="3">
+<li><p><strong>Visualización la extensión de inundación:</strong></p></li>
+</ol>
+<p>Simbología: Es necesario, asignar un color y transparencia apropiados a las áreas inundadas para diferenciarlas del terreno seco. Puedes usar una escala de colores para representar la profundidad de la inundación.</p>
+<p>Superposición: Superpone la extensión de inundación sobre un mapa base, como una imagen aérea o un mapa topográfico, para proporcionar contexto geográfico.
+También será de utilidad añadir leyendas, escalas, rótulos y otros elementos gráficos para mejorar la claridad y la interpretación del mapa.</p>
+<p>Ejemplo de visualización:</p>
+<p>[Imagen de un mapa que muestra la extensión de inundación en una ciudad. Las áreas inundadas están representadas en azul claro, con mayor transparencia para las zonas de menor profundidad. El mapa base es una imagen aérea y se incluyen una leyenda, una escala y rótulos.][Agregar imagen]</p>
+<!-- #endregion -->
+<!-- #region id="PYA0TNiC0CSN" -->
+<section id="cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza">
+<h3><strong>5.2.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong><a class="headerlink" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="TTbd0M88E2PX" -->
+<p>Para cargar estas capas, necesitarás un programa compatible con el formato de los datos y las herramientas específicas de carga. Utilizamos GDAL y Rasterio para el procesamiento de imágenes comunes que te permitirán cargar estas capas.</p>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Take one of the flooded dataset and check what files are included.</span>
+<span class="n">dswx_data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">43</span><span class="p">]</span><span class="o">.</span><span class="n">BandLinks</span>
+</pre></div>
+</div>
+<!-- #region id="_-TlWOrh0CSN" -->
+</section>
+<section id="fusionar-mosaicos">
+<h3><strong>5.2.2 “Fusionar mosaicos”.</strong><a class="headerlink" href="#fusionar-mosaicos" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="14TeUFMeFOQ1" -->
+<p>“Fusionar mosaicos”. Esta frase se refiere a la acción de combinar dos o más mosaicos de datos para crear un mosaico más grande.</p>
+<p>En el contexto de imágenes satelitales, los mosaicos son imágenes individuales que se superponen para cubrir un área más grande. La fusión de mosaicos se utiliza a menudo para crear imágenes de mayor resolución espacial o temporal que las que se pueden obtener a partir de un solo mosaico.</p>
+<p>Para fusionar mosaicos, se necesitan dos o más mosaicos que tengan el mismo formato y resolución. Los mosaicos se pueden fusionar utilizando un software de SIG o una biblioteca de procesamiento de imágenes.</p>
+<!-- #endregion -->
+<!-- #region id="b5Co7WspF03R" -->
+<p>El código está preparando imágenes para mostrarlas en un mapa interactivo.Imagina que tienes un rompecabezas que quieres armar en un mapa. Entonces, el código hace lo siguiente:</p>
+<ul class="simple">
+<li><p>Busca las piezas correctas: Encuentra las imágenes del 30 de septiembre que muestran dónde hay agua (capa B02-BWTR) y qué tan confiable es esa información (capa B03-CONF).</p></li>
+<li><p>Prepara las piezas: Adapta las imágenes para que encajen en el mapa (como si estuvieras recortando los bordes del rompecabezas para que calcen bien).
+Las coloca en la posición correcta sobre el mapa (como ir poniendo las piezas en su lugar).</p></li>
+<li><p>Une las piezas: Combina las imágenes separadas para crear una vista completa, como si unieras las piezas del rompecabezas.</p></li>
+<li><p>Revisa una pieza: Mira de cerca una de las imágenes para asegurarse de que todo esté bien (como revisar una pieza del rompecabezas antes de seguir armando).</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get B02-BWTR layer for tiles acquired on 2022-09-30, project to folium&#39;s projection and merge tiles</span>
+<span class="n">T42RUR_B02</span><span class="p">,</span> <span class="n">T42RUR_B02_cm</span> <span class="o">=</span> <span class="n">transform_data_for_folium</span><span class="p">(</span><span class="n">dswx_data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span><span class="o">.</span><span class="n">BandLinks</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">T42RUQ_B02</span><span class="p">,</span> <span class="n">T42RUQ_B02_cm</span> <span class="o">=</span> <span class="n">transform_data_for_folium</span><span class="p">(</span><span class="n">dswx_data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">43</span><span class="p">]</span><span class="o">.</span><span class="n">BandLinks</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">merged_B02</span> <span class="o">=</span> <span class="n">merge_arrays</span><span class="p">([</span><span class="n">T42RUR_B02</span><span class="p">,</span> <span class="n">T42RUQ_B02</span><span class="p">])</span>
+
+<span class="c1"># Get B03-CONF layer for tiles acquired on 2022-09-30, project to folium&#39;s projection and merge tiles</span>
+<span class="n">T42RUR_B03</span><span class="p">,</span> <span class="n">T42RUR_B03_cm</span> <span class="o">=</span> <span class="n">transform_data_for_folium</span><span class="p">(</span><span class="n">dswx_data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span><span class="o">.</span><span class="n">BandLinks</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">T42RUQ_B03</span><span class="p">,</span> <span class="n">T42RUQ_B03_cm</span> <span class="o">=</span> <span class="n">transform_data_for_folium</span><span class="p">(</span><span class="n">dswx_data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">43</span><span class="p">]</span><span class="o">.</span><span class="n">BandLinks</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">merged_B03</span> <span class="o">=</span> <span class="n">merge_arrays</span><span class="p">([</span><span class="n">T42RUR_B03</span><span class="p">,</span> <span class="n">T42RUQ_B03</span><span class="p">])</span>
+
+<span class="c1"># Check one of the DataArrays</span>
+<span class="n">merged_B02</span>
+</pre></div>
+</div>
+<!-- #region id="3n4QkYKP0CSO" -->
+</section>
+<section id="visualiza-las-imagenes-en-un-mapa-interactivo">
+<h3><strong>5.3 Visualiza las imágenes en un mapa interactivo</strong><a class="headerlink" href="#visualiza-las-imagenes-en-un-mapa-interactivo" title="Permalink to this heading">#</a></h3>
+<!-- #endregion -->
+<!-- #region id="bB355oMFGCxp" -->
+<p>El código está prepara los colores para que las imágenes sean claras y fáciles de interpretar. Podes imagianr que tenes un libro para colorear con áreas numeradas, y cada número corresponde a un color específico. El código está haciendo lo siguiente:</p>
+<ul class="simple">
+<li><p>Toma los dibujos en blanco y negro: Busca las imágenes que ya preparó (las que muestran el agua y la confianza).</p></li>
+<li><p>Encuentra la paleta de colores adecuada: Tiene la lista de colores que se deben usar para cada área de las imágenes (como la lista de colores del libro para colorear).</p></li>
+<li><p>Pinta cuidadosamente cada área: Asigna los colores correctos a cada zona de las imágenes, siguiendo la paleta elegida.</p></li>
+<li><p>Guarda los dibujos coloreados: Almacena las imágenes ya coloreadas para usarlas en el mapa.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Colorize the map using  predefined colors from DSWx for Folium display</span>
+<span class="n">colored_B02</span><span class="p">,</span><span class="n">cmap_B02</span> <span class="o">=</span> <span class="n">colorize</span><span class="p">(</span><span class="n">merged_B02</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">T42RUR_B02_cm</span><span class="p">)</span>
+<span class="n">colored_B03</span><span class="p">,</span><span class="n">cmap_B03</span> <span class="o">=</span> <span class="n">colorize</span><span class="p">(</span><span class="n">merged_B03</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">T42RUR_B03_cm</span><span class="p">)</span>
+</pre></div>
+</div>
+<!-- #region id="YkwRntd6GDKu" -->
+<p>Imagina que estás creando un mapa interactivo con capas superpuestas, el código está haciendo lo siguiente:</p>
+<ul class="simple">
+<li><p>Extiende el lienzo: Despliega un mapa base sobre la mesa, como un mapamundi,
+para tener un fondo sobre el que trabajar.</p></li>
+<li><p>Agrega mapas extra: Coloca varios mapas transparentes encima del mapa base, como si fueran hojas de acetato. Así, podrás elegir la vista que más te guste.</p></li>
+<li><p>Dibuja las áreas inundadas: En una de las hojas transparentes, pinta con colores llamativos las zonas donde hay agua, para que se vean claramente.</p></li>
+<li><p>Marca la confianza en la información: En otra hoja transparente, dibuja con colores más tenues la confianza que se tiene en los datos de las áreas inundadas, como si fuera una pista extra para los más aventureros.</p></li>
+<li><p>Añade herramientas útiles: Coloca sobre la mesa una lupa para ampliar zonas, un botón para ver el mapa en pantalla completa y una mini versión del mapa en una esquina, como si fuera una brújula.</p></li>
+<li><p>Muestra las coordenadas: Activa un indicador que te dice en qué lugar del mapa estás apuntando en cada momento, como si fuera una guía de coordenadas.</p></li>
+</ul>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize Folium basemap</span>
+<span class="n">xmid</span> <span class="o">=</span><span class="p">(</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">+</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">/</span><span class="mi">2</span> <span class="p">;</span> <span class="n">ymid</span> <span class="o">=</span> <span class="p">(</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">+</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">ymid</span><span class="p">,</span> <span class="n">xmid</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">tiles</span><span class="o">=</span><span class="s1">&#39;CartoDB positron&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Add custom basemaps</span>
+<span class="n">basemaps</span> <span class="o">=</span> <span class="n">getbasemaps</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">basemap</span> <span class="ow">in</span> <span class="n">basemaps</span><span class="p">:</span>
+    <span class="n">basemaps</span><span class="p">[</span><span class="n">basemap</span><span class="p">]</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1"># Overlay B02 and B03 layers</span>
+<span class="n">folium</span><span class="o">.</span><span class="n">raster_layers</span><span class="o">.</span><span class="n">ImageOverlay</span><span class="p">(</span><span class="n">colored_B02</span><span class="p">,</span>
+                                        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                                        <span class="n">bounds</span><span class="o">=</span><span class="p">[[</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">()],[</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">merged_B02</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()]],</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Flooded Area&#39;</span><span class="p">,</span>
+                                        <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">raster_layers</span><span class="o">.</span><span class="n">ImageOverlay</span><span class="p">(</span><span class="n">colored_B03</span><span class="p">,</span>
+                                        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                                        <span class="n">bounds</span><span class="o">=</span><span class="p">[[</span><span class="n">merged_B03</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">merged_B03</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">()],[</span><span class="n">merged_B03</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">merged_B03</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()]],</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Confidence Layer&#39;</span><span class="p">,</span>
+                                        <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1">#layer Control</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">())</span>
+
+<span class="c1"># Add fullscreen button</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">Fullscreen</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1">#Add inset minimap image</span>
+<span class="n">minimap</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">MiniMap</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">minimap</span><span class="p">)</span>
+
+<span class="c1">#Mouse Position</span>
+<span class="n">fmtr</span> <span class="o">=</span> <span class="s2">&quot;function(num) {return L.Util.formatNum(num, 3) + &#39; º &#39;;};&quot;</span>
+<span class="n">plugins</span><span class="o">.</span><span class="n">MousePosition</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s1">&#39;bottomright&#39;</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39; | &#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Lat/Lon:&quot;</span><span class="p">,</span>
+                     <span class="n">lat_formatter</span><span class="o">=</span><span class="n">fmtr</span><span class="p">,</span> <span class="n">lng_formatter</span><span class="o">=</span><span class="n">fmtr</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1">#Display</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+<!-- #region id="YW7hZ3CZKtJL" -->
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada">
+<h1><strong>Actividad práctica C: Visualización de la extensión de agua en el área seleccionada</strong><a class="headerlink" href="#actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada" title="Permalink to this heading">#</a></h1>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./09_Scratch/notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Introducción a la generación de mapas de inundaciones utilizando datos de teledetección</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar"><strong>¡Antes de empezar!</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-1-setear-el-ambiente-de-trabajo"><strong>Parte 1: Setear el Ambiente de Trabajo</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importar-paquetes"><strong>1.1 Importar Paquetes</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setear-el-ambiente-de-trabajo"><strong>1.2 Setear el Ambiente de Trabajo</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generar-token-de-autenticacion"><strong>1.3 Generar token de autenticación</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-2-seleccion-del-area-de-interes-aoi"><strong>Parte 2: Selección del Área de interés (AOI)</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-cmr-stac-busqueda-de-datos-basada-en-consultas-espaciales-a-id-searchstac-a"><strong>2. API CMR-STAC: Búsqueda de datos basada en consultas espaciales</strong> <a id="searchstac"></a></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inicializar-parametros-definidos-por-el-usuario-a-id-2-1-a"><strong>2.1 Inicializar parámetros definidos por el usuario <a id="2.1"></a></strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-de-imagenes-de-la-coleccion-dswx-hls-que-coincidan-con-el-area-de-interes"><strong>2.2 Búsqueda de imágenes (de la colección DSWx-HLS) que coincidan con el área de interés</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-3-busqueda-y-obtencion-de-datos"><strong>Parte 3: Búsqueda y obtención de datos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-a-exploracion-y-obtencion-del-area-de-interes"><strong>Actividad práctica A</strong>: Exploración y obtención del área de interés.</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-4-analisis-de-los-datos-obtenidos"><strong>Parte 4: Análisis de los datos obtenidos</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-b-series-de-tiempo-aplicada-al-area-de-interes"><strong>Actividad práctica B: Series de tiempo aplicada al área de interés.</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-5-procesamiento-y-visualizacion-de-los-datos"><strong>Parte 5: Procesamiento y visualización de los datos</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentar-los-resultados-de-la-busqueda-en-una-tabla-a-id-2-3-a"><strong>5.1 Presentar los resultados de la búsqueda en una tabla <a id="2.3"></a></strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-y-visualizacion-de-la-extension-de-la-inundacion"><strong>5.2. Carga y visualización de la extensión de la inundación</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cargar-b02-bwtr-capa-binaria-de-agua-y-b03-conf-capa-de-confianza"><strong>5.2.1 Cargar B02-BWTR (Capa binaria de agua) y B03-CONF (Capa de confianza)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fusionar-mosaicos"><strong>5.2.2 “Fusionar mosaicos”.</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualiza-las-imagenes-en-un-mapa-interactivo"><strong>5.3 Visualiza las imágenes en un mapa interactivo</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-practica-c-visualizacion-de-la-extension-de-agua-en-el-area-seleccionada"><strong>Actividad práctica C: Visualización de la extensión de agua en el área seleccionada</strong></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 2i2c / MetaDocencia
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

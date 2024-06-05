@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Diseño del curso &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '09_Scratch/about_the_tutorial/disenio_leccion';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Determining Climate Risks with NASA Earthdata Cloud
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F09_Scratch/about_the_tutorial/disenio_leccion.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/09_Scratch/about_the_tutorial/disenio_leccion.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Diseño del curso</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alcance-de-la-leccion-que-cosas-se-cubren-y-cuales-no">Alcance de la lección (qué cosas se cubren y cuáles no).</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requisitos">Requisitos:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deseables">Deseables:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#necesarios">Necesarios:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-del-modulo-en-particular">Objetivos del modulo en particular</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-general">Objetivo general:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos específicos:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outputs">Outputs:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outcomes-impacto-a-mediano-plazo">Outcomes (impacto a mediano plazo):</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learner-personas">Learner personas:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#martin">1.  Martín</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos">Objetivos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#desafios">Desafíos</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#marcia">2. Marcia</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Objetivos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Desafíos</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ana">3.  Ana</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Objetivos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Desafíos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-del-progreso-de-los-participantes">Evaluación del progreso de los participantes:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="diseno-del-curso">
+<h1>Diseño del curso<a class="headerlink" href="#diseno-del-curso" title="Permalink to this heading">#</a></h1>
+<section id="alcance-de-la-leccion-que-cosas-se-cubren-y-cuales-no">
+<h2>Alcance de la lección (qué cosas se cubren y cuáles no).<a class="headerlink" href="#alcance-de-la-leccion-que-cosas-se-cubren-y-cuales-no" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="requisitos">
+<h2>Requisitos:<a class="headerlink" href="#requisitos" title="Permalink to this heading">#</a></h2>
+<p>A continuación se detallan los requisitos necesarios para el curso:</p>
+<section id="deseables">
+<h3>Deseables:<a class="headerlink" href="#deseables" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Haber completado el trayecto de NASA Open Science 101 (Link).</p></li>
+<li><p>Contar con nociones básicas de programación.</p></li>
+</ul>
+</section>
+<section id="necesarios">
+<h3>Necesarios:<a class="headerlink" href="#necesarios" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Una cuenta de usuario gratuita en NASA EarthData:</p>
+<ul>
+<li><p>Para acceder a los datos utilizados en este curso, necesitarás una cuenta de usuario gratuita en NASA EarthData. Puedes crear una cuenta en el sitio web de <a class="reference external" href="https://urs.earthdata.nasa.gov/">NASA EarthData</a></p></li>
+</ul>
+</li>
+<li><p>Una cuenta de usuario gratuita en GitHub:</p>
+<ul>
+<li><p>Para descargar el código fuente del curso, necesitarás una cuenta de usuario gratuita en GitHub. Puedes crear una cuenta en el sitio web de GitHub (<a class="github reference external" href="https://github.com/"></a>)</p></li>
+</ul>
+</li>
+<li><p>Una cuenta de usuario en hub 2i2c:</p>
+<ul>
+<li><p>Para correr las notebooks del curso, necesitarás una cuenta gratuita en el hub 2i2c. Puedes crear una cuenta en el sitio web de 2i2c. (Link)</p></li>
+</ul>
+</li>
+<li><p>Conocimientos básicos de datos espaciales.</p></li>
+</ul>
+</section>
+</section>
+<section id="objetivos-del-modulo-en-particular">
+<h2>Objetivos del modulo en particular<a class="headerlink" href="#objetivos-del-modulo-en-particular" title="Permalink to this heading">#</a></h2>
+<section id="objetivo-general">
+<h3>Objetivo general:<a class="headerlink" href="#objetivo-general" title="Permalink to this heading">#</a></h3>
+<p>Utilizar los productos abiertos de la NASA llamados Dynamic Surface Water eXtent (DSWx) - Landsat Sentinel-2 armonizado (HLS) para mapear la extensión de la inundación como resultado del evento monzónico de septiembre de 2022 en Pakistán.</p>
+</section>
+<section id="objetivos-especificos">
+<h3>Objetivos específicos:<a class="headerlink" href="#objetivos-especificos" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Ingresar a entorno de Jupyter Hub facilitado por 2i2c</p></li>
+<li><p>Loguearse con EarthData desde la Jupyter notebook.</p></li>
+<li><p>Acceder a los productos DSWx-HLS.</p></li>
+<li><p>Consultar la colección de datos DSWx-HLS Provisional Data para una región específica de interés y de acuerdo a una determinada fecha.</p></li>
+<li><p>Obtener una vista previa de los datos circunscritos al área de interés</p></li>
+<li><p>Crear una tabla de los resultados de búsqueda de la base de datos.</p></li>
+<li><p>Visualizar el mapa de inundación.</p></li>
+</ol>
+</section>
+<section id="outputs">
+<h3>Outputs:<a class="headerlink" href="#outputs" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Generación Visualización) de un mapa de inundación de Pakistán correspondiente a Septiembre 2022.</p></li>
+</ul>
+</section>
+<section id="outcomes-impacto-a-mediano-plazo">
+<h3>Outcomes (impacto a mediano plazo):<a class="headerlink" href="#outcomes-impacto-a-mediano-plazo" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Los participantes desarrollarán habilidades técnicas para consultar y trabajar con los productos OPERA DSWx-HLS Provisional Data desde la nube. Como resultado obtendrán y visualizarán mapas de inundación a partir de estos productos utilizando Python.</p></li>
+<li><p>Los participantes serán capaces de diseñar y utilizar flujos de trabajo reproducibles, asegurando que sus análisis y procesamientos puedan ser replicados por otros o en situaciones similares.</p></li>
+<li><p>Los participantes podrán contribuir a la comunidad compartiendo sus flujos de trabajo, scripts o conocimientos adquiridos, fomentando la colaboración y el intercambio de buenas prácticas.</p></li>
+</ul>
+</section>
+</section>
+<section id="learner-personas">
+<h2>Learner personas:<a class="headerlink" href="#learner-personas" title="Permalink to this heading">#</a></h2>
+<section id="martin">
+<h3>1.  Martín<a class="headerlink" href="#martin" title="Permalink to this heading">#</a></h3>
+<p>Martín es un geógrafo de 35 años, padre de gemelos, que vive en Puerto Rico. Él trabaja en gestión pública y necesita aprender técnicas que le permitan enriquecer sus propuestas de acción, como aprovechar las bases de datos abiertas con datos de teledetección. Él no realizará los análisis directamente, pero quiere saber qué se puede hacer con estos datos abiertos.</p>
+<section id="objetivos">
+<h4>Objetivos<a class="headerlink" href="#objetivos" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Familiarizarse con los datos de teledetección de la NASA y comprender los diferentes tipos de datos que proporcionan y los potenciales productos que se pueden generar.</p></li>
+<li><p>Identificar y comprender las aplicaciones prácticas de los datos de teledetección en el contexto de la gestión pública.</p></li>
+<li><p>Aprender qué plataformas en línea y herramientas están disponibles para acceder y analizar datos de teledetección.</p></li>
+</ul>
+</section>
+<section id="desafios">
+<h4>Desafíos<a class="headerlink" href="#desafios" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Falta de presupuesto</p></li>
+<li><p>Falta de recursos humanos capacitados</p></li>
+<li><p>Tiempo limitado para aprender los conceptos necesarios</p></li>
+</ul>
+</section>
+</section>
+<section id="marcia">
+<h3>2. Marcia<a class="headerlink" href="#marcia" title="Permalink to this heading">#</a></h3>
+<p>Marcia es una mujer de 30 años que vive en el sótano de la casa de sus padres en las afueras mientras termina su Maestría en Asuntos Públicos. Lidera un pequeño equipo de 5 personas que trabajan en una oficina del gobierno local. Supervisa un proyecto para mejorar la distribución de agua en una región rural. Necesita aprender a analizar datos de teledetección para identificar áreas con escasez de agua. Dado que sus recursos son limitados, desea aprovechar las bases de datos abiertas que almacenan imágenes y datos de satélite. Realizará los análisis directamente con su equipo y asesorará a su supervisor en la toma de decisiones sobre qué estrategias seguir.</p>
+<section id="id1">
+<h4>Objetivos<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Aprender a acceder y procesar los datos de teledetección de la NASA.</p></li>
+<li><p>Examinar bibliotecas y herramientas para procesar los diversos tipos de datos proporcionados por los satélites.</p></li>
+<li><p>Identificar y comprender aplicaciones prácticas de los datos de teledetección en el contexto de la gestión pública.</p></li>
+<li><p>Generar ideas que puedan utilizarse para orientar la toma de decisiones.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h4>Desafíos<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Competencia en programación en Python pero carece de conocimientos técnicos específicos sobre datos de teledetección.</p></li>
+<li><p>Tiempo remunerado limitado para aprender los conceptos necesarios.</p></li>
+<li><p>Requiere de aprobación para implementar soluciones.</p></li>
+</ul>
+</section>
+</section>
+<section id="ana">
+<h3>3.  Ana<a class="headerlink" href="#ana" title="Permalink to this heading">#</a></h3>
+<p>Ana es agrónoma, y acaba de finalizar la Maestría en Hidrología durante la cuál estudió la variabilidad estacional de los recursos hídricos en la región de de los valles interandinos en Bolivia. Además, es parte de una comunidad de práctica orientada al análisis y disponibilización de datos geoespaciales que promueve la ciencia abierta. Está interesada en diseñar un curso de gestión de recursos hídricos con datos abiertos con foco en personas que conocen de datos geoespaciales pero necesitan aprender a analizar imágenes satélitales para la detección de zonas inundables.</p>
+<section id="id3">
+<h4>Objetivos<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Adquirir buenas prácticas de enseñanza para el dictado de un curso sobre el análisis de datos satelitales.</p></li>
+<li><p>Aprender qué plataformas en línea y herramientas están disponibles para acceder y analizar datos de teledetección.</p></li>
+<li><p>Desarrollar habilidades para integrar estudios de caso en el contexto de la gestión de recursos hídricos, brindando aplicaciones prácticas del análisis de imágenes satelitales.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h4>Desafíos<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Enseñar de una manera fácil y amigable análisis de datos a personas que no cuentan con nociones de programación</p></li>
+<li><p>Trabajar con datos, materiales y flujos de trabajo que respeten los lineamientos de la ciencia abierta.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="evaluacion-del-progreso-de-los-participantes">
+<h2>Evaluación del progreso de los participantes:<a class="headerlink" href="#evaluacion-del-progreso-de-los-participantes" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Actividad 1 (5 min):</strong> Ingresa al hub de 2i2c e inicia sesión con tus credenciales en Earth Data.</p></li>
+<li><p><strong>Actividad 2 (5 min):</strong> Selecciona tu área de interés y obtene los datos de la colección DSWx-HLS correspondientes a esa región.</p></li>
+<li><p><strong>Actividad 3 (5 min):</strong> Crea la tabla con los nuevos resultados de búsqueda y exportala.</p></li>
+<li><p><strong>Actividad 4 (5 min):</strong> Con los nuevos valores, genera el mapa correspondiente.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./09_Scratch/about_the_tutorial"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alcance-de-la-leccion-que-cosas-se-cubren-y-cuales-no">Alcance de la lección (qué cosas se cubren y cuáles no).</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requisitos">Requisitos:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deseables">Deseables:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#necesarios">Necesarios:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-del-modulo-en-particular">Objetivos del modulo en particular</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo-general">Objetivo general:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-especificos">Objetivos específicos:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outputs">Outputs:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outcomes-impacto-a-mediano-plazo">Outcomes (impacto a mediano plazo):</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learner-personas">Learner personas:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#martin">1.  Martín</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos">Objetivos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#desafios">Desafíos</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#marcia">2. Marcia</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Objetivos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Desafíos</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ana">3.  Ana</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Objetivos</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Desafíos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-del-progreso-de-los-participantes">Evaluación del progreso de los participantes:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 2i2c / MetaDocencia
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

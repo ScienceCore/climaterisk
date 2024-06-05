@@ -1,0 +1,759 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Analizando de manera reproducible el riesgo de inundaciones con NASA Earthdata cloud. &#8212; Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '09_Scratch/SLIDES-NASA-TOPS-flood-ES';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Determining Climate Risks with NASA Earthdata Cloud
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ScienceCore/climaterisk/issues/new?title=Issue%20on%20page%20%2F09_Scratch/SLIDES-NASA-TOPS-flood-ES.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/09_Scratch/SLIDES-NASA-TOPS-flood-ES.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analizando de manera reproducible el riesgo de inundaciones con NASA Earthdata cloud.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">Objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hoja-de-ruta">Hoja de Ruta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-te-llevaras">Qué te llevarás</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar">Antes de empezar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-opera-dswx-hls">Dataset Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dataset Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configurar-el-ambiente-de-trabajo">Configurar el ambiente de trabajo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-coding-vamos-a-la-notebook-xxxxx">Live Coding: Vamos a la notebook XXXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seleccion-del-area-de-interes-aoi">Selección del área de interés (AOI)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Live Coding: Vamos a la notebook XXXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-1">Actividad 1:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-y-obtencion-de-datos">Búsqueda y obtención de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-coding-vamos-a-la-notebook-xxxx">Live Coding: Vamos a la notebook XXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-2">Actividad 2:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-datos">Análisis de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Live Coding: Vamos a la notebook XXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-3">Actividad 3:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesamiento-y-visualizacion">Procesamiento y visualización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Live Coding: Vamos a la notebook XXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-4">Actividad 4:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <!-- #region slideshow={"slide_type": "slide"} -->
+<section class="tex2jax_ignore mathjax_ignore" id="analizando-de-manera-reproducible-el-riesgo-de-inundaciones-con-nasa-earthdata-cloud">
+<h1>Analizando de manera reproducible el riesgo de inundaciones con NASA Earthdata cloud.<a class="headerlink" href="#analizando-de-manera-reproducible-el-riesgo-de-inundaciones-con-nasa-earthdata-cloud" title="Permalink to this heading">#</a></h1>
+<div style="display: flex; align-items: center;">
+    <img src="../../assets/TOPS.png" alt="Image" style="width: 100px; height: auto; margin-right: 10px;">
+    <h3>ScienceCore:<br>Climate Risk</h3>
+</div>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+<section id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this heading">#</a></h2>
+<p>Utilizar los productos abiertos de la NASA llamados Opera Dynamic Surface Water eXtent (DSWx) - Landsat Sentinel-2 armonizado (HLS) para mapear la extensión de la inundación como resultado del evento monzónico de septiembre de 2022 en Pakistán.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>En 2022, las lluvias monzónicas de Pakistán alcanzaron niveles récord, provocando devastadoras inundaciones y deslizamientos de tierra que afectaron a las cuatro provincias del país y a alrededor del 14% de su población. En este ejemplo, podrás ver cómo utilizar los productos abiertos de NASA Opera DSWx-HLS para mapear la extensión de las inundaciones causadas por el monzón ocurrido en septiembre de 2022 en Pakistán.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="hoja-de-ruta">
+<h2>Hoja de Ruta<a class="headerlink" href="#hoja-de-ruta" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Productos Opera DSWx-HLS</p></li>
+<li><p>Configurar el ambiente de trabajo</p></li>
+<li><p>Definir el área de interés</p></li>
+<li><p>Búsqueda y obtención de datos</p></li>
+<li><p>Análisis de datos</p></li>
+<li><p>Procesamiento y visualización</p></li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>Primero, definiremos qué son los productos Opera DSWx-HLS y qué tipo de información puedes obtener de ellos.
+Luego, aprenderás a configurarás tu ambiente de trabajo, definir el área de interés sobre la que quieres recolectar información, realizar la búsqueda y recolección de datos, analizaros y visualizarlos.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="que-te-llevaras">
+<h2>Qué te llevarás<a class="headerlink" href="#que-te-llevaras" title="Permalink to this heading">#</a></h2>
+<p>– Insertar imagen resultante –</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>Este es el resultado final al que llegarás, luego de completar las actividades del taller.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="antes-de-empezar">
+<h2>Antes de empezar<a class="headerlink" href="#antes-de-empezar" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Para participar de esta clase, debes aceptar las pautas de convivencia detalladas <span class="xref myst">aquí</span>.</p></li>
+<li><p>Si hablas, luego silencia tu micrófono para evitar interrupciones por ruidos de fondo. Puede que lo hagamos por ti.</p></li>
+<li><p>Para decir algo, pide la palabra o usa el chat.</p></li>
+<li><p>¿Podemos grabar el chat? ¿Podemos “sacar fotos”?</p></li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>Pautas de convencia:</p>
+<ul class="simple">
+<li><p>Si están en este curso aceptaron las pautas de convivencia de nuestra comunidad el cuál implica, a grandes rasgos, que nos vamos a comportar de forma educada y amable para que este sea un ambiente abierto, seguro y amigable y garantizar la participación de todas las personas en nuestras actividades y espacios virtuales.</p></li>
+<li><p>Si alguno de ustedes ve o siente que no está lo suficientemente cómodo o cómoda, nos puede escribir a nosotros por mensajes privados.</p></li>
+<li><p>En caso de que quienes no los hagamos sentir cómodo seamos –docentes– lo pueden indicar enviando un mail a –agregar mail de referencia –
+Cómo participar:</p></li>
+<li><p>Vamos a pedirles que se silencien/apaguen los micrófonos mientras no están hablando para que no nos moleste el sonido ambiente de cada uno de nosotros.</p></li>
+<li><p>Pueden pedir la palabra levantando la mano o en el chat y –docentes– vamos a estar atentos para que puedan participar en el momento adecuado.
+Acerca de la grabación:</p></li>
+<li><p>El curso va a grabarse, si no desean aparecer en la grabación les pedimos que apaguen la camara.</p></li>
+<li><p>Si alguno de ustedes quiere contar lo que estamos haciendo en redes sociales, por favor, antes de sacar una foto o captura de pantalla con las caras de cada una de las personas que están presentes, pidamos permiso porque puede haber gente que no se sienta cómoda compartiendo su imagen en internet. No hay inconvenientes en que compartan imágenes de las diapositivas o –la cara del docente–.</p></li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="dataset-opera-dswx-hls">
+<h2>Dataset Opera DSWx-HLS<a class="headerlink" href="#dataset-opera-dswx-hls" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Contiene observaciones de la extensión superficial de agua en ubicaciones y momentos específicos (de febrero de 2019 hasta septiembre de 2022).</p></li>
+<li><p>Se distribuyen sobre coordenadas de mapa proyectadas como mosaicos.</p></li>
+<li><p>Cada mosaico cubre un área de 109.8 x 109.8 km.</p></li>
+<li><p>Cada mosaico incluye 10 GeoTIFF (capas).</p></li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>Este conjunto de datos contiene observaciones de la extensión superficial de agua en ubicaciones y momentos específicos que abarcan desde febrero de 2019 hasta septiembre de 2022. El conjunto de datos de entrada para generar cada producto es el producto Harmonized Landsat-8 y Sentinel-2A/B (HLS) versión 2.0. Los productos HLS proporcionan datos de reflectancia de superficie (SR) del Operador de Imágenes Terrestres (OLI) a bordo del satélite Landsat 8 y del Instrumento Multiespectral (MSI) a bordo de los satélites Sentinel-2A/B.</p>
+<p>Los productos de extensión superficial de agua se distribuyen sobre coordenadas de mapa proyectadas. Cada mosaico UTM cubre un área de 109,8 km × 109,8 km. Esta área se divide en 3,660 filas y 3,660 columnas con un espaciado de píxeles de 30 m.</p>
+<p>Cada producto se distribuye como un conjunto de 10 archivos GeoTIFF (capas) que incluyen clasificación de agua, confianza asociada, clasificación de cobertura terrestre, capa de sombra del terreno, clasificación de nubes/sombras de nubes, Modelo Digital de Elevación (DEM) y capa diagnóstica en formato PNG.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="id1">
+<h2>Dataset Opera DSWx-HLS<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>B02_BWTR (Capa binaria de agua):</p>
+<ul class="simple">
+<li><p>1 (blanco) = presencia de agua.</p></li>
+<li><p>0 (negro) = ausencia de agua.</p></li>
+</ul>
+</li>
+<li><p>B03_CONF (Capa de confianza):</p>
+<ul class="simple">
+<li></li>
+</ul>
+</li>
+</ol>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>En este taller, utilizaremos dos capas:</p>
+<ol class="arabic simple">
+<li><p><strong>B02_BWTR (Capa binaria de agua):</strong>
+Esta capa nos brinda una imagen simple de las áreas inundadas. Donde hay agua, la capa vale 1 (blanco) y donde no hay agua, toma valor 0 (negro). Es como un mapa binario de las inundaciones, ideal para obtener una visión general rápida de la extensión del desastre.</p></li>
+<li><p><strong>B03_CONF (Capa de confianza):</strong>
+Esta capa nos indica qué tan seguro está el sistema DSWx-HLS de sus predicciones de agua. Donde la capa muestra valores altos (cerca de 100%), podemos estar muy seguros de que hay agua. En áreas con valores más bajos, la confianza disminuye, lo que significa que lo que parece agua podría ser otra cosa, como sombras o nubes.</p></li>
+</ol>
+<p>Para ayudarte a visualizar mejor cómo funciona esto piensa en una imagen satelital de la zona afectada por las inundaciones. Las áreas con agua se ven azul oscuro, mientras que las áreas secas se ven de color marrón o verde.
+La capa binaria de agua (B02_BWTR), superpuesta sobre la imagen, sombrearía de blanco todas las áreas azules, creando un mapa simple de agua sí/no.
+En cambio, la capa de confianza (B03_CONF) funcionaría como una transparencia superpuesta sobre la imagen, con áreas blancas sólidas donde la confianza es alta y transparencia creciente hacia el negro donde la confianza es baja. Esto te permite ver dónde el sistema DSWx-HLS está más seguro de que sus predicciones de agua son correctas.
+Al combinar estas capas, los científicos y los trabajadores humanitarios pueden obtener una imagen clara de la extensión de las inundaciones y priorizar los esfuerzos de rescate y recuperación.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="configurar-el-ambiente-de-trabajo">
+<h2>Configurar el ambiente de trabajo<a class="headerlink" href="#configurar-el-ambiente-de-trabajo" title="Permalink to this heading">#</a></h2>
+<p>A COMPLETAR.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>ESTO HAY QUE DEFINIRLO A PARTIR DE LA MODIFICACIÓN DE LAS NOTEBOOKS.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="live-coding-vamos-a-la-notebook-xxxxx">
+<h2>Live Coding: Vamos a la notebook XXXXX.<a class="headerlink" href="#live-coding-vamos-a-la-notebook-xxxxx" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="seleccion-del-area-de-interes-aoi">
+<h2>Selección del área de interés (AOI)<a class="headerlink" href="#seleccion-del-area-de-interes-aoi" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Inicializar parámetros definidos por el usuario.</p></li>
+<li><p>Relizar una búsqueda de datos específicos en la NASA.</p></li>
+<li><p>Buscar imágenes dentro de colección DSWx-HLS que coincidan con el AOI.</p></li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>A continuación, aprenderás a:</p>
+<ol class="arabic simple">
+<li><p>Inicializar parámetros definidos por el usuario:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Define la zona de búsqueda: Dibuja un rectángulo en el mapa para indicar el área donde quieres buscar datos.</p></li>
+<li><p>Establece el periodo de búsqueda: Marca la fecha de inicio y de fin para acotar los resultados a un rango de tiempo específico.</p></li>
+<li><p>Muestra los parámetros: Imprime en la pantalla los detalles de la zona de búsqueda y las fechas elegidas para que puedas verificarlos.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Realizar la búsqueda de datos específicos en la NASA:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Se conecta a la base de datos: Enlaza con la API CMR-STAC de la NASA para poder acceder a sus archivos.</p></li>
+<li><p>Especifica la colección: Indica que quiere buscar datos de la colección “OPERA_L3_DSWX-HLS_PROVISIONAL_V0”.</p></li>
+<li><p>Realiza la búsqueda: Filtra los resultados según la zona de búsqueda, las fechas y un límite máximo de 1000 resultados.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Buscar imágenes (de la colección DSWx-HLS) que coincidan con el área de interés:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Mide la superposición: Calcula cuánto se solapa cada imagen con el área que te interesa.</p></li>
+<li><p>Muestra los porcentajes: Imprime en la pantalla estos porcentajes para que puedas ver la cobertura.</p></li>
+<li><p>Filtra las imágenes: Selecciona solo aquellas que tengan una superposición mayor a un límite establecido.</p></li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="id2">
+<h2>Live Coding: Vamos a la notebook XXXXX.<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="actividad-1">
+<h2>Actividad 1:<a class="headerlink" href="#actividad-1" title="Permalink to this heading">#</a></h2>
+<p>Modifica los parámetros XXX para definir una nueva área de interés.</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="busqueda-y-obtencion-de-datos">
+<h2>Búsqueda y obtención de datos<a class="headerlink" href="#busqueda-y-obtencion-de-datos" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Transformar los datos filtrados en una lista.</p></li>
+<li><p>Mostrar los detalles del primer resultado:</p>
+<ul>
+<li><p>Contar los resultados.</p></li>
+<li><p>Mostrar superposición.</p></li>
+<li><p>Indicar nubosidad.</p></li>
+</ul>
+</li>
+</ul>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "notes"} -->
+<p>En la siguiente sección aprenderás:</p>
+<ol class="arabic simple">
+<li><p>Cómo transformar los resultados filtrados en una lista para poder trabajar con ellos más fácilmente.</p></li>
+<li><p>Cómo mostrar los detalles del primer resultado para ver cómo es la información que contiene.</p>
+<ul class="simple">
+<li><p>Contar los resultado: cuántos archivos se encontraron después de aplicar los filtros.</p></li>
+<li><p>Mostrar la superposición: cuánto se solapa cada archivo con la zona que buscas, para que sepas qué tan bien cubren el área.</p></li>
+<li><p>Indicar la nubosidad: cantidad de nubes que había en cada archivo antes de filtrarlo, para que puedas considerar si la cobertura de nubes es un factor importante para ti.</p></li>
+</ul>
+</li>
+</ol>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="live-coding-vamos-a-la-notebook-xxxx">
+<h2>Live Coding: Vamos a la notebook XXXX.<a class="headerlink" href="#live-coding-vamos-a-la-notebook-xxxx" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="actividad-2">
+<h2>Actividad 2:<a class="headerlink" href="#actividad-2" title="Permalink to this heading">#</a></h2>
+<p>A DEFINIR</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="analisis-de-datos">
+<h2>Análisis de datos<a class="headerlink" href="#analisis-de-datos" title="Permalink to this heading">#</a></h2>
+<p>A DEFINIR</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="id3">
+<h2>Live Coding: Vamos a la notebook XXXX.<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="actividad-3">
+<h2>Actividad 3:<a class="headerlink" href="#actividad-3" title="Permalink to this heading">#</a></h2>
+<p>A DEFINIR</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="procesamiento-y-visualizacion">
+<h2>Procesamiento y visualización<a class="headerlink" href="#procesamiento-y-visualizacion" title="Permalink to this heading">#</a></h2>
+<p>A DEFINIR</p>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="id4">
+<h2>Live Coding: Vamos a la notebook XXXX.<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+</section>
+<section id="actividad-4">
+<h2>Actividad 4:<a class="headerlink" href="#actividad-4" title="Permalink to this heading">#</a></h2>
+<p>A DEFINIR</p>
+<!-- #endregion -->
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./09_Scratch"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">Objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hoja-de-ruta">Hoja de Ruta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-te-llevaras">Qué te llevarás</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antes-de-empezar">Antes de empezar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-opera-dswx-hls">Dataset Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dataset Opera DSWx-HLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configurar-el-ambiente-de-trabajo">Configurar el ambiente de trabajo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-coding-vamos-a-la-notebook-xxxxx">Live Coding: Vamos a la notebook XXXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seleccion-del-area-de-interes-aoi">Selección del área de interés (AOI)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Live Coding: Vamos a la notebook XXXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-1">Actividad 1:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#busqueda-y-obtencion-de-datos">Búsqueda y obtención de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-coding-vamos-a-la-notebook-xxxx">Live Coding: Vamos a la notebook XXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-2">Actividad 2:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-datos">Análisis de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Live Coding: Vamos a la notebook XXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-3">Actividad 3:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesamiento-y-visualizacion">Procesamiento y visualización</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Live Coding: Vamos a la notebook XXXX.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actividad-4">Actividad 4:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 2i2c / MetaDocencia
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
