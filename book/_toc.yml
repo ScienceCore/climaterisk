@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: 09_Scratch/intro
+root: intro
 parts:
   - caption: Open Science
     chapters:
@@ -31,4 +31,3 @@ parts:
     chapters:
     - file: 08_Flood_analysis/3_Retrieving_FloodData
     - file: 08_Flood_analysis/flood
-  
