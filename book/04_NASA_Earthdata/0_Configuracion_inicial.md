@@ -32,7 +32,7 @@ Para acceder al 2i2c Hub seguí estos sencillos pasos:
 ## 2- ¿Cómo utilizar el Earthdata de la NASA?
 
 
-#### Breve introducción
+### Breve introducción
 
 El programa **Earth Science Data Systems (ESDS)**, **Programa de Sistemas de Datos de Ciencias de la Tierra** de la NASA, supervisa el ciclo de vida de los datos científicos de la Tierra de todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.
 

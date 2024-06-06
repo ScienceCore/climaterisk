@@ -2,7 +2,6 @@
 
 ![](assets/banner.jpg)
 
-
 GitHub Repo: https://github.com/ScienceCore/climaterisk
 
 

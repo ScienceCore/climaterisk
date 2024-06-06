@@ -3,21 +3,14 @@
 
 title: Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud
 author: 2i2c / MetaDocencia
-logo: logo.png
+logo: assets/TOPS.png
+# Auto-exclude files not in the toc
+only_build_toc_files: true
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
   execute_notebooks: force
-
-# Define the name of the latex output file for PDF builds
-latex:
-  latex_documents:
-    targetname: book.tex
-
-# Add a bibtex file so that we can create citations
-bibtex_bibfiles:
-  - references.bib
 
 # Information about where the book exists on the web
 repository:
@@ -30,7 +23,6 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
-  
   use_multitoc_numbering: false
 
 launch_buttons:
