@@ -12,6 +12,8 @@ jupyter:
     name: python3
 ---
 
+# Retrieving Disturbance Data
+
 The [OPERA DIST-HLS data product](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) can be used to study the impacts and evolution of wildfires at a large scale. In this notebook, we will retrieve data associated with the [2023 Greece wildfires](https://en.wikipedia.org/wiki/2023_Greece_wildfires) to understand its evolution and extent. We will also generate a time series visualization of the event.
 
 In particular, we will be examining the area around the city of [Alexandroupolis](https://en.wikipedia.org/wiki/Alexandroupolis) which was severely impacted by the wildfires, resulting in loss of lives, property, and forested areas.
