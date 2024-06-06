@@ -12,7 +12,7 @@ jupyter:
     name: python3
 ---
 
-## About this tutorial
+# About this tutorial
 
 This tutorial is part of a project which focuses on leveraging the vast amount of Earth science data available through the NASA Earthdata Cloud to better understand and forecast environmental risks such as wildfire, drought, and floods. At its core, this project embodies the principles of open science, aiming to make data, methods, and findings accessible to all. 
 We aim to equip learners with the skills to analyze, visualize, and report on data related to these critical environmental risks through open science-based workflows and the use of cloud-based data computing.
@@ -24,7 +24,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 
 <!-- #region -->
 
-<img src="../assets/image165.png" width="800">
+![](../assets/image165.png)
 
 ### Availability of Open Science Resources:
 
@@ -47,7 +47,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 - And much more..
 
 
-<img src="../assets/image377.jpg" width="800">
+![](../assets/image377.jpg)
 
 <!-- #endregion -->
 
@@ -64,7 +64,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 
 Scientific knowledge, or research products, take the form of:
 
-<img src="../assets/image5.png" width="500">
+![](../assets/image5.png)
 
 ### What is data?
 
@@ -98,7 +98,7 @@ Results capture the different research outputs of the scientific process. Public
 Products are created throughout the scientific process that are needed to enable others to reproduce the findings. The products of research include data, code, analysis pipelines, papers, and more!
 
 
-<img src="../assets/image7.jpeg" width="800">
+![](../assets/image7.jpeg)
 
 
 
