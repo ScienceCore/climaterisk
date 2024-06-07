@@ -52,8 +52,6 @@ jupyter:
 
 Scientific knowledge, or research products, take the form of:
 
-<img src="../assets/image5.png" width="500">
-
 #### Data
 
 Scientifically relevant information in digital format.
@@ -68,5 +66,7 @@ Software used in scientific computing.
 
 Various research outputs showcasing scientific findings.
 - Examples: publications, notebooks, presentations, blog posts.
+
+<img src="../assets/image5.png" width="400">
 
 <!-- #endregion -->
