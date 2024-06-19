@@ -10,14 +10,16 @@ Shapefile is the most widely known format for distributing geospatial data. It i
 
 The shapefiles consist of several files some of them are mandatory files and others optional. The mandatory file extensions needed for a shapefile are .shp, .shx and .dbf. But the optional files are: .prj, .xml, .sbn and .sbx. <sup>4</sup>  This makes operating Shapefiles slightly clunky and confusing. However, Shapefile has been around for so long that any GIS software supports handling it.<sup>3</sup>
 
-Here is a list and a brief explanation of all the files that make up a shapefile, including SHP, SHX, DBF, PRJ, XML, SBN, SBX, and CPG.
+In the following we show a list and a brief explanation of all the files that make up a shapefile, including SHP, SHX, DBF, PRJ, XML, SBN, SBX, and CPG.
 
+**Mandatory files**
 - Main File (.SHP): SHP is a mandatory Esri file that gives features their geometry. Every shapefile has its own .shp file that represents spatial vector data. For example, it could be points, lines, and polygons in a map.
 
 - Index File (.SHX): SHX are mandatory Esri and AutoCAD shape index positions. This type of file is used to search forward and backward.
 
 - dBASE File (.DBF):DBF is a standard database file used to store attribute data and object IDs. A .dbf file is mandatory for shape files. You can open DBF files in Microsoft Access or Excel.
 
+**Optional files**
 - Projection File (.PRJ): PRJ is an optional file that contains the metadata associated with the shapefiles coordinate and projection system. If this file does not exist, you will get the error “unknown coordinate system”. If you want to fix this error, you have to use the “define projection” tool which generates .prj files.
 
 - Extensible Markup Language File (.XML): XML file types contain the metadata associated with the shapefile. If you delete this file, you essentially delete your metadata. You can open and edit this optional file type (.xml) in any text editor.
