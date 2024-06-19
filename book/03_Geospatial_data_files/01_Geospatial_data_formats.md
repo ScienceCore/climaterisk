@@ -57,7 +57,7 @@ In this tutorial we will be using the following raster data format:
 
 ### 1. GeoTiffs
 
-GeoTIFF is a public domain metadata standard that enables georeferencing information to be embedded within an image file. The GeoTIFF format embeds geospatial metadata into image files such as aerial photography, satellite imagery, and digitized maps so that they can be used in GIS applications.<sup>2</sup>
+[GeoTIFF](https://en.wikipedia.org/wiki/GeoTIFF) is a public domain metadata standard that enables georeferencing information to be embedded within a [TIFF](https://en.wikipedia.org/wiki/TIFF) file. The GeoTIFF format embeds geospatial metadata into image files such as aerial photography, satellite imagery, and digitized maps so that they can be used in GIS applications.<sup>2</sup>
 
 A GeoTIFF file extension contains geographic metadata that describes the actual location in space that each pixel in an image represents. In creating a GeoTIFF file, spatial information is included in the .tif file as embedded tags, which can include raster image metadata such as:
 * horizontal and vertical datums 
