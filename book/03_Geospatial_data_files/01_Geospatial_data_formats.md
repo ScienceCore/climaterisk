@@ -30,7 +30,7 @@ In the following we show a list and a brief explanation of all the files that ma
 
 - Code Page File (.CPG): CPG files are optional plain text files that describe the encoding applied to create the shapefile. If your shapefile doesn’t have a .cpg file, then it has the system default encoding.
 
-Internally, Shapefile uses Well-known binary (WKB) for encoding the geometries. This is a compact format that is based on tabular thinking, i.e. the row and column number of a value is significant. A minor nuisance is the limitation of the attribute field names to 10 characters and poor Unicode support, so some abbreviations and forcing to ASCII may have to be used.^3^
+Internally, Shapefile uses Well-known binary (WKB) for encoding the geometries <sup>5</sup>. This is a compact format that is based on tabular thinking, i.e. the row and column number of a value is significant. A minor nuisance is the limitation of the attribute field names to 10 characters and poor Unicode support, so some abbreviations and forcing to ASCII may have to be used.^3^
 
 For more details about the shapefiles you can refer to the [ESRI Shapefile Technical Description](https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf)
 
@@ -72,3 +72,4 @@ For more details about GeoTiff data format, you can refer to [OGC GeoTIFF Standa
 2. https://www.heavy.ai/technical-glossary/geotiff
 3. https://feed.terramonitor.com/shapefile-vs-geopackage-vs-geojson/
 4. https://gisgeography.com/arcgis-shapefile-files-types-extensions/
+5. https://libgeos.org/specifications/wkb/
