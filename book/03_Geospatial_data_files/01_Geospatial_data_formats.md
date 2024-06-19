@@ -38,7 +38,7 @@ For more details about the shapefiles you can refer to the [ESRI Shapefile Techn
 
 GeoJSON is a subset of JSON (JavaScript object notation). It was developed 10 years ago by a group of enthusiastic GIS developers. The core idea is to provide a specification for encoding geospatial data while remaining decodable by any JSON decoder.<sup>3</sup>
 
-![json_example](../assets/json_example.png)
+![json_example](../assets/json_example.PNG)
 
 <p style="text-align: center;">This image shows an example of a GeoJson file. Source: [gist](https://gist.githubusercontent.com/wavded/1200773/raw/e122cf709898c09758aecfef349964a8d73a83f3/sample.json).
 </p>
