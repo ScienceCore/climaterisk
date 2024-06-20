@@ -10,7 +10,7 @@ Shapefile is the most widely known format for distributing geospatial data. It i
 
 The shapefiles consist of several files some of them are mandatory and others optional. The mandatory file extensions needed for a shapefile are .shp, .shx, and .dbf. But the optional files are .prj, .xml, .sbn, and .sbx. <sup>2</sup>  This makes operating Shapefiles slightly clunky and confusing. However, Shapefile has been around for so long that any GIS software supports handling it.<sup>1</sup>
 
-In the following, we show a list and a brief explanation of all the files that make up a shapefile, including shp, shx, dbf, prj, xml,sbn, sbx, and cpg.
+In the following, we show a list and a brief explanation of all the files that make up a shapefile, including shp, shx, dbf, prj, xml,sbn, sbx, and cpg based on <sup>2</sup>.
 
 **Mandatory files**
 - Main File (.shp): shp is a mandatory Esri file that gives features their geometry. Every shapefile has its own .shp file that represents spatial vector data. For example, it could be points, lines, and polygons in a map.
