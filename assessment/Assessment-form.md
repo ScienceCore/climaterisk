@@ -1,7 +1,7 @@
 
 # Assessment form for the Scipy tutorial: preliminar questions
 
-### What is the primary difference between geographic coordinate reference systems and projected coordinate reference systems?
+### What is the primary difference between geographic and projected coordinate reference systems?
 
 - Geographic coordinate reference systems use latitude and longitude while projected coordinate reference systems use XY coordinates.
 - Geographic coordinate reference systems are three-dimensional while projected coordinate reference systems are two-dimensional.
@@ -89,3 +89,4 @@
 
 _________________________________________________________________________________________________
 
+Link to the form: http://tiny.cc/ClimateriskScipy2024
