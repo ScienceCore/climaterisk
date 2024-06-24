@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - environment.yml
+  workflow_dispatch:
 
 jobs:
   build-and-push:
