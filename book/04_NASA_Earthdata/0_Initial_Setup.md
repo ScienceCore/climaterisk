@@ -1,23 +1,32 @@
 # Initial Setup 
 
-## 1- How to use the 2i2c Hub
 
-To access the 2i2c Hub, follow these simple steps:
+## 1- Accesing to the 2i2c Hub
 
-* Go to the 2i2c Hub: https://2i2c.org/platform/
+To login to the 2i2c Hub, follow these simple steps:
+
+* Enter the 2i2c Hub prepared to this tutorial: https://climaterisk.opensci.2i2c.cloud/.
+
+* Enter your credentials: choose any username and the password will be share the previous day to the tutorial. One recommendation at the moment to choose a username is that use you GitHub username to avoid name collisions. 
+
 
 ![2i2c_login](../assets/2i2c_login.png)
 
-* Enter your credentials: username and password (Note: You must have previously sent your Github account username to be enabled for access with that account).
+Logging in maytake a few minutes if a new node needs to be created.
 
-* If the login is successful, you will see the following screen. Choose the Start option to enter the JupyterLab environment in the cloud.
-  
+![start_server2](../assets/start_server.png)
 
-![2i2c_login](../assets/start_server.png)
+
+Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
+
+![2i2c_login](../assets/2i2c_login.png)
 
 * Finally, if you see the following JupyterLab screen, you are ready to start working.
 
-![ambiente_trabajo_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
+![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
+
+**Notes:** Take in account that the files will persist between sessions if the same username is used. 
+
 
 ## 2. Using NASA's Earthdata
 
