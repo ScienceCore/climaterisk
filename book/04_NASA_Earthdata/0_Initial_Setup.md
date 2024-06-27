@@ -21,11 +21,9 @@ Something important to know is that by default, logging into https://climaterisk
 
 ![2i2c_login](../assets/2i2c_login.png)
 
-* Finally, if you see the following JupyterLab screen, you are ready to start working.
+* Finally, if you see the previous JupyterLab screen, you are ready to start working.Take in account that the files will persist between sessions if the same username is used. 
 
 ![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
-
-**Notes:** Take in account that the files will persist between sessions if the same username is used. 
 
 
 ## 2. Using NASA's Earthdata
