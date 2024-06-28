@@ -19,11 +19,11 @@ Logging in maytake a few minutes if a new node needs to be created.
 
 Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
 
-![2i2c_login](../assets/2i2c_login.png)
+![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
 * Finally, if you see the previous JupyterLab screen, you are ready to start working.Take in account that the files will persist between sessions if the same username is used. 
 
-![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
+
 
 
 ## 2. Using NASA's Earthdata
