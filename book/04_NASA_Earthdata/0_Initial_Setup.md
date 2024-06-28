@@ -1,31 +1,40 @@
 # Initial Setup 
 
-## 1- How to use the 2i2c Hub
+## 1- Accesing to the 2i2c Hub
+To login to the 2i2c Hub, follow these simple steps:
 
-To access the 2i2c Hub, follow these simple steps:
+* **Head to the Hub:** Visit this link to access the 2i2c Hub: https://climaterisk.opensci.2i2c.cloud/.
 
-* Access the 2i2c Hub: Go to https://2i2c.org/platform/
+* **Log in with your Credentials:**
 
-# Initial Configuration Steps for 2i2c Hub and EarthData NASA Access
+**Username:** Feel free to choose any username you like.  Te recommend your GitHub username helps avoid conflicts with others.
 
-## 1. Accessing the 2i2c Hub
+**Password:** You'll receive the password the day before the tutorial.
 
-To access the 2i2c Hub, follow these simple steps:
-
-* Go to the 2i2c Hub.
 
 ![2i2c_login](../assets/2i2c_login.png)
 
-* Enter your credentials: username and password (Note: You must have previously sent your Github account username to be enabled for access with that account).
 
-* If the login is successful, you will see the following screen. Choose the Start option to enter the JupyterLab environment in the cloud.
-  
+* **Logging In:**
 
-![2i2c_login](../assets/start_server.png)
+The login process might take a few minutes, especially if a new virtual workspace needs to be created just for you. 
 
-* Finally, if you see the following JupyterLab screen, you are ready to start working.
 
-![ambiente_trabajo_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
+![start_server2](../assets/start_server_2i2c.png)
+
+
+* **What to Expect:**
+
+By default,  logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
+
+
+![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
+
+Finally, if you see the previous JupyterLab screen, you are ready to start working.
+
+**Notes:** Any files you work on will be saved between sessions as long as you use the same username.
+
+
 
 ## 2. Using NASA's Earthdata
 
