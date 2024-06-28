@@ -14,39 +14,29 @@ To login to the 2i2c Hub, follow these simple steps:
 
 ![2i2c_login](../assets/2i2c_login.png)
 
-*Tip:* Logging in might take a few minutes if a new server needs to be set up for you. That's perfectly normal!
+**Tip:** Logging in might take a few minutes if a new server needs to be set up for you. That's perfectly normal!
 
 ![start_server2](../assets/start_server.png)
 
-*Logging In:*
+**Logging In:**
 
 The login process might take a few minutes, especially if a new virtual workspace needs to be created just for you. 
 
 
 ![2i2c_login](../assets/2i2c_login.png)
 
-Logging in maytake a few minutes if a new node needs to be created.
+**What to Expect:**
 
+By default,  logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
 
-![2i2c_login](../assets/2i2c_login.png)
-
-
-Logging in maytake a few minutes if a new node needs to be created.
-
-![start_server2](../assets/start_server_2i2c.png)
-
-
-
-Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatica
-lly clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
-
+Finally, if you see the following JupyterLab screen, you are ready to start working.
 
 
 ![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
+**Notes:** Any files you work on will be saved between sessions as long as you use the same username.
 
 
-Finally, if you see the previous JupyterLab screen, you are ready to start working.Take in account that the files will persist between sessions if the same username is used. 
 
 
 
