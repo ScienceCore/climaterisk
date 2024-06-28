@@ -19,7 +19,10 @@ Logging in maytake a few minutes if a new node needs to be created.
 
 
 
-Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
+Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatica
+lly clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
+
+
 
 ![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
