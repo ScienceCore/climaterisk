@@ -5,9 +5,10 @@ To login to the 2i2c Hub, follow these simple steps:
 
 **Head to the Hub:** Visit this link to access the 2i2c Hub: https://climaterisk.opensci.2i2c.cloud/.
 
-**Log in with your Credentials:**
+  **Log in with your Credentials:**
 
-**Username:** Feel free to choose any username you like.  Te recommend your GitHub username helps avoid conflicts with others.)
+**Username:** Feel free to choose any username you like.  Te recommend your GitHub username helps avoid conflicts with others.
+
 **Password:** You'll receive the password the day before the tutorial.
 
 
