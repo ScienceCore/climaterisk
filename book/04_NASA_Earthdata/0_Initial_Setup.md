@@ -1,14 +1,31 @@
 # Initial Setup 
 
-
 ## 1- Accesing to the 2i2c Hub
-
 To login to the 2i2c Hub, follow these simple steps:
 
-* Enter the 2i2c Hub prepared to this tutorial: https://climaterisk.opensci.2i2c.cloud/.
+**Head to the Hub:** Visit this link to access the 2i2c Hub: https://climaterisk.opensci.2i2c.cloud/.
 
-* Enter your credentials: choose any username and the password will be share the previous day to the tutorial. When choosing a username it is recommended that you 
-  use your GitHub username to avoid name collisions. 
+**Log in with your Credentials:**
+
+**Username:** Feel free to choose any username you like.  Te recommend your GitHub username helps avoid conflicts with others.)
+**Password:** You'll receive the password the day before the tutorial.
+
+
+![2i2c_login](../assets/2i2c_login.png)
+
+*Tip:* Logging in might take a few minutes if a new server needs to be set up for you. That's perfectly normal!
+
+![start_server2](../assets/start_server.png)
+
+*Logging In:*
+
+The login process might take a few minutes, especially if a new virtual workspace needs to be created just for you. 
+
+
+![2i2c_login](../assets/2i2c_login.png)
+
+Logging in maytake a few minutes if a new node needs to be created.
+
 
 ![2i2c_login](../assets/2i2c_login.png)
 
