@@ -14,7 +14,7 @@ To login to the 2i2c Hub, follow these simple steps:
 
 Logging in maytake a few minutes if a new node needs to be created.
 
-![start_server2](../assets/start_server.png)
+![start_server2](../assets/start_server_2i2c.png)
 
 
 Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
