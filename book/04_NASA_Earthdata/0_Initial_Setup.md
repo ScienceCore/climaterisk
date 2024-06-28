@@ -27,13 +27,12 @@ The login process might take a few minutes, especially if a new virtual workspac
 
 By default,  logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
 
-Finally, if you see the following JupyterLab screen, you are ready to start working.
-
 
 ![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
-**Notes:** Any files you work on will be saved between sessions as long as you use the same username.
+Finally, if you see the previous JupyterLab screen, you are ready to start working.
 
+**Notes:** Any files you work on will be saved between sessions as long as you use the same username.
 
 
 
