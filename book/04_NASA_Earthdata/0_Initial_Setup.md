@@ -12,16 +12,20 @@ To login to the 2i2c Hub, follow these simple steps:
 
 ![2i2c_login](../assets/2i2c_login.png)
 
+
 Logging in maytake a few minutes if a new node needs to be created.
 
 ![start_server2](../assets/start_server_2i2c.png)
+
 
 
 Something important to know is that by default, logging into https://climaterisk.opensci.2i2c.cloud will automatically clone https://github.com/ScienceCore/scipy-2024-climaterisk and change to that directly. If the login is successful, you will see the following screen. 
 
 ![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
 
-* Finally, if you see the previous JupyterLab screen, you are ready to start working.Take in account that the files will persist between sessions if the same username is used. 
+
+
+Finally, if you see the previous JupyterLab screen, you are ready to start working.Take in account that the files will persist between sessions if the same username is used. 
 
 
 
