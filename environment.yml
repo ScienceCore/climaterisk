@@ -1,19 +1,20 @@
 channels:
   - conda-forge
   - pyviz
+  - defaults
 dependencies:
   - basemap
   - bokeh
   - boto3
-  - contextily  
+  - contextily
   - folium
-  - fsspec  
+  - fsspec
   - gdal
   - geopandas
   - geoviews
   - geoviews-core
+  - gh-scoped-creds
   - ghp-import
-  - gh-scoped-creds  
   - h5py
   - holoviews
   - hvplot
@@ -22,29 +23,30 @@ dependencies:
   - ipyleaflet
   - ipympl
   - ipython
-  - jupyterlab
   - jupyter-book
-  - jupyter-server-proxy>=4.1.1
-  - jupyterlab-myst
-  - jupyterlab-git
+  - jupyter-server-proxy[version='>=4.1.1']
   - jupyterhub-singleuser
-  - jupytext  
+  - jupyterlab
+  - jupyterlab-git
+  - jupyterlab-myst
+  - jupytext
   - leafmap
   - localtileserver
-  - lxml  
+  - lxml
   - matplotlib
-  - nbgitpuller>=1.2.1
+  - nbgitpuller[version='>=1.2.1']
   - nodejs
   - notebook
   - numba
-  - numexpr>=2.8.7
+  - numexpr[version='>=2.8.7']
   - numpy
   - panel
   - pystac-client
+  - python[version='>=3.12']
   - rasterio
   - requests
   - rioxarray
-  - s3fs  
-  - scikit-image  
+  - s3fs
+  - scikit-image
   - selenium
   - xarray
