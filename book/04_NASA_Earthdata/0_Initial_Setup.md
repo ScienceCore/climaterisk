@@ -14,16 +14,14 @@ To login to the 2i2c Hub, follow these simple steps:
 
 ![2i2c_login](../assets/2i2c_login.png)
 
-**Tip:** Logging in might take a few minutes if a new server needs to be set up for you. That's perfectly normal!
-
-![start_server2](../assets/start_server.png)
 
 * **Logging In:**
 
 The login process might take a few minutes, especially if a new virtual workspace needs to be created just for you. 
 
 
-![2i2c_login](../assets/2i2c_login.png)
+![start_server2](../assets/start_server.png)
+
 
 * **What to Expect:**
 
