@@ -170,26 +170,6 @@ def filter_search_by_cc(results, cloud_threshold=10):
 ```
 
 ```python
-def filter_by_values(df, bad_values=[253, 255], filter_percentage=10):
-    '''
-    Given a dataframe with links to DSWx tiles, read the tiles and calculate percentage clouds present in each tile
-    Then, return an updated dataframe that filters the dataframe such that returned tiles have cloud cover equal to or
-    less than the specified threshold
-    '''
-
-    nodata_percentages = []
-    for _, row in df.iterrows():
-        with rasterio.open(row.hrefs) as ds:
-            img = ds.read(1).flatten()
-            nodata_percentage = 100*(np.sum(np.isin(img, bad_values))/img.size)
-            nodata_percentages.append(nodata_percentage)
-
-    df['nodata_percentage'] = nodata_percentages
-
-    return df[df['nodata_percentage']<=filter_percentage]
-```
-
-```python
 def urls_to_dataset(granule_dataframe):
     '''method that takes in a list of OPERA tile URLs and returns an xarray dataset with dimensions
     latitude, longitude and time'''
