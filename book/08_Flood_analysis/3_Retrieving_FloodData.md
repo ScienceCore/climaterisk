@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.1
+      jupytext_version: 1.16.2
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -19,17 +19,11 @@ Heavy rains severely impacted Southeast Texas in May 2024 [[1]](https://www.texa
 ```python
 import rasterio
 import rioxarray
-from rasterio.warp import transform_bounds, reproject
-from rasterio.crs import CRS
 import folium
 
-# import hvplot.pandas  # noqa
 import hvplot.xarray  # noqa
 import xarray as xr
-# import cartopy.crs as ccrs
 import xyzservices.providers as xyz
-# from matplotlib.colors import ListedColormap
-# from bokeh.models import CategoricalColorMapper, ColorBar
 
 from shapely.geometry import Point
 from osgeo import gdal
@@ -38,10 +32,8 @@ from holoviews.plotting.util import process_cmap
 
 import pandas as pd
 
-# Imports for plotting
-import geoviews as gv
-gv.extension('bokeh')
-gv.output(size=1000)
+from warnings import filterwarnings
+filterwarnings("ignore") # suppress PySTAC warnings
 
 # STAC imports to retrieve cloud data
 from pystac_client import Client
@@ -89,6 +81,7 @@ opts = {
 
 
 ```python
+livingston_tx = Point(-95.09, 30.69)
 m = folium.Map(location=(livingston_tx.y, livingston_tx.x), control_scale = True, zoom_start=8)
 radius = 15000
 folium.Circle(
@@ -100,7 +93,7 @@ folium.Circle(
     fill_opacity=0.6,
     opacity=1,
     popup="{} pixels".format(radius),
-    tooltip="50 px radius",
+    tooltip="Livingston, TX",
     # 
 ).add_to(m)
 
@@ -148,23 +141,32 @@ granules
 ```
 
 ```python
-def filter_by_values(df, bad_values=[253, 255], filter_percentage=10):
+type(results[0])
+
+```
+
+```python
+def filter_search_by_cc(results, cloud_threshold=10):
     '''
-    Given a dataframe with links to DSWx tiles, read the tiles and calculate percentage clouds present in each tile
-    Then, return an updated dataframe that filters the dataframe such that returned tiles have cloud cover equal to or
-    less than the specified threshold
+    Given a list of results returned by the NASA Earthdata STAC API for OPERA DSWx data,
+    filter them by cloud cover
     '''
 
-    nodata_percentages = []
-    for _, row in df.iterrows():
-        with rasterio.open(row.hrefs) as ds:
-            img = ds.read(1).flatten()
-            nodata_percentage = 100*(np.sum(np.isin(img, bad_values))/img.size)
-            nodata_percentages.append(nodata_percentage)
+    filtered_results = []
 
-    df['nodata_percentage'] = nodata_percentages
+    for result in results:
+        try:
+            cloud_cover = result['properties']['eo:cloud_cover']
+        except:
+            href = result['assets']['0_B01_WTR']['href']
+            with rasterio.open(href) as ds:
+                img = ds.read(1).flatten()
+                cloud_cover = 100*(np.sum(np.isin(img, 253))/img.size)
 
-    return df[df['nodata_percentage']<=filter_percentage]
+        if  cloud_cover <= cloud_threshold:
+            filtered_results.append(result)
+
+    return filtered_results
 ```
 
 ```python
@@ -234,13 +236,13 @@ COLORS[253] = (150, 150, 150, 1)
 ```python
 img = dataset.hvplot.quadmesh(title = 'DSWx data for May 2024 Texas floods',
                             x='lon', y='lat', 
-                            project=True, rasterize=True, frame_width=100,
+                            project=True, rasterize=True,
                             cmap=COLORS, 
                             colorbar=False,
                             widget_location='bottom',
                             tiles = xyz.OpenStreetMap.Mapnik,
                             xlabel='Longitude (degrees)',ylabel='Latitude (degrees)',
-                            fontscale=1.25)
+                            fontscale=1.25, frame_width=1000, frame_height=1000)
 
 img
 ```
@@ -303,26 +305,32 @@ print(f"Number of tiles found intersecting given AOI: {len(results)}")
 ```
 
 ```python
-# since we are parsing a year's worth of data, this will take a few minutes
-granules = search_to_df(results)
-granules = filter_by_values(granules)
+# let's filter our results so that only scenes with less than 10% cloud cover are returned
+results = filter_search_by_cc(results)
+
+print("Number of results containing less than 10% cloud cover: ", len(results))
 ```
 
 ```python
-# Similarly, loading a year's worth of data will take a few minutes
+# Load results into dataframe
+granules = search_to_df(results)
+```
+
+```python
+# This may take a while depending on the number of results we are loading
 dataset= urls_to_dataset(granules)
 ```
 
 ```python
 img = dataset.hvplot.quadmesh(title = 'Vaigai Reservoir, India - water extent over a year',
                             x='lon', y='lat', 
-                            project=True, rasterize=True, frame_width=100,
+                            project=True, rasterize=True, 
                             cmap=COLORS, 
                             colorbar=False,
                             widget_location='bottom',
                             tiles = xyz.OpenStreetMap.Mapnik,
                             xlabel='Longitude (degrees)',ylabel='Latitude (degrees)',
-                            fontscale=1.25)
+                            fontscale=1.25, frame_width=1000, frame_height=1000)
 
 img
 ```
@@ -385,12 +393,21 @@ print(f"Number of tiles found intersecting given AOI: {len(results)}")
 ```
 
 ```python
-# since we are parsing a year's worth of data, this will take a few minutes
+# let's filter our results so that only scenes with less than 10% cloud cover are returned
+results = filter_search_by_cc(results)
+
+print("Number of results containing less than 10% cloud cover: ", len(results))
+```
+
+That's a fairly large number of tiles! Loading the data into an xarray dataset will take a few minutes.
+
+```python
+# Load results into dataframe
 granules = search_to_df(results)
-granules = filter_by_values(granules)
 ```
 
 ```python
+# Let's filter by tile id so that we can study changes over the same spatial extent
 granules = granules[granules.tile_id=='T11SQA']
 ```
 
@@ -402,13 +419,13 @@ dataset= urls_to_dataset(granules)
 ```python
 img = dataset.hvplot.quadmesh(title = 'Lake Mead, NV USA - water extent over a year',
                             x='lon', y='lat', 
-                            project=True, rasterize=True, frame_width=100,
+                            project=True, rasterize=True,
                             cmap=COLORS, 
                             colorbar=False,
                             widget_location='bottom',
                             tiles = xyz.OpenStreetMap.Mapnik,
                             xlabel='Longitude (degrees)',ylabel='Latitude (degrees)',
-                            fontscale=1.25)
+                            fontscale=1.25, frame_width=1000, frame_height=1000)
 
 img
 ```
