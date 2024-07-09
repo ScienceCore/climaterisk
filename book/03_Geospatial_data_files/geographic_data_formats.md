@@ -60,6 +60,15 @@ A GeoTIFF file extension contains geographic metadata that describes the actual 
 Geodata is drawn from vector formats on a map, and the geodata is converted to the specified output projection of the map if the projection in the source file differs. Some of the vector and raster formats typically supported by a GeoTIFF online viewer include: asc, gml, gpx, json, kml, kmz, mid, mif, osm, tif, tab, map, id, dat, gdbtable, and gdbtablx.^2^
 
 
+## A Note on the Ordering of Coordinates in Python GIS Libraries
+
+In Python, 2D raster data are represented as matrices. Typically, the x-dimension of the array corresponds to `easting` or `longitude`, while the y-dimension corresponds to `northing` or `latitude`. However, the convention for listing the dimensions of matrices is to list the number of rows first and columns second. This means a matrix with dimensions (n, m) has `n` rows (latitude bins) and `m` columns (longitude bins). This convention is reflected when querying the shape of a `numpy` array using the `shape` attribute.
+
+On the other hand, vector shapes, such as Shapely `Points`, follow the (longitude, latitude) notation. For example, the coordinates for Livingston, TX, are specified as `livingston_tx = Point(-95.09, 30.69)`. Similarly, `Polygon` bounds are specified in the order `(longitude_0, latitude_0, longitude_1, latitude_1)`.
+
+It is important to keep these coordinate orderings in mind when working with geospatial data, as they can easily become a source of confusion or errors.
+
+
 ## References
 
 1. https://www.geographyrealm.com/geodatabases-explored-vector-and-raster-data/

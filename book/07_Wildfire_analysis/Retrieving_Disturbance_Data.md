@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.2
+      jupytext_version: 1.16.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -31,6 +31,7 @@ from osgeo import gdal
 from rasterio.merge import merge
 import rasterio
 import contextily as cx
+import folium
 
 # data wrangling imports
 import pandas as pd
@@ -93,19 +94,23 @@ print(f"Number of tiles found intersecting given AOI: {len(results)}")
 Let's load the search results into a pandas dataframe
 
 ```python
-layer_name = 'VEG-DIST-STATUS'
+def search_to_df(results, layer_name = 'VEG-DIST-STATUS'):
 
-times = pd.DatetimeIndex([result['properties']['datetime'] for result in results]) # parse of timestamp for each result
-data = {'hrefs': [value['href'] for result in results for key, value in result['assets'].items() if layer_name in key],  # parse out links only to DIST-STATUS data layer
-        'tile_id': [value['href'].split('/')[-1].split('_')[3] for result in results for key, value in result['assets'].items() if layer_name in key]}
+        times = pd.DatetimeIndex([result['properties']['datetime'] for result in results]) # parse of timestamp for each result
+        data = {'hrefs': [value['href'] for result in results for key, value in result['assets'].items() if layer_name in key],  # parse out links only to DIST-STATUS data layer
+                'tile_id': [value['href'].split('/')[-1].split('_')[3] for result in results for key, value in result['assets'].items() if layer_name in key]}
 
-# # Construct pandas dataframe to summarize granules from search results
-granules = pd.DataFrame(index=times, data=data)
-granules.index.name = 'times'
+        # Construct pandas dataframe to summarize granules from search results
+        granules = pd.DataFrame(index=times, data=data)
+        granules.index.name = 'times'
+
+        return granules
 ```
 
 ```python
+granules = search_to_df(results)
 granules.head()
+
 ```
 
 ```python
@@ -212,4 +217,113 @@ plt.ylabel('Area damaged by wildfire (km$^2$)', size=15)
 plt.xlabel('Date', size=15)
 plt.xticks([datetime(year=2023, month=8, day=1) + timedelta(days=6*i) for i in range(11)], size=14)
 plt.title('2023 Dadia forest wildfire detected extent', size=14)
+```
+
+### Great Green Wall, Sahel Region, Africa
+
+```python
+ndiaye_senegal = Point(-16.09, 16.50)
+
+# We will search data through the product record
+start_date = datetime(year=2022, month=1, day=1)
+stop_date = datetime.now()
+```
+
+```python
+# Plotting search location in folium as a sanity check
+m = folium.Map(location=(ndiaye_senegal.y, ndiaye_senegal.x), control_scale = True, zoom_start=9)
+radius = 5000
+folium.Circle(
+    location=[ndiaye_senegal.y, ndiaye_senegal.x],
+    radius=radius,
+    color="red",
+    stroke=False,
+    fill=True,
+    fill_opacity=0.6,
+    opacity=1,
+    popup="{} pixels".format(radius),
+    tooltip="50 px radius",
+    # 
+).add_to(m)
+
+m
+```
+
+```python
+# We open a client instance to search for data, and retrieve relevant data records
+STAC_URL = 'https://cmr.earthdata.nasa.gov/stac'
+
+# Setup PySTAC client
+# LPCLOUD refers to the LP DAAC cloud environment that hosts earth observation data
+catalog = Client.open(f'{STAC_URL}/LPCLOUD/') 
+
+collections = ["OPERA_L3_DIST-ANN-HLS_V1"]
+
+# We would like to search data for August-September 2023
+date_range = f'{start_date.strftime("%Y-%m-%d")}/{stop_date.strftime("%Y-%m-%d")}'
+
+opts = {
+    'bbox' : ndiaye_senegal.bounds, 
+    'collections': collections,
+    'datetime' : date_range,
+}
+
+search = catalog.search(**opts)
+results = list(search.items_as_dicts())
+print(f"Number of tiles found intersecting given AOI: {len(results)}")
+```
+
+```python
+def urls_to_dataset(granule_dataframe):
+    '''method that takes in a list of OPERA tile URLs and returns an xarray dataset with dimensions
+    latitude, longitude and time'''
+
+    dataset_list = []
+    
+    for i, row in granule_dataframe.iterrows():
+        with rasterio.open(row.hrefs) as ds:
+            # extract CRS string
+            crs = str(ds.crs).split(':')[-1]
+
+            # extract the image spatial extent (xmin, ymin, xmax, ymax)
+            xmin, ymin, xmax, ymax = ds.bounds
+
+            # the x and y resolution of the image is available in image metadata
+            x_res = np.abs(ds.transform[0])
+            y_res = np.abs(ds.transform[4])
+
+            # read the data 
+            img = ds.read()
+
+            # Ensure img has three dimensions (bands, y, x)
+            if img.ndim == 2:
+                img = np.expand_dims(img, axis=0) 
+
+            
+
+        lon = np.arange(xmin, xmax, x_res)
+        lat = np.arange(ymax, ymin, -y_res)
+
+        lon_grid, lat_grid = np.meshgrid(lon, lat)
+
+        da = xr.DataArray(
+            data=img,
+            dims=["band", "y", "x"],
+            coords=dict(
+                lon=(["y", "x"], lon_grid),
+                lat=(["y", "x"], lat_grid),
+                time=i,
+                band=np.arange(img.shape[0])
+            ),
+            attrs=dict(
+                description="OPERA DIST ANN",
+                units=None,
+            ),
+        )
+        da.rio.write_crs(crs, inplace=True)
+
+        dataset_list.append(da)
+    return xr.concat(dataset_list, dim='time').squeeze()
+
+dataset= urls_to_dataset(granules)
 ```

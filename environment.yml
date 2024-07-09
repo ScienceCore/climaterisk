@@ -23,6 +23,8 @@ dependencies:
   - ipyleaflet
   - ipympl
   - ipython
+  - jupyterlab
+  - jupyter_bokeh
   - jupyter-book
   - jupyter-server-proxy[version='>=4.1.1']
   - jupyterhub-singleuser
