@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - book/**
-    branches: [ post_scipy_updates ]
+    branches: [ main ]
   workflow_dispatch:
     
 permissions:
