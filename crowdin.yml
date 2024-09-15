@@ -15,8 +15,8 @@ preserve_hierarchy: true
 # Files configuration
 #
 files:
-  - source: ./*.md
-    dest: ./%original_file_name%
+  - source: /*.md
+    dest: /%original_file_name%
     translation: /%locale%/%original_file_name%
   - source: /book/**/*.md
     dest: /book/**/%original_file_name%
