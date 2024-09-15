@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - book/**
+      - README.md
+      - CONTRIBUTING.md
+      - CONDUCT.md
     branches: [ main ]
   workflow_dispatch:
     
