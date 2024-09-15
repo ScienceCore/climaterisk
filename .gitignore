@@ -15,8 +15,8 @@ venv.bak/
 .netrc
 
 # Jupyter Notebook
-.ipynb_checkpoints
-book/*.ipynb
+**/.ipynb_checkpoints
+**/*.ipynb
 
 # Jupyter Book
 book/_build
