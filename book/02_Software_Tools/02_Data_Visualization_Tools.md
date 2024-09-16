@@ -41,14 +41,12 @@ from geoviews import opts
 ### Displaying a basemap
 
 <!-- #region jupyter={"source_hidden": true} -->
-- Principal utility is `gv.tile_sources`
-- Use the method `opts` to specify optional settings
-- Bokeh menu at right enables interactive exploration
+A *basemap* or *tile layer* is useful when displaying vector or raster data because it allows us to overlay the relevant geospatial data on a familar gepgraphical map as a background. The principal utility is we'll use is `gv.tile_sources`. We can use the method `opts` to specify additional confirguration settings. Below, we use the *Open Street Map (OSM)* Web Map Tile Service to create the object `basemap`. When we display the repr for this object in the notebook cell, the Bokeh menu at right enables interactive exploration.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 basemap = gv.tile_sources.OSM.opts(width=600, height=400)
-basemap
+basemap # When displayed, this basemap can be zoomed & panned using the menu at the right
 ```
 
 ### Plotting points
@@ -63,11 +61,7 @@ print(tokyo_lonlat)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-+ `geoviews.Points` accepts a list of tuples (each of the form `(x, y)`) to plot.
-+ Use the OpenStreetMap tiles from `gv.tile_sources.OSM` as a basemap.
-+ Overlay using the Holoviews operator `*`
-+ Define the options using `geoviews.opts`
-+ ? find a way to initialize the zoom level sensibly?
+The class `geoviews.Points` accepts a list of tuples (each of the form `(x, y)`)  & constructs a `Points` object that can be displayed. We can overlay the point created in the OpenStreetMap tiles from `basemap` using the `*` operator in Holoviews. We can also use `geoviews.opts` to set various display preferences for these points.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -77,6 +71,7 @@ point_opts = opts.Points(
                           alpha=0.5,
                           color='red'
                         )
+print(type(tokyo_point))
 ```
 
 ```python jupyter={"source_hidden": true}
@@ -98,31 +93,38 @@ point_opts = opts.Points(
   (assuming $x_{\mathrm{max}}>x_{\mathrm{min}}$ & $y_{\mathrm{max}}>y_{\mathrm{min}}$) is as a single 4-tuple
   $$(x_{\mathrm{min}},y_{\mathrm{min}},x_{\mathrm{max}},y_{\mathrm{max}}),$$
   i.e., the lower,left corner coordinates followed by the upper, right corner coordinates.
+
+  Let's create a simple function to generate a rectangle of a given width & height given the centre coordinate.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-# simple utility to make a rectangle of "half-width" dx & "half-height" dy & centred pt
-def bounds(pt,dx,dy):
+# simple utility to make a rectangle of width dx & height dy & centre pt
+def make_rect(pt,dx,dy):
     '''Returns rectangle represented as tuple (x_lo, y_lo, x_hi, y_hi)
-    given inputs pt=(x, y), half-width & half-height dx & dy respectively,
-    where x_lo = x-dx, x_hi=x+dx, y_lo = y-dy, y_hi = y+dy.
+    given inputs pt=(x, y), width & height dx & dy respectively,
+    where x_lo = x-dx/2, x_hi=x+dx/2, y_lo = y-dy/2, y_hi = y+dy/2.
     '''
-    return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx,dy)))
+    return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
+
+<!-- #region jupyter={"source_hidden": true} -->
+We can test the preceding function using the longitude-latitude coordinates of Marrakesh, Morocco.
+<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 # Verify that the function bounds works as intended
 marrakesh_lonlat = (-7.93, 31.67)
-dlon, dlat = 0.25, 0.25
-marrakesh_rect = bounds(marrakesh_lonlat, dlon, dlat)
+dlon, dlat = 0.5, 0.25
+marrakesh_rect = make_rect(marrakesh_lonlat, dlon, dlat)
 print(marrakesh_rect)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-+ `geoviews.Rectangles` accepts a list of bounding boxes (each described by a tuple of the form `(x_min, y_min, x_max, y_max)`) to plot.
+The utility `geoviews.Rectangles` accepts a list of bounding boxes (each described by a tuple of the form `(x_min, y_min, x_max, y_max)`) to plot. We can again use `geoviews.opts` to tailor the rectangle as needed.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
+rectangle = gv.Rectangles([marrakesh_rect])
 rect_opts = opts.Rectangles(
                                 line_width=0,
                                 alpha=0.25,
@@ -130,9 +132,25 @@ rect_opts = opts.Rectangles(
                             )
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
+We can plot a point for Marrakesh as before using `geoviews.Points` (customized using `geoviews.opts`).
+<!-- #endregion -->
+
 ```python jupyter={"source_hidden": true}
-rectangle = gv.Rectangles([marrakesh_rect])
-(basemap * rectangle).opts( rect_opts )
+marrakesh_point   = gv.Points([marrakesh_lonlat])
+point_opts = opts.Points(
+                          size=48,
+                          alpha=0.25,
+                          color='blue'
+                        )
+```
+
+<!-- #region jupyter={"source_hidden": true} -->
+Finally, we can overlay all these features on the basemap with the options applied.
+<!-- #endregion -->
+
+```python jupyter={"source_hidden": true}
+(basemap * rectangle * marrakesh_point).opts( rect_opts, point_opts )
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
