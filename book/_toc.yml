@@ -4,31 +4,25 @@
 format: jb-book
 root: intro
 parts:
-  - caption: Open Science
+  - caption: Introduction & Setup
     chapters:
-    - file: 01_Open_Science/Open_Science_Intro
+    - file: 00_Introduction_Setup/00_Getting_NASA_EarthData_Credentials.md
+    - file: 00_Introduction_Setup/01_Using_the_2i2c_Hub.md
+    - file: 00_Introduction_Setup/02_Introduction_to_Open_Science.md
 
-  - caption: Geospatial fundamentals
+  - caption: Geospatial Background
     chapters:
-    - file: 02_Geospatial_fundamentals/2_Selecting_an_AOI
-    - file: 02_Geospatial_fundamentals/remote-sensing
+    - file: 01_Geospatial_Background/01_Coordinate_systems.md
+    - file: 01_Geospatial_Background/02_Geospatial_data.md
+    - file: 01_Geospatial_Background/03_Geospatial_data_formats.md
 
-  - caption: Geospatial data files
+  - caption: Software Tools
     chapters:
-    - file: 03_Geospatial_data_files/geographic_data_formats
+    - file: 02_Software_Tools/01_Data_Manipulation_Tools.md
+    - file: 02_Software_Tools/02_Data_Visualization_Tools.md
 
-  - caption: NASA EarthData
+  - caption: Using NASA EarthData
     chapters:
-    - file: 04_NASA_Earthdata/0_Initial_Setup
-    - file: 04_NASA_Earthdata/0_Configuracion_inicial
-
-  - caption: Wildfire Analysis
-    chapters:
-    - file: 07_Wildfire_analysis/Retrieving_Disturbance_Data
-    - file: 07_Wildfire_analysis/Wildfire
-
-  - caption: Flood Analysis
-    chapters:
-    - file: 08_Flood_analysis/3_Retrieving_FloodData
-    - file: 08_Flood_analysis/flood
-  
+    - file: 03_Using_NASA_EarthData/01_Using_OPERA_DIST_Products.md
+    - file: 03_Using_NASA_EarthData/02_Using_OPERA_DSWx_Products.md
+    - file: 03_Using_NASA_EarthData/03_Using_PySTAC.md
