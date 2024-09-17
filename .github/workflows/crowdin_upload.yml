@@ -1,0 +1,37 @@
+name: Upload sources to Crowdin
+
+on:
+  push:
+    paths:
+      - book/**
+      - README.md
+      - CONTRIBUTING.md
+      - CONDUCT.md
+    branches: [ main ]
+  workflow_dispatch:
+    
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  synchronize-with-crowdin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Crowdin upload action
+        uses: crowdin/github-action@v1
+        with:
+          upload_sources: true
+          upload_translations: false
+          download_translations: false
+          localization_branch_name: l10n
+          crowdin_branch_name: climate_risk
+          config: ./crowdin.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
