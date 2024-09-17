@@ -98,9 +98,9 @@ print(type(tokyo_point))
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-# simple utility to make a rectangle of width dx & height dy & centre pt
-def make_rect(pt,dx,dy):
-    '''Returns rectangle represented as tuple (x_lo, y_lo, x_hi, y_hi)
+# simple utility to make a rectangle centered at pt of width dx & height dy
+def make_bbox(pt,dx,dy):
+    '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
     given inputs pt=(x, y), width & height dx & dy respectively,
     where x_lo = x-dx/2, x_hi=x+dx/2, y_lo = y-dy/2, y_hi = y+dy/2.
     '''
@@ -115,8 +115,8 @@ We can test the preceding function using the longitude-latitude coordinates of M
 # Verify that the function bounds works as intended
 marrakesh_lonlat = (-7.93, 31.67)
 dlon, dlat = 0.5, 0.25
-marrakesh_rect = make_rect(marrakesh_lonlat, dlon, dlat)
-print(marrakesh_rect)
+marrakesh_bbox = make_bbox(marrakesh_lonlat, dlon, dlat)
+print(marrakesh_bbox)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -124,10 +124,10 @@ The utility `geoviews.Rectangles` accepts a list of bounding boxes (each describ
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-rectangle = gv.Rectangles([marrakesh_rect])
+rectangle = gv.Rectangles([marrakesh_bbox])
 rect_opts = opts.Rectangles(
                                 line_width=0,
-                                alpha=0.25,
+                                alpha=0.1,
                                 color='red'
                             )
 ```

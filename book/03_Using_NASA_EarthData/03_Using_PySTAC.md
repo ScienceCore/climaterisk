@@ -68,7 +68,12 @@ Next, let's define search parameters so we can retrieve data pertinent to that f
 # Define AOI as left, bottom, ri/ght and top lat/lon extent
 aoi = (-59.63818, -35.02927, -58.15723, -33.77271)
 # We will search data for the month of March 2024
-date_range = '2024-03-01/2024-03-31'
+date_range = '2024-03-08/2024-03-15'
+# Define a dictionary with appropriate keys: 'bbox' and 'datetime'
+search_params = {
+                  'bbox' : aoi, 
+                  'datetime' : date_range,
+                }
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -77,7 +82,7 @@ Make a quick visual check that the tuple `aoi` actually describes the geographic
 
 ```python jupyter={"source_hidden": true}
 basemap = gv.tile_sources.OSM
-rect = gv.Rectangles(aoi).opts(opts.Rectangles(alpha=0.25, color='cyan'))
+rect = gv.Rectangles([aoi]).opts(opts.Rectangles(alpha=0.25, color='cyan'))
 
 rect*basemap
 ```
@@ -85,29 +90,26 @@ rect*basemap
 ## Executing a search with the PySTAC API
 
 ```python jupyter={"source_hidden": true}
-# We open a client instance to search for data, and retrieve relevant data records
+# Define the base URL for the STAC to search
 STAC_URL = 'https://cmr.earthdata.nasa.gov/stac'
+# Update the dictionary opts with list of collections to search
+collections = ["OPERA_L3_DSWX-HLS_V1_1.0"]
+search_params.update(collections=collections)
+print(search_params)
+```
 
-# Setup PySTAC client
+<!-- #region jupyter={"source_hidden": true} -->
+Having defined the search parameters, we can instantiate a `Client` and search the spatio-temporal asset catalog.
+<!-- #endregion -->
+
+```python jupyter={"source_hidden": true}
+# We open a client instance to search for data, and retrieve relevant data records
 catalog = Client.open(f'{STAC_URL}/POCLOUD/')
-collections = ["OPERA_L3_DSWX-HLS_V1"]
+search_results = catalog.search(**search_params)
 
-# We would like to search data using the search parameters defined above.
-opts = {
-    'bbox' : aoi, 
-    'collections': collections,
-    'datetime' : date_range,
-}
+print(f'{type(search_results)=}')
 
-search = catalog.search(**opts)
-```
-
-```python jupyter={"source_hidden": true}
-print(f'{type(search)=}')
-```
-
-```python jupyter={"source_hidden": true}
-results = list(search.items_as_dicts())
+results = list(search_results.items_as_dicts())
 print(f"Number of tiles found intersecting given bounding box: {len(results)}")
 ```
 
@@ -180,7 +182,7 @@ granules
 Examining the index reveals that the timestamps of the granules returned are not unique, i.e., granules correspond to distinct data products deriveded during a single aerial acquisition by a satellite.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python
 len(granules.index.unique()) / len(granules) # Notice the timestamps are not all unique, i.e., some are repeated
 ```
 
