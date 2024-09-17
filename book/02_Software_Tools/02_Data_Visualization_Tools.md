@@ -41,7 +41,7 @@ from geoviews import opts
 ### Displaying a basemap
 
 <!-- #region jupyter={"source_hidden": true} -->
-A *basemap* or *tile layer* is useful when displaying vector or raster data because it allows us to overlay the relevant geospatial data on a familar gepgraphical map as a background. The principal utility is we'll use is `gv.tile_sources`. We can use the method `opts` to specify additional confirguration settings. Below, we use the *Open Street Map (OSM)* Web Map Tile Service to create the object `basemap`. When we display the repr for this object in the notebook cell, the Bokeh menu at right enables interactive exploration.
+A *basemap* or *tile layer* is useful when displaying vector or raster data because it allows us to overlay the relevant geospatial data on a familar geographical map as a background. The principal utility is we'll use is `gv.tile_sources`. We can use the method `opts` to specify additional confirguration settings. Below, we use the *Open Street Map (OSM)* Web Map Tile Service to create the object `basemap`. When we display the repr for this object in the notebook cell, the Bokeh menu at right enables interactive exploration.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
