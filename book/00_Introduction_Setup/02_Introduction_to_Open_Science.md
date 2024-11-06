@@ -12,12 +12,12 @@ jupyter:
     name: python3
 ---
 
-# About this tutorial
+# Introduction to Open Science
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 This tutorial is part of a project which focuses on leveraging the vast amount of Earth science data available through the NASA Earthdata Cloud to better understand and forecast environmental risks such as wildfire, drought, and floods. At its core, this project embodies the principles of open science, aiming to make data, methods, and findings accessible to all. 
 We aim to equip learners with the skills to analyze, visualize, and report on data related to these critical environmental risks through open science-based workflows and the use of cloud-based data computing.
-
+<!-- #endregion -->
 
 ## What is Open Science
 

@@ -30,6 +30,9 @@ import rioxarray as rio
 import rasterio
 ```
 
+---
+
+
 ## [rioxarray](https://corteva.github.io/rioxarray/html/index.html)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -40,6 +43,9 @@ import rasterio
 
 To get used to working with GeoTIFF files, we'll use a specific example in this notebook. We'll explain more about what kind of data is contained within the file later; for now, we want to get used to the tools we'll use to load such data throughout the tutorial.
 <!-- #endregion -->
+
+---
+
 
 ### Loading files into a DataArray
 
@@ -64,15 +70,23 @@ da_remote = rio.open_rasterio(REMOTE_URL)
 This next operation compares elements of an Xarray `DataArray` elementwise (the use of the `.all` method is similar to what we would do to compare NumPy arrays). This is generally not an advisable way to compare arrays, series, dataframes, or other large data structures that contain many elements. However, in this particular instance, because the two data structures have been read from the same file stored in two different locations, element-by-element comparison in memory confirms that the data loaded from two different sources is identical in every bit.
 <!-- #endregion -->
 
-```python
+```python jupyter={"source_hidden": true}
 (da_remote == da).all() # Verify that the data is identical from both sources
 ```
+
+---
+
 
 ## [Xarray](https://docs.xarray.dev/en/stable/index.html)
 
 <!-- #region jupyter={"source_hidden": true} -->
+<center><img src="https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg"></img></center>
+
 Let's examine the data structure loaded above from the file `LOCAL_PATH`.
 <!-- #endregion -->
+
+---
+
 
 ### Examining the rich DataArray repr
 
@@ -86,6 +100,9 @@ Observe, in this notebook, the `repr` for an Xarray `DataArray` can be interacti
 print(f'{type(da)=}\n')
 da
 ```
+
+---
+
 
 ### Examining DataArray attributes programmatically
 
@@ -121,6 +138,9 @@ print(da.coords['x'].values)
 da.attrs
 ```
 
+---
+
+
 ### Using the DataArray rio accessor
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -149,6 +169,9 @@ From [Wikipedia](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset):
 > EPSG Geodetic Parameter Dataset (also EPSG registry) is a public registry of [geodetic datums](https://en.wikipedia.org/wiki/Geodetic_datum), [spatial reference systems](https://en.wikipedia.org/wiki/Spatial_reference_system), [Earth ellipsoids](https://en.wikipedia.org/wiki/Earth_ellipsoid), coordinate transformations and related [units of measurement](https://en.wikipedia.org/wiki/Unit_of_measurement), originated by a member of the [European Petroleum Survey Group](https://en.wikipedia.org/wiki/European_Petroleum_Survey_Group) (EPSG) in 1985. Each entity is assigned an EPSG code between 1024 and 32767, along with a standard machine-readable [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems) representation. The dataset is maintained by the [IOGP](https://en.wikipedia.org/wiki/International_Association_of_Oil_%26_Gas_Producers) Geomatics Committee. 
 <!-- #endregion -->
 
+---
+
+
 ### Manipulating data in a DataArray
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -159,7 +182,7 @@ Given that this data is stored using a particular [Universal Transverse Mercator
 da = da.rename({'x':'easting', 'y':'northing', 'band':'band'})
 ```
 
-```python
+```python jupyter={"source_hidden": true}
 print(da.coords)
 ```
 
@@ -186,6 +209,9 @@ da.isel(band=0).plot();
 <!-- #region jupyter={"source_hidden": true} -->
 The plot produced is rather dark (reflecting that most of the entries are zero according to the legend). Notice that the axes are labelled automatically using the `coords` we renamed before.
 <!-- #endregion -->
+
+---
+
 
 ### Extracting DataArray data to NumPy, Pandas
 
@@ -214,6 +240,9 @@ s_flat.sort_index()
 Most of the entries in this raster array are zero. The numerical values vary between 0 and 100 with the exception of some 1,700 pixels with the value 255. This will make more sense when we discuss the DIST data product specification.
 <!-- #endregion -->
 
+---
+
+
 ## [rasterio](https://rasterio.readthedocs.io/en/stable)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -227,6 +256,9 @@ From the [Rasterio documentation](https://rasterio.readthedocs.io/en/stable):
 >
 >High performance, lower cognitive load, cleaner and more transparent code. This is what Rasterio is about.
 <!-- #endregion -->
+
+---
+
 
 ### Opening files with rasterio.open
 
@@ -277,6 +309,9 @@ The principal advantage of using `rasterio.open` rather than `rioxarray.open_ras
 By contrast, using `rasterio.open` merely opens the file in place and its contents can be examined *without* immediately loading its contents into memory. This makes a lot of difference when working with remote data; transferring the entire contents across a network takes time. If we examine the meta-data—which is typically much smaller and can be transferred quickly—we may find, e.g., that the contents of the file do not warrant moving arrays of data across the network.
 <!-- #endregion -->
 
+---
+
+
 ### Examining DatasetReader attributes
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -312,6 +347,9 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform=}')
 ```
 
+---
+
+
 ### Reading data into memory
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -332,13 +370,16 @@ with rasterio.open(REMOTE_URL) as ds:
     print(f'{array.shape=}')
 ```
 
-```python
+```python jupyter={"source_hidden": true}
 print(f'{type(array)=}')
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
 The array loaded into memory with `ds.read` is a NumPy array. This can be wrapped by an Xarray `DataArray` if we provide additional code to specify the coordinate labels and so on.
 <!-- #endregion -->
+
+---
+
 
 ### Mapping coordinates
 
@@ -438,3 +479,5 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(ds.xy(-0.5,-0.5))         # Same as above
     print(ds.transform[0], ds.transform[4])
 ```
+
+---
