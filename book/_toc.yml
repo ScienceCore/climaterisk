@@ -26,3 +26,7 @@ parts:
     - file: 03_Using_NASA_EarthData/01_Using_OPERA_DIST_Products.md
     - file: 03_Using_NASA_EarthData/02_Using_OPERA_DSWx_Products.md
     - file: 03_Using_NASA_EarthData/03_Using_PySTAC.md
+
+  - caption: Case Studies
+    chapters:
+    - file: 04_Case_Studies/01_Greece_Wildfires.md

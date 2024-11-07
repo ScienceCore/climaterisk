@@ -18,9 +18,15 @@ jupyter:
 The primary tools we'll use for plotting come from the [Holoviz](https://holoviz.org/) family of Python libraries, principally [GeoViews](https://geoviews.org/) and [hvPlot](https://hvplot.holoviz.org/). These are largely built on top of [HoloViews](https://holoviews.org/) and support multiple backends for rendering plots (notably [Bokeh](http://bokeh.pydata.org/) for interactive visualization and [Matplotlib](http://matplotlib.org/) for static, publication-quality plots).
 <!-- #endregion -->
 
+---
+
+
 ## [GeoViews](https://geoviews.org/)
 
 <!-- #region jupyter={"source_hidden": true} -->
+<center><img src="https://geoviews.org/_static/logo_horizontal.png"></img>
+</center>
+
 From the [GeoViews documentation](https://geoviews.org/index.html):
 
 > GeoViews is a [Python](http://python.org/) library that makes it easy to explore and visualize geographical, meteorological, and oceanographic datasets, such as those used in weather, climate, and remote sensing research.
@@ -32,22 +38,29 @@ From the [GeoViews documentation](https://geoviews.org/index.html):
 import warnings
 warnings.filterwarnings('ignore')
 from pathlib import Path
+from pprint import pprint
 
 import geoviews as gv
 gv.extension('bokeh')
 from geoviews import opts
 ```
 
+---
+
+
 ### Displaying a basemap
 
 <!-- #region jupyter={"source_hidden": true} -->
-A *basemap* or *tile layer* is useful when displaying vector or raster data because it allows us to overlay the relevant geospatial data on a familar geographical map as a background. The principal utility is we'll use is `gv.tile_sources`. We can use the method `opts` to specify additional confirguration settings. Below, we use the *Open Street Map (OSM)* Web Map Tile Service to create the object `basemap`. When we display the repr for this object in the notebook cell, the Bokeh menu at right enables interactive exploration.
+A *basemap* or *tile layer* is useful when displaying vector or raster data because it allows us to overlay the relevant geospatial data on a familar gepgraphical map as a background. The principal utility is we'll use is `gv.tile_sources`. We can use the method `opts` to specify additional confirguration settings. Below, we use the *Open Street Map (OSM)* Web Map Tile Service to create the object `basemap`. When we display the repr for this object in the notebook cell, the Bokeh menu at right enables interactive exploration.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 basemap = gv.tile_sources.OSM.opts(width=600, height=400)
 basemap # When displayed, this basemap can be zoomed & panned using the menu at the right
 ```
+
+---
+
 
 ### Plotting points
 
@@ -85,10 +98,13 @@ print(type(tokyo_point))
 (basemap * tokyo_point).opts(point_opts, opts.Overlay(global_extent=True))
 ```
 
+---
+
+
 ### Plotting rectangles
 
 <!-- #region jupyter={"source_hidden": true} -->
-+ Standard way to represent rectangle with corners
++ Standard way to represent rectangle (also called a *bounding box*) with corners
   $$(x_{\mathrm{min}},y_{\mathrm{min}}), (x_{\mathrm{min}},y_{\mathrm{max}}), (x_{\mathrm{max}},y_{\mathrm{min}}), (x_{\mathrm{max}},y_{\mathrm{max}})$$
   (assuming $x_{\mathrm{max}}>x_{\mathrm{min}}$ & $y_{\mathrm{max}}>y_{\mathrm{min}}$) is as a single 4-tuple
   $$(x_{\mathrm{min}},y_{\mathrm{min}},x_{\mathrm{max}},y_{\mathrm{max}}),$$
@@ -100,7 +116,7 @@ print(type(tokyo_point))
 ```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle centered at pt of width dx & height dy
 def make_bbox(pt,dx,dy):
-    '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
+    '''Returns bounding box represented as tuple (x_lo, y_lo, x_hi, y_hi)
     given inputs pt=(x, y), width & height dx & dy respectively,
     where x_lo = x-dx/2, x_hi=x+dx/2, y_lo = y-dy/2, y_hi = y+dy/2.
     '''
@@ -155,16 +171,23 @@ Finally, we can overlay all these features on the basemap with the options appli
 
 <!-- #region jupyter={"source_hidden": true} -->
 We'll use the approach above to visualize *Areas of Interest (AOIs)* when constructing search queries for NASA EarthData products. In particular, the convention of representing a bounding box by (left, lower, right, upper) ordinates is also used in the [PySTAC](https://pystac.readthedocs.io/en/stable/) API.
+<!-- #endregion -->
 
 ---
-<!-- #endregion -->
+
 
 ## [hvPlot](https://hvplot.holoviz.org/)
 
 <!-- #region jupyter={"source_hidden": true} -->
+<center><img src="https://hvplot.holoviz.org/_images/diagram.svg"></img>
+</center>
+
 + [hvPlot](https://hvplot.holoviz.org/) is designed to extend the `.plot` API from Pandas DataFrames.
 + It works for Pandas DataFrames and Xarray DataArrays/Datasets.
 <!-- #endregion -->
+
+---
+
 
 ### Plotting from a DataFrame with hvplot.pandas
 
@@ -182,6 +205,9 @@ LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'temperature.csv'
 df = pd.read_csv(LOCAL_PATH, index_col=0, parse_dates=[0])
 df.head()
 ```
+
+---
+
 
 #### Reviewing the Pandas DataFrame.plot API
 
@@ -201,6 +227,9 @@ The Pandas DataFrame `.plot` API provides access to a number of plotting methods
 ```python jupyter={"source_hidden": true}
 west_coast.plot.line(); # This produces a static Matplotlib plot
 ```
+
+---
+
 
 #### Using the hvPlot DataFrame.hvplot API
 
@@ -229,6 +258,9 @@ The `hvplot` API also works when chained together with other DataFrame method ca
 smoothed = west_coast.resample('2d').mean()
 smoothed.hvplot.line(width=600, height=300, grid=True)
 ```
+
+---
+
 
 ### Plotting from a DataArray with hvplot.xarray
 
@@ -265,6 +297,9 @@ data = data.rename({'x':'easting', 'y':'northing'})
 data
 ```
 
+---
+
+
 #### Reviewing the Xarray DataArray.plot API
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -274,6 +309,9 @@ The `DataArray.plot` API by default uses Matplotlib's `pcolormesh` to display a 
 ```python jupyter={"source_hidden": true}
 data.plot(); # by default, uses pcolormesh
 ```
+
+---
+
 
 #### Using the hvPlot DataArray.hvplot API
 
@@ -291,14 +329,18 @@ plot
 The result above is an interactive plot, rendered using Bokeh.It's a bit slow, but we can add some options to speed up rendering. It also requires cleaning up; for instance, the image is not square, the colormap does not highlight useful features, the axes are transposed, and so on.
 <!-- #endregion -->
 
+---
+
+
 #### Building up options incrementally to improve plots
 
 <!-- #region jupyter={"source_hidden": true} -->
 Let's add options to improve the image. To do this, we'll initialize a Python dictionary `image_opts` to use within the call to the `image` method. We'll use the `dict.update` method to add key-value pairs to the dictionary incrementally, each time improving the output image.
 <!-- #endregion -->
 
-```python
+```python jupyter={"source_hidden": true}
 image_opts = dict(rasterize=True, dynamic=True)
+pprint(image_opts)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -316,7 +358,7 @@ Next, let's fix the aspect ratio and image dimensions.
 
 ```python jupyter={"source_hidden": true}
 image_opts.update(frame_width=500, frame_height=500, aspect='equal')
-
+pprint(image_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
 plot
 ```
@@ -327,6 +369,7 @@ The image colormap is a bit unpleasant; let's change it and use transparency (`a
 
 ```python jupyter={"source_hidden": true}
 image_opts.update( cmap='hot_r', clim=(0,100), alpha=0.8 )
+pprint(image_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
 plot
 ```
@@ -346,15 +389,19 @@ We can use the CRS recovered above as an optional argument to `hvplot.image`. No
 
 ```python jupyter={"source_hidden": true}
 image_opts.update(crs=crs)
-
+pprint(image_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
 plot
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Let's now fix the labels. We'll use the Holoviews/GeoViews `opts` system to specify these options.
+<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 label_opts = dict(title='VEG_ANOM_MAX', xlabel='Longitude (degrees)', ylabel='Latitude (degrees)')
+pprint(image_opts)
+pprint(label_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts).opts(**label_opts)
 plot
 ```
@@ -380,3 +427,5 @@ plot * base
 <!-- #region jupyter={"source_hidden": true} -->
 In this notebook, we applied some common strategies to generate plots. We'll use these extensively in the rest of the tutorial.
 <!-- #endregion -->
+
+---
