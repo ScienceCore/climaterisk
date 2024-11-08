@@ -1,9 +1,6 @@
 # NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud
 
->[!WARNING]
->Repo not in use and for testing only. 
-
-![banner](assets/banner.jpg)
+![banner](book/assets/banner.jpg)
 
 Using NASA Earthdata Cloud data to assess the risk of wildfire, drought, and flood.
 
