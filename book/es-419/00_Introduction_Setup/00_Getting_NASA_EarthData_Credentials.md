@@ -6,7 +6,7 @@ En este cuaderno se describe el proceso para obtener las credenciales de NASA Ea
 
 ## Breve introducción
 
-El programa [Sistemas de datos científicos de la Tierra (ESDS, por sus siglas en inglés) de la NASA] supervisa el ciclo de vida de los datos científicos de la Tierra en todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.
+El programa [Sistemas de datos científicos de la Tierra (ESDS, por sus siglas en inglés) de la NASA](https://www.earthdata.nasa.gov/) supervisa el ciclo de vida de los datos científicos de la Tierra en todas sus misiones de observación de la Tierra, desde su adquisición hasta su procesamiento y distribución.
 
 Para fines de esta guía, el sitio web NASA Earthdata es el punto de entrada que permite el acceso completo, gratuito y abierto a las colecciones de datos de ciencias de la Tierra de la NASA, con el fin de acelerar el progreso científico en beneficio de la sociedad. Para acceder a los datos mediante este portal, los usuarios deben definir primero sus credenciales de acceso. Para crear una cuenta en EarthData, sigue estos pasos:
 
