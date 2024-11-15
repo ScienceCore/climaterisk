@@ -13,8 +13,8 @@ parts:
   - caption: Geospatial Background
     chapters:
     - file: 01_Geospatial_Background/01_Coordinate_systems.md
-    - file: 01_Geospatial_Background/02_Geospatial_data.md
-    - file: 01_Geospatial_Background/03_Geospatial_data_formats.md
+    - file: 01_Geospatial_Background/02_Working_with_Raster_Data.md
+    - file: 01_Geospatial_Background/03_Working_with_Vector_Data.md
 
   - caption: Software Tools
     chapters:

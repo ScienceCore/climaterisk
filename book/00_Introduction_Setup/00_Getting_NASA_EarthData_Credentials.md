@@ -9,11 +9,11 @@ This notebook lays out the process to obtain for NASA Earthdata credentials.
 ## Brief Introduction
 
 
-The [NASA Earth Science Data Systems (ESDS) program oversees the lifecycle of Earth science data from all its Earth observation missions, from acquisition to processing and distribution.
+The [NASA Earth Science Data Systems (ESDS)](https://www.earthdata.nasa.gov/) program oversees the lifecycle of Earth science data from all its Earth observation missions, from acquisition to processing and distribution.
 
 For the purposes of this guide, the NASA Earthdata website is the entry point that allows full, free and open access to NASA's Earth science data collections, in order to accelerate scientific progress for the benefit of society. To access the data through this portal, users must first define their access credentials. To create an EarthData account, follow these steps:
 
-+ Go to the Earth Nasa website: [`https://www.earthdata.nasa.gov/`](https://www.earthdata.nasa.gov/). Then, select the menu options "*Use Data*" and then "*Register*". Finally, navigate to [`https://urs.earthdata.nasa.gov/`](https://urs.earthdata.nasa.gov/).
++ Go to the Earth Nasa website: [`https://www.earthdata.nasa.gov/`](https://www.earthdata.nasa.gov/). Then, select the menu option "*Use Data*" and then "*Register*". Finally, navigate to [`https://urs.earthdata.nasa.gov/`](https://urs.earthdata.nasa.gov/).
 
 ![earthdata_login](../assets/earthdata_login.png) 
 
