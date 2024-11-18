@@ -12,7 +12,7 @@ jupyter:
     name: python3
 ---
 
-# Data Visualization
+# Data Visualization with GeoViews & HvPlot
 
 <!-- #region jupyter={"source_hidden": true} -->
 The primary tools we'll use for plotting come from the [Holoviz](https://holoviz.org/) family of Python libraries, principally [GeoViews](https://geoviews.org/) and [hvPlot](https://hvplot.holoviz.org/). These are largely built on top of [HoloViews](https://holoviews.org/) and support multiple backends for rendering plots (notably [Bokeh](http://bokeh.pydata.org/) for interactive visualization and [Matplotlib](http://matplotlib.org/) for static, publication-quality plots).
