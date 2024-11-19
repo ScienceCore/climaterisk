@@ -16,10 +16,12 @@ parts:
     - file: 01_Geospatial_Background/02_Working_with_Raster_Data.md
     - file: 01_Geospatial_Background/03_Working_with_Vector_Data.md
 
-  - caption: Software Tools
+  - caption: Software Tools & Techniques
     chapters:
-    - file: 02_Software_Tools/01_Data_Manipulation_Tools.md
-    - file: 02_Software_Tools/02_Data_Visualization_Tools.md
+    - file: 02_Software_Tools_Techniques/01_Loading_Raster_Data_from_GeoTIFF_Files.md
+    - file: 02_Software_Tools_Techniques/02_Array_Manipulation_with_Xarray.md
+    - file: 02_Software_Tools_Techniques/03_Data_Visualization_with_GeoViews_HvPlot.md
+    - file: 02_Software_Tools_Techniques/04_Constructing_Advanced_Visualizations.md
 
   - caption: Using NASA EarthData
     chapters:
