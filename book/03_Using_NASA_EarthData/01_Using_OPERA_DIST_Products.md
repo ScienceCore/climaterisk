@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.2
+      jupytext_version: 1.16.4
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -43,10 +43,10 @@ That is, OPERA is a NASA initiative that takes, e.g., optical or radar remote-se
 ## The OPERA Land Surface Disturbance (DIST) product
 
 <!-- #region editable=true jupyter={"source_hidden": true} slideshow={"slide_type": ""} -->
-One of these OPERA data products is the *Land Surface Disturbance (DIST)* product (more fully described in the [OPERA DIST HLS product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/OPERA_DIST_HLS_Product_Specification_V1.pdf)).
-The DIST product maps *vegetation disturbance* (specifically, vegetation cover loss per HLS pixel whenever there is an indicated decrease) from Harmonized Landsat-8 and Sentinel-2 A/B (HLS) scenes. One application of this data is to quantify damage due to *wildfires in forests*. The DIST_ALERT product is released at regular intervals (the same cadence of HLS imagery, roughly every 12 days over a given tile/region); the DIST_ANN product summarizes disturbance measurements over a year.
+One of the OPERA data products is the *Land Surface Disturbance (DIST)* product (more fully described in the [OPERA DIST HLS product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/OPERA_DIST_HLS_Product_Specification_V1.pdf)).
+The DIST products map *vegetation disturbance* (specifically, vegetation cover loss per HLS pixel whenever there is an indicated decrease) from Harmonized Landsat-8 and Sentinel-2 A/B (HLS) scenes. One application of this data is to quantify damage due to *wildfires in forests*. The DIST_ALERT product is released at regular intervals (the same cadence of HLS imagery, roughly every 12 days over a given tile/region); the DIST_ANN product summarizes disturbance measurements over a year.
 
-The DIST products quanitfy surface reflectance (SR) data acquired from the Operational Land Imager (OLI) aboard the Landsat-8 remote sensing satellite and the Multi-Spectral Instrument (MSI) aboard the Sentinel-2 A/B remote-sensing satellite. The HLS DIST data products are raster data files, each associated with tiles of the Earth's surface. Each tile is represented using projected map coordinates aligned with the [*Military Grid Reference System (MGRS)*](https://en.wikipedia.org/wiki/Military_Grid_Reference_System). Each tile covers 109.8 $km^2$ divided into 3660 rows and 3660 columns at 30 meter pixel spacing with tiles overlapping neighbors by 4900 meters in each direction (the details are fully described in the [DIST product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/OPERA_DIST_HLS_Product_Specification_V1.pdf)).
+The DIST products quantify surface reflectance (SR) data acquired from the Operational Land Imager (OLI) aboard the Landsat-8 remote sensing satellite and the Multi-Spectral Instrument (MSI) aboard the Sentinel-2 A/B remote-sensing satellite. The HLS DIST data products are raster data files, each associated with tiles of the Earth's surface. Each tile is represented using projected map coordinates aligned with the [*Military Grid Reference System (MGRS)*](https://en.wikipedia.org/wiki/Military_Grid_Reference_System). Each tile is divided into 3,660 rows and 3,660 columns at 30 meter pixel spacing (so a tile is $109.8\,\mathrm{km}$ long on each side). Neighboring tiles overlap by 4,900 meters in each direction (the details are fully described in the [DIST product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/OPERA_DIST_HLS_Product_Specification_V1.pdf)).
 
 The OPERA DIST products are distributed as [Cloud Optimized GeoTIFFs](https://www.cogeo.org/); in practice, this means that different bands are stored in distinct TIFF files. The TIFF specification does permit storage of multidimensional arrays in a single file; storing distinct *bands* in distinct TIFF files allows files to be downloaded independently.
 <!-- #endregion -->
@@ -58,9 +58,9 @@ The OPERA DIST products are distributed as [Cloud Optimized GeoTIFFs](https://ww
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
-Let's examine a local file with an example of DIST-ALERT data. The file contains the first band of disturbance data: the *maximum vegetation loss anomaly*. For each pixel, this is a value between 0% and 100% representing the percentage difference between current observed vegetation cover and a historical reference value. That is, a value of 100 corresponds to complete loss of vegetation within a pixel and a value of 0 corresponds to no loss of vegetation. The pixel values are stored as 8-bit unsigned integers (UInt8) because the pixel values need only range between 0 and 100. A pixel value of 255 indicates missing data, namely that the HLS data was unable to distill a maximum vegetation anomaly value for that pixel. Of course, using 8-bit unsigned integer data is a lot more efficient for storage and for transmitting data across a network (as compared to, e.g., 32- or 64-bit floating-point data).
+Let's examine a local file with an example of DIST-ALERT data. The file contains the first band of disturbance data: the *maximum vegetation loss anomaly*. For each pixel, this is a value between 0% and 100% representing the percentage difference between current observed vegetation cover and a historical reference value. That is, a value of 100 corresponds to complete loss of vegetation within a pixel and a value of 0 corresponds to no loss of vegetation. The pixel values are stored as 8-bit unsigned integers (UInt8) because the pixel values need only range between 0 and 100. A pixel value of 255 indicates missing data, i.e., the HLS data was unable to determine a maximum vegetation anomaly value for that pixel. Of course, using 8-bit unsigned integer data is a lot more efficient for storage and for transmitting data across a network (as compared to, e.g., 32- or 64-bit floating-point data).
 
-Let's begin by importing the required libraries. Notice we're also pulling in some classes from the Bokeh library to make interactive plots a little nicer.
+Let's begin by importing the required libraries. Notice we're also pulling in the `FixedTicker` class from the Bokeh library to make interactive plots a little nicer.
 <!-- #endregion -->
 
 ```python editable=true jupyter={"source_hidden": true} slideshow={"slide_type": ""}
@@ -69,18 +69,18 @@ import warnings
 warnings.filterwarnings('ignore')
 from pathlib import Path
 import rioxarray as rio
-import hvplot.xarray
-from bokeh.models import FixedTicker
 import geoviews as gv
 gv.extension('bokeh')
+import hvplot.xarray
+from bokeh.models import FixedTicker
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-We'll read the data from a local file `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'`. Before loading it, let's examine the meta-data embedded in the filename.
+We'll read the data from a local file `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'`. Before loading the data, let's examine the metadata embedded in the filename.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 filename = LOCAL_PATH.name
 print(filename)
 ```
@@ -106,7 +106,7 @@ OPERA product files have a particular naming scheme (as described in the [DIST p
 1. *ProductVersion*: `v0.1`; and
 1. *LayerName*: `VEG-ANOM-MAX`
 
-Notice that naming conventions like this one are used by NASA's [Earthdata Search](https://search.earthdata.nasa.gov) to pull data meaningfully from [SpatioTemporal Asset Catalogs (STAC)](https://stacspec.org/). Later on, we'll use these fields — in particular the *TileID* & *LayerName* fields — to filter search results before retrieving remote data.
+Notice that naming conventions like this one are used by NASA's [Earthdata Search](https://search.earthdata.nasa.gov) to pull data meaningfully from [SpatioTemporal Asset Catalogs (STACs)](https://stacspec.org/). Later on, we'll use these fields&mdash;in particular the *TileID* & *LayerName* fields&mdash;to filter search results before retrieving remote data.
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -116,7 +116,7 @@ Let's load the data from this local file into an Xarray `DataArray` using `rioxa
 ```python jupyter={"source_hidden": true}
 data = rio.open_rasterio(LOCAL_PATH)
 crs = data.rio.crs
-data = data.rename({'x':'easting', 'y':'northing', 'band':'band'}).squeeze()
+data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
 ```python jupyter={"source_hidden": true}
@@ -133,7 +133,7 @@ Before generating a plot, let's create a basemap using [ESRI](https://en.wikiped
 
 ```python jupyter={"source_hidden": true}
 # Creates basemap
-base = gv.tile_sources.ESRI.opts(width=1000, height=1000, padding=0.1)
+base = gv.tile_sources.ESRI.opts(width=750, height=750, padding=0.1)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -142,8 +142,8 @@ We'll also use dictionaries to capture the bulk of the plotting options we'll us
 
 ```python jupyter={"source_hidden": true}
 image_opts = dict(
-                    x='easting',
-                    y='northing',                   
+                    x='longitude',
+                    y='latitude',                   
                     rasterize=True, 
                     dynamic=True,
                     frame_width=500, 
@@ -160,7 +160,7 @@ layout_opts = dict(
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Finally, we'll use the `DataArray.where` method to filter out missing pixels and the pixels that saw no change in vegetation, and we'll modify the options in `image_opts` and `layout_opts` to values particular to this dataset.
+Finally, we'll use the `DataArray.where` method to filter out missing pixels and the pixels that saw no change in vegetation; these pixel values will be reassigned as `nan` so they will be transparent when the raster is plotted. We'll also modify the options in `image_opts` and `layout_opts` slightly.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -170,7 +170,7 @@ layout_opts.update(title=f"VEG_ANOM_MAX")
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-This allows us to generate a meaningful plot.
+These changes allow us to generate a meaningful plot.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -178,7 +178,7 @@ veg_anom_max.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-In the resulting plot, the white and yellow pixels correspond to regions in which some deforestation has occurred, but not much. By contrast, the dark and black pixels correspond to regions that have lost almost all vegetation.
+In the resulting plot, the white and yellow pixels correspond to regions in which some deforestation has occurred, but not much. By contrast, the darker red, orange, and black pixels correspond to regions that have lost significantly more or almost all vegetation.
 <!-- #endregion -->
 
 ---
@@ -195,9 +195,9 @@ We'll load and relabel the `DataArray` as before.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
+LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
 data = rio.open_rasterio(LOCAL_PATH)
-data = data.rename({'x':'easting', 'y':'northing', 'band':'band'}).squeeze()
+data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -257,14 +257,16 @@ A pixel value is flagged *provisionally* changed when the vegetation cover loss 
 
 <!-- #region editable=true jupyter={"source_hidden": true} slideshow={"slide_type": ""} -->
 We can use a local file as an example of this particular layer/band of the DIST-ALERT data. The code is the same as above, but do observe:
-+ the data filtered reflects the meaning pixel values for this layer (i.e., `data<0` and `data<5`); and
++ the data filtered reflects the meaning pixel values for this layer (i.e., `data>0` and `data<5`); and
 + the limits on the colormap are reassigned accordingly (i.e., from 0 to 4).
++ 
+Notice the use of the `FixedTicker` in defining a colorbar better suited for a discrete (i.e., categorical) colormap.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
+LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
 data = rio.open_rasterio(LOCAL_PATH)
-data = data.rename({'x':'easting', 'y':'northing', 'band':'band'}).squeeze()
+data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
 ```python jupyter={"source_hidden": true}
