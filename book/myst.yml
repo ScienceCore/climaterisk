@@ -21,7 +21,7 @@ project:
         - pattern: 02_Software_Tools_Techniques/*.md
     - title: Using NASA EarthData
       children:
-        - file: 03_Using_NASA_Earthdata/*.md
+        - file: 03_Using_NASA_EarthData/*.md
     - title: Case Studies
       children:
         - file: 04_Case_Studies/*.md
