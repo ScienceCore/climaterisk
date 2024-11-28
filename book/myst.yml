@@ -5,9 +5,6 @@ project:
   authors:
     - name: 2i2c / MetaDocencia
   github: ScienceCore/climaterisk
-  jupyter:
-     binder:
-       url: https://binder.opensci.2i2c.cloud/
   toc:
     - file: intro.md
     - title: Setup
