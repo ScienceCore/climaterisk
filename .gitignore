@@ -18,5 +18,5 @@ venv.bak/
 **/.ipynb_checkpoints
 **/*.ipynb
 
-# Jupyter Book
-book/_build
+# MyST build outputs
+**/_build
