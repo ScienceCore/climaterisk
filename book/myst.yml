@@ -1,19 +1,21 @@
 version: 1
 project:
   title: >-
-    Reproducibly Analysing Wildfire, Drought, and Flood Risk with NASA Earthdata
-    Cloud
+    Determining Climate Risks with NASA EarthData Cloud
   authors:
     - name: 2i2c / MetaDocencia
   github: ScienceCore/climaterisk
+  jupyter:
+     binder:
+       url: https://binder.opensci.2i2c.cloud/
   toc:
     - file: intro.md
     - title: Setup
       children:
         - pattern: 00_Introduction_Setup/*.md    
-    # - title: Geospatial Background
-    #   children:
-    #     - pattern: 01_Geospatial_Background/*.md
+    - title: Geospatial Background
+      children:
+        - pattern: 01_Geospatial_Background/*.md
     # - title: Geospatial fundamentals
     #   children:
     #     - pattern: 02_Software_Tools_Techniques/*.md
