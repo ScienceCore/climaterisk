@@ -21,10 +21,10 @@ project:
         - pattern: 02_Software_Tools_Techniques/*.md
     - title: Using NASA EarthData
       children:
-        - file: 03_Using_NASA_EarthData/*.md
+        - pattern: 03_Using_NASA_EarthData/*.md
     - title: Case Studies
       children:
-        - file: 04_Case_Studies/*.md
+        - pattern: 04_Case_Studies/*.md
 site:
   options:
     logo: assets/TOPS.png
