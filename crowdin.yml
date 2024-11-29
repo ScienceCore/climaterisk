@@ -15,9 +15,16 @@ preserve_hierarchy: true
 # Files configuration
 #
 files:
-  - source: /*.md
+  - source: CONDUCT.md
     dest: /%original_file_name%
-    translation: /%locale%/%original_file_name%
+    translation: /%original_file_name%.es
+  - source: CONTRIBUTING.md
+    dest: /%original_file_name%
+    translation: %original_file_name%.es
+  - source: README.md
+    dest: /%original_file_name%
+    translation: %original_file_name%.es
   - source: /book/**/*.md
     dest: /book/**/%original_file_name%
-    translation: /book/%locale%/**/%original_file_name%
+    translation: /book/espanol/**/%original_file_name%
+    ignore: /book/espanol/*.md
