@@ -39,13 +39,31 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
-          
+
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Rename locale to be more human-friendly
         run: |
           find . -depth -type d -name 'es-419' -execdir mv {} espanol \;
-          find . -depth -name '*.es-419.md' -execdir bash -c 'mv -i "$1" "${1//es-419/es}"' bash {} \;
+          find . -depth -name '*-es-419.md' -execdir bash -c 'mv -i "$1" "${1//es-419/es}"' bash {} \;
 
       - name: Update relative file references in translations
         run: |
           find ./book/espanol -type f -name "*.md" -print0 | xargs -0 sed -i '' -e 's#assets#../assets#'
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -a -m 'Rename locale to be more human-friendly' || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main          
           
