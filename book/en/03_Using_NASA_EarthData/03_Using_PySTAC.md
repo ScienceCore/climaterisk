@@ -215,30 +215,30 @@ granule
 <!-- #region jupyter={"source_hidden": false} -->
 The object `granule` has a rich output representation in this Jupyter notebook. We can expand the attributes in the output cell by clicking the triangles.
 
-![](../assets/granule_output_repr.png)
+![](../../assets/granule_output_repr.png)
 
 The term *granule* refers to a collection of data files (raster data in this case) all associated with raw data acquired by a particular satellite at a fixed timestamp over a particular geographic tile. There are a number of interesting attributes associated with this granule.
 + `properties['datetime']`: a string representing the time of data acquisition for the raster data files in this granule;
 + `properties['eo:cloud_cover']`: the percentage of pixels obscured by cloud and cloud shadow in this granule's raster data files; and
-+ `assets`: a Python `dict` whose values summarize the bands or levels of raster data associated with this granule.
++ `../assets`: a Python `dict` whose values summarize the bands or levels of raster data associated with this granule.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": false}
 print(f"{type(granule.properties)=}\n")
 print(f"{granule.properties['datetime']=}\n")
 print(f"{granule.properties['eo:cloud_cover']=}\n")
-print(f"{type(granule.assets)=}\n")
-print(f"{granule.assets.keys()=}\n")
+print(f"{type(granule.../assets)=}\n")
+print(f"{granule.../assets.keys()=}\n")
 ```
 
 <!-- #region jupyter={"source_hidden": false} -->
-Each object in `granule.assets` is an instance of the `Asset` class that has an attribute `href`. It is the `href` attribute that tells us where to locate a GeoTiff file associated with this asset of this granule.
+Each object in `granule.../assets` is an instance of the `Asset` class that has an attribute `href`. It is the `href` attribute that tells us where to locate a GeoTiff file associated with this asset of this granule.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": false}
-for a in granule.assets:
-    print(f"{a=}\t{type(granule.assets[a])=}")
-    print(f"{granule.assets[a].href=}\n\n")
+for a in granule.../assets:
+    print(f"{a=}\t{type(granule.../assets[a])=}")
+    print(f"{granule.../assets[a].href=}\n\n")
 ```
 
 <!-- #region jupyter={"source_hidden": false} -->
@@ -264,15 +264,15 @@ The details of the search results are complicated to parse in this manner. Let's
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
-    DataFrame columns are determined from search item properties and assets.
+    DataFrame columns are determined from search item properties and ../assets.
     'asset': string identifying an Asset type associated with a granule
     'href': data URL for file associated with the Asset in a given row.'''
     granules = list(search.items())
     assert granules, "Error: empty list of search results"
     props = list({prop for g in granules for prop in g.properties.keys()})
     tile_ids = map(lambda granule: granule.id.split('_')[3], granules)
-    rows = (([g.properties.get(k, None) for k in props] + [a, g.assets[a].href, t])
-                for g, t in zip(granules,tile_ids) for a in g.assets )
+    rows = (([g.properties.get(k, None) for k in props] + [a, g.../assets[a].href, t])
+                for g, t in zip(granules,tile_ids) for a in g.../assets )
     df = pd.concat(map(lambda x: pd.DataFrame(x, index=props+['asset','href', 'tile_id']).T, rows),
                    axis=0, ignore_index=True)
     assert len(df), "Empty DataFrame"
