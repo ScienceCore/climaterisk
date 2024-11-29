@@ -16,6 +16,9 @@ jobs:
   rename:
       runs-on: ubuntu-latest
       steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
         - name: Rename locale to be more human-friendly
           run: |
             find . -depth -type d -name 'es-419' -execdir mv {} espanol \;
