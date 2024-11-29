@@ -13,8 +13,8 @@ project:
     - title: 0. Configuración
       children:
         - pattern: es-419/00_Introduction_Setup/*.md
-      children:
     - title: 1. Geospatial Background
+      children:
         - pattern: 01_Geospatial_Background/*.md
     # - title: 1. Información geoespacial
     #   children:
