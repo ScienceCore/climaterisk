@@ -25,7 +25,7 @@ Raster datasets are useful to represent continuous quantities—pressure, elevat
 
 Rasters approximate continuous numerical distributions by storing individual values within each *grid cell* or *pixel* (a term derived from *"picture element"* in computer graphics). Rasters can represent data gathered over various types of non-rectangular grid cells (e.g., hexagons); for our purposes, we'll restrict our attention to grids in which all the pixels are rectangles of the same height and width.
 
-![raster_neon](../assets/raster_neon.png)
+![raster_neon](../../assets/raster_neon.png)
 
 <p style="text-align: center;">This image shows an example of raster data. Source: National Ecological Observatory Network (NEON).
 </p>
@@ -126,7 +126,7 @@ import rioxarray as rio
 
 ```python
 %%time
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = Path('..') / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 da = rio.open_rasterio(LOCAL_PATH)
 ```
 

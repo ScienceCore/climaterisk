@@ -46,7 +46,7 @@ Observe first that `open_rasterio` works on local file paths and remote URLs.
 
 ```python jupyter={"source_hidden": false}
 %%time
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = Path().cwd() / '..' / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
@@ -88,7 +88,7 @@ From the [Rasterio documentation](https://rasterio.readthedocs.io/en/stable):
 
 ```python jupyter={"source_hidden": false}
 # Show rasterio.open works using context manager
-LOCAL_PATH = Path('..') / 'assets' / \
+LOCAL_PATH = Path('..') / '../assets' / \
              'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 print(LOCAL_PATH)
 ```

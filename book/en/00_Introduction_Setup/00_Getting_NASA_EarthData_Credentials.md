@@ -15,8 +15,8 @@ For the purposes of this guide, the NASA Earthdata website is the entry point th
 
 + Go to the Earth Nasa website: [`https://www.earthdata.nasa.gov/`](https://www.earthdata.nasa.gov/). Then, select the menu option "*Use Data*" and then "*Register*". Finally, navigate to [`https://urs.earthdata.nasa.gov/`](https://urs.earthdata.nasa.gov/).
 
-![earthdata_login](../assets/earthdata_login.png) 
+![earthdata_login](../../assets/earthdata_login.png) 
 
 + Select the "*Register for a profile*" option, there choose a username and password. You will need these later, so choose ones that you remember well. You will also need to complete your profile to complete the registration, where you will be asked for information such as email, country, and affiliation. Finally, choose "*Register for Earthdata Login*".
 
-![earthdata_profile](../assets/earthdata_profile2.png)
+![earthdata_profile](../../assets/earthdata_profile2.png)

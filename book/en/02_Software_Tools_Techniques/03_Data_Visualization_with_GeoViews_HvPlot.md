@@ -198,7 +198,7 @@ The code below loads a Pandas DataFrame of temperature data.
 ```python jupyter={"source_hidden": false}
 import pandas as pd, numpy as np
 from pathlib import Path
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'temperature.csv'
+LOCAL_PATH = Path().cwd() / '..' / '../assets' / 'temperature.csv'
 ```
 
 ```python jupyter={"source_hidden": false}
@@ -279,7 +279,7 @@ To start, load a local GeoTIFF file using `rioxarray` into an Zarray `DataArray`
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = Path('..') / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 ```
 
 ```python jupyter={"source_hidden": false}

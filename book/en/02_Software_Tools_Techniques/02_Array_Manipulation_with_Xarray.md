@@ -37,7 +37,7 @@ Let's load an example `xarray.DataArray` data structure from a file whose locati
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = Path().cwd() / '..' / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
@@ -222,7 +222,7 @@ To see how stacking rasters works, we'll start by making a list of three GeoTIFF
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": false}
-RASTER_FILES = list((Path().cwd() / '..' / 'assets').glob('OPERA*VEG*.tif'))
+RASTER_FILES = list((Path().cwd() / '..' / '../assets').glob('OPERA*VEG*.tif'))
 
 stack = []
 for path in RASTER_FILES:
