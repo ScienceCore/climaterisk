@@ -43,6 +43,7 @@ jobs:
       - name: Rename locale to be more human-friendly
         run: |
           find . -depth -type d -name 'es-419' -execdir mv {} espanol \;
+          find . -depth -name '*.es-419.md' -execdir bash -c 'mv -i "$1" "${1//es-419/es}"' bash {} \;
 
       - name: Update relative file references in translations
         run: |
