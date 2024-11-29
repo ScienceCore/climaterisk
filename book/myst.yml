@@ -9,31 +9,31 @@ project:
     - file: intro.md
     - title: 0. Setup
       children:
-        - pattern: en/00_Introduction_Setup/*.md
+        - pattern: 00_Introduction_Setup/*.md
     - title: 0. Configuración
       children:
         - pattern: es-419/00_Introduction_Setup/*.md
     - title: 1. Geospatial Background
       children:
-        - pattern: en/01_Geospatial_Background/*.md
+        - pattern: 01_Geospatial_Background/*.md
     # - title: 1. Información geoespacial
     #   children:
     #     - pattern: es-419/01_Geospatial_Background/*.md
     - title: 2. Geospatial fundamentals
       children:
-        - pattern: en/02_Software_Tools_Techniques/*.md
+        - pattern: 02_Software_Tools_Techniques/*.md
     # - title: 2. Fundamentos Geoespaciales
     #   children:
     #     - pattern: es-419/02_Software_Tools_Techniques/*.md
     - title: 3. Using NASA EarthData
       children:
-        - pattern: en/03_Using_NASA_EarthData/*.md
+        - pattern: 03_Using_NASA_EarthData/*.md
     - title: 3. Utilización de EarthData de la NASA
       children:
         - pattern: es-419/03_Using_NASA_EarthData/*.md    
     - title: 4. Case Studies
       children:
-        - pattern: en/04_Case_Studies/*.md
+        - pattern: 04_Case_Studies/*.md
     - title: 4. Los Casos Prácticos
       children:
         - pattern: es-419/04_Case_Studies/*.md    
