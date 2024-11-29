@@ -17,7 +17,7 @@ preserve_hierarchy: true
 files:
   - source: /*.md
     dest: /%original_file_name%
-    translation: /%locale%/%original_file_name%
-  - source: /book/**/*.md
+    translation: %original_file_name%-%locale%
+  - source: /book/en/**/*.md
     dest: /book/**/%original_file_name%
     translation: /book/%locale%/**/%original_file_name%
