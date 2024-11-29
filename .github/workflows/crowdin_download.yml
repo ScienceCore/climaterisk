@@ -41,6 +41,7 @@ jobs:
           CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
 
   rename:
+    needs: synchronize-with-crowdin
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
