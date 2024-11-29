@@ -14,26 +14,22 @@ jupyter:
 
 # Loading Raster Data from GeoTIFF Files
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 Given that most of the geospatial data we'll work with in this tutorial is stored in GeoTIFF files, we need to know how to work with those files. The easiest solution is to use [rioxarray](https://corteva.github.io/rioxarray/html/index.html); this solution takes care of a lot of tricky details transparently. We can also use [Rasterio](https://rasterio.readthedocs.io/en/stable) as a tool for reading data or metadata from GeoTIFF files; judicious use of Rasterio can make a big difference when working with remote files in the cloud.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 import numpy as np
 import rasterio
 import rioxarray as rio
 from pathlib import Path
 ```
 
----
-
+***
 
 ## [rioxarray](https://corteva.github.io/rioxarray/html/index.html)
 
-
----
-
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 `rioxarray` is a package that *extends* the Xarray package (more on that later). The primary `rioxarray` features we'll use within this tutorial are:
 + `rioxarray.open_rasterio` to load GeoTIFF files directly into Xarray `DataArray` structures; and
 + `xarray.DataArray.rio` to provides useful utilities (e.g., for specifying CRS information).
@@ -43,37 +39,37 @@ To get used to working with GeoTIFF files, we'll use a few specific examples in 
 
 ### Loading files into a DataArray
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 Observe first that `open_rasterio` works on local file paths and remote URLs.
 + Predictably, local access is faster than remote access.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 %%time
 LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 %%time
 REMOTE_URL ='https://opera-provisional-products.s3.us-west-2.amazonaws.com/DIST/DIST_HLS/WG/DIST-ALERT/McKinney_Wildfire/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data_remote = rio.open_rasterio(REMOTE_URL)
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 This next operation compares elements of an Xarray `DataArray` elementwise (the use of the `.all` method is similar to what we would do to compare NumPy arrays). This is generally not an advisable way to compare arrays, series, dataframes, or other large data structures that contain floating-point data. However, in this particular instance, as the two data structures have been read from the same file stored in two different locations, element-by-element comparison makes sense. It confirms that the data loaded into memory from two different sources is identical in every bit.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 (data_remote == data).all() # Verify that the data is identical from both sources
 ```
 
----
+***
 
 
 ## [rasterio](https://rasterio.readthedocs.io/en/stable)
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 This section can be safely skipped if `rioxarray` works adequately for our analyses, i.e., if loading data into memory is not prohibitive; when that is *not* the case, `rasterio` provides alternative strategies for exploring GeoTIFF files. That is, the `rasterio` package offers lower-level approaches to loading data than `rioxarray` does when needed.
 
 From the [Rasterio documentation](https://rasterio.readthedocs.io/en/stable):
@@ -85,19 +81,19 @@ From the [Rasterio documentation](https://rasterio.readthedocs.io/en/stable):
 >High performance, lower cognitive load, cleaner and more transparent code. This is what Rasterio is about.
 <!-- #endregion -->
 
----
+***
 
 
 ### Opening files with rasterio.open
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # Show rasterio.open works using context manager
 LOCAL_PATH = Path('..') / 'assets' / \
              'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 print(LOCAL_PATH)
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 Given a data source (e.g., a GeoTIFF file in the current context), we can open a `DatasetReader` object associated with using `rasterio.open`. Technically, we have to remember to close the object afterward. That is, our code would look like this:
 
 ```python
@@ -120,7 +116,7 @@ with rasterio.open(LOCAL_PATH) as ds:
 The dataset will be closed automatically outside the `with` block.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{type(ds)=}')
     assert not ds.closed
@@ -129,18 +125,18 @@ with rasterio.open(LOCAL_PATH) as ds:
 assert ds.closed
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The principal advantage of using `rasterio.open` rather than `rioxarray.open_rasterio` to open a file is that the latter approach opens the file and immediately loads its contents into a `DataDarray` in memory.
 
 By contrast, using `rasterio.open` opens the file in place and its contents *are not* immediately loaded into memory. The file's data *can* be read, but this must be done explicitly. This makes a lot of difference when working with remote data; transferring the entire contents across a network involves certain costs. For example, if we examine the metadata—which is typically much smaller and can be transferred quickly—we may find, e.g., that moving an entire array of data across the network is not warranted.
 <!-- #endregion -->
 
----
+***
 
 
 ### Examining DatasetReader attributes
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 When a file is opened using `rasterio.open`, the object instantiated is from the `DatasetReader` class. This class has a number of attributes and methods of interest to us:
 
  |  | | |
@@ -153,16 +149,16 @@ When a file is opened using `rasterio.open`, the object instantiated is from the
 First, given a `DatasetReader` `ds` associated with a data source, examining `ds.profile` returns some diagnostic information.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.profile=}')
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The attributes `ds.height`, `ds.width`, `ds.shape`, `ds.count`, `ds.nodata`, and `ds.transform` are all included in the output from `ds.profile` but are also accessible individually.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.height=}')
     print(f'{ds.width=}')
@@ -173,52 +169,52 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform=}')
 ```
 
----
+***
 
 
 ### Reading data into memory
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The method `ds.read` loads an array from the data file into memory. Notice this can be done on local or remote files.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 %%time
 with rasterio.open(LOCAL_PATH) as ds:
     array = ds.read()
     print(f'{array.shape=}')
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 %%time
 with rasterio.open(REMOTE_URL) as ds:
     array = ds.read()
     print(f'{array.shape=}')
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 print(f'{type(array)=}')
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The array loaded into memory with `ds.read` is a NumPy array. This can be wrapped by an Xarray `DataArray` if we provide additional code to specify the coordinate labels and so on.
 <!-- #endregion -->
 
----
+***
 
 
 ### Mapping coordinates
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 Earlier, we loaded data from a local file into a `DataArray` called `da` using `rioxarray.open_rasterio`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 da = rio.open_rasterio(LOCAL_PATH)
 da
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 Doing so simplified the loading raster data from a GeoTIFF file into an Xarray `DataArray` while filling in the metadata for us. In particular, the coordinates associated with the pixels were stored into `da.coords` (the default coordinate axes are `band`, `x`, and `y` for this three-dimensional array).
 
 If we ignore the extra `band` dimension, the pixels of the raster data are associated with pixel coordinates (integers) and spatial coordinates (real values, typically a point at the centre of each pixel). 
@@ -230,24 +226,24 @@ If we ignore the extra `band` dimension, the pixels of the raster data are assoc
 The accessors `da.isel` and `da.sel` allow us to extract slices from the data array using pixel coordinates or spatial coordinates respectively.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 If we use `rasterio.open` to open a file, the `DatasetReader` attribute `transform` provides the details of how to convert between pixel and spatial coordinates. We will use this capability in some of the case studies later.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform=}')
     print(f'{np.abs(ds.transform[0])=}')
     print(f'{np.abs(ds.transform[4])=}')
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The attribute `ds.transform` is an object describing an [*affine transformation*](https://en.wikipedia.org/wiki/Affine_transformation) (represented above as a $2\times3$ matrix). Notice that the absolute values of the diagonal entries of the matrix `ds.transform` give the spatial dimensions of pixels ($30\mathrm{m}\times30\mathrm{m}$ in this case).
 
 We can also use this object to convert pixel coordinates to the corresponding spatial coordinates.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform * (0,0)=}')       # top-left pixel
     print(f'{ds.transform * (0,3660)=}')    # bottom-left pixel
@@ -255,20 +251,20 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform * (3660,3660)=}') # bottom-right pixel
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The attribute `ds.bounds` displays the bounds of the spatial region (left, bottom, right, top).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'coordinate bounds: {ds.bounds=}')
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 The method `ds.xy` also converts integer index coordinates to continuous coordinates. Notice that `ds.xy` maps integers to the centre of pixels. The loops below print out the first top left corner of the coordinates in pixel coordinates and then the cooresponding spatial coordinates.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     for k in range(3):
         for l in range(4):
@@ -283,20 +279,20 @@ with rasterio.open(LOCAL_PATH) as ds:
     print()
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 `ds.index` does the reverse: given spatial coordinates `(x,y)`, it returns the integer indices of the pixel that contains that point.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(ds.index(500000, 4700015))
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 These conversions can be tricky, particularly because pixel coordinates map to the centres of the pixels and also because the second `y` spatial coordinate *decreases* as the second pixel coordinate *increases*. Keeping track of tedious details like this is partly why loading from `rioxarray` is useful, i.e., this is done for us. But it is worth knowing that we can reconstruct this mapping if needed from metadata in the GeoTIFF file (we use this fact later).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 with rasterio.open(LOCAL_PATH) as ds:
     print(ds.bounds)
     print(ds.transform * (0.5,0.5)) # Maps to centre of top left pixel
@@ -306,4 +302,4 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(ds.transform[0], ds.transform[4])
 ```
 
----
+***
