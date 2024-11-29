@@ -91,7 +91,7 @@ Vamos a leer los datos de un archivo local `'OPERA_L3_DIST-ALERT-HLS_T10TEM_2022
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = Path('..') / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 filename = LOCAL_PATH.name
 print(filename)
 ```
@@ -224,7 +224,7 @@ Cargaremos y reetiquetaremos el `DataArray` como antes.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
+LOCAL_PATH = Path('..') / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'easting', 'y':'northing', 'band':'band'}).squeeze()
 ```
@@ -307,7 +307,7 @@ Podemos usar un archivo local como ejemplo de esta capa/banda particular de los 
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
+LOCAL_PATH = Path('..') / '../assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'easting', 'y':'northing', 'band':'band'}).squeeze()
 ```

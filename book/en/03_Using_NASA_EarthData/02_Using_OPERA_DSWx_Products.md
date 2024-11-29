@@ -78,7 +78,7 @@ from bokeh.models import FixedTicker
 ```
 
 ```python
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif'
+LOCAL_PATH = Path().cwd() / '..' / '../assets' / 'OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif'
 b01_wtr = rio.open_rasterio(LOCAL_PATH).rename({'x':'longitude', 'y':'latitude'}).squeeze()
 ```
 

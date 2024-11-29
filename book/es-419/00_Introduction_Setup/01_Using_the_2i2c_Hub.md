@@ -15,19 +15,19 @@ Para iniciar sesión en el JupyterHub proporcionado por 2i2c, sigue estos pasos:
 - **Nombre de usuario:** Puedes elegir cualquier nombre de usuario que desees.  Sugerimos que utilices tu nombre de usuario de GitHub para evitar conflictos.
 - **Contraseña:** _Recibirás la contraseña el día que inicie el tutorial_.
 
-![2i2c\_login](../assets/2i2c_login.png) (2i2c_inicio_de_sesión)
+![2i2c\_login](../../assets/2i2c_login.png) (2i2c_inicio_de_sesión)
 
 3. **Inicio de sesión:**
 
 El proceso de inicio de sesión puede tardar unos minutos, especialmente si es necesario crear un nuevo espacio de trabajo virtual solo para ti.
 
-![iniciar\_servidor2](../assets/start_server_2i2c.png)
+![iniciar\_servidor2](../../assets/start_server_2i2c.png)
 
 - **Qué esperar:**
 
 De manera predeterminada, al iniciar sesión en [`https://climaterisk.opensci.2i2c.cloud`](https://climaterisk.opensci.2i2c.cloud) se clonará automáticamente un repositorio para trabajar. Si el inicio de sesión es exitoso, verás la siguiente pantalla y estarás listo para empezar a trabajar.
 
-![entorno\_de\_trabajo\_jupyter\_lab](../assets/work_environment_jupyter_lab.png)
+![entorno\_de\_trabajo\_jupyter\_lab](../../assets/work_environment_jupyter_lab.png)
 
 **Notas:** Cualquier archivo en el que trabajes se mantendrá entre sesiones siempre y cuando uses el mismo nombre de usuario al iniciar sesión.
 

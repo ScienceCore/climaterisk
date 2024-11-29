@@ -18,19 +18,19 @@ To login to the JupyterHub provided by 2i2c, follow these steps:
   + **Username:** Feel free to choose any username you like.  We suggest using your GitHub username to avoid conflicts.
   + **Password:** *You'll receive the password on the day of the tutorial*.
 
-![2i2c_login](../assets/2i2c_login.png)
+![2i2c_login](../../assets/2i2c_login.png)
 
 3. **Logging In:**
 
 The login process might take a few minutes, especially if a new virtual workspace needs to be created just for you. 
 
-![start_server2](../assets/start_server_2i2c.png)
+![start_server2](../../assets/start_server_2i2c.png)
 
 * **What to Expect:**
 
 By default,  logging into [`https://climaterisk.opensci.2i2c.cloud`](https://climaterisk.opensci.2i2c.cloud) automatically clones a repository to work in. If the login is successful, you will see the following screen and are ready to start working. 
 
-![work_environment_jupyter_lab](../assets/work_environment_jupyter_lab.png) 
+![work_environment_jupyter_lab](../../assets/work_environment_jupyter_lab.png) 
 
 **Notes:** Any files you work on will persist between sessions as long as you use the same username when logging in.
 

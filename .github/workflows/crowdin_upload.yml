@@ -3,7 +3,7 @@ name: Upload sources to Crowdin
 on:
   push:
     paths:
-      - book/**
+      - book/en/**
       - README.md
       - CONTRIBUTING.md
       - CONDUCT.md
