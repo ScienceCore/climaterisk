@@ -44,9 +44,6 @@ jobs:
     needs: synchronize-with-crowdin
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Rename locale to be more human-friendly
         run: |
           find . -depth -type d -name 'es-419' -execdir mv {} espanol \;
@@ -66,5 +63,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main          
-          
+          branch: ${{ github.ref }}
