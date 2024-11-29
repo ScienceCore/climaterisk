@@ -18,9 +18,6 @@ files:
   - source: /*.md
     dest: /%original_file_name%
     translation: %original_file_name%-%locale%
-  - source: /book/intro.md
-    dest: /book/%original_file_name%
-    translation: /book/%original_file_name%-%locale%
   - source: /book/en/**/*.md
     dest: /book/**/%original_file_name%
     translation: /book/%locale%/**/%original_file_name%
