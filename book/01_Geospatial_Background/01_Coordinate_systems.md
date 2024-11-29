@@ -17,7 +17,7 @@ The geographic coordinate system is a spherical coordinate system by which a poi
 
 - Lines of **latitude** run parallel to the equator and divide the earth into 180 equally spaced sections from North to South (or South to North). The reference line for latitude is the equator and each hemisphere is divided into ninety sections, each representing one degree of latitude. In the northern hemisphere, degrees of latitude are measured from zero at the equator to ninety at the north pole. In the southern hemisphere, degrees of latitude are measured from zero at the equator to ninety degrees at the south pole. To simplify the digitization of maps, degrees of latitude in the southern hemisphere are often assigned negative values (0 to -90°). Wherever you are on the earth’s surface, the distance between the lines of latitude is the same (60 nautical miles).
 
-![geographic_crs](../../assets/geographic_crs.png)
+![geographic_crs](../assets/geographic_crs.png)
 
 <p style="text-align: center;">Geographic coordinate system with lines of latitude parallel to the equator and lines of longitude with the prime meridian through Greenwich. Source: QGIS Documentation.
 </p>
@@ -39,7 +39,7 @@ Projected coordinate reference systems in the southern hemisphere (south of the 
 
 The [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system) coordinate reference system has its origin on the equator at a specific Longitude. Now the $Y$-values increase southwards and the X-values increase to the West. The UTM CRS is a global map projection. This means it is generally used all over the world. To avoid excessive distortion, the world is divided into 60 equal zones that are all 6 degrees wide in longitude from East to West. The UTM zones are numbered 1 to 60, starting at the antimeridian (zone 1 at 180 degrees West longitude) and progressing East back to the antemeridian (zone 60 at 180 degrees East longitude).
 
-![utm_zones](../../assets/utm_zones.png)
+![utm_zones](../assets/utm_zones.png)
 
 <p style="text-align: center;">The Universal Transverse Mercator zones. Source: QGIS Documentation.
 </p>

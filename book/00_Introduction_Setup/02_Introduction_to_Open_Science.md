@@ -25,7 +25,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 "Open Science is the principle and practice of making research products and processes available to all, while respecting diverse cultures, maintaining security and privacy, and fostering collaborations, reproducibility, and equity."
 
 
-![](../../assets/image165.png)
+![](../assets/image165.png)
 <!-- #endregion -->
 
 ### Availability of Open Science Resources:
@@ -54,7 +54,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 - And much more..
 
 
-![](../../assets/image377.jpg)
+![](../assets/image377.jpg)
 <!-- #endregion -->
 
 ## Why now
@@ -72,7 +72,7 @@ We aim to equip learners with the skills to analyze, visualize, and report on da
 <!-- #region jupyter={"source_hidden": false} -->
 Scientific knowledge, or research products, take the form of:
 
-![](../../assets/image5.png)
+![](../assets/image5.png)
 <!-- #endregion -->
 
 ### What is data?
@@ -112,5 +112,5 @@ Results capture the different research outputs of the scientific process. Public
 Products are created throughout the scientific process that are needed to enable others to reproduce the findings. The products of research include data, code, analysis pipelines, papers, and more!
 
 
-![](../../assets/image7.jpeg)
+![](../assets/image7.jpeg)
 <!-- #endregion -->

@@ -102,15 +102,15 @@ def plot_bbox(bbox):
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
-    DataFrame columns are determined from search item properties and ../assets.
+    DataFrame columns are determined from search item properties and assets.
     'asset': string identifying an Asset type associated with a granule
     'href': data URL for file associated with the Asset in a given row.'''
     granules = list(search.items())
     assert granules, "Error: empty list of search results"
     props = list({prop for g in granules for prop in g.properties.keys()})
     tile_ids = map(lambda granule: granule.id.split('_')[3], granules)
-    rows = (([g.properties.get(k, None) for k in props] + [a, g.../assets[a].href, t])
-                for g, t in zip(granules,tile_ids) for a in g.../assets )
+    rows = (([g.properties.get(k, None) for k in props] + [a, g.assets[a].href, t])
+                for g, t in zip(granules,tile_ids) for a in g.assets )
     df = pd.concat(map(lambda x: pd.DataFrame(x, index=props+['asset','href', 'tile_id']).T, rows),
                    axis=0, ignore_index=True)
     assert len(df), "Empty DataFrame"

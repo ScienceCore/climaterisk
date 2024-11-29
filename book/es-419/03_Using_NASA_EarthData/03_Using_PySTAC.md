@@ -233,13 +233,13 @@ granule
 
 El objeto `granule` tiene una representación de salida enriquecida en este cuaderno de Jupyter. Podemos ampliar los atributos en la celda de salida haciendo clic en los triángulos.
 
-![](../../assets/granule_output_repr.png)
+![](../assets/granule_output_repr.png)
 
 El término _gránulo_ se refiere a una colección de archivos de datos (datos ráster en este caso), todos ellos asociados a datos sin procesar adquiridos por un satélite concreto en una fecha y hora fijas sobre un mosaico geográfico concreto. Hay una gran variedad de atributos interesantes asociados con este gránulo.
 
 - properties['datetime']: una cadena que representa la hora de adquisición de los datos de los archivos de datos ráster de este gránulo,
 - properties['eo:cloud_cover']: el porcentaje de píxeles oscurecidos por nubes y sombras de nubes en los archivos de datos ráster de este gránulo, y
-- `../assets`: un `dict` de Python cuyos valores resumen las bandas o niveles de los datos ráster asociados con este gránulo.
+- `assets`: un `dict` de Python cuyos valores resumen las bandas o niveles de los datos ráster asociados con este gránulo.
 
 <!-- #endregion -->
 
@@ -247,20 +247,20 @@ El término _gránulo_ se refiere a una colección de archivos de datos (datos r
 print(f"{type(granule.properties)=}\n")
 print(f"{granule.properties['datetime']=}\n")
 print(f"{granule.properties['eo:cloud_cover']=}\n")
-print(f"{type(granule.../assets)=}\n")
-print(f"{granule.../assets.keys()=}\n")
+print(f"{type(granule.assets)=}\n")
+print(f"{granule.assets.keys()=}\n")
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
 
-Cada objeto en `granule.../assets` es una instancia de la clase `Asset` que tiene un atributo `href`. Es el atributo `href` el que nos indica dónde localizar un archivo GeoTiff asociado con este activo de este gránulo.
+Cada objeto en `granule.assets` es una instancia de la clase `Asset` que tiene un atributo `href`. Es el atributo `href` el que nos indica dónde localizar un archivo GeoTiff asociado con este activo de este gránulo.
 
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-for a in granule.../assets:
-    print(f"{a=}\t{type(granule.../assets[a])=}")
-    print(f"{granule.../assets[a].href=}\n\n")
+for a in granule.assets:
+    print(f"{a=}\t{type(granule.assets[a])=}")
+    print(f"{granule.assets[a].href=}\n\n")
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -289,15 +289,15 @@ Los detalles de los resultados de la búsqueda son complicados de analizar de es
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
-    DataFrame columns are determined from search item properties and ../assets.
+    DataFrame columns are determined from search item properties and assets.
     'asset': string identifying an Asset type associated with a granule
     'href': data URL for file associated with the Asset in a given row.'''
     granules = list(search.items())
     assert granules, "Error: empty list of search results"
     props = list({prop for g in granules for prop in g.properties.keys()})
     tile_ids = map(lambda granule: granule.id.split('_')[3], granules)
-    rows = (([g.properties.get(k, None) for k in props] + [a, g.../assets[a].href, t])
-                for g, t in zip(granules,tile_ids) for a in g.../assets )
+    rows = (([g.properties.get(k, None) for k in props] + [a, g.assets[a].href, t])
+                for g, t in zip(granules,tile_ids) for a in g.assets )
     df = pd.concat(map(lambda x: pd.DataFrame(x, index=props+['asset','href', 'tile_id']).T, rows),
                    axis=0, ignore_index=True)
     assert len(df), "Empty DataFrame"
