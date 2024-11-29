@@ -27,4 +27,4 @@ files:
   - source: /book/**/*.md
     dest: /book/**/%original_file_name%
     translation: /book/espanol/**/%original_file_name%
-    ignore: /book/espanol/*.md
+    ignore: [/book/espanol/*.md]
