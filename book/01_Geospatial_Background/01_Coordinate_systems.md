@@ -1,48 +1,92 @@
 # Coordinate Reference Systems
 
 
-The following summary was made using:
-+ the [QGIS documentation](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
-+ the book [*Sistemas de Información Geográfica*](https://volaya.github.io/libro-sig/) by Victor Olaya
+Later in this tutorial, we'll extract & analyze geospatial datasets from *spatio-temporal asset catalogs* (usually called *STAC*s). In particular, this means we need to specify precisely a geographical region&mdash;usually called an *area of interest* or *AOI*&mdash;and a *time window* that respectively describe where & when a relevant event occurred (e.g., a flood, a wild fire, etc.). That is, both the spatial location and the time period of interest need to be expressed unambiguously to search for relevant data.
 
-With the help of coordinate reference systems (CRS), every location on the earth can be specified by a set of two numbers, called *coordinates*. There are two commonly-used categories of CRS: *geographic* coordinate reference systems and *projected* coordinate reference systems (also called *rectangular* coordinate reference systems).
+Geospatial datasets&mdash;whether it be raster data or vector data (as described in the next two notebooks)&mdash;need to be represented using a chosen *Coordinate Reference Systems (CRS)*. In the context of [*Geographic Information Systems (GIS)*](https://en.wikipedia.org/wiki/Geographic_information_system), a CRS is a mathematical framework that defines how geographical features & locations on the Earth's surface are associated with numerical coordinates (tuples in two or three dimensions). A coordinate representation is needed to compute geometric quantities (e.g., distances/lengths, angles, areas, volumnes, etc.) accurately for geospatial analysis.
+
+The present notebook summarizes the main framework we'll use: the [*Military Grid Reference System (MGRS)*](https://en.wikipedia.org/wiki/Military_Grid_Reference_System). This system is built using the [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system), a particular  [*projected coordinate reference system*](https://en.wikipedia.org/wiki/Projected_coordinate_system). To understand all these pieces, we also need to know a few basic facts about [*Geographic Coordinate System* (GCS)](https://en.wikipedia.org/wiki/Geographic_coordinate_system) that employ on latitude-longitude coordinates.
+
+---
+
+
+## An aside about timestamps
+
+
+Let's first consider the problem of specifying a time interval unambiguously&mdash;we encounter challenges doing so in ordinary contexts (e.g., trying to schedule a call between people residing in different time zones). Earth scientists generally use [*UTC* (*Coordinated Universal Time*)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) when recording timestamps associated with measurements or observations to avoid time-zone diffficulties. This is the case for all the NASA data products we'll work with. There are subtle questions about the degree of precision with which a timestamp is given (e.g., within days, hours, minutes, seconds, milliseconds, and so on); regardless, using UTC is a standard way of representing points in time (or a time window between two timestamps) without ambiguity.
+
+---
 
 
 ## Geographic Coordinate Systems
 
 
-The geographic coordinate system is a spherical coordinate system by which a point is located with two angular values:
+Most people are familiar with the [*Global Positioning System* (*GPS*)](https://en.wikipedia.org/wiki/Global_Positioning_System) that uses a [*Geographic Coordinate System* (GCS)](https://en.wikipedia.org/wiki/Geographic_coordinate_system) to represent locations on the Earth's surface. Geographic coordinate systems are implicitly based on [spherical coordinate systems](https://en.wikipedia.org/wiki/Spherical_coordinate_system#In_geography) in which points on the surface of a sphere are determined by two angular values called *latitude* & *longitude*. Of course, the Earth is not actually spherical. Its shape is better modelled by an [*ellipsoid*](https://en.wikipedia.org/wiki/Ellipsoid) or an [*oblate spheroid*](https://en.wikipedia.org/wiki/Spheroid) (although there are still corrections to make accounting for topography and other surface features). The [*World Geodetic System*](https://en.wikipedia.org/wiki/World_Geodetic_System) refers to an agreed-upon standard model of the Earth that is used for applications in geodesy, cartography, and satellite navigation. The current version of this standard is *WGS84* which includes a *geodetic datum* (a mathematical description of a reference ellipsoid together with a reference point on the surface and an oriented, Earth-centered, Earth-fixed coordinate system), an associated [*Earth Gravitational Model (EGM)*](https://en.wikipedia.org/wiki/Earth_Gravitational_Model) and a [*World Magnetic Model (WMM)*](https://en.wikipedia.org/wiki/World_Magnetic_Model). We do not need to concern ourselves with the specifics of WGS84 other than to acknowledge that this standard underlies any GCS using latitude-longitude coordinates.
 
-- Lines of **longitude** run perpendicular to the equator and converge at the poles. The reference line for longitude (the prime meridian) runs from the North pole to the South pole through Greenwich, England. Subsequent lines of longitude are measured from zero to 180 degrees East or West of the prime meridian. Note that values West of the prime meridian are assigned negative values for use in digital mapping applications. At the equator, and only at the equator, the distance represented by one line of longitude is equal to the distance represented by one degree of latitude. As you move towards the poles, the distance between lines of longitude becomes progressively less, until, at the exact location of the pole, all 360° of longitude are represented by a single point that you could put your finger on (you probably would want to wear gloves though).
+![](../assets/geographic_crs.png)
 
-- Lines of **latitude** run parallel to the equator and divide the earth into 180 equally spaced sections from North to South (or South to North). The reference line for latitude is the equator and each hemisphere is divided into ninety sections, each representing one degree of latitude. In the northern hemisphere, degrees of latitude are measured from zero at the equator to ninety at the north pole. In the southern hemisphere, degrees of latitude are measured from zero at the equator to ninety degrees at the south pole. To simplify the digitization of maps, degrees of latitude in the southern hemisphere are often assigned negative values (0 to -90°). Wherever you are on the earth’s surface, the distance between the lines of latitude is the same (60 nautical miles).
+Here are some relevant facts about GCS latitude-longitude coordinates we'll rely on throughout this tutorial:
 
-![geographic_crs](../assets/geographic_crs.png)
++ The *latitude* ($\phi$) of a point $P$ on the surface of a sphere represents the angle between equatorial plane and a line segment between $P$ and $O$, the sphere's center. Thus, the latitude of any point on the equator is $0^\circ$, the latitude at the upper (north) pole is $+90^\circ$ and the latitude at the lower (south) pole is $-90^\circ$.
++ The *longitude* ($\lambda$) of a point $P$ on the surface of a sphere is the angle extended between two planes: the first plane contains both poles and an *anchor point* on the sphere's surface; and the second plane contains the point *P* and both poles. The typical choice for an anchor point on the Earth's surface used in GCS is Greenwich, England. The great circle passing through Greenwich and the poles is called the *prime meridian*. Any points strictly to the west of Greenwich have negative longitude values (between $-180^\circ$ and $0^\circ$) whereas points strictly to the east of Greenwich have positive longitude values (between $0^\circ$ and $180^\circ$).
++ Latitude and longitude coordinates are usually expressed in angular units of *degrees* (denoted ${}^\circ$). When more precision is required, a degree is divided up into 60 *minutes* (denoted ${}'$) each of which can be divided further into 60 *seconds* (denoted ${}"$). Decimal representations of latitude-longitude pairs are used in many places, but we may encounter both conventions to represent coordinates.
++ Great circles through the poles are referred to as *meridians*. Meridians have a fixed longitude value.
++ Circles in planes parallel to the equatorial plane are referred to as *parallels*. Parallels have a fixed latitude value.
++ At the Earth's equator, one second of longitude corresponds to roughly 30 meters. However, there is a nonlinear relationship between differences in latitude-longitude coordinates and distances on the Earth's surface (and hence distortions in other geometrical properties). For instance, let's consider two angular regions of "width" $1^\circ$ in longitude and "height" $1^\circ$ in latitude (aligned with the latitude-longitude axes). On a map using GCS coordinates, those two regions would have the same area; however, the corresponding areas on the Earth's surface would differ. In particular, whichever patch is closer to the equator would have a greater surface area. Specifically, closer to the poles, the lines of constant longitude and latitude are closer together, so areas get compressed (this is a feature of any GCS).
 
-<p style="text-align: center;">Geographic coordinate system with lines of latitude parallel to the equator and lines of longitude with the prime meridian through Greenwich. Source: QGIS Documentation.
-</p>
-
-
-Using the geographic coordinate system, we have a grid of lines dividing the earth into squares that cover approximately 12363.365 square kilometers at the equator — a good start, but not very useful for determining the location of anything within that square. To be truly useful, a map grid must be divided into small enough sections so that they can be used to describe (with an acceptable level of accuracy) the location of a point on the map. To accomplish this, degrees are divided into minutes (') and seconds ("). There are sixty minutes in a degree, and sixty seconds in a minute (3600 seconds in a degree). So, at the equator, one second of latitude or longitude = 30.87624 meters.
+---
 
 
 ## Projected coordinate reference systems
 
 
-A [*projected coordinate reference system*](https://en.wikipedia.org/wiki/Projected_coordinate_system) uses a [map projection](https://en.wikipedia.org/wiki/Map_projection) to identify pairs of spatial coordinates $(X,Y)$ with points on the surface of the Earth. These coordinate values are typically referred to as "easting" and "northing" (referring to distances east and north respectively to the origin in some locally flattened $XY$-plane). Unlike angular longitude-latitude pairs, the spatial easting-northing coordinates in a projected coordinate system have units of length (e.g., metres).
- 
-Projected coordinate reference systems in the southern hemisphere (south of the equator) normally assign the origin on the equator at a specific longitude. This means that the $Y$-values increase southwards and the $X$-values increase westwards. In the northern hemisphere (north of the equator) the origin is also the equator at a specific Longitude. However, now the Y-values increase northwards and the X-values increase to the East.
+Cartographers and geographers prefer working with maps on which the distances measured between points on the map are approximately proportional to actual physical distances. This is decidedly not the case for maps using GCS latitude-longitude coordinates 
+
+A more practical approach for geographical purposes is to use a [*projected coordinate reference system*](https://en.wikipedia.org/wiki/Projected_coordinate_system) instead. That is, use a CRS whose coordinates are found using a [map projection](https://en.wikipedia.org/wiki/Map_projection) that projects points in a fixed region on the Earth's curved surface to a flat two-dimensional plane. Such a transformation necessarily distorts the Earth's curved surface but, locally, geometric distances between points on the plane are approximately proportional to actual distances. Thus, the coordinates in a projected coordinate system are typically expressed in units of length (e.g., metres). Projections involve compromises in that different projections more reliably represent certain geometric properties&mdash;shape, area, distance, etc.&mdash;more accurately.
 
 
 ### Universal Transverse Mercator (UTM) coordinates
 
 
-The [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system) coordinate reference system has its origin on the equator at a specific Longitude. Now the $Y$-values increase southwards and the X-values increase to the West. The UTM CRS is a global map projection. This means it is generally used all over the world. To avoid excessive distortion, the world is divided into 60 equal zones that are all 6 degrees wide in longitude from East to West. The UTM zones are numbered 1 to 60, starting at the antimeridian (zone 1 at 180 degrees West longitude) and progressing East back to the antemeridian (zone 60 at 180 degrees East longitude).
+The [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system) is a particular projected coordinate reference system. These coordinate values are typically referred to as *easting* and *northing* (referring to distances east and north respectively from the origin in some locally flattened plane). 
 
-![utm_zones](../assets/utm_zones.png)
+![utm_zones](https://gisgeography.com/wp-content/uploads/2016/05/UTM-Zones-Globe-2-500x485.png)
 
-<p style="text-align: center;">The Universal Transverse Mercator zones. Source: QGIS Documentation.
-</p>
++ The UTM CRS divides the world map into 60 zones of width $6^\circ$ in longitude that extend between $-80^\circ$ & $+84^\circ$ latitude. The UTM zones are numbered 1 to 60, starting at the antimeridian (i.e., zone 1 at $-180^\circ$ longitude) and progressing east back to the antemeridian (i.e., zone 60 at $+180^\circ$ longitude).
++ The origin within each UTM zone is on the equator at the zone's central meridian. To avoid negative coordinates, a 
++ There are formulas to convert from [latitude-longitude GCS coordinates to UTM easting-northing](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#From_latitude,_longitude_(%CF%86,_%CE%BB)_to_UTM_coordinates_(E,_N)) as well as [formulas to do the opposite](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#From_UTM_coordinates_(E,_N,_Zone,_Hemi)_to_latitude,_longitude_(%CF%86,_%CE%BB)). We need not concern ourselves with those details in this tutorial other than to know that software routines implement those formulas to effect those transformations.
++ The position of a point in UTM coordinates usually involves specifying two positive values for the easting & northing coordinates as well as the UTM zone number. The easting value is the number of meters east of the zones central meridian and the northing value is the number of meters north of the equator. To avoid using negative coordinates, a *false northing* value of $10,000,000\,\mathrm{m}$ to the northing coordinate and a false easting value of $500,000\,\mathrm{m}$ is added to the easting coordinate.
+
+---
 
 
-The position of a coordinate in UTM south of the equator must be indicated with the zone number and with its northing ($Y$) value and easting ($X$) value in meters. The northing value is the distance of the position from the equator in meters. The easting value is the distance from the central meridian (longitude) of the used UTM zone. Furthermore, in UTM zones that are south of the equator, a so-called false northing value of 10,000,000 m to the northing ($Y$) value to avoid negative values. Similarly, in some UTM zones, a false easting value of 500,000 m is added to the easting ($X$) value.
+### A note on Coordinate Reference Systems
+
+
+There are, in principle, infinitely many coordinate reference systems that associate locations on the Earth's surface with two- or three-dimensional tuples of numbers (coordinates). To characterize a number of practical CRSs concisely, the
+[European Petroleum Survey Group](https://en.wikipedia.org/wiki/European_Petroleum_Survey_Group) (EPSG) maintains the public [EPSG registry](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset). A CRS is assigned a code between 1024 and 32767 along with a standard machine-readable [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems) representation.
+
+Here are some important examples of EPSG CRS codes:
+
++ **EPSG:4326** is the CRS using standard latitude-longitude coordinates based on the WGS84 geodetic model as used for GPS & navigation.
++ **EPSG:3857** is the *Web Mercator* projected CRS used in, e.g., Google Maps & OpenStreetMaps due to its convenience for rendering & for straight-line navigation. It does distort distances significantly closer to the poles.
++ **EPSG:32610** is a particular projected UTM CRS. Similar UTM projected CRSs have a code of the form *EPSG:326XY*; the digits `326` indicate a UTM projected CRS valid in the Northern hemisphere. The last two digits&mdash;`10` in this instance&mdash;identify a particular UTM zone between `01` and `60`.
++ **EPSG:32710** is also a particular projected UTM CRS. The digits `327` indicate a UTM projected CRS valid in the Southern hemisphere & the last two digits&mdash;again, `10` in this instance&mdash;identify a particular UTM zone between `01` and `60`.
+  
+From a mathematical viewpoint, an EPSG code is a compact identifier connecting to standardized sets of equations, parameters, and rules.
+
+---
+
+
+## Military Grid Reference System (MGRS)
+
+
+The last convention we need to know is the [*Military Grid Reference System (MGRS)*](https://en.wikipedia.org/wiki/Military_Grid_Reference_System). The MGRS is used primarily by NATO militaries to identify Earth locations. The MGRS is not a CRS; rather it is a *geocoordinate standard* layered on top of other CRSs. Away from the polar region, the MGRS uses the Universal Transverse Mercator (UTM) coordinate system; near the poles, it uses the Universal Polar Stereographic (UPS) coordinate system instead. In both cases, MGRS relies on projected CRSs based on the WGS84 model for accurate spatial representations.
+
+![MGRS tiles](../assets/utm_zones.png)
+
+The MGRS system uses UTM zones as a basis for its grid. Remember, the UTM system divides the Earth's surface into 60 zones, each of width $6^{\circ}$ longitude, extending from $-80^\circ$ to $+84^\circ$. Each UTM zone is divided into 20 horizontal latitude bands each of of height $8^\circ$ latitude; these latitude bands are labeled `C` through `X` (excluding the letters `I` and `O` to avoid confusion with `1` & `0` respectively). These first two labels constitute a *grid-zone designator* (*GZD*).  These 1,200 MGRS grid-zones are further subdivided into tiles of area $(100\,\mathrm{km}\times100\,\mathrm{km})$; these smaller tiles are labelled by column and row within each GZD. For instance, the tile identifier `10TEM` indicates that the tile in question is in UTM zone `10` in the horizontal band `T`. Within that GZD, there is a grid of tiles and the one with column index `E` and row index `M` is the tile in question. These tile labels help identify the coordinates of the corners of a square region associated with a satellite image as well as the projected coordinate system used to map points on the Earth's surface to the projected tile coordinates.
+
+In essence, MGRS is a refinement of the UTM coordinate system, designed for easier readability and communication in military and navigation applications. The system's hierarchical structure&mdash;from UTM zone to latitude band to 100 km grid squares, and finally down to precise easting and northing coordinates&mdash;enables efficient referencing without needing large numeric coordinates.
+
+---
