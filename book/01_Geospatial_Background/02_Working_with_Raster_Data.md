@@ -119,32 +119,35 @@ A GeoTIFF file typically includes geographic metadata as embedded tags; these ca
 
 As an example, let's load data from a local GeoTIFF file using the Python `rioxarray` package.
 
-```python
+```{code-cell} python
 from pathlib import Path
 import rioxarray as rio
+
+if 'book' == Path.cwd().parent.stem:
+  LOCAL_PATH = Path('../assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
+else:
+  LOCAL_PATH = Path('book/assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
 ```
 
-```python
+```{code-cell} python
 %%time
-LOCAL_PATH = Path('..') / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 da = rio.open_rasterio(LOCAL_PATH)
 ```
 
 The `rioxarray.open_rasterio` function has loaded raster data from the local GeoTIFF file into an Xarray `DataArray` called `da`. We can examine the contents of `da` conveniently in a Jupyter notebook.
 
-```python
+```{code-cell} python
 da # examine contents
 ```
 
 This raster is fairly high resolution raster ($3600\times3600$ pixels). Let's take a smaller slice (i.e., sampling every 200th pixel) by instantiating the Python `slice` object `subset` and using the Xarray `DataArray.isel` method to construct a lower resolution array (that will render faster). We can then make a plot (rendered by Matplotlib by default).
 
-```python
+```{code-cell} python
 subset = slice(0,None,200)
 view = da.isel(x=subset, y=subset)
 view.plot();
 ```
 
 Observe that the plot is labelled using the continuous (easting, northing) coordinates associated with the spatial extent of this raster. That is, the subtle book-keeping required to keep track of pixel and continuous coordinates has been handled transparently by the data structure's API. This is a good thing!
-
 
 ---
