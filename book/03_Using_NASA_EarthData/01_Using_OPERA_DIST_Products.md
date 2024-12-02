@@ -63,7 +63,7 @@ Let's examine a local file with an example of DIST-ALERT data. The file contains
 Let's begin by importing the required libraries. Notice we're also pulling in the `FixedTicker` class from the Bokeh library to make interactive plots a little nicer.
 <!-- #endregion -->
 
-```python editable=true jupyter={"source_hidden": false} slideshow={"slide_type": ""}
+```{code-cell} python editable=true jupyter={"source_hidden": false} slideshow={"slide_type": ""}
 # Notebook dependencies
 import warnings
 warnings.filterwarnings('ignore')
@@ -73,14 +73,16 @@ import geoviews as gv
 gv.extension('bokeh')
 import hvplot.xarray
 from bokeh.models import FixedTicker
+
+FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
 ```
 
 <!-- #region jupyter={"source_hidden": false} -->
 We'll read the data from a local file `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'`. Before loading the data, let's examine the metadata embedded in the filename.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+```{code-cell} python jupyter={"source_hidden": false}
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
 filename = LOCAL_PATH.name
 print(filename)
 ```
@@ -89,7 +91,7 @@ print(filename)
 This rather long filename consists of several fields separated by underscore (`_`) characters. We can use the Python `str.split` method to view the distinct fields more easily.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 filename.split('_') # Use the Python str.split method to view the distinct fields more easily.
 ```
 
@@ -113,17 +115,17 @@ Notice that naming conventions like this one are used by NASA's [Earthdata Searc
 Let's load the data from this local file into an Xarray `DataArray` using `rioxarray.open_rasterio`. We'll do some relabelling to label the coordinates appropriately and we'll extract the CRS (coordinate reference system).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 data = rio.open_rasterio(LOCAL_PATH)
 crs = data.rio.crs
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 data
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 crs
 ```
 
@@ -131,7 +133,7 @@ crs
 Before generating a plot, let's create a basemap using [ESRI](https://en.wikipedia.org/wiki/Esri) tiles.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Creates basemap
 base = gv.tile_sources.ESRI.opts(width=750, height=750, padding=0.1)
 ```
@@ -140,7 +142,7 @@ base = gv.tile_sources.ESRI.opts(width=750, height=750, padding=0.1)
 We'll also use dictionaries to capture the bulk of the plotting options we'll use in conjunction with `.hvplot.image` later on.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -163,7 +165,7 @@ layout_opts = dict(
 Finally, we'll use the `DataArray.where` method to filter out missing pixels and the pixels that saw no change in vegetation; these pixel values will be reassigned as `nan` so they will be transparent when the raster is plotted. We'll also modify the options in `image_opts` and `layout_opts` slightly.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_anom_max = data.where((data>0) & (data!=255))
 image_opts.update(crs=data.rio.crs)
 layout_opts.update(title=f"VEG_ANOM_MAX")
@@ -173,7 +175,7 @@ layout_opts.update(title=f"VEG_ANOM_MAX")
 These changes allow us to generate a meaningful plot.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_anom_max.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
@@ -194,8 +196,8 @@ The file `OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_3
 We'll load and relabel the `DataArray` as before.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
+```{code-cell} python jupyter={"source_hidden": false}
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif')
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
@@ -204,7 +206,7 @@ data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 In this particular band, the value 0 indicates no disturbance in the last year and -1 is a sentinel value indicating missing data. Any positive value is the number of days since Dec. 31, 2020 in which the first disturbance is measured in that pixel. We'll filter out the non-positive values and preserve these meaningful values using `DataArray.where`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_date = data.where(data>0)
 ```
 
@@ -212,7 +214,7 @@ veg_dist_date = data.where(data>0)
 Let's examine the range of numerical values in `veg_dist_date` using `DataArray.min` and `DataArray.max`. Both of these methods will ignore pixels containing `nan` ("Not-a-Number") when computing the minimum and maximum.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 d_min, d_max = int(veg_dist_date.min().item()), int(veg_dist_date.max().item())
 print(f'{d_min=}\t{d_max=}')
 ```
@@ -221,7 +223,7 @@ print(f'{d_min=}\t{d_max=}')
 In this instance, the meaningful data lies between 247 and 592. Remember, this is the number of days elapsed since Dec. 31, 2020 when the first disturbance was observed in the last year. Since this data was acquired on Aug. 15, 2022, the only possible values would be between 227 and 592 days. So we need to recalibrate the colormap in the plot
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts.update(
                    clim=(d_min,d_max),
                    crs=data.rio.crs
@@ -229,7 +231,7 @@ image_opts.update(
 layout_opts.update(title=f"VEG_DIST_DATE")
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_date.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
@@ -263,18 +265,18 @@ We can use a local file as an example of this particular layer/band of the DIST-
 Notice the use of the `FixedTicker` in defining a colorbar better suited for a discrete (i.e., categorical) colormap.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
+```{code-cell} python jupyter={"source_hidden": false}
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif')
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_status = data.where((data>0)&(data<5))
 image_opts.update(crs=data.rio.crs)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 layout_opts.update(
                     title=f"VEG_DIST_STATUS",
                     clim=(0,4),
@@ -282,7 +284,7 @@ layout_opts.update(
                   )
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_status.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
