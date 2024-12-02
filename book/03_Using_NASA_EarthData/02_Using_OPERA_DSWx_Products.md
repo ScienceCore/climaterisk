@@ -62,7 +62,7 @@ The water classification layer consists of unsigned 8-bit integer raster data (U
 
 Let's begin by importing the required libraries and loading a suitable file into an Xarray `DataArray`. The file in question contains raster data pertinent to the [Lake Powell reservoir](https://en.wikipedia.org/wiki/Lake_Powell) on the Colorado River in the United States.
 
-```python
+```{code-cell} python
 import warnings
 warnings.filterwarnings('ignore')
 from pathlib import Path
@@ -70,15 +70,16 @@ import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
 ```
 
-```python
+```{code-cell} python
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
 gv.extension('bokeh')
 from bokeh.models import FixedTicker
 ```
 
-```python
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif'
+```{code-cell} python
+FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif')
 b01_wtr = rio.open_rasterio(LOCAL_PATH).rename({'x':'longitude', 'y':'latitude'}).squeeze()
 ```
 
@@ -86,14 +87,14 @@ Remember, using the repr for `b01_wtr` in this Jupyter notebook is quite conveni
 + By expanding the `Attributes` tab, we can see all the metadata associated with the data acquired.
 + By expanding the `Coordinates` tab, we can examine all the associated arrays of coordinate values.
 
-```python
+```{code-cell} python
 # Examine data
 b01_wtr
 ```
 
 Let's examine the distribution of pixel values in `b01_wtr` using the Pandas `Series.value_counts` method.
 
-```python
+```{code-cell} python
 counts = pd.Series(b01_wtr.values.flatten()).value_counts().sort_index()
 display(counts)
 ```
@@ -116,7 +117,7 @@ These pixel values are *categorical data*. Specifically, the valid pixel values 
 
 Let's make a first rough plot of the raster data using `hvplot.image`. As usual, we instantiate a `view` object that slices a smaller subset of pixels to make the image render quickly.
 
-```python
+```{code-cell} python
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -146,7 +147,7 @@ The default colormap does not reveal the raster features very well. Also, notice
 
 We want to reassign the  raster pixel values to a tighter range (i.e., from `0` to `5` instead of from `0` to `255`) to make a sensible colorbar. To do this, we'll start by copying the values from the `DataArray` `b01_wtr` into another `DataArray` `new_data` and by creating an array `values` to hold the full range of permissible pixel values.
 
-```python
+```{code-cell} python
 new_data = b01_wtr.copy(deep=True)
 values = np.array([0, 1, 2, 252, 253, 254, 255], dtype=np.uint8)
 print(values)
@@ -154,7 +155,7 @@ print(values)
 
 We first need to decide how to treat missing data, i.e., pixels with the value `255` in this raster. Let's choose to treat the missing data pixels the same as the `"Not water"` pixels. We can use the `DataArray.where` method to reassign pixels with value `null_val` (i.e., `255` in the code cell below) to the replacement value `transparent_val` (i.e., `0` in this case). Anticipating that we'll embed this code in a function later, we embed the computation in an `if`-block conditioned on a boolean value `replace_null`.
 
-```python
+```{code-cell} python
 null_val = 255
 transparent_val = 0
 replace_null = True
@@ -167,7 +168,7 @@ print(np.unique(new_data.values))
 
 Notice that `values` no longer includes `null_val`. Next, instantiate an array `new_values` to store the replacement pixel values.
 
-```python
+```{code-cell} python
 n_values = len(values)
 start_val = 0
 new_values = np.arange(start=start_val, stop=start_val+n_values, dtype=values.dtype)
@@ -181,7 +182,7 @@ Now we combine `values` and `new_values` into a dictionary `relabel` and use the
 
 
 
-```python
+```{code-cell} python
 relabel = dict(zip(values, new_values))
 for old, new in relabel.items():
     if new==old: continue
@@ -190,7 +191,7 @@ for old, new in relabel.items():
 
 We can encapsulate the logic of the preceding cells into a utility function `relabel_pixels` that condenses a broad range of categorical pixel values into a tighter one that will display better with a colormap.
 
-```python
+```{code-cell} python
 # utility to remap pixel values to a sequence of contiguous integers
 def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=True, start=0):
     """
@@ -225,7 +226,7 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
 
 Let's apply the function just defined to `b01_wtr` and verify that the pixel values have been changed as desired.
 
-```python
+```{code-cell} python
 values = [0, 1, 2, 252, 253, 254, 255]
 print(f"Before applying relabel_pixels: {np.unique(b01_wtr.values)}")
 print(f"Original pixel values expected: {values}")
@@ -243,7 +244,7 @@ Notice that the pixel value `5` does not occur in the relabelled array because t
 
 We are now ready to define a colormap. We define the dictionary `COLORS` so that the pixel labels from `new_values` are the dictionary keys and some RGBA color tuples used frequently for this kind of data are the dictionary values. We'll use variants of the code in the cell below to update `layout_opts` so that plots generated for various layers/bands from the DSWx data products have suitable legends.
 
-```python
+```{code-cell} python
 COLORS = {
 0: (255, 255, 255, 0.0),  # No Water
 1:  (0,   0, 255, 1.0),   # Open Water
@@ -263,7 +264,7 @@ print(c_labels)
 
 To use this colormap, these ticks, and these labels in a colorbar, we create a ditionary `c_bar_opts` that holds the objects to pass to the Bokeh rendering engine.
 
-```python editable=true slideshow={"slide_type": ""}
+```{code-cell} python editable=true slideshow={"slide_type": ""}
 c_bar_opts = dict( ticker=FixedTicker(ticks=c_ticks),
                    major_label_overrides=dict(zip(c_ticks, c_labels)),
                    major_tick_line_width=0, )
@@ -271,7 +272,7 @@ c_bar_opts = dict( ticker=FixedTicker(ticks=c_ticks),
 
 We need to update the dictionaries `image_opts` and `layout_opts` to include the data relevant to the colormap.
 
-```python editable=true slideshow={"slide_type": ""}
+```{code-cell} python editable=true slideshow={"slide_type": ""}
 image_opts.update({ 'cmap': list(COLORS.values()),
                     'clim': limits,
                     'colorbar': True
@@ -282,7 +283,7 @@ layout_opts.update(dict(title='B01_WTR', colorbar_opts=c_bar_opts))
 
 Finally, we can render a quick plot to make sure that the colorbar is produced with suitable labels.
 
-```python
+```{code-cell} python
 steps = 100
 subset = slice(0, None, steps)
 view = b01_wtr.isel(longitude=subset, latitude=subset)
@@ -291,7 +292,7 @@ view.hvplot.image( **image_opts).opts(frame_width=500, frame_height=500, **layou
 
 Finally, we can define a basemap, this time using tiles from [ESRI](https://www.esri.com). This time, we'll plot plot the raster at full resolution (i.e., we won't bother using `isel` to select a lower-resolution slice from the raster first).
 
-```python editable=true slideshow={"slide_type": ""}
+```{code-cell} python editable=true slideshow={"slide_type": ""}
 # Creates basemap
 base = gv.tile_sources.EsriTerrain.opts(padding=0.1, alpha=0.25)
 b01_wtr.hvplot(**image_opts).opts(**layout_opts) * base
