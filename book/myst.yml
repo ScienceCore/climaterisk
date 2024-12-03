@@ -5,6 +5,10 @@ project:
   authors:
     - name: 2i2c / MetaDocencia
   github: ScienceCore/climaterisk
+  jupyter:
+    binder:
+      url: https://binder.opensci.2i2c.cloud/
+      repo: ScienceCore/climaterisk  
   toc:
     - file: intro.md
     - title: 0. Setup
@@ -16,15 +20,15 @@ project:
     - title: 1. Geospatial Background
       children:
         - pattern: 01_Geospatial_Background/*.md
-    # - title: 1. Información geoespacial
-    #   children:
-    #     - pattern: espanol/01_Geospatial_Background/*.md
+    - title: 1. Información geoespacial
+      children:
+        - pattern: espanol/01_Geospatial_Background/*.md
     - title: 2. Geospatial fundamentals
       children:
         - pattern: 02_Software_Tools_Techniques/*.md
-    # - title: 2. Fundamentos Geoespaciales
-    #   children:
-    #     - pattern: espanol/02_Software_Tools_Techniques/*.md
+    - title: 2. Fundamentos Geoespaciales
+      children:
+        - pattern: espanol/02_Software_Tools_Techniques/*.md
     - title: 3. Using NASA EarthData
       children:
         - pattern: 03_Using_NASA_EarthData/*.md

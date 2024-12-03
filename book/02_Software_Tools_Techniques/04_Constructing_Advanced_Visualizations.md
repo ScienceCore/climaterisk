@@ -26,7 +26,7 @@ As context, the files we'll examine are based on [the 2022 McKinney widfire](htt
 To begin, some typical package imports are needed. We'll also define some paths to local files containing relevant geospatial data.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 from warnings import filterwarnings
 filterwarnings('ignore')
 from pathlib import Path
@@ -35,7 +35,7 @@ import geopandas as gpd
 import rioxarray as rio
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Imports for plotting
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
@@ -43,8 +43,9 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={"source_hidden": false}
-ASSET_PATH = Path().cwd() / '..' / 'assets'
+```{code-cell} python jupyter={"source_hidden": false}
+FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
+ASSET_PATH = Path(FILE_STEM, 'assets')
 SHAPE_FILE = ASSET_PATH / 'shapefiles' / 'mckinney' / 'McKinney_NIFC.shp'
 RASTER_FILES = list(ASSET_PATH.glob('OPERA*VEG*.tif'))
 RASTER_FILE = RASTER_FILES[0]
@@ -63,7 +64,7 @@ The [GeoPandas](https://geopandas.org/en/stable/index.html) package contains man
 As an example, let's load some vector data from the local path `SHAPEFILE` (as defined above).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shape_df = gpd.read_file(SHAPE_FILE)
 shape_df
 ```
@@ -72,7 +73,7 @@ shape_df
 The object `shape_df` is a [`GeoDataFrame`]((https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.html)) that has over two dozen columns of metadata in a single row. The main column that concerns us is the `geometry` column; this column stores the coordinates of the vertices of a `MULTIPOLYGON`, i.e., a set of polygons.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shape_df.geometry 
 ```
 
@@ -80,7 +81,7 @@ shape_df.geometry
 The vertices of the polygons seem to be expressed as `(longitude, latitude)` pairs. We can verify what specific coordinate system is used by examining the `GeoDataFrame`'s `crs` attribute.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 print(shape_df.crs)
 ```
 
@@ -88,7 +89,7 @@ print(shape_df.crs)
 Let's use `hvplot` to generate a plot of this vector dataset.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shape_df.hvplot()
 ```
 
@@ -98,7 +99,7 @@ The projection in this plot is a bit strange. The HoloViz documentation includes
 Let's create two Python dictionaries—`shapeplot_opts` & `layout_opts`—and build up a visualization.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shapeplot_opts= dict(geo=True)
 layout_opts = dict(xlabel='Longitude', ylabel="Latitude")
 print(f"{shapeplot_opts=}")
@@ -113,7 +114,7 @@ We can augment the plot by updating `shapeplot_opts`.
 + Specifying `line_width` and `line_color` modifies the appearance of the boundaries of the polygons.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shapeplot_opts.update( color=None ,
                        line_width=2,
                        line_color='red')
@@ -126,7 +127,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 Let's fill the polygons with, say, `color=orange`  and make the filled area partially transparent by specifying an `alpha` value between zero and one.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shapeplot_opts.update(color='orange', alpha=0.25)
 print(shapeplot_opts)
 
@@ -139,7 +140,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 Next, let's provide a basemap and overlay the plotted polygons using the `*` operator. Notice the use of parentheses to apply the `opts` method to the output of the `*` operator.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 basemap = gv.tile_sources.ESRI(height=500, width=500, padding=0.1)
 
 (shape_df.hvplot(**shapeplot_opts) * basemap).opts(**layout_opts)
@@ -149,7 +150,7 @@ basemap = gv.tile_sources.ESRI(height=500, width=500, padding=0.1)
 The basemap does not need to be overlayed as as separate object; it can be specified using the `tiles` keyword. For instance, setting `tiles='OSM'` uses [OpenStreetMap](ttps://www.openstreetmap.org) tiles instead. Notice the dimensions of the image rendered are likely not the same as the previous image with the [ESRI](https://www.esri.com) tiles because we explicitly specified `height=500` & `width=500` in defining `basemap` earlier.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 shapeplot_opts.update(tiles='OSM')
 shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 ```
@@ -158,7 +159,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 Let's remove the `tiles` option from `shapeplot_opts` and bind the resulting plot object to the identifier `shapeplot`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 del shapeplot_opts['tiles']
 print(shapeplot_opts)
 
@@ -172,7 +173,7 @@ shapeplot
 Let's combine this vector data with some raster data. We'll load raster data from a local file using the function `rioxarray.open_rasterio`. For convenience, we'll use method-chaining to relabel the coordinates of the `DataArray` loaded and use the `squeeze` method to convert the three-dimensional array loaded into a two-dimensional array.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 raster = (
           rio.open_rasterio(RASTER_FILE)
             .rename(dict(x='longitude', y='latitude'))
@@ -185,7 +186,7 @@ raster
 We'll use a Python dictionary `image_opts` to store useful keyord arguments to pass to `hvplot.image`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -204,7 +205,7 @@ raster.hvplot.image(**image_opts)
 We can overlay `shapeplot` with the plotted raster data using the `*` operator. We can use the `Pan`, `Wheel Zoom`, and `Box Zoom` tools in the Bokeh toolbar to the right of the plot to zoom in and verify that the vector data has in fact been plotted on top of the raster data.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 raster.hvplot.image(**image_opts) * shapeplot
 ```
 
@@ -212,7 +213,7 @@ raster.hvplot.image(**image_opts) * shapeplot
 We can additionally overlay the vector & raster data onto ESRI tiles using `basemap`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 raster.hvplot.image(**image_opts) * shapeplot * basemap
 ```
 
@@ -220,7 +221,7 @@ raster.hvplot.image(**image_opts) * shapeplot * basemap
 Notice many of the white pixels are obscuring the plot. It turns out that these pixels correspond to zeros in the raster data that can safely be ignored. We can filter those out using the `where` method.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 raster = raster.where((raster!=0))
 layout_opts.update(title="McKinney 2022 Wildfires")
 
@@ -236,7 +237,7 @@ layout_opts.update(title="McKinney 2022 Wildfires")
 Let's load a sequence of raster files into a three-dimensional array and produce some plots. To start, we'll construct a loop to read `DataArrays` from the files `RASTER_FILES` and we'll use `xarray.concat` to produce a single three-dimensional array of rasters (i.e., three $3,600\times3,600$ rasters stacked vertically).  We'll learn the specific interpretations associated with the raster dataset in a later notebook; for now, let's just treat them as raw data to experiment with.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 stack = []
 for path in RASTER_FILES:
     data = rio.open_rasterio(path).rename(dict(x='longitude', y='latitude'))
@@ -253,7 +254,7 @@ stack = stack.where(stack!=0)
 We relabel the axes `longitude` & `latitude` and we filter out pixels with value zero to make plotting simpler later.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 stack
 ```
 
@@ -263,7 +264,7 @@ Having built the `DataArray` `stack`, we can focus on visualization.
 If we want to generate a static plot with several images laid out, we can use `hvplot.image` together with the `.layout` method. To see how this works, let's start by redefining dictionaries `image_opts` and `layout_opts`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(  x='longitude', 
                     y='latitude',
                     rasterize=True, 
@@ -284,7 +285,7 @@ layout_opts = dict(xlabel='Longitude', ylabel="Latitude")
 To speed up rendering, we'll initially construct an object `view` that selects subsets of pixels; we initially define the parameter `steps=200` to restrict the view to every 200th pixel in either direction. If we reduce `steps`, it takes longer to render. Setting `steps=1` or `steps=None` is equivalent to selecting all pixels.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 steps = 200
 subset = slice(0, None, steps)
 layout_opts.update(frame_width=250, frame_height=250)
@@ -309,7 +310,7 @@ Another way to visualize a three-dimensional array is to associate a selection w
 Again, increasing the parameter `steps` reduces the rendering time. Decreasing it to `1` or `None` renders at full resolution.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 steps = 200
 subset = slice(0, None, steps)
 layout_opts.update(frame_height=400, frame_width=400)
@@ -322,7 +323,7 @@ view.hvplot.image(**image_opts).opts(**layout_opts)
 Later, we'll stack many rasters with distinct timestamps along a `time` axis; when there are many slices, the selection widget will be rendered as a slider rather than as a drop-down menu. We can control the location of the widget using a keyword option `widget_location`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 view.hvplot.image(widget_location='bottom_left', **image_opts, **layout_opts)
 ```
 
@@ -343,7 +344,7 @@ an exception is raised (hence the invocation in the code cell above). There are 
 Finally, let's overlay our vector data from before—the boundary of the wildfire—with the dynamic view of this three-dimensional array of rasters. We can use the `*` operator to combine the output of `hvplot.image` with `shapeplot`, the rendered view of the vector data.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 steps = 200
 subset = slice(0, None, steps)
 view = stack.isel(latitude=subset, longitude=subset)
