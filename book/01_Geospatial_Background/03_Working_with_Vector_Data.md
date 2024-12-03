@@ -1,3 +1,17 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.16.2
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
 # Working with Vector Data
 
 
@@ -60,15 +74,16 @@ The GIS developers responsible for GeoJSON designed it with the intention that a
 
 Let's see how to parse and plot GeoJSON files using [GeoPandas](https://geopandas.org/en/stable/). The local file `cables.geojson` stores line vector data representing underwater cables connecting different land masses.
 
-```python
+```{code-cell} python
 import geopandas as gpd
 from pathlib import Path
 
-GEOJSON = Path().cwd() / '..' / 'assets' / 'cables.geojson'
+FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
+GEOJSON = Path(FILE_STEM, 'assets/cables.geojson')
 print(GEOJSON)
 ```
 
-```python
+```{code-cell} python
 with open(GEOJSON) as f:
     text = f.read()
 print(text[:1500])
@@ -78,7 +93,7 @@ Trying to read the GeoJSON output above is tricky but predictable. JSON files ar
 
 Let's use the `geopandas.read_file` function to load the vector data into a `GeoDataFrame`.
 
-```python
+```{code-cell} python
 gdf = gpd.read_file(GEOJSON)
 display(gdf.head())
 gdf.info()
@@ -86,13 +101,13 @@ gdf.info()
 
 There are 530 rows each of which corresponds to line data (a connected sequence of line segments). We can use the `GeoDataFrame` column `color` as an option within a call to `.plot` to make a plot of these cables.
 
-```python
+```{code-cell} python
 gdf.geometry.plot(color=gdf.color, alpha=0.25);
 ```
 
 Let's use a remote file to create another `GeoDataFrame`, this time containing polygon data.
 
-```python
+```{code-cell} python
 URL = "http://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_land.geojson"
 gdf = gpd.read_file(URL)
 
@@ -101,13 +116,13 @@ gdf
 
 This time, the plot shows filled polygons corresponding to the countries of the world.
 
-```python
+```{code-cell} python
 gdf.plot(color='green', alpha=0.25) ;
 ```
 
 The `GeoDataFrame.loc` accessor allows us to plot particular subsets of countries.
 
-```python
+```{code-cell} python
 gdf.loc[15:90].plot(color='green', alpha=0.25) ;
 ```
 
@@ -150,18 +165,17 @@ There are numerous other optional files; see the [whitepaper](https://www.esri.c
 
 As with GeoJSON files, shapefiles can be read directly using `geopandas.read_file` to load the `.shp` file. We'll do this now using an example shapefile that shows the boundary of a wildfire.
 
-```python
-SHAPEFILE = Path().cwd() / '..' / 'assets' / 'shapefiles' / 'mckinney' / 'McKinney_NIFC.shp'
+```{code-cell} python
+SHAPEFILE = Path(FILE_STEM, 'assets/shapefiles/mckinney/McKinney_NIFC.shp')
 gdf = gpd.read_file(SHAPEFILE)
 gdf.info()
 gdf.head()
 ```
 
-```python
+```{code-cell} python
 gdf.plot(color='red', alpha=0.5);
 ```
 
 We'll use this particular shapefile again in later notebooks and explain what it represents in greater detail then.
-
 
 ---
