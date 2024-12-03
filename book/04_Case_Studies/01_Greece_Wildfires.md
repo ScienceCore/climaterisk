@@ -46,14 +46,14 @@ In particular, we will examine the area around the city of [Alexandroupolis](htt
 
 ### Preliminary imports
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 from warnings import filterwarnings
 filterwarnings('ignore')
 import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Imports for plotting
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
@@ -61,7 +61,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -74,7 +74,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Convenient utilities
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -84,7 +84,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -98,7 +98,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -125,19 +125,19 @@ These functions could be placed in module files for more developed research proj
 
 ## Identifying search parameters
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 dadia_forest = (26.18, 41.08)
 AOI = make_bbox(dadia_forest, 0.1, 0.1)
 DATE_RANGE = '2023-08-01/2023-09-30'.split('/')
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Optionally plot the AOI
 basemap = gv.tile_sources.ESRI(width=500, height=500, padding=0.1, alpha=0.25)
 plot_bbox(AOI) * basemap
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
@@ -147,7 +147,7 @@ print(search_params)
 
 ## Obtaining search results
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
 PROVIDER = 'LPCLOUD'
 COLLECTIONS = ["OPERA_L3_DIST-ALERT-HLS_V1_1"]
@@ -156,7 +156,7 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
@@ -165,7 +165,7 @@ search_results = catalog.search(**search_params)
 As usual, let's encode the search result into a Pandas `DataFrame`, examine the results, and make a few transformations to clean up the results.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 %%time
 df = search_to_dataframe(search_results)
 df.head()
@@ -181,7 +181,7 @@ We clean the `DataFrame` `df` in typical ways that make sense:
 + setting the `datetime` column as the `Index`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df = df.drop(['end_datetime', 'start_datetime'], axis=1)
 df.datetime = pd.DatetimeIndex(df.datetime)
 df = df.rename(columns={'eo:cloud_cover':'cloud_cover'})
@@ -201,7 +201,7 @@ df.info()
 Let's examine the `DataFrame` `df` to better understand the search results. First, let's see how many different geographic tiles occur in the search results.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.tile_id.value_counts() 
 ```
 
@@ -209,7 +209,7 @@ df.tile_id.value_counts()
 So the AOI lies strictly within a single MGRS geographic tile, namely `T35TMF`. Let's examine the `asset` column.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.asset.value_counts().sort_values(ascending=False)
 ```
 
@@ -217,7 +217,7 @@ df.asset.value_counts().sort_values(ascending=False)
 Some of these `asset` names are not as simple and tidy as the ones we encountered with the DIST-ALERT data products. We can, however, easily identify useful substrings. Here, we choose only those rows in which the `asset` column includes `'VEG-DIST-STATUS'` as a sub-string.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 idx_veg_dist_status = df.asset.str.contains('VEG-DIST-STATUS')
 idx_veg_dist_status
 ```
@@ -226,13 +226,13 @@ idx_veg_dist_status
 We can use this boolean `Series` with the Pandas `.loc` accessor to filter out only the rows we want (i.e., that connect to raster data files storing the `VEG-DIST-STATUS` band). We can subsequently drop the `asset` column (it is no longer required).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_status = df.loc[idx_veg_dist_status]
 veg_dist_status = veg_dist_status.drop('asset', axis=1)
 veg_dist_status
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 print(len(veg_dist_status))
 ```
 
@@ -240,7 +240,7 @@ print(len(veg_dist_status))
 Notice some of the rows have the same date but different times (corresponding to multiple observations in the same UTC calendar day). We can aggregate the URLs into lists by *resampling* the time series by day; we can subsequently visualize the result.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 by_day = veg_dist_status.resample('1d').href.apply(list)
 display(by_day)
 by_day.map(len).hvplot.scatter(grid=True).opts(title='# of observations')
@@ -250,7 +250,7 @@ by_day.map(len).hvplot.scatter(grid=True).opts(title='# of observations')
 Let's clean up the `Series` `by_day` by filtering out the rows that have empty lists (i.e., dates on which no data was acquired).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 by_day = by_day.loc[by_day.map(bool)]
 by_day.map(len).hvplot.scatter(ylim=(0,2.1), grid=True).opts(title="# of observations")
 ```
@@ -267,7 +267,7 @@ We can now use the resampled series `by_day` to extract raster data for analysis
 The wildfire near Alexandroupolis started around August 21st and rapidly spread, particularly affecting the nearby Dadia Forest. Let's first assemble a "data cube" (i.e., a stacked array of rasters) from the remote files indexed in the Pandas series `by_day`. We'll start by selecting and loading one of the remote GeoTIFF files to extract metadata that applies to all the rasters associated with this event and this MGRS tile.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 href = by_day[0][0]
 data = rio.open_rasterio(href).rename(dict(x='longitude', y='latitude'))
 crs = data.rio.crs
@@ -278,7 +278,7 @@ shape = data.shape
 Before we build a stacked `DataArray` within a loop, we'll define a Python dictionary called  `template` that will be used to instantiate the slices of the array. The dictionary `template` will store metadata extracted from the GeoTIFF file, notably the coordinates.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 template = dict()
 template['coords'] = data.coords.copy()
 del template['coords']['band']
@@ -293,12 +293,12 @@ print(template)
 We'll use a loop to build a stacked array of rasters from the Pandas series `by_day` (whose entries are lists of string, i.e., URIs). If the list has a singleton element, the URI can be read directly using `rasterio.open`; otherwise, the function [`rasterio.merge.merge`](https://rasterio.readthedocs.io/en/latest/api/rasterio.merge.html) combines multiple raster data files acquired on the same day into a single raster image.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 import rasterio
 from rasterio.merge import merge
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 %%time
 rasters = []
 for date, hrefs in by_day.items():
@@ -317,7 +317,7 @@ for date, hrefs in by_day.items():
 The data accumulated within the list `rasters` are all stored as NumPy arrays. Thus, rather than calling `xarray.concat`, we wrap a call to `numpy.concatenate` within a call to the `xarray.DataArray` constructor. We bind the object created to the identifier `stack`, making sure to also include the CRS information.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 stack = xr.DataArray(data=np.concatenate(rasters, axis=0), **template)
 stack.rio.write_crs(crs, inplace=True)
 stack
@@ -347,7 +347,7 @@ To begin, let's use the data in `stack` to compute the total surface area damage
 The particular pixel value we want to flag, then, is 6, i.e., a pixel in which at least 50% of the vegetation cover has been confirmed to be damaged and in which the disturbance is actively ongoing. We can use the `.sum` method to add up all the pixels with value `6` and the `.to_series` method to represent the sum as a time-indexed Pandas series. We also define `conversion_factor` that accounts for the area of each pixel in $\mathrm{km}^2$ (recall each pixel has area $30\mathrm{m}\times30\mathrm{m}$).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 pixel_val = 6
 conversion_factor = (30/1_000)**2 / pixel_val
 damage_area = stack.where(stack==pixel_val, other=0).sum(axis=(1,2)) 
@@ -355,7 +355,7 @@ damage_area = damage_area.to_series() * conversion_factor
 damage_area
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 plot_title = 'Damaged Area (km²)'
 line_plot_opts = dict(title=plot_title, grid=True, color='r')
 damage_area.hvplot.line(**line_plot_opts)
@@ -373,7 +373,7 @@ Looking at the preceding plot, it seems the wildfires started around August 21 a
 The nearby Dadia Forest was particularly affected by the wildfires. To see this, let's plot the raster data to see the spatial distribution of damaged pixels on three particular dates:  August 2, August 26th, and September 18th. Again, we'll highlight only those pixels with value 6 from the raster data. We can extract those specific dates easily from the Time series `by_day` using a list of dates (i.e., `dates_of_interest` in the cell below).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 dates_of_interest = ['2023-08-01', '2023-08-26', '2023-09-18']
 print(dates_of_interest)
 snapshots = stack.sel(time=dates_of_interest)
@@ -384,7 +384,7 @@ snapshots
 Let's make a static sequence of plots. We start by defining some standard options stored in dictionaries.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(
                     x='longitude', 
                     y='latitude',
@@ -402,7 +402,7 @@ layout_opts = dict(xlabel='Longitude', ylabel="Latitude")
 We'll construct a colormap using a dictionary of RGBA values (i.e., tuples with three integer entries between 0 and 255 and a fourth floating-point entry between 0.0 and 1.0 for transparency).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 COLORS = { k:(0,0,0,0.0) for k in range(256) }
 COLORS.update({6: (255,0,0,1.0)})
 image_opts.update(cmap=list(COLORS.values()))
@@ -412,7 +412,7 @@ image_opts.update(cmap=list(COLORS.values()))
 As usual, we'll start by slicing smaller images to make sure the call to `hvplot.image` works as intended. We can reduce the value of the parameter `steps` to `1` or `None` to get the images rendered at full resolution.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 steps = 100
 subset = slice(0,None, steps)
 view = snapshots.isel(longitude=subset, latitude=subset)
@@ -423,7 +423,7 @@ view = snapshots.isel(longitude=subset, latitude=subset)
 If we remove the call to `.layout`, we can produce an interactive slider that shows the progress of the wildfire using all the rasters in `stack`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 steps = 100
 subset = slice(0,None, steps)
 view = stack.isel(longitude=subset, latitude=subset,)
