@@ -45,14 +45,14 @@ jupyter:
 
 ### Preliminary imports
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 from warnings import filterwarnings
 filterwarnings('ignore')
 import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Imports for plotting
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
@@ -61,7 +61,7 @@ gv.extension('bokeh')
 from bokeh.models import FixedTicker
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -78,7 +78,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -88,7 +88,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -102,7 +102,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -121,7 +121,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # utility to remap pixel values to a sequence of contiguous integers
 def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=True, start=0):
     """
@@ -163,19 +163,19 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
 We'll identify a geographic point near the north shore of [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead), make a bounding box, and choose a date range that covers Marh and part of April 2023.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 lake_mead = (-114.754, 36.131)
 AOI = make_bbox(lake_mead, 0.1, 0.1)
 DATE_RANGE = "2023-03-01/2023-04-15"
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Optionally plot the AOI
 basemap = gv.tile_sources.OSM(width=500, height=500, padding=0.1)
 plot_bbox(AOI) * basemap
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
@@ -189,7 +189,7 @@ print(search_params)
 As usual, we'll specify the search endpoint, provider, & catalog. For the DSWx family of data products these are as follows.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
 PROVIDER = 'POCLOUD'
 COLLECTIONS = ["OPERA_L3_DSWX-HLS_V1_1.0"]
@@ -198,7 +198,7 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
@@ -207,7 +207,7 @@ search_results = catalog.search(**search_params)
 We convert the search results to a `DataFrame` for easier perusal.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df = search_to_dataframe(search_results)
 display(df.head())
 df.info()
@@ -221,7 +221,7 @@ We'll clean the DataFrame `df` in standard ways by:
 + assigning the `datetime` column as the index.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.datetime = pd.DatetimeIndex(df.datetime)
 df = df.drop(['start_datetime', 'end_datetime'], axis=1)
 df = df.rename({'eo:cloud_cover':'cloud_cover'}, axis=1)
@@ -231,7 +231,7 @@ for col in ['asset', 'href', 'tile_id']:
 df = df.set_index('datetime').sort_index()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 display(df.head())
 df.info()
 ```
@@ -245,7 +245,7 @@ df.info()
 We can look at the `assets` column to see which different bands are available in the results returned.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.asset.value_counts()
 ```
 
@@ -255,7 +255,7 @@ The `0_B01_WTR` band is the one that we want to work with later.
 We can also see how much cloud cover there is in our search results.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.cloud_cover.agg(['min','mean','median','max'])
 ```
 
@@ -263,7 +263,7 @@ df.cloud_cover.agg(['min','mean','median','max'])
 We can extract selected rows from the `DataFrame` using boolean `Series`. Specifically, we'll select the rows that have less than 10% cloud cover and in which the `asset` is the `0_B01_WTR` band.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 c1 = (df.cloud_cover <= 10)
 c2 = (df.asset.str.contains('B01_WTR'))
 b01_wtr = df.loc[c1 & c2].drop(['asset', 'cloud_cover'], axis=1)
@@ -274,7 +274,7 @@ b01_wtr
 Finally, we can see how many different MGRS tiles intersect our AOI.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 b01_wtr.tile_id.value_counts()
 ```
 
@@ -290,7 +290,7 @@ There are four distinct geographic tiles that intersect this particular AOI.
 This time, we'll use a technique called *mosaicking* to combine raster data from adjacent tiles into a single raster data set. This requires the `rasterio.merge.merge` function as before. We'll also need the function `rasterio.transform.array_bounds` to get the coordinates aligned properly.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 import rasterio
 from rasterio.merge import merge
 from rasterio.transform import array_bounds
@@ -300,7 +300,7 @@ from rasterio.transform import array_bounds
 We've used the function `merge` before to combine distinct raster data sets associated with a single MGRS tile. This time, the raster data merged will come from adjacent MGRS tiles. In calling the `merge` function in the next code cell, the column `b01_wtr.href` will be treated as a list of URLs ([Uniform Resource Locators](https://en.wikipedia.org/wiki/Uniform_Resource_Locator)). For each URL in that list, a GeoTIFF file will be downloaded and processed. The net result is a mosaicked image, i.e., a merged raster that contains a combination of all the rasters. The specifics of the merging algorithm are described in the [`rasterio.merge` module documentation](https://rasterio.readthedocs.io/en/latest/api/rasterio.merge.html).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 %%time
 mosaicked_img, mosaic_transform = merge(b01_wtr.href)
 ```
@@ -309,7 +309,7 @@ mosaicked_img, mosaic_transform = merge(b01_wtr.href)
 The output again consists of a NumPy array and coordinate transformation. 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 print(f"{type(mosaicked_img)=}\n")
 print(f"{mosaicked_img.shape=}\n")
 print(f"{type(mosaic_transform)=}\n")
@@ -327,7 +327,7 @@ Notice also that, in this instance, `mosaic_transform[4]` is a negative value (i
 When we pass the object `mosaic_transform` into the `rasterio.transform.array_bounds` function, the value returned is a bounding-box, i.e., a tuple of the form `(x_min, y_min, x_max, y_max)` describing the lower-left and upper-right corners of the resulting mosaicked image in continuous UTM coordinates. 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 bounds = array_bounds(*mosaicked_img.shape[1:], mosaic_transform)
 
 bounds
@@ -337,7 +337,7 @@ bounds
 Combining all the preceding information allows us to reconstruct the continuous UTM coordinates associated with each pixel. We'll compute arrays for these continuous coordinates and label them `longitude` and `latitude`. These coordinates would more accurately be called `easting` and `northing`, but we'll use the labels `longitude` and `latitude` respectively when we attach the coordinate arrays to an Xarray `DataArray`. We choose these labels because, when the raster data is plotted with `hvplot.image`, the output will use longitude-latitude coordinates.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 longitude = np.arange(bounds[0], bounds[2], mosaic_transform[0])
 latitude = np.arange(bounds[3], bounds[1], mosaic_transform[4])
 ```
@@ -346,7 +346,7 @@ latitude = np.arange(bounds[3], bounds[1], mosaic_transform[4])
 We'll wrap the mosaicked image and the relevant metadata into an Xarray `DataArray`.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 raster = xr.DataArray(
         data=mosaicked_img,
         dims=["band", "latitude", "longitude"],
@@ -366,7 +366,7 @@ raster
 We need to attach a CRS object to the `raster` object. To do so, we'll use `rasterio.open` to load the relevant metadata from one of the granules associated with `b01_wtr` (these should be the same for all these particular files).
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 with rasterio.open(b01_wtr.href[0]) as ds:
     crs = ds.crs
 
@@ -380,7 +380,7 @@ In research code, we could bundle the preceding commands within a function and s
 With all the preceding steps completed, we're ready to produce a plot of the mosaicked raster. We'll relabel the pixel values so that the colorboar in the final result will be tidier.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 raster, relabel = relabel_pixels(raster, values=[0,1,2,253,254,255])
 ```
 
@@ -388,7 +388,7 @@ raster, relabel = relabel_pixels(raster, values=[0,1,2,253,254,255])
 We'll define image options, layout options, & a colormap in dictionaries as we've done previously to produce a single plot.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -402,7 +402,7 @@ layout_opts = dict(
                   )
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Define a colormap using RGBA values; these need to be written manually here...
 COLORS = {
 0: (255, 255, 255, 0.0),  # No Water
@@ -433,7 +433,7 @@ layout_opts.update(dict(colorbar_opts=c_bar_opts))
 We'll define the basemap as a separate object to overlay using the `*` operator.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 basemap = gv.tile_sources.ESRI(frame_width=500, frame_height=500, padding=0.05, alpha=0.25)
 ```
 
@@ -441,7 +441,7 @@ basemap = gv.tile_sources.ESRI(frame_width=500, frame_height=500, padding=0.05, 
 Finally, we can use the builtin Python `slice` function to extract downsampled images quickly before trying to view the entire image. Remember, reducing the value `steps` to `1` (or `None`) plots the raster at full resolution.
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 %%time
 steps = 1
 view = raster.isel(longitude=slice(0,None,steps), latitude=slice(0,None,steps)).squeeze()
