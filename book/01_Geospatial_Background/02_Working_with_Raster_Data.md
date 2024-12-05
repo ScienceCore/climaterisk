@@ -49,7 +49,7 @@ Another important property of raster data is that pixel values are stored using 
 
 Each pixel of a raster data set is indexed by its *row* & *column* position relative to the top left corner — the *image* or *pixel coordinates*. These values represent the displacement from the top left corner of the matrix, conventionally expressed using [zero-based numbering](https://en.wikipedia.org/wiki/Zero-based_numbering). For instance, using zero-based indexing in the $10\times10$ grid of pixels displayed below, the top left corner pixel has index (0,0); the top right corner pixel has index (0,9); the bottom left corner pixel has index (9,0); and the bottom right corner pixel has index (9,9).
 
-<!-- ![](http://ioam.github.io/topographica/_images/matrix_coords_hidensity.png) -->
+![](http://ioam.github.io/topographica/_images/matrix_coords_hidensity.png)
 
 (from `http://ioam.github.io/topographica`)
 
@@ -58,8 +58,8 @@ Zero-based indexing is not observed universally (e.g., MATLAB uses on-based inde
 
 Another subtle distinction between matrices and rasters is that raster data is typically *georeferenced*; this means that each cell is associated with a specific geographic rectangle on the Earth's surface with some positive area. That in turn means that each pixel value is associated not only with its pixel/image coordinates but also with the *continuous coordinates* of every spatial point within that physical rectangle. That is, there is a *continuum* of spatial coordinates associated with every pixel as opposed to a single pair of pixel coordinates. For instance, in the $5\times5$ grid of pixels shown below in the left plot, the red dot associated with the pixel coordinates $(0,1)$ is located at the center of that pixel. At the same time, the right plot shows a red dot with continuous coordinates $(-0.2,0.4)$.
 
-<!-- ![](http://ioam.github.io/topographica/_images/matrix_coords.png)
-![](http://ioam.github.io/topographica/_images/sheet_coords_-0.2_0.4.png) -->
+![](http://ioam.github.io/topographica/_images/matrix_coords.png)
+![](http://ioam.github.io/topographica/_images/sheet_coords_-0.2_0.4.png)
 
 (from `http://ioam.github.io/topographica`)
 
