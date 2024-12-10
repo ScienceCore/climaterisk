@@ -1,19 +1,9 @@
----
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .md
-      format_name: markdown
-      format_version: '1.3'
-      jupytext_version: 1.16.4
----
-
 # Coordinate Reference Systems
 
 
 Later in this tutorial, we'll extract & analyze geospatial datasets from *spatio-temporal asset catalogs* (usually called *STAC*s). In particular, this means we need to specify precisely a geographical region&mdash;usually called an *area of interest* or *AOI*&mdash;and a *time window* that respectively describe where & when a relevant event occurred (e.g., a flood, a wild fire, etc.). That is, both the spatial location and the time period of interest need to be expressed unambiguously to search for relevant data.
 
-Geospatial datasets&mdash;whether it be raster data or vector data (as described in the next two notebooks)&mdash;need to be represented using a chosen *Coordinate Reference Systems (CRS)*. In the context of [*Geographic Information Systems (GIS)*](https://en.wikipedia.org/wiki/Geographic_information_system), a CRS is a mathematical framework that defines how geographical features & locations on the Earth's surface are associated with numerical coordinates (tuples in two or three dimensions). A coordinate representation is needed to compute geometric quantities (e.g., distances/lengths, angles, areas, volumnes, etc.) accurately for geospatial analysis.
+Geospatial datasets&mdash;whether it be raster data or vector data (as described in the next two notebooks)&mdash;need to be represented using a chosen *Coordinate Reference Systems (CRS)*. In the context of [*Geographic Information Systems (GIS)*](https://en.wikipedia.org/wiki/Geographic_information_system), a CRS is a mathematical framework that defines how geographical features & locations on the Earth's surface are associated with numerical coordinates (tuples in two or three dimensions). A coordinate representation is needed to compute geometric quantities (e.g., distances/lengths, angles, areas, volumes, etc.) accurately for geospatial analysis.
 
 The present notebook summarizes the main framework we'll use: the [*Military Grid Reference System (MGRS)*](https://en.wikipedia.org/wiki/Military_Grid_Reference_System). This system is built using the [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system), a particular  [*projected coordinate reference system*](https://en.wikipedia.org/wiki/Projected_coordinate_system). To understand all these pieces, we also need to know a few basic facts about [*Geographic Coordinate System* (GCS)](https://en.wikipedia.org/wiki/Geographic_coordinate_system) that employ on latitude-longitude coordinates.
 
@@ -23,7 +13,7 @@ The present notebook summarizes the main framework we'll use: the [*Military Gri
 ## An aside about timestamps
 
 
-Let's first consider the problem of specifying a time interval unambiguously&mdash;we encounter challenges doing so in ordinary contexts (e.g., trying to schedule a call between people residing in different time zones). Earth scientists generally use [*UTC* (*Coordinated Universal Time*)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) when recording timestamps associated with measurements or observations to avoid time-zone diffficulties. This is the case for all the NASA data products we'll work with. There are subtle questions about the degree of precision with which a timestamp is given (e.g., within days, hours, minutes, seconds, milliseconds, and so on); regardless, using UTC is a standard way of representing points in time (or a time window between two timestamps) without ambiguity.
+Let's first consider the problem of specifying a time interval unambiguously&mdash;we encounter challenges doing so in ordinary contexts (e.g., trying to schedule a call between people residing in different time zones). Earth scientists generally use [*UTC* (*Coordinated Universal Time*)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) when recording timestamps associated with measurements or observations to avoid time-zone difficulties. This is the case for all the NASA data products we'll work with. There are subtle questions about the degree of precision with which a timestamp is given (e.g., within days, hours, minutes, seconds, milliseconds, and so on); regardless, using UTC is a standard way of representing points in time (or a time window between two timestamps) without ambiguity.
 
 ---
 
@@ -63,7 +53,7 @@ The [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Univer
 ![utm_zones](https://gisgeography.com/wp-content/uploads/2016/05/UTM-Zones-Globe-2-500x485.png)
 
 + The UTM CRS divides the world map into 60 zones of width $6^\circ$ in longitude that extend between $-80^\circ$ & $+84^\circ$ latitude. The UTM zones are numbered 1 to 60, starting at the antimeridian (i.e., zone 1 at $-180^\circ$ longitude) and progressing east back to the antemeridian (i.e., zone 60 at $+180^\circ$ longitude).
-+ The origin within each UTM zone is on the equator at the zone's central meridian. To avoid negative coordinates, a 
++ The origin within each UTM zone is on the equator at the zone's central meridian.
 + There are formulas to convert from [latitude-longitude GCS coordinates to UTM easting-northing](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#From_latitude,_longitude_(%CF%86,_%CE%BB)_to_UTM_coordinates_(E,_N)) as well as [formulas to do the opposite](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#From_UTM_coordinates_(E,_N,_Zone,_Hemi)_to_latitude,_longitude_(%CF%86,_%CE%BB)). We need not concern ourselves with those details in this tutorial other than to know that software routines implement those formulas to effect those transformations.
 + The position of a point in UTM coordinates usually involves specifying two positive values for the easting & northing coordinates as well as the UTM zone number. The easting value is the number of meters east of the zones central meridian and the northing value is the number of meters north of the equator. To avoid using negative coordinates, a *false northing* value of $10,000,000\,\mathrm{m}$ to the northing coordinate and a false easting value of $500,000\,\mathrm{m}$ is added to the easting coordinate.
 
