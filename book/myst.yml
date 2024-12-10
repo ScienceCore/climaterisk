@@ -44,4 +44,4 @@ project:
 site:
   options:
     logo: assets/TOPS.png
-  template: https://raw.githubusercontent.com/2i2c-org/demo-gallery/main/theme.zip
+  template: book-theme
