@@ -233,7 +233,7 @@ granule
 
 El objeto `granule` tiene una representación de salida enriquecida en este cuaderno computacional de Jupyter. Podemos ampliar los atributos en la celda de salida haciendo clic en los triángulos.
 
-![](../assets/granule_output_repr.png)
+![](../../assets/granule_output_repr.png)
 
 El término _grano_ se refiere a una colección de archivos de datos (datos ráster en este caso), todos ellos asociados a datos sin procesar adquiridos por un satélite concreto en una fecha y hora fija sobre un mosaico geográfico concreto. Hay una gran variedad de atributos interesantes asociados con este grano.
 
