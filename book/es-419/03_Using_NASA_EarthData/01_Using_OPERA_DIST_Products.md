@@ -37,7 +37,7 @@ Del proyecto [Observational Products for End-Users from Remote Sensing Analysis 
 > - un conjunto de productos de Desplazamiento para Norteamérica
 > - un conjunto de productos de Movimiento Vertical del Terreno en Norteamérica
 
-Es decir, OPERA es una iniciativa de la National Aeronautics and Space Administration (NASA)(en español, Administración Nacional de Aeronáutica y del Espacio) que toma, por ejemplo, datos de teledetección óptica o radar recopilados desde satélites, y genera una variedad de conjuntos de datos preprocesados para uso público. Los productos de OPERA no son imágenes de satélite sin procesar, sino el resultado de una clasificación algorítmica para determinar, por ejemplo, qué regiones terrestres contienen agua o dónde se ha modificado la vegetación. Las imágenes de satélite sin procesar se recopilan a partir de mediciones realizadas por los instrumentos a bordo de las misiones de los satélites Sentinel-1 A/B, Sentinel-2 A/B y Landsat-8/9 (de ahí el término _Harmonized Landsat-Sentinel_" (HLS) (en español, Landsat-Sentinel Armonizadas) para en numerosas descripciones de productos).
+Es decir, OPERA es una iniciativa de la National Aeronautics and Space Administration (NASA, en español, Administración Nacional de Aeronáutica y del Espacio) que toma, por ejemplo, datos de teledetección óptica o radar recopilados desde satélites, y genera una variedad de conjuntos de datos preprocesados para uso público. Los productos de OPERA no son imágenes de satélite sin procesar, sino el resultado de una clasificación algorítmica para determinar, por ejemplo, qué regiones terrestres contienen agua o dónde se ha modificado la vegetación. Las imágenes de satélite sin procesar se recopilan a partir de mediciones realizadas por los instrumentos a bordo de las misiones de los satélites Sentinel-1 A/B, Sentinel-2 A/B y Landsat-8/9 (de ahí el término _Harmonized Landsat-Sentinel_" (HLS) (en español, Landsat-Sentinel Armonizadas) para en numerosas descripciones de productos).
 
 <!-- #endregion -->
 
@@ -72,7 +72,7 @@ Empieza importando las librerías necesarias. Observa que también estamos impor
 
 <!-- #endregion -->
 
-```python editable=true jupyter={"source_hidden": false} slideshow={"slide_type": ""}
+```{code-cell} python editable=true jupyter={"source_hidden": false} slideshow={"slide_type": ""}
 # Notebook dependencies
 import warnings
 warnings.filterwarnings('ignore')
@@ -82,6 +82,8 @@ import geoviews as gv
 gv.extension('bokeh')
 import hvplot.xarray
 from bokeh.models import FixedTicker
+
+FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
 ```
 
 <!-- #region jupyter={"source_hidden": false} -->
@@ -90,8 +92,8 @@ Lee los datos de un archivo local `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T1859
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+```{code-cell} python jupyter={"source_hidden": false}
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
 filename = LOCAL_PATH.name
 print(filename)
 ```
@@ -102,7 +104,7 @@ Este nombre de archivo bastante largo incluye varios campos separados por caract
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 filename.split('_') # Use the Python str.split method to view the distinct fields more easily.
 ```
 
@@ -131,17 +133,17 @@ Sube los datos de este archivo local en un `DataArray`, que es un tipo de dato d
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 data = rio.open_rasterio(LOCAL_PATH)
 crs = data.rio.crs
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 data
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 crs
 ```
 
@@ -151,7 +153,7 @@ Antes de generar un gráfico, crea un mapa base utilizando mosaicos [ESRI](https
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Creates basemap
 base = gv.tile_sources.ESRI.opts(width=750, height=750, padding=0.1)
 ```
@@ -162,7 +164,7 @@ También utiliza diccionarios para capturar la mayor parte de las opciones de tr
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -187,7 +189,7 @@ Por último, usa el método `DataArray.where` para filtrar los píxeles que falt
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_anom_max = data.where((data>0) & (data!=255))
 image_opts.update(crs=data.rio.crs)
 layout_opts.update(title=f"VEG_ANOM_MAX")
@@ -199,7 +201,7 @@ Estos cambios permiten generar una visualización útil.
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_anom_max.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
@@ -223,8 +225,8 @@ Cargar y reetiqueta el `DataArray` como antes.
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
+```{code-cell} python jupyter={"source_hidden": false}
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif')
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
@@ -235,7 +237,7 @@ En esta banda en particular, el valor 0 indica que no ha habido alteraciones en 
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_date = data.where(data>0)
 ```
 
@@ -245,7 +247,7 @@ Examina el rango de valores numéricos en `veg_dist_date` utilizando DataArray.m
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 d_min, d_max = int(veg_dist_date.min().item()), int(veg_dist_date.max().item())
 print(f'{d_min=}\t{d_max=}')
 ```
@@ -256,7 +258,7 @@ En este caso, los datos relevantes se encuentran entre 247 y 592. Recuerda que s
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts.update(
                    clim=(d_min,d_max),
                    crs=data.rio.crs
@@ -264,7 +266,7 @@ image_opts.update(
 layout_opts.update(title=f"VEG_DIST_DATE")
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_date.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
@@ -309,18 +311,18 @@ Observa el uso de `FixedTicker` en la definición de una barra de colores más a
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
-LOCAL_PATH = Path().cwd() / '..' / 'assets' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
+```{code-cell} python jupyter={"source_hidden": false}
+LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif')
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_status = data.where((data>0)&(data<5))
 image_opts.update(crs=data.rio.crs)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 layout_opts.update(
                     title=f"VEG_DIST_STATUS",
                     clim=(0,4),
@@ -328,7 +330,7 @@ layout_opts.update(
                   )
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 veg_dist_status.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
