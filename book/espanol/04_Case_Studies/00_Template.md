@@ -12,35 +12,35 @@ jupyter:
     name: python3
 ---
 
-# Plantilla para el uso de la nube EarthData
+# Plantilla para el uso de del servicio cloud ofrecido por EarthData
 
 ## Esquema de los pasos para el análisis
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 
 - Identificación de los parámetros de búsqueda
-  - AOI, ventana temporal
-  - Endpoint, proveedor, identificador del catálogo ("nombre corto")
+  - Área de interés (AOI, por las siglas en inglés de _area of interest_) y ventana temporal
+  - _Endpoint_, proveedor, identificador del catálogo ("nombre corto")
 - Obtención de los resultados de la búsqueda
-  - Instrospección, análisis para identificar características, bandas de interés
-  - Envolver los resultados en un DataFrame para facilitar la exploración
+  - Exploracion, análisis para identificar características, bandas de interés
+  - Almacenar los resultados en un DataFrame para facilitar la exploración
 - Explorar y refinar los resultados de la búsqueda
   - Identificar los gránulos de mayor valor
-  - Filtrar los gránulos extraños con una contribución mínima
-  - Reunir los gránulos filtrados relevantes en un DataFrame
-  - Identificar el tipo de resultado que se quiere generar
-- Procesamiento de los datos para generar resultados relevantes
+  - Filtrar los gránulos atípicos con mínima contribución
+  - Combinar los gránulos filtrados relevantes en un DataFrame
+  - Identificar el tipo de salida a generar
+- Procesar los datos para obtener resultados relevantes
   - Descargar los gránulos relevantes en Xarray DataArray, apilados adecuadamente
-  - Llevar a cabo los cálculos intermedios necesarios
-  - Ensamblar los fragmentos de datos relevantes en la visualización
+  - Realizar los cálculos intermedios necesarios
+  - Combinar los datos relevantes en una visualización
 
 <!-- #endregion -->
 
----
+***
 
-### Importaciones preliminares
+### Importación preliminar de librerías
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 from warnings import filterwarnings
 filterwarnings('ignore')
 # data wrangling imports
@@ -51,7 +51,7 @@ import rioxarray as rio
 import rasterio
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # Imports for plotting
 import hvplot.pandas
 import hvplot.xarray
@@ -60,7 +60,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -71,11 +71,11 @@ gdal.SetConfigOption('GDAL_DISABLE_READDIR_ON_OPEN','EMPTY_DIR')
 gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 ```
 
-### Utilidades prácticas
+### Funciones prácticas
 
-Estas funciones podrían colocarse en archivos de módulos para proyectos de investigación más desarrollados. Para fines didácticos, se incluyen en este cuaderno.
+Estas funciones podrían incluirse en archivos de módulos para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -85,7 +85,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -99,7 +99,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -118,7 +118,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # utility to process DataFrame of search results & return DataArray of stacked raster images
 def urls_to_stack(granule_dataframe):
     '''Processes DataFrame of PySTAC search results (with OPERA tile URLs) &
@@ -161,29 +161,29 @@ def urls_to_stack(granule_dataframe):
     return xr.concat(stack, dim='time').squeeze()
 ```
 
----
+***
 
 ## Identificación de los parámetros de búsqueda
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 AOI = ...
 DATE_RANGE = ...
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 # Optionally plot the AOI
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
----
+***
 
 ## Obtención de los resultados de la búsqueda
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 ENDPOINT = ...
 PROVIDER = ...
 COLLECTIONS = ...
@@ -192,7 +192,7 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```python jupyter={"source_hidden": true}
+```python jupyter={"source_hidden": false}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
@@ -202,31 +202,31 @@ df = search_to_dataframe(search_results)
 df.head()
 ```
 
-Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando columnas/filas innecesarias, convirtiendo columnas en tipos de datos fijos, estableciendo el índice, etc.).
+Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando columnas/filas innecesarias, convirtiendo columnas en tipos de datos fijos, estableciendo un índice, etc.).
 
 ```python
 ```
 
----
+***
 
-## Explorar y refinar los resultados de la búsqueda
+## Exploración y refinamiento de los resultados de la búsqueda
 
-<!-- #region jupyter={"source_hidden": true} -->
+<!-- #region jupyter={"source_hidden": false} -->
 
-Consiste en filtrar filas o columnas adecuadamente para limitar los resultados de la búsqueda a los archivos de datos ráster más adecuados para el análisis y/o la visualización. Esto puede significar enfocarse en determinados mosaicos geográficos, bandas específicas del producto de datos, determinadas fechas/marcas de tiempo, etc.
+Consiste en filtrar filas o columnas adecuadamente para limitar los resultados de la búsqueda a los archivos de datos ráster más relevantes para el análisis y/o la visualización. Esto puede significar enfocarse en determinadas regiones geográficos, bandas específicas del producto de datos, determinadas fechas o períodos, etc.
 
 <!-- #endregion -->
 
 ```python
 ```
 
----
+***
 
-## Procesamiento de los datos para generar resultados relevantes
+## Procesamiento de los datos para obtener resultados relevantes
 
-Esto puede incluir apilar matrices bidimensionales en una matriz tridimensional, mosaico de imágenes ráster de mosaicos adyacentes en un solo mosaico, etc.
+Esto puede incluir apilar matrices bidimensionales en una matriz tridimensional, combinar imágenes ráster de mosaicos adyacentes en uno solo, etc.
 
 ```python
 ```
 
----
+***
