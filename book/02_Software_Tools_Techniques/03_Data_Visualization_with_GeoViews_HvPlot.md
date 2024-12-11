@@ -24,8 +24,7 @@ The primary tools we'll use for plotting come from the [Holoviz](https://holoviz
 ## [GeoViews](https://geoviews.org/)
 
 <!-- #region jupyter={"source_hidden": false} -->
-<center><img src="https://geoviews.org/_static/logo_horizontal.png"></img>
-</center>
+<center><img src="https://geoviews.org/_static/logo_horizontal.png"></img></center>
 
 From the [GeoViews documentation](https://geoviews.org/index.html):
 
@@ -181,8 +180,7 @@ We'll use the approach above to visualize *Areas of Interest (AOIs)* when constr
 ## [hvPlot](https://hvplot.holoviz.org/)
 
 <!-- #region jupyter={"source_hidden": false} -->
-<center><img src="https://hvplot.holoviz.org/_images/diagram.svg"></img>
-</center>
+<center><img src="https://hvplot.holoviz.org/_images/diagram.svg"></img></center>
 
 + [hvPlot](https://hvplot.holoviz.org/) is designed to extend the `.plot` API from Pandas DataFrames.
 + It works for Pandas DataFrames and Xarray DataArrays/Datasets.

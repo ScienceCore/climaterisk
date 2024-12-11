@@ -31,7 +31,7 @@ FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
 ***
 
 <!-- #region jupyter={"source_hidden": false} -->
-<center><img src="https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg" width=360px></img></center>
+<center><img src="https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg" width=360px><</img></center>
 
 The principal data structure in Xarray is the [`DataArray`](https://docs.xarray.dev/en/stable/user-guide/data-structures.html) that provides support for labelled multi-dimensional arrays. [Project Pythia](https://foundations.projectpythia.org/core/xarray.html) provides a broad introduction to this package. We'll focus mainly on the specific parts of the Xarray API that we'll use for our particular geospatial analyses.
 
