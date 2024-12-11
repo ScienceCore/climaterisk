@@ -57,7 +57,7 @@ RASTER_FILE = RASTER_FILES[0]
 ## Plotting vector data from a `GeoDataFrame`
 
 <!-- #region jupyter={"source_hidden": false} -->
-<img src="https://geopandas.org/en/latest/_images/geopandas_logo.png" width=360px></img>
+<center><img src="https://geopandas.org/en/latest/_images/geopandas_logo.png" width=360px></img></center>
 
 The [GeoPandas](https://geopandas.org/en/stable/index.html) package contains many useful tools for working with vector geospatial data. In particular, the [GeoPandas `GeoDataFrame`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.html) is a subclass of the Pandas DataFrame that is specifically tailored for vector data stored in, e.g.,  *shapefiles*.
 
