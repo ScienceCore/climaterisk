@@ -60,7 +60,7 @@ Como es usual, se requiere la importación de ciertas librerías relevantes. Las
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 from warnings import filterwarnings
 filterwarnings('ignore')
 # data wrangling imports
@@ -71,7 +71,7 @@ import rioxarray as rio
 import rasterio
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Imports for plotting
 import hvplot.pandas
 import hvplot.xarray
@@ -80,7 +80,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -104,7 +104,7 @@ A continuación, definiremos los parámetros de búsqueda geográfica para poder
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # Center of the AOI
 livingston_tx_lonlat = (-95.09,30.69) # (lon, lat) form
 ```
@@ -115,7 +115,7 @@ Escribiremos algunas funciones cortas para encapsular la lógica de nuestros flu
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -125,7 +125,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -139,7 +139,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 AOI = make_bbox(livingston_tx_lonlat, 0.5, 0.25)
 basemap = gv.tile_sources.OSM.opts(width=500, height=500)
 plot_bbox(AOI) * basemap
@@ -151,7 +151,7 @@ Agreguemos un intervalo de fechas. Las inundaciones ocurrieron principalmente en
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 start_date, stop_date = '2024-04-01', '2024-05-31'
 DATE_RANGE = f'{start_date}/{stop_date}'
 ```
@@ -162,7 +162,7 @@ Por último, se crea un un diccionario `search_params` que almacene el AOI y el 
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
@@ -181,7 +181,7 @@ Para la búsqueda de productos de datos DSWx que se quiere ejecutar, estos pará
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac' # base URL for the STAC to search
 PROVIDER = 'POCLOUD'
 COLLECTIONS = ["OPERA_L3_DSWX-HLS_V1_1.0"]
@@ -196,7 +196,7 @@ Una vez que se definieron los parámetros de búsqueda en el diccionario de Pyth
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 print(f'{type(search_results)=}\n',search_results)
@@ -208,7 +208,7 @@ El objeto `search_results` que se obtuvo al llamar al método `search` es del ti
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 %%time
 granules = list(search_results.items())
 print(f"Number of granules found with tiles overlapping given AOI: {len(granules)}")
@@ -220,12 +220,12 @@ Se analiza el contenido de la lista `granules`.
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 granule = granules[0]
 print(f'{type(granule)=}')
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 granule
 ```
 
@@ -243,7 +243,7 @@ El término _grano_ se refiere a una colección de archivos de datos (datos rás
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 print(f"{type(granule.properties)=}\n")
 print(f"{granule.properties['datetime']=}\n")
 print(f"{granule.properties['eo:cloud_cover']=}\n")
@@ -257,7 +257,7 @@ Cada objeto en `granule.assets` es una instancia de la clase `Asset` que tiene u
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 for a in granule.assets:
     print(f"{a=}\t{type(granule.assets[a])=}")
     print(f"{granule.assets[a].href=}\n\n")
@@ -269,7 +269,7 @@ Además, el `Item` tiene un atributo `.id` que almacena una cadena de caracteres
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 print(granule.id)
 tile_id = granule.id.split('_')[3]
 print(f"{tile_id=}")
@@ -285,7 +285,7 @@ Los detalles de los resultados de la búsqueda son complicados de analizar de es
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -310,7 +310,7 @@ Invocar `search_to_dataframe` en `search_results` codifica la mayor parte de la 
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df = search_to_dataframe(search_results)
 df.head()
 ```
@@ -321,7 +321,7 @@ El método `DataFrame.info` nos permite examinar la estructura de este DataFrame
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.info()
 ```
 
@@ -333,7 +333,7 @@ En primer lugar, para estos resultados, solo es necesaria una columna `Datetime`
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df = df.drop(['start_datetime', 'end_datetime'], axis=1)
 df.info()
 ```
@@ -344,7 +344,7 @@ A continuación, se arregla el esquema del `DataFrame` `df` convirtiendo las col
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df['datetime'] = pd.DatetimeIndex(df['datetime'])
 df['eo:cloud_cover'] = df['eo:cloud_cover'].astype(np.float16)
 str_cols = ['asset', 'href', 'tile_id']
@@ -353,7 +353,7 @@ for col in str_cols:
 df = df.set_index('datetime').sort_index()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df.info()
 ```
 
@@ -373,7 +373,7 @@ Si se examina la columna numérica `eo:cloud_cover` del DataFrame `df`, se puede
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df['eo:cloud_cover'].agg(['min','mean','median','max'])
 ```
 
@@ -391,7 +391,7 @@ Como primera operación de filtrado, se mantienen solo las filas para las que la
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df_clear = df.loc[df['eo:cloud_cover']<50]
 df_clear
 ```
@@ -402,7 +402,7 @@ Para esta consulta de búsqueda, cada gránulo DSWX comprende datos ráster para
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 df_clear.asset.value_counts()
 ```
 
@@ -412,7 +412,7 @@ Se filtran las filas que corresponden a la banda `B01_WTR` del producto de datos
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 b01_wtr = df_clear.loc[df_clear.asset.str.contains('B01_WTR')]
 b01_wtr.info()
 b01_wtr.asset.value_counts()
@@ -424,7 +424,7 @@ También se puede observar que hay varios mosaicos geográficos asociados a los 
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 b01_wtr.tile_id.value_counts()
 ```
 
@@ -434,7 +434,7 @@ Recuerda que estos códigos se refieren a mosaicos geográficos MGRS especificad
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 b01_wtr_t15ruq = b01_wtr.loc[b01_wtr.tile_id=='T15RUQ']
 b01_wtr_t15ruq
 ```
@@ -457,7 +457,7 @@ Se cuenta con un `DataFrame` que identifica archivos remotos específicos de dat
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 def urls_to_stack(granule_dataframe):
     '''Processes DataFrame of PySTAC search results (with OPERA tile URLs) &
     returns stacked Xarray DataArray (dimensions time, latitude, & longitude)'''
@@ -499,18 +499,18 @@ def urls_to_stack(granule_dataframe):
     return xr.concat(stack, dim='time').squeeze()
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 %%time
 stack = urls_to_stack(b01_wtr_t15ruq)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 stack
 ```
 
 ### Crear una visualización de los datos
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 #  Define a colormap with RGBA tuples
 COLORS = [(150, 150, 150, 0.1)]*256  # Setting all values to gray with low opacity
 COLORS[0] = (0, 255, 0, 0.1)         # Not-water class to green
@@ -518,7 +518,7 @@ COLORS[1] = (0, 0, 255, 1)           # Open surface water
 COLORS[2] = (0, 0, 255, 1)           # Partial surface water
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 image_opts = dict(
                    x='lon',
                    y='lat',
@@ -543,12 +543,12 @@ Visualizar las imágenes completas puede consumir mucha memoria. Se utiliza el m
 
 <!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 view = stack.isel(lon=slice(3000,None), lat=slice(3000,None))
 view.hvplot.image(**image_opts)
 ```
 
-```python jupyter={"source_hidden": false}
+```{code-cell} python jupyter={"source_hidden": false}
 stack.hvplot.image(**image_opts) # Construct view from all slices.
 ```
 
