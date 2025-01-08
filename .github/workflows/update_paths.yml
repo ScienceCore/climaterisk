@@ -3,7 +3,7 @@ name: Update paths
 on:
   push:
     paths:
-      - '**/es-419'
+      - '**/es-419/*.md'
       - '*-es-419.md'
     branches:
       - main
