@@ -32,22 +32,22 @@ Certain physical properties of interest in GIS are not conveniently captured by 
 
 A single vector dataset georeferenced with a particular CRS typically contains any number of points, lines, or polygons.
 
-![points-lines-polygons-vector-data-types](../assets/points-lines-polygons-vector-data-types.png)
+![points-lines-polygons-vector-data-types](../../assets/img/points-lines-polygons-vector-data-types.png)
 
 <p style="text-align: center;">This image shows the three vector types: points, lines and polygons. Source: National Ecological Observatory Network.
 </p>
 
 
-![points](../assets/points.png)
+![points](../../assets/img/points.png)
 
 <p style="text-align: center;">(Left image) Overhead view of a landscape; (right image) Point vector representations of salient features.<br>Source: *Sistemas de Información Geográfica* by Victor Olaya.
 </p>
 
-![lines](../assets/lines.png)
+![lines](../../assets/img/lines.png)
 <p style="text-align: center;">(Left image) Overhead view of a river; (right image) Line vector representation of the river.<br>Source: *Sistemas de Información Geográfica* by Victor Olaya.
 </p>
 
-![polygon](../assets/polygon.png)
+![polygon](../../assets/img/polygon.png)
 
 <p style="text-align: center;">(Left image) Overhead view of a lake; (right image) Polygon vector representation of the lake<br>Source: *Sistemas de Información Geográfica* by Victor Olaya.
 </p>

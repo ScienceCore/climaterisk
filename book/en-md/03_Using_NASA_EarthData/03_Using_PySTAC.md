@@ -215,7 +215,7 @@ granule
 <!-- #region jupyter={"source_hidden": false} -->
 The object `granule` has a rich output representation in this Jupyter notebook. We can expand the attributes in the output cell by clicking the triangles.
 
-![](../assets/granule_output_repr.png)
+![](../../assets/img/granule_output_repr.png)
 
 The term *granule* refers to a collection of data files (raster data in this case) all associated with raw data acquired by a particular satellite at a fixed timestamp over a particular geographic tile. There are a number of interesting attributes associated with this granule.
 + `properties['datetime']`: a string representing the time of data acquisition for the raster data files in this granule;

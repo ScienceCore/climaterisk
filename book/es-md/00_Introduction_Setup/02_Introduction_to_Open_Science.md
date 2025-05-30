@@ -6,7 +6,7 @@ Este tutorial forma parte de un esfuerzo mayor para promover la _Ciencia Abierta
 
 ¿Qué es la Ciencia Abierta?
 
-![](../assets/image165.png)
+![](../../assets/img/image165.png)
 
 La iniciativa de la NASA [_Transformación hacia la Ciencia abierta_](https://science.nasa.gov/open-science/tops/) (TOPS, por las siglas en inglés de _Transform to Open Science_) ofrece un mayor número de recursos para quienes deseen aprender más sobre la práctica y los principios de la Ciencia Abierta.
 

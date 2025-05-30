@@ -24,7 +24,7 @@ Los conjuntos de datos ráster son útiles para representar cantidades continuas
 
 Los rásters se aproximan a las distribuciones numéricas continuas almacenando valores individuales dentro de cada celda de la _cuadrícula_ o _píxel_ (un término derivado del _"elemento de imagen"_ en los gráficos por computadora). Los rásters pueden representar datos recopilados en varios tipos de celdas de cuadrícula no rectangulares (por ejemplo, hexágonos). Para nuestros fines, restringiremos nuestra atención en las cuadrículas en las que todos los píxeles son rectángulos que tienen el mismo ancho y alto.
 
-![raster\_neon](../../assets/raster_neon.png)
+![raster\_neon](../../assets/img/raster_neon.png)
 
 <p style="text-align: center;">En esta imagen se muestra un ejemplo de datos ráster. Fuente: *National Ecological Observatory Network* (NEON)(en español, Red Nacional de Observatorios Ecológicos).
 </p>

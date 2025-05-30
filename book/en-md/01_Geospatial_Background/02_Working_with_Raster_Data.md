@@ -24,7 +24,7 @@ Raster datasets are useful to represent continuous quantities—pressure, elevat
 
 Rasters approximate continuous numerical distributions by storing individual values within each *grid cell* or *pixel* (a term derived from *"picture element"* in computer graphics). Rasters can represent data gathered over various types of non-rectangular grid cells (e.g., hexagons); for our purposes, we'll restrict our attention to grids in which all the pixels are rectangles of the same height and width.
 
-![raster_neon](../assets/raster_neon.png)
+![raster_neon](../../assets/img/raster_neon.png)
 
 <p style="text-align: center;">This image shows an example of raster data. Source: National Ecological Observatory Network (NEON).
 </p>

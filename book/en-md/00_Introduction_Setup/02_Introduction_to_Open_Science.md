@@ -6,7 +6,7 @@ This tutorial constitutes part of a larger general effort to promote *Open Scien
 
 "Open Science is the principle and practice of making research products and processes available to all, while respecting diverse cultures, maintaining security and privacy, and fostering collaborations, reproducibility, and equity."
 
-![](../assets/image165.png)
+![](../../assets/img/image165.png)
 
 NASA's [*Transform to Open Science (TOPS)*](https://science.nasa.gov/open-science/tops/) initiative provides more resources for those wanting to learn more about the practice and principles of Open Science.
 

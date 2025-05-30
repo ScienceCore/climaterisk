@@ -28,22 +28,22 @@ Los _datos vectoriales_ consisten en secuencias ordenadas de _vértices_, es dec
 
 Un conjunto único de datos vectoriales georreferenciados con un CRS en particular, generalmente contiene cualquier número de puntos, líneas o polígonos.
 
-![points-lines-polygons-vector-data-types](../../assets/points-lines-polygons-vector-data-types.png)
+![points-lines-polygons-vector-data-types](../../assets/img/points-lines-polygons-vector-data-types.png)
 
 <p style="text-align: center;">Esta imagen muestra los tres tipos de datos vectoriales: puntos, líneas y polígonos. Fuente: *National Ecological Observatory Network* (NEON) (en español, Red Nacional de Observatorios Ecológicos).
 </p>
 
-![points](../../assets/points.png)
+![points](../../assets/img/points.png)
 
 <p style="text-align: center;">(Imágen de la izquierda) Vista aérea de un paisaje, (imágen de la derecha) representaciones vectoriales de puntos de características destacadas.<br> Fuente: *Sistemas de Información Geográfica* por Victor Olaya.
 </p>
 
-![lines](../../assets/lines.png)
+![lines](../../assets/img/lines.png)
 
 <p style="text-align: center;">(Imágen de la izquierda) Vista aérea de un río, (imágen de la derecha) representación vectorial de líneas del río.<br>Fuente: *Sistemas de Información Geográfica* por Victor Olaya.
 </p>
 
-![polygon](../../assets/polygon.png)
+![polygon](../../assets/img/polygon.png)
 
 <p style="text-align: center;">(Imagen de la izquierda) Vista aérea de un lago, (imagen de la derecha) representación vectorial poligonal del lago.<br> Fuente: *Sistemas de Información Geográfica* por Victor Olaya.
 </p>
