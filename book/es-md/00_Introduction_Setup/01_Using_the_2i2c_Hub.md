@@ -1,3 +1,17 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
 # Uso del Hub de 2i2c
 
 Este cuaderno computacional contiene las instrucciones para iniciar sesión en la nube con ([JupyterHub](https://jupyter.org/hub)) plataforma proporcionada por [2i2c](https://2i2c.org) para este tutorial.

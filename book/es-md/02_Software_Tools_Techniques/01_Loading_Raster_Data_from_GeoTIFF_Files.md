@@ -4,8 +4,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: "1.3"
-      jupytext_version: 1.16.2
+      format_version: '1.3'
+      jupytext_version: 1.17.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -14,13 +14,13 @@ jupyter:
 
 # Carga de datos ráster desde archivos GeoTIFF
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Dado que la mayoría de los datos geoespaciales con los que trabajaremos en este tutorial están almacenados en archivos GeoTIFF, debemos saber cómo trabajar con esos archivos. La solución más sencilla es utilizar [rioxarray](https://corteva.github.io/rioxarray/html/index.html). Esta solución se encarga de muchos detalles complicados de forma transparente. También podemos utilizar [Rasterio](https://rasterio.readthedocs.io/en/stable) como herramienta para leer datos o metadatos de archivos GeoTIFF. Un uso adecuado de Rasterio puede marcar una gran diferencia a la hora de trabajar con archivos remotos en la nube.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 import numpy as np
 import rasterio
 import rioxarray as rio
@@ -33,7 +33,7 @@ FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
 
 ## [rioxarray](https://corteva.github.io/rioxarray/html/index.html)
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 `rioxarray` es un paquete que _extiende_ el paquete Xarray (hablaremos al respecto más adelante). Las principales funciones de `rioxarray` que utilizaremos en este tutorial son:
 
@@ -46,7 +46,7 @@ Para acostumbrarnos a trabajar con archivos GeoTIFF, utilizaremos algunos ejempl
 
 ### Carga de archivos en un DataArray
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Observa en primer lugar que `open_rasterio` funciona con direcciones de archivos locales y URL remotas.
 
@@ -54,25 +54,25 @@ Observa en primer lugar que `open_rasterio` funciona con direcciones de archivos
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 %%time
 LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 %%time
 REMOTE_URL ='https://opera-provisional-products.s3.us-west-2.amazonaws.com/DIST/DIST_HLS/WG/DIST-ALERT/McKinney_Wildfire/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data_remote = rio.open_rasterio(REMOTE_URL)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 La siguiente operación compara elementos de un Xarray `DataArray` elemento a elemento (el uso del método `.all` es similar a lo que haríamos para comparar arrays NumPy). Por lo general, esta no es una forma recomendable de comparar matrices, series, dataframes u otras estructuras de datos grandes que contengan datos de punto flotante. Sin embargo, en este caso concreto, como las dos estructuras de datos se leyeron del mismo archivo almacenado en dos ubicaciones diferentes, la comparación elemento a elemento tiene sentido. Confirma que los datos cargados en la memoria desde dos fuentes distintas son idénticos en cada bit.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 (data_remote == data).all() # Verify that the data is identical from both sources
 ```
 
@@ -80,7 +80,7 @@ La siguiente operación compara elementos de un Xarray `DataArray` elemento a el
 
 ## [rasterio](https://rasterio.readthedocs.io/en/stable)
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Esta sección puede omitirse si `rioxarray` funciona adecuadamente para nuestros análisis, es decir, si la carga de datos en la memoria no es prohibitiva. Cuando _no_ sea el caso, `rasterio` proporciona estrategias alternativas para explorar los archivos GeoTIFF. Es decir, el paquete `rasterio` ofrece formas de bajo nivel para cargar datos que `rioxarray` cuando sea necesario.
 
@@ -98,13 +98,13 @@ De la [documentación de Rasterio](https://rasterio.readthedocs.io/en/stable):
 
 ### Abrir archivos con rasterio.open
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # Show rasterio.open works using context manager
 LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
 print(LOCAL_PATH)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Dada una fuente de datos (por ejemplo, un archivo GeoTIFF en el contexto actual), podemos abrir un objeto `DatasetReader` asociado utilizando `rasterio.open`. Técnicamente, debemos recordar cerrar el objeto después. Es decir, nuestro código quedaría así:
 
@@ -131,7 +131,7 @@ El conjunto de datos se cerrará automáticamente fuera del bloque `with`.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{type(ds)=}')
     assert not ds.closed
@@ -140,7 +140,7 @@ with rasterio.open(LOCAL_PATH) as ds:
 assert ds.closed
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 La principal ventaja al utilizar `rasterio.open` en vez de `rioxarray.open_rasterio` para abrir un archivo es que este último método abre el archivo y carga inmediatamente su contenido en un `DataDarray` en la memoria.
 
@@ -152,7 +152,7 @@ Por el contrario, al utilizar `rasterio.open` se abre el archivo en su lugar y s
 
 ### Análisis de los atributos DatasetReader
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Cuando se abre un archivo utilizando `rasterio.open`, el objeto instanciado es de la clase `DatasetReader`. Esta clase tiene una serie de atributos y métodos de interés para nosotros:
 
@@ -167,18 +167,18 @@ En primer lugar, dado un `DatasetReader` `ds` asociado a una fuente de datos, el
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.profile=}')
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Los atributos `ds.height`, `ds.width`, `ds.shape`, `ds.count`, `ds.nodata` y `ds.transform` se incluyen en la salida de `ds.profile`, pero también son accesibles individualmente.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.height=}')
     print(f'{ds.width=}')
@@ -193,31 +193,31 @@ with rasterio.open(LOCAL_PATH) as ds:
 
 ### Lectura de datos en la memoria
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El método `ds.read` carga un _array_ del archivo de datos en la memoria. Ten en cuenta que esto se puede hacer en archivos locales o remotos.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 %%time
 with rasterio.open(LOCAL_PATH) as ds:
     array = ds.read()
     print(f'{array.shape=}')
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 %%time
 with rasterio.open(REMOTE_URL) as ds:
     array = ds.read()
     print(f'{array.shape=}')
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 print(f'{type(array)=}')
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El _array_ cargado en la memoria con `ds.read` es una matriz NumPy. Este puede ser encapsulado por un Xarray `DataArray` si proporcionamos código adicional para especificar las etiquetas de las coordenadas y demás.
 
@@ -227,18 +227,18 @@ El _array_ cargado en la memoria con `ds.read` es una matriz NumPy. Este puede s
 
 ### Mapeo de coordenadas
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Anteriormente, cargamos los datos de un archivo local en un `DataArray` llamado `da` utilizando `rioxarray.open_rasterio`.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 da = rio.open_rasterio(LOCAL_PATH)
 da
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 De este modo se simplificó la carga de datos ráster de un archivo GeoTIFF en un Xarray `DataArray` a la vez que cargaban los metadatos automáticamente. En particular, las coordenadas asociadas a los píxeles se almacenaron en `da.coords` (los ejes de coordenadas predeterminados son `band`, `x` y `y` para este _array_ tridimensional).
 
@@ -252,20 +252,20 @@ Los accesores `da.isel` y `da.sel` nos permiten extraer porciones del _array_ ut
 
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Si utilizamos `rasterio.open` para abrir un archivo, el atributo `transform` de `DatasetReader` proporciona los detalles sobre cómo realizar la conversión entre coordenadas de píxel y espaciales. Utilizaremos esta propiedad en algunos de los casos prácticos más adelante.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform=}')
     print(f'{np.abs(ds.transform[0])=}')
     print(f'{np.abs(ds.transform[4])=}')
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El atributo `ds.transform` es un objeto que describe una [_transformación afín_](https://es.wikipedia.org/wiki/Transformaci%C3%B3n_af%C3%ADn) (representada anteriormente como una matriz $2\times3$). Observa que los valores absolutos de las entradas diagonales de la matriz `ds.transform` dan las dimensiones espaciales de los píxeles ($30\mathrm{m}\times30\mathrm{m}$ en este caso).
 
@@ -273,7 +273,7 @@ También podemos utilizar este objeto para convertir las coordenadas de los píx
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform * (0,0)=}')       # top-left pixel
     print(f'{ds.transform * (0,3660)=}')    # bottom-left pixel
@@ -281,24 +281,24 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform * (3660,3660)=}') # bottom-right pixel
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El atributo `ds.bounds` muestra los límites de la región espacial (izquierda, abajo, derecha, arriba).
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(f'coordinate bounds: {ds.bounds=}')
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El método `ds.xy` también convierte coordenadas de índice entero en coordenadas continuas. Observa que `ds.xy` asigna enteros al centro de los píxeles. Los bucles siguientes imprimen la primera esquina superior izquierda de las coordenadas en coordenadas de píxel y, después, las coordenadas espaciales correspondientes.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     for k in range(3):
         for l in range(4):
@@ -313,24 +313,24 @@ with rasterio.open(LOCAL_PATH) as ds:
     print()
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 `ds.index` hace lo contrario: dadas las coordenadas espaciales `(x,y)`, devuelve los índices enteros del píxel que contiene ese punto.
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(ds.index(500000, 4700015))
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Estas conversiones pueden ser complicadas, sobre todo porque las coordenadas de píxel corresponden a los centros de los píxeles y también porque la segunda coordenada espacial `y` _disminuye_ a medida que la segunda coordenada de píxel _aumenta_. Hacer un seguimiento de detalles tediosos como este es en parte la razón por la que resulta útil cargar desde `rioxarray`, es decir, que nosotros lo hagamos. Pero vale la pena saber que podemos reconstruir este mapeo si es necesario a partir de los metadatos en el archivo GeoTIFF (utilizaremos este hecho más adelante).
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 with rasterio.open(LOCAL_PATH) as ds:
     print(ds.bounds)
     print(ds.transform * (0.5,0.5)) # Maps to centre of top left pixel

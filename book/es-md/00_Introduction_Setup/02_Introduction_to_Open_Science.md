@@ -1,3 +1,17 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
 # Acerca de este tutorial
 
 Este tutorial forma parte de un esfuerzo mayor para promover la _Ciencia Abierta_ &mdash;la práctica de disponibilizar los productos y los procesos de investigación a todas las personas. Las habilidades específicas que se desarrollarán aquí &mdash; como el uso de herramientas de código abierto y datos de libre acceso para mejorar la comprensión de los riesgos medioambientales&mdash; están alineadas con los principios de la ciencia abierta. Uno de los principales objetivos del tutorial es familiarizar a los estudiantes con el sitio Earthdata Cloud de la NASA, un recurso al que cualquier persona puede acceder para conseguir una cuenta. Los petabytes de productos de datos de la NASA incluyen los resultados generados por varios satélites que orbitan la Tierra midiendo aspectos específicos del entorno planetario. El tutorial también utiliza software de código abierto para formular y ejecutar tanto cálculos como análisis basados en la nube. Al aprender a acceder a los datos disponibles gratuitamente con herramientas de código abierto, se capacita a las personas que serán usuarias finales a difundir los resultados obtenidos junto con el código fuente y los datos utilizados para generarlos.

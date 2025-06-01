@@ -1,3 +1,17 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
 # Using the 2i2c Hub
 
 
@@ -34,7 +48,9 @@ By default,  logging into [`https://climaterisk.opensci.2i2c.cloud`](https://cli
 
 **Notes:** Any files you work on will persist between sessions as long as you use the same username when logging in.
 
+
 ## 2. Configuring the Cloud Environment to Access NASA EarthData from Python
+
 
 To access NASA's EarthData products from Python programs or Jupyter notebooks, it is necessary to save your NASA EarthData credentials in a special file called `.netrc` in your home directory.
 
@@ -75,3 +91,6 @@ Again, you can execute this directly from this notebook using the Python cell be
 ```
 
 If that worked smoothly, you're done! You now have everything you need to explore NASA's Earth observation data through the EarthData portal!
+
+
+---

@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.2
+      jupytext_version: 1.17.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -17,7 +17,7 @@ jupyter:
 
 ## Outline of steps for analysis
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 + Identifying search parameters
     + AOI, time-window
     + Endpoint, Provider, catalog identifier ("short name")
@@ -35,12 +35,12 @@ jupyter:
     + Assemble relevant data slices into visualization
 <!-- #endregion -->
 
-***
+---
 
 
 ### Preliminary imports
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 # data wrangling imports
@@ -51,7 +51,7 @@ import rioxarray as rio
 import rasterio
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # Imports for plotting
 import hvplot.pandas
 import hvplot.xarray
@@ -60,7 +60,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -73,10 +73,11 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Convenient utilities
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
+<!-- #endregion -->
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -86,7 +87,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -100,7 +101,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -119,7 +120,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # utility to process DataFrame of search results & return DataArray of stacked raster images
 def urls_to_stack(granule_dataframe):
     '''Processes DataFrame of PySTAC search results (with OPERA tile URLs) &
@@ -162,31 +163,31 @@ def urls_to_stack(granule_dataframe):
     return xr.concat(stack, dim='time').squeeze()
 ```
 
-***
+---
 
 
 ## Identifying search parameters
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 AOI = ...
 DATE_RANGE = ...
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # Optionally plot the AOI
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
-***
+---
 
 
 ## Obtaining search results
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 ENDPOINT = ...
 PROVIDER = ...
 COLLECTIONS = ...
@@ -195,45 +196,48 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
 
-```python
+```python jupyter={"source_hidden": true}
 df = search_to_dataframe(search_results)
 df.head()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Clean DataFrame `df` in ways that make sense (e.g., dropping unneeded columns/rows, casting columns as fixed datatypes, setting the index, etc.).
+<!-- #endregion -->
 
-```python
+```python jupyter={"source_hidden": true}
 
 ```
 
-***
+---
 
 
 ## Exploring & refining search results
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 This consists of filtering rows or columns appropriately to narrow the search results down to the raster data files most suitable to analysis and/or visualization. This can mean focussing on certain geographic tiles, specific bands of the data product, certains dates/timestamps, etc.
 <!-- #endregion -->
 
-```python
+```python jupyter={"source_hidden": true}
 
 ```
 
-***
+---
 
 
 ## Data-wrangling to produce relevant output
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 This can include stacking two-dimensional arrays into a three-dimensional array, mosaicking raster images from adjacent tiles into a single tile, etc.
+<!-- #endregion -->
 
-```python
+```python jupyter={"source_hidden": true}
 
 ```
 
-***
+---

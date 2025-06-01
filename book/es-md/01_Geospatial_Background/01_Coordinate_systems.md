@@ -1,3 +1,17 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
 # Sistemas de referencia de coordenadas
 
 Más adelante en este tutorial, extraeremos y analizaremos conjuntos de datos geoespaciales de los _catálogos de activos espacio-temporales_ (generalmente llamados _STAC_). En concreto, esto significa que tenemos que especificar con precisión una región geográfica&mdash; normalmente denominada _área de interés_ (AOI por las siglas en inglés de _area of interest_)&mdash; y una _ventana temporal_ que describan respectivamente dónde y cuándo se produjo un evento relevante (por ejemplo, una inundación, un incendio forestal, etc.). Es decir, tanto la ubicación espacial como el período de interés deben expresarse sin ambigüedades para buscar datos relevantes.

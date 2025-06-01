@@ -1,3 +1,17 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
 # Coordinate Reference Systems
 
 
@@ -14,6 +28,7 @@ The present notebook summarizes the main framework we'll use: the [*Military Gri
 
 
 Let's first consider the problem of specifying a time interval unambiguously&mdash;we encounter challenges doing so in ordinary contexts (e.g., trying to schedule a call between people residing in different time zones). Earth scientists generally use [*UTC* (*Coordinated Universal Time*)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) when recording timestamps associated with measurements or observations to avoid time-zone difficulties. This is the case for all the NASA data products we'll work with. There are subtle questions about the degree of precision with which a timestamp is given (e.g., within days, hours, minutes, seconds, milliseconds, and so on); regardless, using UTC is a standard way of representing points in time (or a time window between two timestamps) without ambiguity.
+
 
 ---
 
@@ -33,6 +48,7 @@ Here are some relevant facts about GCS latitude-longitude coordinates we'll rely
 + Great circles through the poles are referred to as *meridians*. Meridians have a fixed longitude value.
 + Circles in planes parallel to the equatorial plane are referred to as *parallels*. Parallels have a fixed latitude value.
 + At the Earth's equator, one second of longitude corresponds to roughly 30 meters. However, there is a nonlinear relationship between differences in latitude-longitude coordinates and distances on the Earth's surface (and hence distortions in other geometrical properties). For instance, let's consider two angular regions of "width" $1^\circ$ in longitude and "height" $1^\circ$ in latitude (aligned with the latitude-longitude axes). On a map using GCS coordinates, those two regions would have the same area; however, the corresponding areas on the Earth's surface would differ. In particular, whichever patch is closer to the equator would have a greater surface area. Specifically, closer to the poles, the lines of constant longitude and latitude are closer together, so areas get compressed (this is a feature of any GCS).
+
 
 ---
 
@@ -57,6 +73,7 @@ The [*Universal Transverse Mercator (UTM)*](https://en.wikipedia.org/wiki/Univer
 + There are formulas to convert from [latitude-longitude GCS coordinates to UTM easting-northing](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#From_latitude,_longitude_(%CF%86,_%CE%BB)_to_UTM_coordinates_(E,_N)) as well as [formulas to do the opposite](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#From_UTM_coordinates_(E,_N,_Zone,_Hemi)_to_latitude,_longitude_(%CF%86,_%CE%BB)). We need not concern ourselves with those details in this tutorial other than to know that software routines implement those formulas to effect those transformations.
 + The position of a point in UTM coordinates usually involves specifying two positive values for the easting & northing coordinates as well as the UTM zone number. The easting value is the number of meters east of the zones central meridian and the northing value is the number of meters north of the equator. To avoid using negative coordinates, a *false northing* value of $10,000,000\,\mathrm{m}$ to the northing coordinate and a false easting value of $500,000\,\mathrm{m}$ is added to the easting coordinate.
 
+
 ---
 
 
@@ -75,6 +92,7 @@ Here are some important examples of EPSG CRS codes:
   
 From a mathematical viewpoint, an EPSG code is a compact identifier connecting to standardized sets of equations, parameters, and rules.
 
+
 ---
 
 
@@ -88,5 +106,6 @@ The last convention we need to know is the [*Military Grid Reference System (MGR
 The MGRS system uses UTM zones as a basis for its grid. Remember, the UTM system divides the Earth's surface into 60 zones, each of width $6^{\circ}$ longitude, extending from $-80^\circ$ to $+84^\circ$. Each UTM zone is divided into 20 horizontal latitude bands each of of height $8^\circ$ latitude; these latitude bands are labeled `C` through `X` (excluding the letters `I` and `O` to avoid confusion with `1` & `0` respectively). These first two labels constitute a *grid-zone designator* (*GZD*).  These 1,200 MGRS grid-zones are further subdivided into tiles of area $(100\,\mathrm{km}\times100\,\mathrm{km})$; these smaller tiles are labelled by column and row within each GZD. For instance, the tile identifier `10TEM` indicates that the tile in question is in UTM zone `10` in the horizontal band `T`. Within that GZD, there is a grid of tiles and the one with column index `E` and row index `M` is the tile in question. These tile labels help identify the coordinates of the corners of a square region associated with a satellite image as well as the projected coordinate system used to map points on the Earth's surface to the projected tile coordinates.
 
 In essence, MGRS is a refinement of the UTM coordinate system, designed for easier readability and communication in military and navigation applications. The system's hierarchical structure&mdash;from UTM zone to latitude band to 100 km grid squares, and finally down to precise easting and northing coordinates&mdash;enables efficient referencing without needing large numeric coordinates.
+
 
 ---
