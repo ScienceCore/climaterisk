@@ -34,7 +34,7 @@ En este caso, crearemos un DataFrame para resumir los resultados de la búsqueda
 
 ### Importación preliminar
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 import numpy as np, pandas as pd, xarray as xr
@@ -42,14 +42,14 @@ import rioxarray as rio
 import rasterio
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
 from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 from pystac_client import Client
 from osgeo import gdal
 # GDAL setup for accessing cloud data
@@ -61,7 +61,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Funciones de utilidad
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -71,7 +71,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -85,7 +85,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -112,27 +112,27 @@ Estas funciones podrían incluirse en archivos modulares para proyectos de inves
 
 La Gran Muralla Verde se extiende por el continente africano. Elegiremos un área de interés centrada en las coordenadas geográficas $(-16.0913^{\circ}, 16.528^{\circ})$ en Senegal. Analizaremos todos los datos disponibles desde enero de 2022 hasta finales de marzo de 2024. Usaremos los identificadores `AOI` y `DATE_RANGE` para utilizarlos eventualmente en una consulta de búsqueda PySTAC.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 AOI = make_bbox((-16.0913, 16.528), 0.1, 0.1)
 DATE_RANGE = "2022-01-01/2024-03-31"
 ```
 
 El gráfico que se genera a continuación ilustra el AOI. Las herramientas Bokeh Zoom son útiles para analizar la caja en varias escalas de longitud.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 # Optionally plot the AOI
 basemap = gv.tile_sources.OSM(padding=0.1, alpha=0.25)
 plot_bbox(AOI) * basemap
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
 Para ejecutar la búsqueda, definimos la URI del punto final e instanciamos el objeto `Client`.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
 PROVIDER = 'LPCLOUD'
 COLLECTIONS = ["OPERA_L3_DIST-ALERT-HLS_V1_1"]
@@ -145,7 +145,7 @@ search_results = catalog.search(**search_params)
 
 La búsqueda en sí es bastante rápida y arroja algunos miles de resultados que pueden analizarse más fácilmente en un  DataFrame de Pandas.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 %%time
 df = search_to_dataframe(search_results)
 df.info()
@@ -160,7 +160,7 @@ Limpiaremos el `DataFrame` `df` como lo venimos haciendo de manera habitual:
 - convertimos la columna `datetime` en `DatetimeIndex`, y
 - establecemos la columna `datetime` como `Index`.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 df = df.rename(columns={'eo:cloud_cover':'cloud_cover'})
 df.cloud_cover = df.cloud_cover.astype(np.float16)
 df = df.drop(['start_datetime', 'end_datetime'], axis=1)
@@ -169,7 +169,7 @@ df.datetime = pd.DatetimeIndex(df.datetime)
 df = df.set_index('datetime').sort_index()
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 df.info()
 ```
 
@@ -181,23 +181,23 @@ El siguiente paso es identificar un conjunto con una cantidad menor de filas a p
 
 Lo que queremos es la banda `VEG-DIST-STATUS` de los datos DIST-ALERT, así que debemos extraer solamente las filas del `df` asociadas a esa banda. Para ello, podemos construir una serie booleana `c1` que sea `True` siempre que la cadena de la columna `asset` incluya `VEG-DIST-STATUS` como subcadena. También podemos construir una serie booleana `c2` para filtrar las filas cuya `cloud_cover` exceda el 20%.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 c1 = df.asset.str.contains('VEG-DIST-STATUS')
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 c2 = df.cloud_cover<20
 ```
 
 Si analizamos la columna `tile_id`, podemos ver que un único mosaico MGRS contiene el AOI que especificamos. Como tal, todos los datos indexados en `df` corresponden a mediciones distintas tomadas de un mosaico geográfico fijo en diferentes momentos.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 df.tile_id.value_counts()
 ```
 
 Podemos combinar la información anterior para reducir el `DataFrame` a una secuencia de filas mucho más pequeña. También podemos eliminar las columnas `asset` y `tile_id` porque serán las mismas en todas las filas después del filtrado. También podemos eliminar la columna `cloud_cover`, ya que en lo sucesivo solo necesitaremos la columna `href`.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 df = df.loc[c1 & c2].drop(['asset', 'tile_id', 'cloud_cover'], axis=1)
 df.info()
 ```
@@ -208,13 +208,13 @@ df.info()
 
 Podemos analizar el `DataFrame` para ver cuál es la información resultante.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 df
 ```
 
 Hay casi ochenta filas, cada una de las cuales está asociada a un gránulo distinto (en este contexto, un archivo GeoTIFF producido a partir de una observación efectuada en una fecha y hora determinadas). Utilizaremos un bucle para crear un `DataArray` apilado a partir de los archivos remotos utilizando `xarray.concat`. Dado que se deben recuperar algunas docenas de archivos de una fuente remota, esto puede tardar unos minutos y el resultado requerirá algo de memoria (unos 12 MiB por cada fila, ya que cada GeoTIFF corresponde a una matriz de $3,660\times3,660$ de enteros de 8 bits sin signo).
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 %%time
 stack = []
 for timestamp, row in df.iterrows():
@@ -243,13 +243,13 @@ A modo de recordatorio, para la banda `VEG-DIST-STATUS`, interpretaremos los val
 
 Al aplicar `np.unique` a la pila de rásters, vemos que estos 10 valores distintos aparecen en algún lugar de los datos.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 np.unique(stack)
 ```
 
 Trataremos los píxeles con valores faltantes (por ejemplo, el `255`) igual que los píxeles sin alteraciones (por ejemplo, el valor `0`). Podríamos reasignar el valor `nan` a esos píxeles, pero eso convierte todos los datos a `float32` o `float64` y, por lo tanto, aumenta la cantidad de memoria requerida. Es decir, reasignar `255->0` nos permite ignorar los valores que faltan sin utilizar más memoria.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 stack = stack.where(stack!=255, other=0)
 
 np.unique(stack)
@@ -257,7 +257,7 @@ np.unique(stack)
 
 Definiremos un mapa de colores para identificar los píxeles que muestran signos de alteraciones. En vez de asignar colores diferentes a cada una de las 8 categorías de alteraciones, utilizaremos [valores RGBA](https://es.wikipedia.org/wiki/Espacio_de_color_RGBA) para asignar colores con un valor de transparencia. Con el mapa de colores definido en la siguiente celda, la mayoría de los píxeles serán totalmente transparentes. Los píxeles restantes son de color rojo con valores `alpha` estrictamente positivos. Los valores que realmente queremos ver son `3`, `6`, `7` y `8` (que indican una alteración confirmada en curso o una alteración confirmada que finalizó).
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 # Define a colormap using RGBA values; these need to be written manually here...
 COLORS = [
             (255, 255, 255, 0.0),   # No disturbance
@@ -278,7 +278,7 @@ Ya podemos, entonces, producir visualizaciones utilizando la matriz `stack`.
 - Definimos los diccionarios `image_opts` y `layout_opts` para controlar los argumentos que pasaremos a `hvplot.image`.
 - El resultado, cuando se visualiza, es un gráfico interactivo con un selector que nos permite ver cortes temporales específicos de los datos.
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 steps = 100
 subset=slice(0,None,steps)
 view = stack.isel(longitude=subset, latitude=subset)
@@ -306,7 +306,7 @@ layout_opts = dict(
                   )
 ```
 
-```{code-cell} python
+```python jupyter={source_hidden: true}
 view.hvplot.image(**image_opts, **layout_opts)
 ```
 

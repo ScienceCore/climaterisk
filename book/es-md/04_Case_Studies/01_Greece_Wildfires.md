@@ -50,14 +50,14 @@ En particular, analizaremos la zona que está alrededor de la ciudad de [Alexand
 
 ### Importación preliminar
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 # Imports for plotting
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
@@ -65,7 +65,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -78,7 +78,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Funciones prácticas
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -88,7 +88,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -102,7 +102,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -131,19 +131,19 @@ Estas funciones podrían incluirse en archivos modular para proyectos de investi
 
 ## Identificación de los parámetros de búsqueda
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 dadia_forest = (26.18, 41.08)
 AOI = make_bbox(dadia_forest, 0.1, 0.1)
 DATE_RANGE = '2023-08-01/2023-09-30'.split('/')
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 # Optionally plot the AOI
 basemap = gv.tile_sources.ESRI(width=500, height=500, padding=0.1, alpha=0.25)
 plot_bbox(AOI) * basemap
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
@@ -152,7 +152,7 @@ print(search_params)
 
 ## Obtención de los resultados de búsqueda
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
 PROVIDER = 'LPCLOUD'
 COLLECTIONS = ["OPERA_L3_DIST-ALERT-HLS_V1_1"]
@@ -161,7 +161,7 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
@@ -172,7 +172,7 @@ Como de costumbre, codificaremos el resultado de la búsqueda en un Pandas `Data
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 %%time
 df = search_to_dataframe(search_results)
 df.head()
@@ -191,7 +191,7 @@ Limpiaremos el `DataFrame` `df` de las formas típicas:
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 df = df.drop(['end_datetime', 'start_datetime'], axis=1)
 df.datetime = pd.DatetimeIndex(df.datetime)
 df = df.rename(columns={'eo:cloud_cover':'cloud_cover'})
@@ -212,7 +212,7 @@ Examinemos el `DataFrame` `df` para comprender mejor los resultados de la búsqu
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 df.tile_id.value_counts() 
 ```
 
@@ -222,7 +222,7 @@ Entonces, el AOI se encuentra estrictamente dentro de un único mosaico geográf
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 df.asset.value_counts().sort_values(ascending=False)
 ```
 
@@ -232,7 +232,7 @@ Algunos de los nombres de estos activos no son tan simples y ordenados como los 
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 idx_veg_dist_status = df.asset.str.contains('VEG-DIST-STATUS')
 idx_veg_dist_status
 ```
@@ -243,13 +243,13 @@ Podemos utilizar esta `Series` booleana con el método de acceso `.loc` de Panda
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 veg_dist_status = df.loc[idx_veg_dist_status]
 veg_dist_status = veg_dist_status.drop('asset', axis=1)
 veg_dist_status
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 print(len(veg_dist_status))
 ```
 
@@ -259,7 +259,7 @@ Observe que algunas de las filas tienen la misma fecha pero horas diferentes (lo
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 by_day = veg_dist_status.resample('1d').href.apply(list)
 display(by_day)
 by_day.map(len).hvplot.scatter(grid=True).opts(title='# of observations')
@@ -271,7 +271,7 @@ Limpiemos la `Series` `by_day` filtrando las filas que tienen listas vacías (es
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 by_day = by_day.loc[by_day.map(bool)]
 by_day.map(len).hvplot.scatter(ylim=(0,2.1), grid=True).opts(title="# of observations")
 ```
@@ -292,7 +292,7 @@ El incendio forestal cerca de Alexandroupolis comenzó alrededor del 21 de agost
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 href = by_day[0][0]
 data = rio.open_rasterio(href).rename(dict(x='longitude', y='latitude'))
 crs = data.rio.crs
@@ -305,7 +305,7 @@ Antes de construir un `DataArray` apilado dentro de un bucle, definiremos un dic
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 template = dict()
 template['coords'] = data.coords.copy()
 del template['coords']['band']
@@ -322,12 +322,12 @@ Utilizaremos un bucle para construir un arreglo apilado de rásteres a partir de
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 import rasterio
 from rasterio.merge import merge
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 %%time
 rasters = []
 for date, hrefs in by_day.items():
@@ -348,7 +348,7 @@ Los datos acumulados en la lista de `rasters` se almacenan como arreglos de NumP
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 stack = xr.DataArray(data=np.concatenate(rasters, axis=0), **template)
 stack.rio.write_crs(crs, inplace=True)
 stack
@@ -382,7 +382,7 @@ El valor del píxel particular que queremos marcar es 6, es decir, un píxel en 
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 pixel_val = 6
 conversion_factor = (30/1_000)**2 / pixel_val
 damage_area = stack.where(stack==pixel_val, other=0).sum(axis=(1,2)) 
@@ -390,7 +390,7 @@ damage_area = damage_area.to_series() * conversion_factor
 damage_area
 ```
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 plot_title = 'Damaged Area (km²)'
 line_plot_opts = dict(title=plot_title, grid=True, color='r')
 damage_area.hvplot.line(**line_plot_opts)
@@ -412,7 +412,7 @@ El bosque cercano de Dadia se vio especialmente afectado por los incendios. Para
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 dates_of_interest = ['2023-08-01', '2023-08-26', '2023-09-18']
 print(dates_of_interest)
 snapshots = stack.sel(time=dates_of_interest)
@@ -425,7 +425,7 @@ Vamos a hacer una secuencia estática de los gráficos. Empezaremos definiendo a
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 image_opts = dict(
                     x='longitude', 
                     y='latitude',
@@ -445,7 +445,7 @@ Construiremos un mapa de colores utilizando un diccionario de valores RGBA (por 
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 COLORS = { k:(0,0,0,0.0) for k in range(256) }
 COLORS.update({6: (255,0,0,1.0)})
 image_opts.update(cmap=list(COLORS.values()))
@@ -458,7 +458,7 @@ Como siempre, empezaremos por cortar imágenes más pequeñas para asegurarnos d
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 steps = 100
 subset = slice(0,None, steps)
 view = snapshots.isel(longitude=subset, latitude=subset)
@@ -471,7 +471,7 @@ Si eliminamos la llamada a `.layout`, podemos producir un desplazamiento interac
 
 <!-- #endregion -->
 
-```{code-cell} python jupyter={"source_hidden": false}
+```python jupyter={source_hidden: true}
 steps = 100
 subset = slice(0,None, steps)
 view = stack.isel(longitude=subset, latitude=subset,)
