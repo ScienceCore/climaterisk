@@ -110,7 +110,6 @@ Hay numerosos formatos de archivo estándar que se utilizan para compartir mucho
 [GeoTIFF](https://es.wikipedia.org/wiki/GeoTIFF) es un estándar de metadatos de dominio público diseñado para trabajar con archivos [Formato de archivo de imagen etiquetado](https://en.wikipedia.org/wiki/TIFF) ( (TIFF, por sus siglas en inglés de _Tagged Image File Format_))). El formato GeoTIFF permite incluir información de georreferenciación como metadatos geoespaciales dentro de los archivos de imagen. Las aplicaciones SIG utilizan GeoTIFF para fotografías aéreas, imágenes de satélite y mapas digitalizados. El formato de los datos GeoTIFF se describe detalladamente en el documento [estándar OGC GeoTIFF](https://www.ogc.org/standard/geotiff/).
 
 Un archivo GeoTIFF usualmente incluye metadatos geográficos como etiquetas embebidas. Estos pueden incluir metadatos de imágenes ráster tales como:
-
 - extensión espacial, es decir, el área que cubre el conjunto de datos,
 - el SRC qué se utiliza para almacenar los datos,
 - la resolución espacial, es decir, las dimensiones horizontal y vertical de los píxeles,
@@ -142,6 +141,7 @@ La función `rioxarray.open_rasterio` cargó los datos raster del archivo GeoTIF
 ```python jupyter={"source_hidden": true}
 da # examine contents
 ```
+
 <!-- #region jupyter={"source_hidden": true} -->
 Este ráster es de alta resolución  ($3600\times3600$ píxeles). Vamos a tomar una parte más pequeña (por ejemplo, un muestreo cada 200 píxeles) creando una instancia del objeto `slice` de Python `subset` y usando el método Xarray `DataArray.isel` para construir una matriz de menor resolución (que se renderizará más rápido). Entonces podemos hacer una visualización (renderizado por Matplotlib de manera predeterminada).
 <!-- #endregion -->
@@ -151,6 +151,7 @@ subset = slice(0,None,200)
 view = da.isel(x=subset, y=subset)
 view.plot();
 ```
+
 <!-- #region jupyter={"source_hidden": true} -->
 Observe que la visualización se etiqueta utilizando las coordenadas continuas (este, norte) asociadas a la extensión espacial de este ráster. Es decir, la sutil contabilidad necesaria para hacer un seguimiento de las coordenadas continuas y de píxel fue administrada de forma transparente por la API de la estructura de datos. ¡Eso es bueno!
 <!-- #endregion -->

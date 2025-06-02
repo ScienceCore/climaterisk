@@ -35,7 +35,6 @@ That is, OPERA is a NASA initiative that takes, e.g., optical or radar remote-se
 
 ---
 
-
 ## The OPERA Dynamic Surface Water Extent (DSWx) product
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -55,7 +54,6 @@ The water classification layer consists of unsigned 8-bit integer raster data (U
 <!-- #endregion -->
 
 ---
-
 
 ### Examining an example WTR layer
 
@@ -86,6 +84,7 @@ b01_wtr = rio.open_rasterio(LOCAL_PATH).rename({'x':'longitude', 'y':'latitude'}
 
 <!-- #region jupyter={"source_hidden": true} -->
 Remember, using the repr for `b01_wtr` in this Jupyter notebook is quite convenient.
+
 + By expanding the `Attributes` tab, we can see all the metadata associated with the data acquired.
 + By expanding the `Coordinates` tab, we can examine all the associated arrays of coordinate values.
 <!-- #endregion -->
@@ -118,7 +117,6 @@ These pixel values are *categorical data*. Specifically, the valid pixel values 
 
 ---
 
-
 ### Producing an initial plot
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -150,7 +148,6 @@ The default colormap does not reveal the raster features very well. Also, notice
 <!-- #endregion -->
 
 ---
-
 
 ### Reassigning pixel values
 
@@ -257,7 +254,6 @@ Notice that the pixel value `5` does not occur in the relabelled array because t
 <!-- #endregion -->
 
 ---
-
 
 ### Defining a colormap & plotting with a colorbar
 

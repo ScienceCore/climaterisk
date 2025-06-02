@@ -29,7 +29,6 @@ FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem 
 
 ---
 
-
 ## [rioxarray](https://corteva.github.io/rioxarray/html/index.html)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -69,7 +68,6 @@ This next operation compares elements of an Xarray `DataArray` elementwise (the 
 
 ---
 
-
 ## [rasterio](https://rasterio.readthedocs.io/en/stable)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -83,7 +81,6 @@ From the [Rasterio documentation](https://rasterio.readthedocs.io/en/stable):
 >
 >High performance, lower cognitive load, cleaner and more transparent code. This is what Rasterio is about.
 <!-- #endregion -->
-
 
 ---
 
@@ -174,7 +171,6 @@ with rasterio.open(LOCAL_PATH) as ds:
 
 ---
 
-
 ### Reading data into memory
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -204,7 +200,6 @@ The array loaded into memory with `ds.read` is a NumPy array. This can be wrappe
 <!-- #endregion -->
 
 ---
-
 
 ### Mapping coordinates
 

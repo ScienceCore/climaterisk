@@ -20,7 +20,6 @@ The primary tools we'll use for plotting come from the [Holoviz](https://holoviz
 
 ---
 
-
 ## [GeoViews](https://geoviews.org/)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -48,7 +47,6 @@ FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem 
 
 ---
 
-
 ### Displaying a basemap
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -61,7 +59,6 @@ basemap # When displayed, this basemap can be zoomed & panned using the menu at 
 ```
 
 ---
-
 
 ### Plotting points
 
@@ -101,12 +98,10 @@ print(type(tokyo_point))
 
 ---
 
-
 ### Plotting rectangles
 
 <!-- #region jupyter={"source_hidden": true} -->
-+ Standard way to represent rectangle (also called a *bounding box*) with corners
-  $$(x_{\mathrm{min}},y_{\mathrm{min}}), (x_{\mathrm{min}},y_{\mathrm{max}}), (x_{\mathrm{max}},y_{\mathrm{min}}), (x_{\mathrm{max}},y_{\mathrm{max}})$$
++ Standard way to represent rectangle (also called a *bounding box*) with corners $$(x_{\mathrm{min}},y_{\mathrm{min}}), (x_{\mathrm{min}},y_{\mathrm{max}}), (x_{\mathrm{max}},y_{\mathrm{min}}), (x_{\mathrm{max}},y_{\mathrm{max}})$$
   (assuming $x_{\mathrm{max}}>x_{\mathrm{min}}$ & $y_{\mathrm{max}}>y_{\mathrm{min}}$) is as a single 4-tuple
   $$(x_{\mathrm{min}},y_{\mathrm{min}},x_{\mathrm{max}},y_{\mathrm{max}}),$$
   i.e., the lower,left corner coordinates followed by the upper, right corner coordinates.
@@ -176,7 +171,6 @@ We'll use the approach above to visualize *Areas of Interest (AOIs)* when constr
 
 ---
 
-
 ## [hvPlot](https://hvplot.holoviz.org/)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -187,7 +181,6 @@ We'll use the approach above to visualize *Areas of Interest (AOIs)* when constr
 <!-- #endregion -->
 
 ---
-
 
 ### Plotting from a DataFrame with hvplot.pandas
 
@@ -206,7 +199,6 @@ df.head()
 ```
 
 ---
-
 
 #### Reviewing the Pandas DataFrame.plot API
 
@@ -228,7 +220,6 @@ west_coast.plot.line(); # This produces a static Matplotlib plot
 ```
 
 ---
-
 
 #### Using the hvPlot DataFrame.hvplot API
 
@@ -259,7 +250,6 @@ smoothed.hvplot.line(width=600, height=300, grid=True)
 ```
 
 ---
-
 
 ### Plotting from a DataArray with hvplot.xarray
 
@@ -298,7 +288,6 @@ data
 
 ---
 
-
 #### Reviewing the Xarray DataArray.plot API
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -310,7 +299,6 @@ data.plot(); # by default, uses pcolormesh
 ```
 
 ---
-
 
 #### Using the hvPlot DataArray.hvplot API
 
@@ -329,7 +317,6 @@ The result above is an interactive plot, rendered using Bokeh. It's a bit slow, 
 <!-- #endregion -->
 
 ---
-
 
 #### Building up options incrementally to improve plots
 

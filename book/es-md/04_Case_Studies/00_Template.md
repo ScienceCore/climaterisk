@@ -17,7 +17,6 @@ jupyter:
 ## Esquema de los pasos para el análisis
 
 <!-- #region jupyter={"source_hidden": true} -->
-
 - Identificación de los parámetros de búsqueda
   - Área de interés (AOI, por las siglas en inglés de _area of interest_) y ventana temporal
   - _Endpoint_, proveedor, identificador del catálogo ("nombre corto")
@@ -33,7 +32,6 @@ jupyter:
   - Descargar los gránulos relevantes en Xarray DataArray, apilados adecuadamente
   - Realizar los cálculos intermedios necesarios
   - Combinar los datos relevantes en una visualización
-
 <!-- #endregion -->
 
 ---
@@ -73,7 +71,9 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Funciones prácticas
 
+<!-- #region jupyter={"source_hidden": true} -->
 Estas funciones podrían incluirse en archivos de módulos para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
+<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle with given center of width dx & height dy
@@ -202,7 +202,9 @@ df = search_to_dataframe(search_results)
 df.head()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando columnas/filas innecesarias, convirtiendo columnas en tipos de datos fijos, estableciendo un índice, etc.).
+<!-- #endregion -->
 
 ```python
 ```
@@ -212,9 +214,7 @@ Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando co
 ## Exploración y refinamiento de los resultados de la búsqueda
 
 <!-- #region jupyter={"source_hidden": true} -->
-
 Consiste en filtrar filas o columnas adecuadamente para limitar los resultados de la búsqueda a los archivos de datos ráster más relevantes para el análisis y/o la visualización. Esto puede significar enfocarse en determinadas regiones geográficos, bandas específicas del producto de datos, determinadas fechas o períodos, etc.
-
 <!-- #endregion -->
 
 ```python
@@ -224,7 +224,9 @@ Consiste en filtrar filas o columnas adecuadamente para limitar los resultados d
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
+<!-- #region jupyter={"source_hidden": true} -->
 Esto puede incluir apilar matrices bidimensionales en una matriz tridimensional, combinar imágenes ráster de mosaicos adyacentes en uno solo, etc.
+<!-- #endregion -->
 
 ```python
 ```

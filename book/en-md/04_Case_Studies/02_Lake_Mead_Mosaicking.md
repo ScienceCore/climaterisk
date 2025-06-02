@@ -18,9 +18,7 @@ jupyter:
 [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead) is a water reservoir in southwestern United States and is significant for irrigation in neighboring states. The lake has experienced significant drought over the past decade and particularly between 2020 & 2023. In this notebook, we'll find GeoTIFF data related to this lake and synthesize several raster files to produce a plot.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": true} -->
 ---
-<!-- #endregion -->
 
 ## Outline of steps for analysis
 
@@ -43,7 +41,6 @@ jupyter:
 <!-- #endregion -->
 
 ---
-
 
 ### Preliminary imports
 
@@ -158,7 +155,6 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
 
 ---
 
-
 ## Identifying search parameters
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -183,7 +179,6 @@ print(search_params)
 ```
 
 ---
-
 
 ## Obtaining search results
 
@@ -217,6 +212,7 @@ df.info()
 
 <!-- #region jupyter={"source_hidden": true} -->
 We'll clean the DataFrame `df` in standard ways by:
+
 + dropping the `start_datetime` & `end_datetime` columns;
 + renaming the `eo:cloud_cover` column;
 + converting the columns to suitable datatypes; and
@@ -239,7 +235,6 @@ df.info()
 ```
 
 ---
-
 
 ## Exploring & refining search results
 
@@ -284,9 +279,7 @@ b01_wtr.tile_id.value_counts()
 There are four distinct geographic tiles that intersect this particular AOI.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": true} -->
 ---
-<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 

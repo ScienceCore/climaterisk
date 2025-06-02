@@ -37,7 +37,6 @@ That is, OPERA is a NASA initiative that takes, e.g., optical or radar remote-se
 
 ---
 
-
 ## The OPERA Land Surface Disturbance (DIST) product
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -73,7 +72,9 @@ from bokeh.models import FixedTicker
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 We'll read the data from a local file `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'`. Before loading the data, let's examine the metadata embedded in the filename.
+<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
@@ -91,6 +92,7 @@ filename.split('_') # Use the Python str.split method to view the distinct field
 
 <!-- #region jupyter={"source_hidden": true} -->
 OPERA product files have a particular naming scheme (as described in the [DIST product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/OPERA_DIST_HLS_Product_Specification_V1.pdf)). In the output above, we can extract certain metadata for this example:
+
 1. *Product*: `OPERA`;
 1. *Level*: `L3` ;
 1. *ProductType*: `DIST-ALERT-HLS` ;
@@ -179,7 +181,6 @@ In the resulting plot, the white and yellow pixels correspond to regions in whic
 
 ---
 
-
 ## Band 2: Date of Initial Vegetation Disturbance (VEG_DIST_DATE)
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -235,12 +236,11 @@ With this colormap, the lightest pixels showed some signs of deforestation close
 
 ---
 
-<!-- #region jupyter={"source_hidden": true} -->
 ## Band 3: Vegetation Disturbance Status (VEG_DIST_STATUS)
-<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
 Finally, let's take a look at a third band from the DIST-ALERT data product family, namely the *vegetation disturbance status*. These pixel values are stored as 8-bit unsigned integers; there are only 6 distinct values stored:
+
 * **0:** No disturbance
 * **1:** Provisional (**first detection**) disturbance with vegetation cover change <50%
 * **2:** Confirmed (**recurrent detection**) disturbance with vegetation cover change < 50%
@@ -253,6 +253,7 @@ A pixel value is flagged *provisionally* changed when the vegetation cover loss 
 
 <!-- #region jupyter={"source_hidden": true} -->
 We can use a local file as an example of this particular layer/band of the DIST-ALERT data. The code is the same as above, but do observe:
+
 + the data filtered reflects the meaning pixel values for this layer (i.e., `data>0` and `data<5`); and
 + the limits on the colormap are reassigned accordingly (i.e., from 0 to 4).
 

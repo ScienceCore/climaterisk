@@ -35,7 +35,6 @@ Rasters approximate continuous numerical distributions by storing individual val
 
 ---
 
-
 ## Understanding Raster Values
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -45,7 +44,6 @@ Another important property of raster data is that pixel values are stored using 
 <!-- #endregion -->
 
 ---
-
 
 ## Understanding Pixel vs. Continuous Coordinates
 
@@ -59,7 +57,6 @@ Each pixel of a raster data set is indexed by its *row* & *column* position rela
 
 <!-- #region jupyter={"source_hidden": true} -->
 Zero-based indexing is not observed universally (e.g., MATLAB uses on-based indexing for arrays and matrices), so we must be aware which convention is used in any tools used. Regardless of whether we are to count rows/columns from one or zero, when using pixel/image/array coordinates, conventionally, the row index increases from the top row and increases when moving downward.
-
 
 Another subtle distinction between matrices and rasters is that raster data is typically *georeferenced*; this means that each cell is associated with a specific geographic rectangle on the Earth's surface with some positive area. That in turn means that each pixel value is associated not only with its pixel/image coordinates but also with the *continuous coordinates* of every spatial point within that physical rectangle. That is, there is a *continuum* of spatial coordinates associated with every pixel as opposed to a single pair of pixel coordinates. For instance, in the $5\times5$ grid of pixels shown below in the left plot, the red dot associated with the pixel coordinates $(0,1)$ is located at the center of that pixel. At the same time, the right plot shows a red dot with continuous coordinates $(-0.2,0.4)$.
 
@@ -83,7 +80,6 @@ Conflicting conventions with zero-based indexing and order of coordinates are a 
 
 ---
 
-
 ## Preserving Metadata
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -105,7 +101,6 @@ This name embeds a UTC timestamp (`20220815T185931Z`) and [an MGRS geographic ti
 <!-- #endregion -->
 
 ---
-
 
 ## Using GeoTIFF 
 

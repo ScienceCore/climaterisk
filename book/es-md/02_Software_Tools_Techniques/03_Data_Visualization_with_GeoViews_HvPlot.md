@@ -190,7 +190,6 @@ El código siguiente carga un `DataFrame` de Pandas con datos de temperatura.
 
 ```python jupyter={source_hidden: true}
 import pandas as pd, numpy as np
-from pathlib import Path
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'temperature.csv'
 ```
 
@@ -213,9 +212,7 @@ west_coast.head()
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-
 La API de `.plot` de `DataFrame` de Pandas proporciona acceso a varios métodos de visualización. Aquí usaremos `.plot.line`, pero hay otras opciones disponibles (por ejemplo, `.plot.area`, `.plot.bar`, `.plot.nb`, `.plot.scatter`, etc.). Esta API se ha repetido en varias librerías debido a su conveniencia.
-
 <!-- #endregion -->
 
 ```python jupyter={source_hidden: true}

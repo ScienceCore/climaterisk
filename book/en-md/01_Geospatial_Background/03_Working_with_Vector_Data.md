@@ -20,7 +20,6 @@ Certain physical properties of interest in GIS are not conveniently captured by 
 
 ---
 
-
 ## Understanding Vector Data
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -47,6 +46,7 @@ A single vector dataset georeferenced with a particular CRS typically contains a
 </p>
 
 ![lines](../../assets/img/lines.png)
+
 <p style="text-align: center;">(Left image) Overhead view of a river; (right image) Line vector representation of the river.<br>Source: *Sistemas de Información Geográfica* by Victor Olaya.
 </p>
 
@@ -67,7 +67,6 @@ Other geometric quantities like the length of a river or the surface area of a l
 <!-- #endregion -->
 
 ---
-
 
 ## Using GeoJSON
 
@@ -143,7 +142,6 @@ gdf.loc[15:90].plot(color='green', alpha=0.25) ;
 ```
 
 ---
-
 
 ## Using Shapefiles
 

@@ -78,13 +78,14 @@ Los desarrolladores SIG responsables por GeoJSON lo diseñaron con la intención
 Veamos cómo analizar y graficar archivos GeoJSON utilizando la librería [GeoPandas](https://geopandas.org/en/stable/). El archivo local `cables.geojson` almacena datos vectoriales de líneas que representan cables submarinos conectando diferentes masas de tierra.
 <!-- #endregion -->
 
-
 ```python jupyter={source_hidden: true}
 import geopandas as gpd
 from pathlib import Path
+from warnings import filterwarnings
+filterwarnings('ignore')
 
-+FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
-+GEOJSON = FILE_STEM / 'assets' / 'data' /'cables.geojson'
+FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
+GEOJSON = FILE_STEM / 'assets' / 'data' /'cables.geojson'
 ```
 
 ```python jupyter={source_hidden: true}
@@ -104,6 +105,7 @@ gdf = gpd.read_file(GEOJSON)
 display(gdf.head())
 gdf.info()
 ```
+
 <!-- #region jupyter={"source_hidden": true} -->
 Hay 530 filas, cada una de las cuales corresponde a datos de línea (una secuencia conectada de segmentos de línea). Podemos utilizar el atributo `color` de la columna `GeoDataFrame` como una opción dentro de la llamada a `.plot` para graficar estos cables.
 <!-- #endregion -->

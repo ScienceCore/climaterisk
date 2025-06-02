@@ -1,26 +1,30 @@
 ---
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: markdown
-    format_version: '1.3'
-    jupytext_version: 1.17.1
-kernelspec:
-  display_name: Python 3 (ipykernel)
-  language: python
-  name: python3
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
 ---
 
 # La represa de Bhakra Nangal y el embalse de Gobind Sagar
 
+<!-- #region jupyter={"source_hidden": true} -->
 La [represa de Bhakra Nangal](https://en.wikipedia.org/wiki/Bhakra_Dam) se inauguró en 1963 en la India. La represa forma el embalse de Gobind Sagar y proporciona riego a 10 millones de acres en los estados vecinos de Punjab, Haryana y Rajastán. Podemos utilizar los datos del producto OPERA DSWx para observar las fluctuaciones en el nivel del agua durante largos periodos.
 
 <center>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Bhakra_Dam_Aug_15_2008.JPG/440px-Bhakra_Dam_Aug_15_2008.JPG">
 </center>
+<!-- #endregion -->
 
 ## Esquema de las etapas del análisis
 
+<!-- #region jupyter={"source_hidden": true} -->
 - Identificar los parámetros de búsqueda
   - Área de interés (AOI) y ventana temporal
   - _Endpoint_, proveedor, identificador del catálogo ("nombre corto")
@@ -36,6 +40,7 @@ La [represa de Bhakra Nangal](https://en.wikipedia.org/wiki/Bhakra_Dam) se inaug
   - Descargar los gránulos relevantes en un Xarray DataArray, apilados adecuadamente
   - Realizar los cálculos intermedios necesarios
   - Combinar los fragmentos de datos relevantes en la visualización
+<!-- #endregion -->
 
 ---
 
@@ -146,13 +151,17 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
     return new_data, relabel
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Estas funciones podrían incluirse en archivos módular para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
+<!-- #endregion -->
 
 ---
 
 ## Identificación de los parámetros de búsqueda
 
+<!-- #region jupyter={"source_hidden": true} -->
 Para las coordenadas de la represa, utilizaremos $(76.46^{\circ}, 31.42^{\circ})$. También buscaremos los datos de todo un año completo entre el 1 de abril de 2023 y el 1 de abril de 2024.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 AOI = make_bbox((76.46, 31.42), 0.2, 0.2)
@@ -174,7 +183,9 @@ print(search_params)
 
 ## Obtención de los resultados de búsqueda
 
+<!-- #region jupyter={"source_hidden": true} -->
 Buscaremos productos de datos OPERA DSWx, así que definimos el `ENDPOINT`, el `PROVIDER` y las `COLLECTIONS` de la siguiente manera (estos valores se modifican ocasionalmente, así que puede ser necesario hacer algunas búsquedas en el [sitio web Earthdata Search](https://search.earthdata.nasa.gov) de la NASA).
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
@@ -191,7 +202,9 @@ catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Una vez que ejecutamos la búsqueda, los resultados se pueden consultar en un `DataFrame`.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 %%time
@@ -199,7 +212,9 @@ df = search_to_dataframe(search_results)
 df.head()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Limpiaremos el `DataFrame` `df` cambiando el nombre de la columna `eo:cloud_cover`, eliminando las columnas adicionales de fecha y hora, convirtiendo los tipos de datos de forma adecuada y seteando el índice.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 df = df.rename(columns={'eo:cloud_cover':'cloud_cover'})
@@ -215,13 +230,17 @@ df.info()
 df.head()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 En esta fase, el `DataFrame` de los resultados de la búsqueda tendrá más de dos mil filas. Entonces, vamos a reducirlo.
+<!-- #endregion -->
 
 ---
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
+<!-- #region jupyter={"source_hidden": true} -->
 Filtraremos las filas del `df` para capturar solo los gránulos capturados que tengan menos del 10% de nubosidad y la banda `B01_WTR` de los datos DSWx.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 c1 = df.cloud_cover<10
@@ -233,19 +252,25 @@ df = df.loc[c1 & c2]
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Podemos contar todas las entradas distintas de la columna `tile_id` y encontrar que solo hay una (`T43RFQ`). Eso significa que el AOI especificado se encuentra estrictamente dentro de un mosaico MGRS único y que todos los gránulos encontrados estarán asociados a ese mosaico geográfico específico.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 df.tile_id.value_counts()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Redujimos el número total de gránulos a un poco más de cincuenta. Y los utilizaremos para generar una visualización.
+<!-- #endregion -->
 
 ---
 
 ## Procesamiento los datos para obtener resultados relevantes
 
+<!-- #region jupyter={"source_hidden": true} -->
 Como ya vimos varias veces, apilaremos los arreglos bidimensionales de los archivos GeoTIFF listados en `df.href` en un `DataArray` tridimensional. Utilizaremos el identificador `stack` para etiquetar el resultado.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 %%time
@@ -261,12 +286,15 @@ stack = xr.concat(stack, dim='time')
 stack
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Podemos ver los valores de los pixeles que realmente aparecen en el arreglo `stack` utilizando la función NumPy `unique`.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 np.unique(stack)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Como recordatorio, de acuerdo con la [especificación del producto DSWx](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf), los significados de los valores ráster son los siguientes:
 
 - **0**: Sin agua&mdash;cualquier área con datos de reflectancia válidos que no sean de una de las otras categorías permitidas (agua abierta, agua superficial parcial, nieve/hielo, nube/sombra de nube, u océano enmascarado).
@@ -280,18 +308,23 @@ Como recordatorio, de acuerdo con la [especificación del producto DSWx](https:/
 Observa que el valor `254`&mdash;océano enmascarado&mdash; no aparece en esta colección particular de rásteres porque esta región en particular está lejos de la costa.
 
 Para limpiar los datos (en caso de que querramos utilizar un mapa de colores), reasignemos los valores de los píxeles con nuestra función `relabel_pixels`. Esta vez, vamos a mantener los valores "sin datos" (`255`) para que podamos ver dónde faltan datos.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 stack, relabel = relabel_pixels(stack, values=[0,1,2,252,253,255], replace_null=False)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Podemos ejecutar `np.unique` de nuevo para asegurarnos de que los datos se modificaron como queríamos.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 np.unique(stack)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Ahora asignemos un mapa de colores para ayudar a visualizar las imágenes ráster. En este caso, el mapa de colores utiliza varios colores distintos con opacidad total y píxeles negros parcialmente transparentes para indicar los datos que faltan.
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 # Define a colormap using RGBA values; these need to be written manually here...
@@ -305,10 +338,12 @@ COLORS = {
 }
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Podemo, entonces, visualizar los datos.
 
 - Definimos las opciones adecuadas en los diccionarios `image_opts` y `layout_opts`.
 - Construimos un objeto `view` que consiste en cortes extraídos del `stack` por submuestreo de cada píxel `steps` (reduce los `steps` a `1` o `None` para ver los rásteres a resolución completa).
+<!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
 image_opts = dict(  
@@ -341,6 +376,8 @@ view = stack.isel(longitude=subset, latitude=subset)
 view.hvplot.image( **image_opts, **layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 La visualización anterior puede tardar un poco en actualizarse (según la elección de `steps`). Esta permite ver la acumulación de agua a lo largo de un año. Hay algunos cortes en los que faltan muchos datos, así que debemos tener cuidado al interpretarlos.
+<!-- #endregion -->
 
 ---

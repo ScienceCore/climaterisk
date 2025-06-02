@@ -33,7 +33,6 @@ FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem 
 
 <!-- #region jupyter={"source_hidden": true} -->
 `rioxarray` es un paquete que _extiende_ el paquete Xarray (hablaremos al respecto más adelante). Las principales funciones de `rioxarray` que utilizaremos en este tutorial son:
-
 - `rioxarray.open_rasterio` para cargar archivos GeoTIFF directamente en estructuras Xarray `DataArray`, y
 - `xarray.DataArray.rio` para proporcionar usos útiles (por ejemplo, para especificar información CRS).
 
@@ -44,7 +43,6 @@ Para acostumbrarnos a trabajar con archivos GeoTIFF, utilizaremos algunos ejempl
 
 <!-- #region jupyter={"source_hidden": true} -->
 Observa en primer lugar que `open_rasterio` funciona con direcciones de archivos locales y URL remotas.
-
 - Como era de esperarse, el acceso local es más rápido que el remoto.
 <!-- #endregion -->
 

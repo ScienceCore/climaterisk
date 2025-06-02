@@ -22,7 +22,6 @@ For the sake of reproducibility, we want to be able to search asset catalogs pro
 
 ---
 
-
 ## Outline of steps for analysis
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -88,6 +87,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 <!-- #region jupyter={"source_hidden": true} -->
 Next, let's define geographic search parameters so we can retrieve data pertinent to that flooding event. This involves specifying an *area of interest (AOI)* and a *range of dates*.
+
 + The AOI is specified as a rectangle of longitude-latitude coordinates in a single 4-tuple of the form
   $$({\mathtt{longitude}}_{\mathrm{min}},{\mathtt{latitude}}_{\mathrm{min}},{\mathtt{longitude}}_{\mathrm{max}},{\mathtt{latitude}}_{\mathrm{max}}),$$
   i.e., the lower,left corner coordinates followed by the upper, right corner coordinates.
@@ -155,9 +155,7 @@ print(search_params)
 
 ---
 
-
 ## Obtaining search results
-
 
 ### Executing a search with the PySTAC API
 
@@ -215,6 +213,7 @@ The object `granule` has a rich output representation in this Jupyter notebook. 
 ![](../../assets/img/granule_output_repr.png)
 
 The term *granule* refers to a collection of data files (raster data in this case) all associated with raw data acquired by a particular satellite at a fixed timestamp over a particular geographic tile. There are a number of interesting attributes associated with this granule.
+
 + `properties['datetime']`: a string representing the time of data acquisition for the raster data files in this granule;
 + `properties['eo:cloud_cover']`: the percentage of pixels obscured by cloud and cloud shadow in this granule's raster data files; and
 + `assets`: a Python `dict` whose values summarize the bands or levels of raster data associated with this granule.
@@ -249,7 +248,6 @@ print(f"{tile_id=}")
 ```
 
 ---
-
 
 ### Summarizing search results in a DataFrame
 
@@ -326,7 +324,6 @@ This finally gives a DataFrame with a concise schema that can be used for later 
 <!-- #endregion -->
 
 ---
-
 
 ## Exploring & refining search results
 

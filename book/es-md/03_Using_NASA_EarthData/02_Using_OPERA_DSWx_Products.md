@@ -40,8 +40,7 @@ Es decir, OPERA es una iniciativa de la _National Aeronautics and Space Administ
 <!-- #region jupyter={"source_hidden": true} -->
 Ya vimos la familia DIST (es decir, alteración de la superficie terrestre) con productos de datos OPERA. En este cuaderno computacional, analizaremos otro producto de datos OPERA: el producto _Dynamic Surface Water Extent (DSWx)_ (en español, Extensión de Aguas Superficiales Dinámicas). Este producto de datos resume la extensión de las aguas continentales (es decir, el agua en las masas de tierra en contraposición a la parte de un océano) que se puede utilizar para hacer un seguimiento de las inundaciones y las sequías. El producto DSWx se describe detalladamente en la [especificación del producto OPERA DSWx HLS](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf).
 
-Los productos de datos DSWx se generan a partir de las mediciones de reflectancia superficial (RS) del HLS, específicamente, estas son efectuadas por el _Operational Land Imager_ (OLI) (en español,
-Generador de imágenes terrestres operacional) a bordo del satélite Landsat 8, el OLI-2 a bordo del satélite Landsat 9, y el MultiSpectral Instrument (MSI) (en español, Instrumento multiespectral) a bordo de los satélites Sentinel-2A/B. Al igual que los productos DIST, los productos DSWx consisten en datos ráster almacenados en formato GeoTIFF que utilizan el [_Military Grid Reference System_ (MGRS)](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (en español, Sistema de Referencia de Cuadrículas Militares) (los detalles se describen en la especificación del [producto DSWx](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf). De nuevo, los productos OPERA DSWx se distribuyen como [GeoTIFF optimizados para la nube](https://www.cogeo.org/) que almacenan diferentes bandas/capas en archivos TIFF distintos.
+Los productos de datos DSWx se generan a partir de las mediciones de reflectancia superficial (RS) del HLS, específicamente, estas son efectuadas por el _Operational Land Imager_ (OLI) (en español, Generador de imágenes terrestres operacional) a bordo del satélite Landsat 8, el OLI-2 a bordo del satélite Landsat 9, y el MultiSpectral Instrument (MSI) (en español, Instrumento multiespectral) a bordo de los satélites Sentinel-2A/B. Al igual que los productos DIST, los productos DSWx consisten en datos ráster almacenados en formato GeoTIFF que utilizan el [_Military Grid Reference System_ (MGRS)](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (en español, Sistema de Referencia de Cuadrículas Militares) (los detalles se describen en la especificación del [producto DSWx](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf). De nuevo, los productos OPERA DSWx se distribuyen como [GeoTIFF optimizados para la nube](https://www.cogeo.org/) que almacenan diferentes bandas/capas en archivos TIFF distintos.
 <!-- #endregion -->
 
 ---
@@ -79,8 +78,7 @@ from bokeh.models import FixedTicker
 
 ```python jupyter={"source_hidden": true}
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
-LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_2023
-0414T030945Z_L8_30_v1.0_B01_WTR.tif'
+LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif'
 b01_wtr = rio.open_rasterio(LOCAL_PATH).rename({'x':'longitude', 'y':'latitude'}).squeeze()
 ```
 

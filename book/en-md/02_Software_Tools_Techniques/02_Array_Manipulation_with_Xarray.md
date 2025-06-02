@@ -45,7 +45,6 @@ data = rio.open_rasterio(LOCAL_PATH)
 
 ---
 
-
 ## Examining the rich DataArray repr
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -60,7 +59,6 @@ data
 ```
 
 ---
-
 
 ## Examining DataArray attributes programmatically
 
@@ -98,7 +96,6 @@ data.attrs
 
 ---
 
-
 ## Using the DataArray rio accessor
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -127,7 +124,6 @@ From [Wikipedia](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset):
 <!-- #endregion -->
 
 ---
-
 
 ## Manipulating data in a DataArray
 
@@ -184,7 +180,6 @@ The plot produced is rather dark (reflecting that most of the entries are zero a
 
 ---
 
-
 ## Extracting DataArray data to NumPy, Pandas
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -213,7 +208,6 @@ Most of the entries in this raster array are zero. The numerical values vary bet
 <!-- #endregion -->
 
 ---
-
 
 ## Accumulating & concatenating a sequence of DataArrays
 

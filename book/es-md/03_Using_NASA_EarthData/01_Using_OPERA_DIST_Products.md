@@ -77,7 +77,7 @@ Lee los datos de un archivo local `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T1859
 <!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
-+LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
+LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 filename = LOCAL_PATH.name
 print(filename)
 ```
@@ -192,8 +192,7 @@ Cargar y reetiqueta el `DataArray` como antes.
 <!-- #endregion -->
 
 ```python jupyter={source_hidden: true}
-LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931
-Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
+LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
@@ -257,7 +256,6 @@ Se puede usar un archivo local como ejemplo de esta capa/banda particular de los
 
 - los datos filtrados reflejan los valores de píxel significativos para esta capa (por ejemplo, `data>0` and `data<5`), y
 - los valores del mapa de colores se reasignan en consecuencia (es decir, de 0 a 4).
--
 
 Observa el uso de `FixedTicker` en la definición de una barra de colores más adecuada para un mapa de color discreto (es decir, categórico).
 <!-- #endregion -->

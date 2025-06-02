@@ -44,7 +44,6 @@ The [Bhakra Nangal dam](https://en.wikipedia.org/wiki/Bhakra_Dam) was opened in 
 
 ---
 
-
 ### Preliminary imports
 
 ```python jupyter={"source_hidden": true}
@@ -158,7 +157,6 @@ These functions could be placed in module files for more developed research proj
 
 ---
 
-
 ## Identifying search parameters
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -182,7 +180,6 @@ print(search_params)
 ```
 
 ---
-
 
 ## Obtaining search results
 
@@ -239,7 +236,6 @@ At this stage, the `DataFrame` of search results has over two thousand rows. Let
 
 ---
 
-
 ## Exploring & refining search results
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -269,7 +265,6 @@ We've reduced the total number of granules to a little over fifty. Let's use the
 <!-- #endregion -->
 
 ---
-
 
 ## Data-wrangling to produce relevant output
 

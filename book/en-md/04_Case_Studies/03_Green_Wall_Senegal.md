@@ -24,7 +24,6 @@ jupyter:
 
 ---
 
-
 ## Outline of steps for analysis
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -32,13 +31,11 @@ jupyter:
 + Obtaining search results in a `DataFrame`
 + Exploring & refining search results
 + Data-wrangling to produce relevant output
-<!-- #endregion -->
 
 In this case, we'll assemble a DataFrame to summarize search results, trim down the results to a manageable size, and make an interactive slider to examine the data retrieved.
-
+<!-- #endregion -->
 
 ---
-
 
 ### Preliminary imports
 
@@ -114,9 +111,7 @@ def search_to_dataframe(search):
 
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
 
-
 ---
-
 
 ## Obtaining search results
 
@@ -172,6 +167,7 @@ df.head()
 
 <!-- #region jupyter={"source_hidden": true} -->
 We clean the `DataFrame` `df` in typical ways that make sense:
+
 + renaming the `eo:cloud_cover` column as `cloud_cover`;
 + dropping extraneous `datetime` columns;
 + casting columns to sensible datatypes;
@@ -197,7 +193,6 @@ The next step is to identify a smaller set of rows from the search results that 
 <!-- #endregion -->
 
 ---
-
 
 ## Exploring & refining search results
 
@@ -231,7 +226,6 @@ df.info()
 ```
 
 ---
-
 
 ## Data-wrangling to produce relevant output
 
@@ -320,7 +314,7 @@ Finally, we're ready to produce visualizations using the array `stack`.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-steps = None#100
+steps = 100
 subset=slice(0,None,steps)
 view = stack.isel(longitude=subset, latitude=subset)
 ```

@@ -53,7 +53,6 @@ RASTER_FILE = RASTER_FILES[0]
 
 ---
 
-
 ## Plotting vector data from a `GeoDataFrame`
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -230,7 +229,6 @@ layout_opts.update(title="McKinney 2022 Wildfires")
 
 ---
 
-
 ## Constructing static plots from a 3D array
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -290,7 +288,6 @@ steps = 200
 subset = slice(0, None, steps)
 layout_opts.update(frame_width=250, frame_height=250)
 
-
 view = stack.isel(latitude=subset, longitude=subset)
 view.hvplot.image(**image_opts).opts(**layout_opts).layout()
 ```
@@ -300,7 +297,6 @@ The `layout` method by default plotted each of the three rasters selected along 
 <!-- #endregion -->
 
 ---
-
 
 ## Constructing a dynamic view from a 3D array
 
@@ -338,7 +334,6 @@ an exception is raised (hence the invocation in the code cell above). There are 
 <!-- #endregion -->
 
 ---
-
 
 ### Combining vector data with raster data in a dynamic view
 

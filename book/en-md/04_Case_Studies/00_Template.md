@@ -14,7 +14,6 @@ jupyter:
 
 # Template for using EarthData cloud
 
-
 ## Outline of steps for analysis
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -36,7 +35,6 @@ jupyter:
 <!-- #endregion -->
 
 ---
-
 
 ### Preliminary imports
 
@@ -165,7 +163,6 @@ def urls_to_stack(granule_dataframe):
 
 ---
 
-
 ## Identifying search parameters
 
 ```python jupyter={"source_hidden": true}
@@ -183,7 +180,6 @@ print(search_params)
 ```
 
 ---
-
 
 ## Obtaining search results
 
@@ -211,11 +207,9 @@ Clean DataFrame `df` in ways that make sense (e.g., dropping unneeded columns/ro
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-
 ```
 
 ---
-
 
 ## Exploring & refining search results
 
@@ -224,11 +218,9 @@ This consists of filtering rows or columns appropriately to narrow the search re
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-
 ```
 
 ---
-
 
 ## Data-wrangling to produce relevant output
 
@@ -237,7 +229,6 @@ This can include stacking two-dimensional arrays into a three-dimensional array,
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-
 ```
 
 ---

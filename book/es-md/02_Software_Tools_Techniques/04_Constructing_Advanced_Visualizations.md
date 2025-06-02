@@ -108,8 +108,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-La documentación de HoloViz incluye una [discusión sobre las consideraciones cuando se grafican datos geográficos](https://hvplot.holoviz.org/user_guide/Geographic_Data.html). El punto importante que se debe recordar en el contexto  inmediato es que la opción `geo=True` es útil.
-
+El punto importante que se debe recordar en el contexto  inmediato es que la opción `geo=True` es útil.
 - Definir `color=None` significa que los polígonos no se rellenarán.
 - Al especificar `line_width` y `line_color` se modifica la apariencia de los límites de los polígonos.
 <!-- #endregion -->
@@ -289,7 +288,6 @@ steps = 200
 subset = slice(0, None, steps)
 layout_opts.update(frame_width=250, frame_height=250)
 
-
 view = stack.isel(latitude=subset, longitude=subset)
 view.hvplot.image(**image_opts).opts(**layout_opts).layout()
 ```
@@ -355,7 +353,6 @@ layout_opts.update(frame_height=500, frame_width=500)
 
 <!-- #region jupyter={"source_hidden": true} -->
 Una vez más, la correcta especificación de las opciones puede requerir un poco de experimentación. Las ideas importantes que se deben tomar en cuenta aquí son:
-
 - cómo cargar conjuntos de datos relevantes con `geopandas` and `rioxarray`, y
 - cómo utilizar `hvplot` de forma interactiva e incremental para generar visualizaciones atractivas.
 <!-- #endregion -->

@@ -25,7 +25,6 @@ jupyter:
 
 ---
 
-
 ## Outline of steps for analysis
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -37,9 +36,7 @@ jupyter:
 
 In this case, we'll assemble a DataFrame to summarize search results, trim down the results to a manageable size, and make an interactive slider to examine the data retrieved.
 
-
 ---
-
 
 ### Preliminary imports
 
@@ -70,8 +67,9 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Convenient utilities
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
+<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle with given center of width dx & height dy
@@ -117,7 +115,6 @@ def search_to_dataframe(search):
 ```
 
 ---
-
 
 ## Obtaining search results
 
@@ -198,7 +195,6 @@ df.info()
 
 ---
 
-
 ## Exploring & refining search results
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -235,7 +231,6 @@ It looks as though there are only 11 rows remaining after filtering the others o
 <!-- #endregion -->
 
 ---
-
 
 ## Data-wrangling to produce relevant output
 
