@@ -20,7 +20,7 @@ In this example, we will retrieve data associated with the [2023 Greece wildfire
 In particular, we will examine the area around the city of [Alexandroupolis](https://en.wikipedia.org/wiki/Alexandroupolis) which was severely impacted by the wildfires, resulting in loss of lives, property, and forested areas.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 
@@ -44,7 +44,7 @@ In particular, we will examine the area around the city of [Alexandroupolis](htt
     + Assemble relevant data slices into visualization
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 
@@ -121,11 +121,11 @@ def search_to_dataframe(search):
     return df
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 
@@ -265,7 +265,7 @@ by_day.map(len).hvplot.scatter(ylim=(0,2.1), grid=True).opts(title="# of observa
 We can now use the resampled series `by_day` to extract raster data for analysis.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 
@@ -337,7 +337,7 @@ stack
 The `DataArray` `stack` has `time`, `longitude`, and `latitude` as its main coordinate dimensions. We can use this to perform some computations and produce relevant visualizations.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 
@@ -377,7 +377,7 @@ damage_area.hvplot.line(**line_plot_opts)
 Looking at the preceding plot, it seems the wildfires started around August 21 and spread rapidly.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 

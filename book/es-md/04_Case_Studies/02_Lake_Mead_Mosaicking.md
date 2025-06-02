@@ -14,17 +14,17 @@ jupyter:
 
 # Generación de un mosaico del lago Mead
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El [Lake Mead](https://es.wikipedia.org/wiki/Lago_Mead) es un embalse de agua que se encuentra en el suroeste de los Estados Unidos y es importante para el riego en esa zona. El lago ha tenido una importante sequía durante la última década y, en particular, entre 2020 y 2023. En este cuaderno computacional, buscaremos datos GeoTIFF relacionados con este lago y sintetizaremos varios archivos ráster para producir una visualización.
 
-***
+---
 
 <!-- #endregion -->
 
 ## Esquema de los pasos para el análisis
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 - Identificar los parámetros de búsqueda
   - AOI y ventana temporal
@@ -44,7 +44,7 @@ El [Lake Mead](https://es.wikipedia.org/wiki/Lago_Mead) es un embalse de agua qu
 
 <!-- #endregion -->
 
-***
+---
 
 ### Importación preliminar
 
@@ -77,7 +77,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Funciones prácticas
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Estas funciones podrían incluirse en archivos modulares para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
 
@@ -159,11 +159,11 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
     return new_data, relabel
 ```
 
-***
+---
 
 ## Identificación de los parámetros de búsqueda
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Identificaremos un punto geográfico cerca de la orilla norte del [lago Mead](https://es.wikipedia.org/wiki/Lago_Mead), haremos un cuadro delimitador y elegiremos un intervalo de fechas que cubra marzo y parte de abril del 2023.
 
@@ -186,11 +186,11 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
-***
+---
 
 ## Obtención de los resultados de búsqueda
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Como siempre, especificaremos el _endpoint_ de búsqueda, el proveedor y el catálogo. Para la familia de productos de datos DSWx son los siguientes.
 
@@ -210,7 +210,7 @@ catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Convertimos los resultados de la búsqueda en un `DataFrame` para facilitar su lectura.
 
@@ -222,7 +222,7 @@ display(df.head())
 df.info()
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Limpiaremos el DataFrame `df` de maneras estándar:
 
@@ -248,11 +248,11 @@ display(df.head())
 df.info()
 ```
 
-***
+---
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Podemos observar la columna `assets` para ver cuáles bandas diferentes están disponibles en los resultados devueltos.
 
@@ -262,7 +262,7 @@ Podemos observar la columna `assets` para ver cuáles bandas diferentes están d
 df.asset.value_counts()
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 La banda `0_B01_WTR` es con la que queremos trabajar posteriormente.
 
@@ -274,7 +274,7 @@ También podemos ver cuánta nubosidad hay en los resultados de nuestra búsqued
 df.cloud_cover.agg(['min','mean','median','max'])
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Podemos extraer las filas seleccionadas del `DataFrame` usando `Series` booleanas. Específicamente, seleccionaremos las filas que tengan menos de 10% de nubosidad y en las que el `asset` sea la banda `0_B01_WTR`.
 
@@ -287,7 +287,7 @@ b01_wtr = df.loc[c1 & c2].drop(['asset', 'cloud_cover'], axis=1)
 b01_wtr
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Por último, podemos ver cuántos mosaicos MGRS diferentes intersecan nuestro AOI.
 
@@ -297,17 +297,17 @@ Por último, podemos ver cuántos mosaicos MGRS diferentes intersecan nuestro AO
 b01_wtr.tile_id.value_counts()
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Hay cuatro mosaicos geográficos distintos que intersecan este AOI en particular.
 
-***
+---
 
 <!-- #endregion -->
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Esta vez, utilizaremos una técnica llamada _creación de mosaicos_ para combinar datos ráster de mosaicos adyacentes en un conjunto único de datos ráster. Esto requiere la función `rasterio.merge.merge` como antes. También necesitaremos la función `rasterio.transform.array_bounds` para alinear correctamente las coordenadas.
 
@@ -319,7 +319,7 @@ from rasterio.merge import merge
 from rasterio.transform import array_bounds
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Ya hemos utilizado la función `merge` para combinar distintos conjuntos de datos ráster asociados a un único mosaico MGRS. En esta ocasión, los datos ráster combinados provendrán de mosaicos MGRS adyacentes. Al llamar a la función `merge` en la siguiente celda de código, la columna `b01_wtr.href` se tratará como una lista de URL ([Localizadores Uniformes de Recursos](https://es.wikipedia.org/wiki/Localizador_de_recursos_uniforme) (URL, por su siglas en inglés de _Uniform Resource Locator_)). Para cada URL de la lista, se descargará y se procesará un archivo GeoTIFF. El resultado neto es un mosaico de imágenes, es decir, un ráster fusionado que contiene una combinación de todos los rásteres. Los detalles del algoritmo de fusión se describen en la [documentación del módulo `rasterio.merge`](https://rasterio.readthedocs.io/en/latest/api/rasterio.merge.html).
 
@@ -330,7 +330,7 @@ Ya hemos utilizado la función `merge` para combinar distintos conjuntos de dato
 mosaicked_img, mosaic_transform = merge(b01_wtr.href)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 La salida consiste de nuevo en un arreglo de NumPy y una transformación de coordenadas.
 
@@ -343,7 +343,7 @@ print(f"{type(mosaic_transform)=}\n")
 print(f"{mosaic_transform=}\n")
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Las entradas de `mosaic_transform` describen una [_transformación afín_](https://es.wikipedia.org/wiki/Transformaci%C3%B3n_af%C3%ADn) de coordenadas de píxel a coordenadas UTM continuas. En particular:
 
@@ -362,7 +362,7 @@ bounds = array_bounds(*mosaicked_img.shape[1:], mosaic_transform)
 bounds
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 La combinación de toda la información anterior nos permite reconstruir las coordenadas UTM continuas asociadas a cada píxel. Computaremos arreglos para estas coordenadas continuas y las etiquetaremos como `longitude` y `latitude`. Estas coordenadas serían más precisas si se llamaran `easting` y `northing`, pero utilizaremos las etiquetas `longitude` y `latitude` respectivamente cuando adjuntemos los arreglos de coordenadas a un Xarray `DataArray`. Elegimos estas etiquetas porque, cuando los datos ráster se visualizan con `hvplot.image`, la salida utilizará coordenadas longitud-latitud.
 
@@ -373,7 +373,7 @@ longitude = np.arange(bounds[0], bounds[2], mosaic_transform[0])
 latitude = np.arange(bounds[3], bounds[1], mosaic_transform[4])
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Almacenamos la imagen en mosaico y los metadatos relevantes en un Xarray `DataArray`.
 
@@ -395,7 +395,7 @@ raster = xr.DataArray(
 raster
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Necesitamos adjuntar un objeto CRS al objeto `raster`. Para ello, utilizaremos `rasterio.open` para cargar los metadatos relevantes de uno de los gránulos asociados a `b01_wtr` (deberían ser los mismos para todos estos archivos).
 
@@ -409,7 +409,7 @@ raster.rio.write_crs(crs, inplace=True)
 print(raster.rio.crs)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 En el código de investigación, podríamos agrupar los comandos anteriores en una función y guardarla en un módulo. No lo haremos aquí porque, para los propósitos de este tutorial, es preferible asegurarse de que podemos analizar la salida de varias líneas de código interactivamente.
 
@@ -421,7 +421,7 @@ Con todos los pasos anteriores completados, estamos listos para producir una vis
 raster, relabel = relabel_pixels(raster, values=[0,1,2,253,254,255])
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Vamos a definir las opciones de imagen, las opciones de diseño, y un mapa de color en los diccionarios como lo hicimos anteriormente para generar una única visualización.
 
@@ -468,7 +468,7 @@ image_opts.update({ 'cmap': list(COLORS.values()),
 layout_opts.update(dict(colorbar_opts=c_bar_opts))
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Definiremos el mapa base como un objeto separado para superponerlo usando el operador `*`.
 
@@ -478,7 +478,7 @@ Definiremos el mapa base como un objeto separado para superponerlo usando el ope
 basemap = gv.tile_sources.ESRI(frame_width=500, frame_height=500, padding=0.05, alpha=0.25)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Por último, podemos utilizar la función `slice` de Python para extraer rápidamente las imágenes reducidas antes de tratar de ver la imagen completa. Recuerda que reducir el valor de `steps` a `1` (o `None`) visualiza el ráster a resolución completa.
 
@@ -492,10 +492,10 @@ view = raster.isel(longitude=slice(0,None,steps), latitude=slice(0,None,steps)).
 view.hvplot.image(**image_opts).opts(**layout_opts) * basemap
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Este ráster es mucho más grande de los que analizamos anteriormente (requiere aproximadamente 4 veces más espacio de almacenamiento). Este proceso podría ser iterado para hacer un deslizador que muestre los resultados fusionados de mosaicos vecinos en diferentes momentos. Esto, por supuesto, requiere que haya suficiente memoria disponible.
 
-***
+---
 
 <!-- #endregion -->

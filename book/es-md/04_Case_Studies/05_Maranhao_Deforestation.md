@@ -21,7 +21,7 @@ kernelspec:
    (de https://www.querencianews.com.br/video-de-drone-mostra-cidade-do-maranhao-que-corre-risco-de-desaparecer-por-causa-de-crateras)
 </center>
 
-***
+---
 
 ## Esquema de los pasos para el análisis
 
@@ -32,7 +32,7 @@ kernelspec:
 
 En este caso, crearemos un DataFrame para resumir los resultados de la búsqueda, los reduciremos a un tamaño manejable y crearemos un selector interactivo para analizar los datos recuperados.
 
-***
+---
 
 ### Importación preliminar de librerías
 
@@ -108,7 +108,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-***
+---
 
 ## Obtención de los resultados de búsqueda
 
@@ -177,7 +177,7 @@ for col in 'asset href tile_id'.split():
 df.info()
 ```
 
-***
+---
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
@@ -206,7 +206,7 @@ df.info()
 
 Parece que solo quedan 11 filas después de filtrar las demás. Estas pueden visualizarse interactivamente como se muestra a continuación.
 
-***
+---
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
@@ -314,4 +314,4 @@ view.hvplot.image(**image_opts, **layout_opts)
 
 El control deslizante nos permite ver una tendencia de aumento en la deforestación a lo largo de dos años. Los primeros rásters tienen píxeles rojos distribuidos de forma dispersa por la región, mientras que los últimos tienen muchos más píxeles rojos (lo que indica que la vegetación está dañada). Es fácil utilizar el arreglo `stack` para contar los píxeles de cada categoría y obtener medidas cuantitativas de la deforestación.
 
-***
+---

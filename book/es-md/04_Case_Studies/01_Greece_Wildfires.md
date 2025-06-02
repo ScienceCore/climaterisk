@@ -14,7 +14,7 @@ jupyter:
 
 # Incendios forestales en Grecia
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 En este ejemplo, recuperaremos los datos asociados a los [incendios forestales en Grecia en el 2023](https://es.wikipedia.org/wiki/Incendios_forestales_en_Grecia_de_2023) para comprender su evolución y extensión. Generaremos una serie temporal asociada a estos datos y dos visualizaciones del evento.
 
@@ -26,7 +26,7 @@ En particular, analizaremos la zona que está alrededor de la ciudad de [Alexand
 
 ## Esquema de las etapas del análisis
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 - Identificación de los parámetros de búsqueda
   - AOI, ventana temporal
@@ -121,7 +121,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Estas funciones podrían incluirse en archivos modular para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
 
@@ -166,7 +166,7 @@ catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Como de costumbre, codificaremos el resultado de la búsqueda en un Pandas `DataFrame`, analizaremos los resultados, y haremos algunas transformaciones para limpiarlos.
 
@@ -178,7 +178,7 @@ df = search_to_dataframe(search_results)
 df.head()
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Limpiaremos el `DataFrame` `df` de las formas típicas:
 
@@ -206,7 +206,7 @@ df.info()
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Examinemos el `DataFrame` `df` para comprender mejor los resultados de la búsqueda. En primer lugar, veamos cuántos mosaicos geográficos diferentes aparecen en los resultados de la búsqueda.
 
@@ -216,7 +216,7 @@ Examinemos el `DataFrame` `df` para comprender mejor los resultados de la búsqu
 df.tile_id.value_counts() 
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Entonces, el AOI se encuentra estrictamente dentro de un único mosaico geográfico MGRS llamado `T35TMF`. Analicemos la columna `asset`.
 
@@ -226,7 +226,7 @@ Entonces, el AOI se encuentra estrictamente dentro de un único mosaico geográf
 df.asset.value_counts().sort_values(ascending=False)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Algunos de los nombres de estos activos no son tan simples y ordenados como los que encontramos con los productos de datos DIST-ALERT. Sin embargo, podemos identificar fácilmente las subcadenas de caracteres útiles. En este caso, elegimos sólo las filas en las que la columna `asset` incluye `'VEG-DIST-STATUS'` como subcadena de caracteres.
 
@@ -237,7 +237,7 @@ idx_veg_dist_status = df.asset.str.contains('VEG-DIST-STATUS')
 idx_veg_dist_status
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Podemos utilizar esta `Series` booleana con el método de acceso `.loc` de Pandas para filtrar solo las filas que queremos (por ejemplo, las que se conectan a archivos de datos ráster que almacenan la banda `VEG-DIST-STATUS`). Posteriormente podemos eliminar la columna `asset` (que ya no es necesaria).
 
@@ -253,7 +253,7 @@ veg_dist_status
 print(len(veg_dist_status))
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Observe que algunas de las filas tienen la misma fecha pero horas diferentes (lo cual corresponde a varias observaciones en el mismo día del calendario UTC). Podemos agregar las URL en listas _remuestreando_ la serie temporal por día. Posteriormente podremos visualizar el resultado.
 
@@ -265,7 +265,7 @@ display(by_day)
 by_day.map(len).hvplot.scatter(grid=True).opts(title='# of observations')
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Limpiemos la `Series` `by_day` filtrando las filas que tienen listas vacías (es decir, fechas en las que no se adquirieron datos).
 
@@ -276,7 +276,7 @@ by_day = by_day.loc[by_day.map(bool)]
 by_day.map(len).hvplot.scatter(ylim=(0,2.1), grid=True).opts(title="# of observations")
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Ahora podemos utilizar la serie `by_day` remuestreada para extraer datos ráster para su análisis.
 
@@ -286,7 +286,7 @@ Ahora podemos utilizar la serie `by_day` remuestreada para extraer datos ráster
 
 ## Procesamiento de los datos
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El incendio forestal cerca de Alexandroupolis comenzó alrededor del 21 de agosto y se propagó rápidamente, afectando en particular al cercano bosque de Dadia. En primer lugar, vamos a ensamblar un "cubo de datos" (por ejemplo, un arreglo apilado de rásters) a partir de los archivos remotos indexados en la serie Pandas `by_day`. Empezaremos seleccionando y cargando uno de los archivos GeoTIFF remotos para extraer los metadatos que se aplican a todos los rásteres asociados con este evento y este mosaico MGRS.
 
@@ -299,7 +299,7 @@ crs = data.rio.crs
 shape = data.shape
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Antes de construir un `DataArray` apilado dentro de un bucle, definiremos un diccionario de Python llamado `template` que se utilizará para instanciar los cortes del arreglo. El diccionario `template` almacenará los metadatos extraídos del archivo GeoTIFF, especialmente las coordenadas.
 
@@ -316,7 +316,7 @@ template['attrs'] = dict(description=f"OPERA DSWX: VEG-DIST-STATUS", units=None)
 print(template)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Utilizaremos un bucle para construir un arreglo apilado de rásteres a partir de la serie Pandas `by_day` (cuyas entradas son listas de cadenas de caracteres, es decir, URIs). Si la lista tiene un único elemento, la URL se puede leer directamente utilizando `rasterio.open`; de lo contrario, la función [`rasterio.merge.merge`](https://rasterio.readthedocs.io/en/latest/api/rasterio.merge.html) combina varios archivos de datos ráster adquiridos el mismo día en una única imagen ráster.
 
@@ -342,7 +342,7 @@ for date, hrefs in by_day.items():
     rasters.append(np.reshape(raster, newshape=shape))
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Los datos acumulados en la lista de `rasters` se almacenan como arreglos de NumPy. Así, en vez de llamar a `xarray.concat`, realizamos una llamada a `numpy.concatenate` dentro de una llamada al constructor `xarray.DataArray`. Vinculamos el objeto creado al identificador `stack`, asegurándonos de incluir también la información CRS.
 
@@ -354,7 +354,7 @@ stack.rio.write_crs(crs, inplace=True)
 stack
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 La pila `DataArray` `stack` tiene `time`, `longitude` y `latitude` como principales dimensiones de coordenadas. Podemos utilizarla para hacer algunos cálculos y generar visualizaciones.
 
@@ -364,7 +364,7 @@ La pila `DataArray` `stack` tiene `time`, `longitude` y `latitude` como principa
 
 ### Visualización del área dañada
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Para empezar, utilicemos los datos en `stack` para calcular la superficie total dañada. Los datos en `stack` provienen de la banda `VEG-DIST-STATUS` del producto DIST-ALERT. Interpretamos los valores de los píxeles en esta banda de la siguiente manera:
 
@@ -396,7 +396,7 @@ line_plot_opts = dict(title=plot_title, grid=True, color='r')
 damage_area.hvplot.line(**line_plot_opts)
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Observando el gráfico anterior, parece que los incendios forestales comenzaron alrededor del 21 de agosto y se propagaron rápidamente.
 
@@ -406,7 +406,7 @@ Observando el gráfico anterior, parece que los incendios forestales comenzaron 
 
 ### Visualización de fragmentos temporales seleccionados
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 El bosque cercano de Dadia se vio especialmente afectado por los incendios. Para comprobarlo, trazaremos los datos ráster para ver la distribución espacial de los píxeles dañados en tres fechas concretas: 2 de agosto, 26 de agosto y 18 de septiembre. Una vez más, resaltaremos solamente los píxeles que tengan valor 6 en los datos ráster. Podemos extraer fácilmente esas fechas específicas de la serie temporal `by_day` utilizando una lista de fechas (por ejemplo, `dates_of_interest` en la siguiente celda).
 
@@ -419,7 +419,7 @@ snapshots = stack.sel(time=dates_of_interest)
 snapshots
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Vamos a hacer una secuencia estática de los gráficos. Empezaremos definiendo algunas opciones estándar almacenadas en diccionarios.
 
@@ -439,7 +439,7 @@ image_opts = dict(
 layout_opts = dict(xlabel='Longitude', ylabel="Latitude")
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Construiremos un mapa de colores utilizando un diccionario de valores RGBA (por ejemplo, tuplas con tres entradas enteras entre 0 y 255, y una cuarta entrada de punto flotante entre 0.0 y 1.0 para la transparencia).
 
@@ -451,7 +451,7 @@ COLORS.update({6: (255,0,0,1.0)})
 image_opts.update(cmap=list(COLORS.values()))
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Como siempre, empezaremos por cortar imágenes más pequeñas para asegurarnos de que
 `hvplot.image` funciona correctamente. Podemos reducir el valor del parámetro `steps` a `1` o `None` para obtener las imágenes renderizadas en resolución completa.
@@ -465,7 +465,7 @@ view = snapshots.isel(longitude=subset, latitude=subset)
 (view.hvplot.image(**image_opts).opts(**layout_opts) * basemap).layout()
 ```
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Si eliminamos la llamada a `.layout`, podemos producir un desplazamiento interactivo que muestre el progreso del incendio forestal utilizando todos los rásteres en `stack`.
 

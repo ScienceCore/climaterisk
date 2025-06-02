@@ -18,7 +18,7 @@ jupyter:
 [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead) is a water reservoir in southwestern United States and is significant for irrigation in neighboring states. The lake has experienced significant drought over the past decade and particularly between 2020 & 2023. In this notebook, we'll find GeoTIFF data related to this lake and synthesize several raster files to produce a plot.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 
@@ -284,7 +284,7 @@ b01_wtr.tile_id.value_counts()
 There are four distinct geographic tiles that intersect this particular AOI.
 <!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 ---
 <!-- #endregion -->
 

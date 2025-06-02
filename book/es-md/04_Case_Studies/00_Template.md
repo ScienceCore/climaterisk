@@ -16,7 +16,7 @@ jupyter:
 
 ## Esquema de los pasos para el análisis
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 - Identificación de los parámetros de búsqueda
   - Área de interés (AOI, por las siglas en inglés de _area of interest_) y ventana temporal
@@ -36,11 +36,11 @@ jupyter:
 
 <!-- #endregion -->
 
-***
+---
 
 ### Importación preliminar de librerías
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 # data wrangling imports
@@ -51,7 +51,7 @@ import rioxarray as rio
 import rasterio
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # Imports for plotting
 import hvplot.pandas
 import hvplot.xarray
@@ -60,7 +60,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -75,7 +75,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 Estas funciones podrían incluirse en archivos de módulos para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -85,7 +85,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -99,7 +99,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -118,7 +118,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # utility to process DataFrame of search results & return DataArray of stacked raster images
 def urls_to_stack(granule_dataframe):
     '''Processes DataFrame of PySTAC search results (with OPERA tile URLs) &
@@ -161,29 +161,29 @@ def urls_to_stack(granule_dataframe):
     return xr.concat(stack, dim='time').squeeze()
 ```
 
-***
+---
 
 ## Identificación de los parámetros de búsqueda
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 AOI = ...
 DATE_RANGE = ...
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 # Optionally plot the AOI
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
-***
+---
 
 ## Obtención de los resultados de la búsqueda
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 ENDPOINT = ...
 PROVIDER = ...
 COLLECTIONS = ...
@@ -192,7 +192,7 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```python jupyter={"source_hidden": false}
+```python jupyter={"source_hidden": true}
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
 ```
@@ -207,11 +207,11 @@ Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando co
 ```python
 ```
 
-***
+---
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
-<!-- #region jupyter={"source_hidden": false} -->
+<!-- #region jupyter={"source_hidden": true} -->
 
 Consiste en filtrar filas o columnas adecuadamente para limitar los resultados de la búsqueda a los archivos de datos ráster más relevantes para el análisis y/o la visualización. Esto puede significar enfocarse en determinadas regiones geográficos, bandas específicas del producto de datos, determinadas fechas o períodos, etc.
 
@@ -220,7 +220,7 @@ Consiste en filtrar filas o columnas adecuadamente para limitar los resultados d
 ```python
 ```
 
-***
+---
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
@@ -229,4 +229,4 @@ Esto puede incluir apilar matrices bidimensionales en una matriz tridimensional,
 ```python
 ```
 
-***
+---

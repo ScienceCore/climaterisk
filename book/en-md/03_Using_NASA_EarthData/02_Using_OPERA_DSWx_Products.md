@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.2
+      jupytext_version: 1.17.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -14,7 +14,7 @@ jupyter:
 
 # Using the OPERA DSWx Product
 
-<!-- #region editable=true slideshow={"slide_type": ""} -->
+<!-- #region jupyter={"source_hidden": true} -->
 <center>
     <img src="https://d2pn8kiwq2w21t.cloudfront.net/original_images/Opera-Hero-Overview-Infographic-v6.jpg" width="50%"></img>
 </center>
@@ -38,7 +38,7 @@ That is, OPERA is a NASA initiative that takes, e.g., optical or radar remote-se
 
 ## The OPERA Dynamic Surface Water Extent (DSWx) product
 
-<!-- #region editable=true slideshow={"slide_type": ""} -->
+<!-- #region jupyter={"source_hidden": true} -->
 We've already looked at the DIST (i.e., land surface disturbance) family of OPERA data products. In this notebook, we'll examine another OPERA data product: the *Dynamic Surface Water Extent (DSWx)* product. This data product summarizes the extent of inland water (i.e., water on land masses as opposed to part of an ocean) that can be used to track flooding and drought events. The DSWx product is fully described in the [OPERA DSWx HLS product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf).
 
 The DSWx data products are generated from HLS surface reflectance (SR) measurements; specifically, these are made by the Operational Land Imager (OLI) aboard the Landsat 8 satellite, the Operational Land Imager 2 (OLI-2) aboard the Landsat 9 satellite, and the MultiSpectral Instrument (MSI) aboard the Sentinel-2A/B satellites. As with the DIST products, the DSWx products consist of raster data stored in GeoTIFF format using the [Military Grid Reference System (MGRS)](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (the details are fully described in the [DSWx product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf)). Again, the OPERA DSWx products are distributed as [Cloud Optimized GeoTIFFs](https://www.cogeo.org/) storing different bands/layers in distinct TIFF files.
@@ -46,23 +46,24 @@ The DSWx data products are generated from HLS surface reflectance (SR) measureme
 
 ---
 
-<!-- #region editable=true slideshow={"slide_type": ""} -->
 ## Band 1: Water classification (WTR)
-<!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": true} -->
 There are ten bands or layers associated with the DSWx data product. In this tutorial, we will focus strictly on the first band&mdash;the *water classification (WTR)* layer&mdash;but details of all the bands are given in the [DSWx product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf). For instance, band 3 is the *Confidence (CONF)* layer that provides, for each pixel, quantitative values describing the degree of confidence in the categories given in band 1 (the Water classification layer). Band 4 is a *Diagnostic (DIAG)* layer that encodes, for each pixel, which of five tests were positive in deriving the corresponding pixel value in the CONF layer.
 
 The water classification layer consists of unsigned 8-bit integer raster data (UInt8) meant to represent whether a pixel contains inland water (e.g., part of a reservoir, a lake, a river, etc., but not water associated with the open ocean). The values in this raster layer are computed from raw images acquired by the satellite with pixels being assigned one of 7 positive integer values; we'll examine these below.
+<!-- #endregion -->
 
 ---
 
 
 ### Examining an example WTR layer
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 Let's begin by importing the required libraries and loading a suitable file into an Xarray `DataArray`. The file in question contains raster data pertinent to the [Lake Powell reservoir](https://en.wikipedia.org/wiki/Lake_Powell) on the Colorado River in the United States.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 import warnings
 warnings.filterwarnings('ignore')
 from pathlib import Path
@@ -70,35 +71,40 @@ import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
 ```
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
 gv.extension('bokeh')
 from bokeh.models import FixedTicker
 ```
 
-```{code-cell} python
-FILE_STEM = Path.cwd().parent if 'book' == Path.cwd().parent.stem else 'book'
-LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif')
+```python jupyter={"source_hidden": true}
+FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
+LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DSWx-HLS_T12SVG_20230411T180222Z_20230414T030945Z_L8_30_v1.0_B01_WTR.tif'
 b01_wtr = rio.open_rasterio(LOCAL_PATH).rename({'x':'longitude', 'y':'latitude'}).squeeze()
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Remember, using the repr for `b01_wtr` in this Jupyter notebook is quite convenient.
 + By expanding the `Attributes` tab, we can see all the metadata associated with the data acquired.
 + By expanding the `Coordinates` tab, we can examine all the associated arrays of coordinate values.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 # Examine data
 b01_wtr
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Let's examine the distribution of pixel values in `b01_wtr` using the Pandas `Series.value_counts` method.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 counts = pd.Series(b01_wtr.values.flatten()).value_counts().sort_index()
 display(counts)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 These pixel values are *categorical data*. Specifically, the valid pixel values and their meanings&mdash;according to the [DSWx product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf)&mdash;are as follows:
 
 + **0**: Not Water&mdash;any area with valid reflectance data that is not from one of the other allowable categories (open water, partial surface water, snow/ice, cloud/cloud shadow, or ocean masked).
@@ -108,16 +114,18 @@ These pixel values are *categorical data*. Specifically, the valid pixel values 
 + **253**: Cloud or Cloud Shadow&mdash;an area obscured by or adjacent to cloud or cloud shadow.
 + **254**: Ocean Masked&mdash;an area identified as ocean using a shoreline database with an added margin.
 + **255**: Fill value (missing data).
+<!-- #endregion -->
 
 ---
 
 
 ### Producing an initial plot
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 Let's make a first rough plot of the raster data using `hvplot.image`. As usual, we instantiate a `view` object that slices a smaller subset of pixels to make the image render quickly.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -137,25 +145,30 @@ view = b01_wtr.isel(longitude=subset, latitude=subset)
 view.hvplot.image(**image_opts).opts(**layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 The default colormap does not reveal the raster features very well. Also, notice that the colorbar axis covers the numerical range from 0 to 255 (approximately) even though most of those pixel values (i.e., from `3` to `251`) do not actually occur in the data. Annotating a raster image of categorical data with a legend may make more sense than using a colorbar. However, at present, `hvplot.image` does not support using a legend. So, for this tutorial,  we'll stick to using a colorbar. Before assigning a colormap and appropriate labels for the colorbar, it makes sense to clean up the pixel values.
+<!-- #endregion -->
 
 ---
 
 
 ### Reassigning pixel values
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 We want to reassign the  raster pixel values to a tighter range (i.e., from `0` to `5` instead of from `0` to `255`) to make a sensible colorbar. To do this, we'll start by copying the values from the `DataArray` `b01_wtr` into another `DataArray` `new_data` and by creating an array `values` to hold the full range of permissible pixel values.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 new_data = b01_wtr.copy(deep=True)
 values = np.array([0, 1, 2, 252, 253, 254, 255], dtype=np.uint8)
 print(values)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 We first need to decide how to treat missing data, i.e., pixels with the value `255` in this raster. Let's choose to treat the missing data pixels the same as the `"Not water"` pixels. We can use the `DataArray.where` method to reassign pixels with value `null_val` (i.e., `255` in the code cell below) to the replacement value `transparent_val` (i.e., `0` in this case). Anticipating that we'll embed this code in a function later, we embed the computation in an `if`-block conditioned on a boolean value `replace_null`.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 null_val = 255
 transparent_val = 0
 replace_null = True
@@ -166,9 +179,11 @@ if replace_null:
 print(np.unique(new_data.values))
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Notice that `values` no longer includes `null_val`. Next, instantiate an array `new_values` to store the replacement pixel values.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 n_values = len(values)
 start_val = 0
 new_values = np.arange(start=start_val, stop=start_val+n_values, dtype=values.dtype)
@@ -177,21 +192,22 @@ print(values)
 print(new_values)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Now we combine `values` and `new_values` into a dictionary `relabel` and use the dictionary to modify the entries of `new_data`.
+<!-- #endregion -->
 
-
-
-
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 relabel = dict(zip(values, new_values))
 for old, new in relabel.items():
     if new==old: continue
     new_data = new_data.where(new_data!=old, other=new)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 We can encapsulate the logic of the preceding cells into a utility function `relabel_pixels` that condenses a broad range of categorical pixel values into a tighter one that will display better with a colormap.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 # utility to remap pixel values to a sequence of contiguous integers
 def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=True, start=0):
     """
@@ -224,9 +240,11 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
     return new_data, relabel
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Let's apply the function just defined to `b01_wtr` and verify that the pixel values have been changed as desired.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 values = [0, 1, 2, 252, 253, 254, 255]
 print(f"Before applying relabel_pixels: {np.unique(b01_wtr.values)}")
 print(f"Original pixel values expected: {values}")
@@ -234,17 +252,20 @@ b01_wtr, relabel = relabel_pixels(b01_wtr, values=values)
 print(f"After applying relabel_pixels: {np.unique(b01_wtr.values)}")
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Notice that the pixel value `5` does not occur in the relabelled array because the pixel value `254` (for "Ocean Masked" pixels) does not occur in the original GeoTIFF file. This is fine; the code writen below will still produce the full range of possible pixel values (& colors) in its colorbar.
+<!-- #endregion -->
 
 ---
 
 
 ### Defining a colormap & plotting with a colorbar
 
-
+<!-- #region jupyter={"source_hidden": true} -->
 We are now ready to define a colormap. We define the dictionary `COLORS` so that the pixel labels from `new_values` are the dictionary keys and some RGBA color tuples used frequently for this kind of data are the dictionary values. We'll use variants of the code in the cell below to update `layout_opts` so that plots generated for various layers/bands from the DSWx data products have suitable legends.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 COLORS = {
 0: (255, 255, 255, 0.0),  # No Water
 1:  (0,   0, 255, 1.0),   # Open Water
@@ -262,17 +283,21 @@ print(c_ticks)
 print(c_labels)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 To use this colormap, these ticks, and these labels in a colorbar, we create a ditionary `c_bar_opts` that holds the objects to pass to the Bokeh rendering engine.
+<!-- #endregion -->
 
-```{code-cell} python editable=true slideshow={"slide_type": ""}
+```python jupyter={"source_hidden": true}
 c_bar_opts = dict( ticker=FixedTicker(ticks=c_ticks),
                    major_label_overrides=dict(zip(c_ticks, c_labels)),
                    major_tick_line_width=0, )
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 We need to update the dictionaries `image_opts` and `layout_opts` to include the data relevant to the colormap.
+<!-- #endregion -->
 
-```{code-cell} python editable=true slideshow={"slide_type": ""}
+```python jupyter={"source_hidden": true}
 image_opts.update({ 'cmap': list(COLORS.values()),
                     'clim': limits,
                     'colorbar': True
@@ -281,25 +306,29 @@ image_opts.update({ 'cmap': list(COLORS.values()),
 layout_opts.update(dict(title='B01_WTR', colorbar_opts=c_bar_opts))
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Finally, we can render a quick plot to make sure that the colorbar is produced with suitable labels.
+<!-- #endregion -->
 
-```{code-cell} python
+```python jupyter={"source_hidden": true}
 steps = 100
 subset = slice(0, None, steps)
 view = b01_wtr.isel(longitude=subset, latitude=subset)
 view.hvplot.image( **image_opts).opts(frame_width=500, frame_height=500, **layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": true} -->
 Finally, we can define a basemap, this time using tiles from [ESRI](https://www.esri.com). This time, we'll plot plot the raster at full resolution (i.e., we won't bother using `isel` to select a lower-resolution slice from the raster first).
+<!-- #endregion -->
 
-```{code-cell} python editable=true slideshow={"slide_type": ""}
+```python jupyter={"source_hidden": true}
 # Creates basemap
 base = gv.tile_sources.EsriTerrain.opts(padding=0.1, alpha=0.25)
 b01_wtr.hvplot(**image_opts).opts(**layout_opts) * base
 ```
 
-<!-- #region editable=true slideshow={"slide_type": ""} -->
+<!-- #region jupyter={"source_hidden": true} -->
 This notebook provides an overview of how to visualize data extracted from OPERA DSWx data products that are stored locally. We're now ready to automate the search for such products in the cloud using the PySTAC API.
-
-----
 <!-- #endregion -->
+
+---
