@@ -45,9 +45,7 @@ For the sake of reproducibility, we want to be able to search asset catalogs pro
 
 ---
 
-
 ## Identifying search parameters
-
 
 ### Defining AOI & range of dates
 
@@ -165,7 +163,6 @@ print(search_params)
 
 <!-- #region jupyter={"source_hidden": true} -->
 Three other pieces of information are required to initiate a search for data: the *Endpoint* (a URL), the *Provider* (a string representing a path extending the Endpoint), & the *Collection identifiers* (a list of strings referring to specific catalogs). We generally need to experiment with NASA's [Earthdata Search website](https://search.earthdata.nasa.gov) to determine these values correctly for the specific data products we want to retrieve. The [NASA CMR STAC GitHub repository also monitors issues](https://github.com/nasa/cmr-stac/issues) related to the API for EarthData Cloud search queries.
-
 
 For the search for DSWx data products that we want to execute, these parameters are as defined in the next code cell.
 <!-- #endregion -->
@@ -397,9 +394,7 @@ We now have a much shorter `DataFrame` `b01_wtr_t15ruq` that summarises the remo
 
 ---
 
-
 ## Data-wrangling to produce relevant output
-
 
 ### Stacking the data
 
