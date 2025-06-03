@@ -61,7 +61,7 @@ La capa de clasificación del agua consiste en datos ráster enteros de 8 bits s
 Comencemos importando las librerías necesarias y cargando un archivo adecuado en un Xarray `DataArray`. El archivo en cuestión contiene datos ráster relativos al [embalse del lago Powelr](https://en.wikipedia.org/wiki/Lake_Powell), en el río Colorado, en los Estados Unidos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import warnings
 warnings.filterwarnings('ignore')
 from pathlib import Path
@@ -69,7 +69,7 @@ import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
 gv.extension('bokeh')
@@ -89,7 +89,7 @@ Recuerda que usar el `repr` para `b01_wtr` en este cuaderno computacional Jupyte
 - Al desplegar la pestaña `Coordinates`, podemos analizar todos los arreglos asociados a esos valores de coordenadas.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Examine data
 b01_wtr
 ```
@@ -98,7 +98,7 @@ b01_wtr
 Vamos a examinar la distribución de los valores del píxel en `b01_wtr` utilizando el método Pandas `Series.value_counts`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 counts = pd.Series(b01_wtr.values.flatten()).value_counts().sort_index()
 display(counts)
 ```
@@ -123,7 +123,7 @@ Estos valores de píxel son _datos categóricos_. En específico, los valores de
 Hagamos un primer gráfico aproximado de los datos ráster utilizando `hvplot.image`. Como de costumbre, instanciamos un objeto `view` que corta un subconjunto más pequeño de píxeles para hacer que la imagen se renderice rápidamente.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -155,7 +155,7 @@ El mapa de colores predeterminado no revela muy bien las características ráste
 Queremos reasignar los valores ráster de los píxeles a un rango más estrecho (por ejemplo, de `0` a `5` en vez de `0` a `255`) para crear una barra de color sensible. Para ello, empezaremos copiando los valores del `DataArray` `b01_wtr` en otro llamado `new_data`, y creando un arreglo llamado `values` para contener el rango completo de valores de píxel permitidos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 new_data = b01_wtr.copy(deep=True)
 values = np.array([0, 1, 2, 252, 253, 254, 255], dtype=np.uint8)
 print(values)
@@ -165,7 +165,7 @@ print(values)
 Primero debemos decidir cómo tratar los datos que faltan, es decir, los píxeles con el valor `255` en este ráster. Vamos a elegir tratar los píxeles de datos que faltan igual que los píxeles `"Sin agua"`. Podemos utilizar el método `DataArray.where` para reasignar los píxeles con valor `null_val` (por ejemplo, 255 en la celda de código siguiente) al valor de reemplazo `transparent_val` (por ejemplo, `0` en este caso). Anticipando que incluiremos este código en una función más adelante, incluimos el cálculo en un bloque `if` condicionado a un valor booleano `replace_null`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 null_val = 255
 transparent_val = 0
 replace_null = True
@@ -180,7 +180,7 @@ print(np.unique(new_data.values))
 Observa que `values` ya no incluye `null_val`. A continuación, instanciamos un arreglo `new_values` para almacenar los valores de píxel de reemplazo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 n_values = len(values)
 start_val = 0
 new_values = np.arange(start=start_val, stop=start_val+n_values, dtype=values.dtype)
@@ -193,7 +193,7 @@ print(new_values)
 Ahora combinamos `values` y `new_values` en un diccionario `relabel`, y usamos el diccionario para modificar las entradas de `new_data`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 relabel = dict(zip(values, new_values))
 for old, new in relabel.items():
     if new==old: continue
@@ -204,7 +204,7 @@ for old, new in relabel.items():
 Podemos encapsular la lógica de las celdas anteriores en una función de utilidad `relabel_pixels` que condensa un amplio rango de valores categóricos de píxeles en uno más ajustado que se mostrará mejor con un mapa de colores.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # utility to remap pixel values to a sequence of contiguous integers
 def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=True, start=0):
     """
@@ -241,7 +241,7 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
 Apliquemos la función que acabamos de definir a `b01_wtr` y comprobemos que los valores de los píxeles cambiaron como queríamos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 values = [0, 1, 2, 252, 253, 254, 255]
 print(f"Before applying relabel_pixels: {np.unique(b01_wtr.values)}")
 print(f"Original pixel values expected: {values}")
@@ -261,7 +261,7 @@ Observe que el valor de píxel `5` no aparece en el arreglo reetiquetada porque 
 Ahora estamos listos para definir un mapa de colores. Definimos el diccionario `COLORS` de forma que las etiquetas de píxel de `new_values` sean las claves del diccionario y algunas tuplas de color _Red Green Blue Alpha_ (RGBA) (en español, rojo verde azul alfa) utilizadas frecuentemente para este tipo de datos sean los valores del diccionario. Utilizaremos variantes del código de la siguiente celda para actualizar `layout_opts` de forma que los gráficos generados para varias capas/bandas de los productos de datos DSWx tengan leyendas adecuadas.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 COLORS = {
 0: (255, 255, 255, 0.0),  # No Water
 1:  (0,   0, 255, 1.0),   # Open Water
@@ -283,7 +283,7 @@ print(c_labels)
 Para utilizar este mapa de colores, estas marcas y estas etiquetas en una barra de colores, creamos un diccionario `c_bar_opts` que contiene los objetos que hay que pasar al motor de renderizado Bokeh.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 c_bar_opts = dict( ticker=FixedTicker(ticks=c_ticks),
                    major_label_overrides=dict(zip(c_ticks, c_labels)),
                    major_tick_line_width=0, )
@@ -293,7 +293,7 @@ c_bar_opts = dict( ticker=FixedTicker(ticks=c_ticks),
 Debemos actualizar los diccionarios `image_opts` y `layout_opts` para incluir los datos relevantes para el mapa de colores.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts.update({ 'cmap': list(COLORS.values()),
                     'clim': limits,
                     'colorbar': True
@@ -306,7 +306,7 @@ layout_opts.update(dict(title='B01_WTR', colorbar_opts=c_bar_opts))
 Finalmente, podemos renderizar un gráfico rápido para asegurarnos de que la barra de colores se produce con etiquetas adecuadas.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 steps = 100
 subset = slice(0, None, steps)
 view = b01_wtr.isel(longitude=subset, latitude=subset)
@@ -317,7 +317,7 @@ view.hvplot.image( **image_opts).opts(frame_width=500, frame_height=500, **layou
 Por último, podemos definir un mapa base, esta vez utilizando mosaicos de [ESRI](https://www.esri.com). Esta vez, graficaremos el ráster a resolución completa (es decir, no nos molestaremos en utilizar `isel` para seleccionar primero un corte de menor resolución del ráster).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Creates basemap
 base = gv.tile_sources.EsriTerrain.opts(padding=0.1, alpha=0.25)
 b01_wtr.hvplot(**image_opts).opts(**layout_opts) * base

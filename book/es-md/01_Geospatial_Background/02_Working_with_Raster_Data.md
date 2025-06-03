@@ -137,7 +137,7 @@ da = rio.open_rasterio(LOCAL_PATH)
 <!-- #region jupyter={"source_hidden": true} -->
 La función `rioxarray.open_rasterio` cargó los datos raster del archivo GeoTIFF local en un Xarray `DataArray` llamado `da`. Podemos analizar cómodamente el contenido de `da` en un cuaderno computacional Jupyter.
 <!-- #endregion -->
- 
+
 ```python jupyter={"source_hidden": true}
 da # examine contents
 ```
@@ -145,7 +145,7 @@ da # examine contents
 <!-- #region jupyter={"source_hidden": true} -->
 Este ráster es de alta resolución  ($3600\times3600$ píxeles). Vamos a tomar una parte más pequeña (por ejemplo, un muestreo cada 200 píxeles) creando una instancia del objeto `slice` de Python `subset` y usando el método Xarray `DataArray.isel` para construir una matriz de menor resolución (que se renderizará más rápido). Entonces podemos hacer una visualización (renderizado por Matplotlib de manera predeterminada).
 <!-- #endregion -->
- 
+
 ```python jupyter={"source_hidden": true}
 subset = slice(0,None,200)
 view = da.isel(x=subset, y=subset)

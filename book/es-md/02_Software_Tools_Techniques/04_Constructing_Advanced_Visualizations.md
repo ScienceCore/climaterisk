@@ -26,7 +26,7 @@ Como contexto, los archivos que examinaremos se basan en [el incendio McKinney q
 Para empezar, se necesitan algunas importaciones típicas de paquetes. También definiremos algunas direcciones a archivos locales que contienen datos geoespaciales relevantes.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 from pathlib import Path
@@ -35,7 +35,7 @@ import geopandas as gpd
 import rioxarray as rio
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Imports for plotting
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
@@ -43,7 +43,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
 ASSET_PATH = FILE_STEM / 'assets' / 'data'
 SHAPE_FILE = ASSET_PATH / 'shapefiles' / 'mckinney' / 'McKinney_NIFC.shp'
@@ -63,7 +63,7 @@ El paquete [GeoPandas](https://geopandas.org/en/stable/index.html) contiene much
 Como ejemplo, vamos a cargar algunos datos vectoriales desde la ruta local `SHAPEFILE` (tal como se definió anteriormente).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shape_df = gpd.read_file(SHAPE_FILE)
 shape_df
 ```
@@ -72,7 +72,7 @@ shape_df
 El objeto `shape_df` es un [`GeoDataFrame`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.html) que tiene más de dos docenas de columnas de metadatos en una sola fila. La columna principal que nos interesa es la de `geometry`. Esta columna almacena las coordenadas de los vértices de un `MULTIPOLYGON`, es decir, un conjunto de polígonos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shape_df.geometry 
 ```
 
@@ -80,7 +80,7 @@ shape_df.geometry
 Los vértices de los polígonos parecen expresarse como pares de `(longitude, latitude)`. Podemos determinar qué sistema de coordenadas específico se utiliza examinando el atributo `crs` del `GeoDataFrame`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 print(shape_df.crs)
 ```
 
@@ -88,7 +88,7 @@ print(shape_df.crs)
 Utilicemos `hvplot` para generar un gráfico de este conjunto de datos vectoriales.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shape_df.hvplot()
 ```
 
@@ -98,7 +98,7 @@ La proyección en este gráfico es un poco extraña. La documentación de HoloVi
 Vamos a crear dos diccionarios de Python, `shapeplot_opts` y `layout_opts`, y construiremos una visualización.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shapeplot_opts= dict(geo=True)
 layout_opts = dict(xlabel='Longitude', ylabel="Latitude")
 print(f"{shapeplot_opts=}")
@@ -113,7 +113,7 @@ El punto importante que se debe recordar en el contexto  inmediato es que la opc
 - Al especificar `line_width` y `line_color` se modifica la apariencia de los límites de los polígonos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shapeplot_opts.update( color=None ,
                        line_width=2,
                        line_color='red')
@@ -126,7 +126,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 Rellenemos los polígonos con color naranja utilizando la opción `color=orange` y hagamos que el área rellenada sea parcialmente transparente especificando un valor para `alpha` entre cero y uno.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shapeplot_opts.update(color='orange', alpha=0.25)
 print(shapeplot_opts)
 
@@ -139,7 +139,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 A continuación, proporcionemos un mapa base y superpongamos los polígonos trazados utilizando el operador `*`. Observa el uso de paréntesis para aplicar el método `opts` a la salida del operador `*`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 basemap = gv.tile_sources.ESRI(height=500, width=500, padding=0.1)
 
 (shape_df.hvplot(**shapeplot_opts) * basemap).opts(**layout_opts)
@@ -149,7 +149,7 @@ basemap = gv.tile_sources.ESRI(height=500, width=500, padding=0.1)
 El mapa base no necesita ser superpuesto como un objeto separado, puede especificarse utilizando la palabra clave `tiles`. Por ejemplo, al establecer `tiles='OSM'` se utilizan los mosaicos de [OpenStreetMap](ttps://www.openstreetmap.org). Observa que las dimensiones de la imagen renderizada probablemente no sean las mismas que las de la imagen anterior con los mosaicos [ESRI](https://www.esri.com), ya que antes especificamos explícitamente la altura de 500, con la opción `height=500`, y el ancho de 500, con la opción `width=500`, en la definición del `basemap`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 shapeplot_opts.update(tiles='OSM')
 shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 ```
@@ -158,7 +158,7 @@ shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 Vamos a eliminar la opción `tiles` de `shapeplot_opts` y a vincular el objeto del gráfico resultante al identificador `shapeplot`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 del shapeplot_opts['tiles']
 print(shapeplot_opts)
 
@@ -172,7 +172,7 @@ shapeplot
 Combinemos estos datos vectoriales con algunos datos ráster. Cargaremos los datos raster desde un archivo local utilizando la función `rioxarray.open_rasterio`. Por practicidad, usaremos el encadenamiento de métodos para reetiquetar las coordenadas del `DataArray` cargado y usaremos el método `squeeze` para convertir el arreglo tridimensional que se cargó en uno bidimensional.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 raster = (
           rio.open_rasterio(RASTER_FILE)
             .rename(dict(x='longitude', y='latitude'))
@@ -185,7 +185,7 @@ raster
 Utilizaremos un diccionario de Python `image_opts` para almacenar argumentos útiles y pasarlos a `hvplot.image`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -204,7 +204,7 @@ raster.hvplot.image(**image_opts)
 Podemos superponer `shapeplot` con los datos ráster graficados utilizando el operador `*`. Podemos utilizar las herramientas `Pan`, `Wheel Zoom` y `Box Zoom` en la barra de herramientas de Bokeh a la derecha del gráfico para hacer _zoom_ y comprobar que los datos vectoriales fueron trazados encima de los datos ráster.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 raster.hvplot.image(**image_opts) * shapeplot
 ```
 
@@ -212,7 +212,7 @@ raster.hvplot.image(**image_opts) * shapeplot
 Además, podemos superponer los datos vectoriales y ráster en mosaicos ESRI utilizando `basemap`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 raster.hvplot.image(**image_opts) * shapeplot * basemap
 ```
 
@@ -220,7 +220,7 @@ raster.hvplot.image(**image_opts) * shapeplot * basemap
 Observa que muchos de los píxeles blancos oscurecen el gráfico. Resulta que estos píxeles corresponden a ceros en los datos ráster, los cuales pueden ser ignorados sin problema. Podemos filtrarlos utilizando el método `where`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 raster = raster.where((raster!=0))
 layout_opts.update(title="McKinney 2022 Wildfires")
 
@@ -235,7 +235,7 @@ layout_opts.update(title="McKinney 2022 Wildfires")
 Vamos a cargar una secuencia de archivos ráster en un arreglo tridimensional y generaremos algunos gráficos. Para empezar, construiremos un bucle para leer `DataArrays` de los archivos `RASTER_FILES` y utilizaremos `xarray.concat` para generar un único arreglo de rásters tridimensional (es decir, tres rásters de $3,600\times3,600$ apilados verticalmente).  Aprenderemos las interpretaciones específicas asociadas con el conjunto de datos ráster en un cuaderno computacional posterior. Por el momento, los trataremos como datos sin procesar con los que experimentaremos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 stack = []
 for path in RASTER_FILES:
     data = rio.open_rasterio(path).rename(dict(x='longitude', y='latitude'))
@@ -252,7 +252,7 @@ stack = stack.where(stack!=0)
 Renombramos los ejes `longitude` y `latitude` y filtramos los píxeles con valor cero para simplificar la visualización posterior.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 stack
 ```
 
@@ -262,7 +262,7 @@ Una vez que el `stack` de `DataArray` esté construido, podemos enfocarnos en la
 Si queremos generar un gráfico estático con varias imágenes, podemos utilizar `hvplot.image` junto con el método `.layout`. Para ver cómo funciona, empecemos por redefinir los diccionarios `image_opts` y `layout_opts`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts = dict(  x='longitude', 
                     y='latitude',
                     rasterize=True, 
@@ -283,7 +283,7 @@ layout_opts = dict(xlabel='Longitude', ylabel="Latitude")
 Para acelerar el renderizado, construiremos inicialmente un objeto `view` que seleccione subconjuntos de píxeles. Definimos inicialmente el parámetro `steps=200` para restringir la vista a cada 200 píxeles en cualquier dirección. Si reducimos los `steps`, se tarda más en renderizar. Establecer `steps=1` o `steps=None` equivale a seleccionar todos los píxeles.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 steps = 200
 subset = slice(0, None, steps)
 layout_opts.update(frame_width=250, frame_height=250)
@@ -306,7 +306,7 @@ Otra forma de visualizar un arreglo tridimensional es asociar un _widget_ de sel
 Una vez más, aumentar el valor del parámetro `steps` reduce el tiempo de renderizado. Reducirlo a `1` o a `None` renderiza a resolución completa.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 steps = 200
 subset = slice(0, None, steps)
 layout_opts.update(frame_height=400, frame_width=400)
@@ -319,7 +319,7 @@ view.hvplot.image(**image_opts).opts(**layout_opts)
 Más adelante apilaremos muchos rásters con distintas marcas temporales a lo largo de un eje `time`. Cuando haya muchos cortes, el _widget_ de selección se renderizará como un deslizador en vez de como un menú desplegable. Podemos controlar la ubicación del _widget_ utilizando una opción de palabra clave `widget_location`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 view.hvplot.image(widget_location='bottom_left', **image_opts, **layout_opts)
 ```
 
@@ -341,7 +341,7 @@ se genera una excepción (de ahí la invocación en la celda de código anterior
 Por último, vamos a superponer nuestros datos vectoriales anteriores, los límites del incendio forestal, con la vista dinámica de este arreglo tridimensional de rásteres. Podemos utilizar el operador `*` para combinar la salida de `hvplot.image` con `shapeplot`, la vista renderizada de los datos vectoriales.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 steps = 200
 subset = slice(0, None, steps)
 view = stack.isel(latitude=subset, longitude=subset)

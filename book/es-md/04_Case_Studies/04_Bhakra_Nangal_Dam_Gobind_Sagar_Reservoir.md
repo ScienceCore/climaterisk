@@ -46,7 +46,7 @@ La [represa de Bhakra Nangal](https://en.wikipedia.org/wiki/Bhakra_Dam) se inaug
 
 ### Importación preliminar de librerías
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 import numpy as np, pandas as pd, xarray as xr
@@ -54,7 +54,7 @@ import rioxarray as rio
 import rasterio
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Imports for plotting
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
@@ -62,7 +62,7 @@ from geoviews import opts
 gv.extension('bokeh')
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # STAC imports to retrieve cloud data
 from pystac_client import Client
 from osgeo import gdal
@@ -75,7 +75,7 @@ gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 ### Funciones prácticas
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle with given center of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -85,7 +85,7 @@ def make_bbox(pt,dx,dy):
     return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # simple utility to plot an AOI or bounding-box
 def plot_bbox(bbox):
     '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
@@ -99,7 +99,7 @@ def plot_bbox(bbox):
     return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # utility to extract search results into a Pandas DataFrame
 def search_to_dataframe(search):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
@@ -118,7 +118,7 @@ def search_to_dataframe(search):
     return df
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # utility to remap pixel values to a sequence of contiguous integers
 def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=True, start=0):
     """
@@ -163,18 +163,18 @@ Estas funciones podrían incluirse en archivos módular para proyectos de invest
 Para las coordenadas de la represa, utilizaremos $(76.46^{\circ}, 31.42^{\circ})$. También buscaremos los datos de todo un año completo entre el 1 de abril de 2023 y el 1 de abril de 2024.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 AOI = make_bbox((76.46, 31.42), 0.2, 0.2)
 DATE_RANGE = "2023-04-01/2024-04-01"
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Optionally plot the AOI
 basemap = gv.tile_sources.OSM(alpha=0.5, padding=0.1)
 plot_bbox(AOI) * basemap
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
@@ -187,7 +187,7 @@ print(search_params)
 Buscaremos productos de datos OPERA DSWx, así que definimos el `ENDPOINT`, el `PROVIDER` y las `COLLECTIONS` de la siguiente manera (estos valores se modifican ocasionalmente, así que puede ser necesario hacer algunas búsquedas en el [sitio web Earthdata Search](https://search.earthdata.nasa.gov) de la NASA).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
 PROVIDER = "POCLOUD"
 COLLECTIONS = ["OPERA_L3_DSWX-HLS_V1_1.0"]
@@ -196,7 +196,7 @@ search_params.update(collections=COLLECTIONS)
 print(search_params)
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 %%time
 catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
 search_results = catalog.search(**search_params)
@@ -206,7 +206,7 @@ search_results = catalog.search(**search_params)
 Una vez que ejecutamos la búsqueda, los resultados se pueden consultar en un `DataFrame`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 %%time
 df = search_to_dataframe(search_results)
 df.head()
@@ -216,7 +216,7 @@ df.head()
 Limpiaremos el `DataFrame` `df` cambiando el nombre de la columna `eo:cloud_cover`, eliminando las columnas adicionales de fecha y hora, convirtiendo los tipos de datos de forma adecuada y seteando el índice.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 df = df.rename(columns={'eo:cloud_cover':'cloud_cover'})
 df.cloud_cover = df.cloud_cover.astype(np.float16)
 df = df.drop(['start_datetime', 'end_datetime'], axis=1)
@@ -225,7 +225,7 @@ df.datetime = pd.DatetimeIndex(df.datetime)
 df = df.set_index('datetime').sort_index()
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 df.info()
 df.head()
 ```
@@ -242,12 +242,12 @@ En esta fase, el `DataFrame` de los resultados de la búsqueda tendrá más de d
 Filtraremos las filas del `df` para capturar solo los gránulos capturados que tengan menos del 10% de nubosidad y la banda `B01_WTR` de los datos DSWx.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 c1 = df.cloud_cover<10
 c2 = df.asset.str.contains('B01_WTR')
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 df = df.loc[c1 & c2]
 df.info()
 ```
@@ -256,7 +256,7 @@ df.info()
 Podemos contar todas las entradas distintas de la columna `tile_id` y encontrar que solo hay una (`T43RFQ`). Eso significa que el AOI especificado se encuentra estrictamente dentro de un mosaico MGRS único y que todos los gránulos encontrados estarán asociados a ese mosaico geográfico específico.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 df.tile_id.value_counts()
 ```
 
@@ -272,7 +272,7 @@ Redujimos el número total de gránulos a un poco más de cincuenta. Y los utili
 Como ya vimos varias veces, apilaremos los arreglos bidimensionales de los archivos GeoTIFF listados en `df.href` en un `DataArray` tridimensional. Utilizaremos el identificador `stack` para etiquetar el resultado.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 %%time
 stack = []
 for timestamp, row in df.iterrows():
@@ -290,7 +290,7 @@ stack
 Podemos ver los valores de los pixeles que realmente aparecen en el arreglo `stack` utilizando la función NumPy `unique`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 np.unique(stack)
 ```
 
@@ -310,7 +310,7 @@ Observa que el valor `254`&mdash;océano enmascarado&mdash; no aparece en esta c
 Para limpiar los datos (en caso de que querramos utilizar un mapa de colores), reasignemos los valores de los píxeles con nuestra función `relabel_pixels`. Esta vez, vamos a mantener los valores "sin datos" (`255`) para que podamos ver dónde faltan datos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 stack, relabel = relabel_pixels(stack, values=[0,1,2,252,253,255], replace_null=False)
 ```
 
@@ -318,7 +318,7 @@ stack, relabel = relabel_pixels(stack, values=[0,1,2,252,253,255], replace_null=
 Podemos ejecutar `np.unique` de nuevo para asegurarnos de que los datos se modificaron como queríamos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 np.unique(stack)
 ```
 
@@ -326,7 +326,7 @@ np.unique(stack)
 Ahora asignemos un mapa de colores para ayudar a visualizar las imágenes ráster. En este caso, el mapa de colores utiliza varios colores distintos con opacidad total y píxeles negros parcialmente transparentes para indicar los datos que faltan.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Define a colormap using RGBA values; these need to be written manually here...
 COLORS = {
 0: (255, 255, 255, 0.0),  # Not Water
@@ -345,7 +345,7 @@ Podemo, entonces, visualizar los datos.
 - Construimos un objeto `view` que consiste en cortes extraídos del `stack` por submuestreo de cada píxel `steps` (reduce los `steps` a `1` o `None` para ver los rásteres a resolución completa).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts = dict(  
                     x='longitude',
                     y='latitude',
@@ -369,7 +369,7 @@ layout_opts = dict(
                    )
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 steps = 100
 subset = slice(0,None,steps)
 view = stack.isel(longitude=subset, latitude=subset)

@@ -32,7 +32,7 @@ De la [documentación de GeoViews](https://geoviews.org/index.html):
 > GeoViews se basa en la biblioteca [HoloViews](http://holoviews.org/) y permite crear visualizaciones flexibles de datos multidimensionales. GeoViews agrega una familia de tipos de gráficos geográficos basados en la librería [Cartopy](http://scitools.org.uk/cartopy), trazados con los paquetes [Matplotlib](http://matplotlib.org/) o [Bokeh](http://bokeh.pydata.org/). Con GeoViews, puedes trabajar de forma fácil y natural con grandes conjuntos de datos geográficos multidimensionales, visualizando al instante cualquier subconjunto o combinación de ellos. Al mismo tiempo, podrás acceder siempre a los datos crudos subyacentes a cualquier gráfico.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import warnings
 warnings.filterwarnings('ignore')
 from pathlib import Path
@@ -53,7 +53,7 @@ FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem 
 Un _mapa base_ o _capa de mosaico_ es útil cuando se muestran datos vectoriales o ráster porque nos permite superponer los datos geoespaciales relevantes sobre un mapa geográfico conocido como fondo. La principal funcionalidad que utilizaremos es `gv.tile_sources`. Podemos utilizar el método `opts` para especificar parámetros de configuración adicionales. A continuación, utilizaremos el servicio de mapas web _Open Street Map (OSM)_ (en español, Mapas de Calles Abiertos) para crear el objeto `basemap`. Cuando mostramos la representación de este objeto en la celda del cuaderno computacional, el menú de Bokeh que está a la derecha permite la exploración interactiva.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 basemap = gv.tile_sources.OSM.opts(width=600, height=400)
 basemap # When displayed, this basemap can be zoomed & panned using the menu at the right
 ```
@@ -66,7 +66,7 @@ basemap # When displayed, this basemap can be zoomed & panned using the menu at 
 Para empezar, vamos a definir una tupla regular en Python para las coordenadas de longitud y latitud de Tokio, Japón.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 tokyo_lonlat = (139.692222, 35.689722)
 print(tokyo_lonlat)
 ```
@@ -75,7 +75,7 @@ print(tokyo_lonlat)
 La clase `geoviews.Points` acepta una lista de tuplas (cada una de la forma `(x, y)`) y construye un objeto `Points` que puede ser visualizado. Podemos superponer el punto creado en los mosaicos OpenStreetMap de `basemap` utilizando el operador `*` en Holoviews. También podemos utilizar `geoviews.opts` para establecer varias preferencias de visualización para estos puntos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 tokyo_point   = gv.Points([tokyo_lonlat])
 point_opts = opts.Points(
                           size=48,
@@ -85,13 +85,13 @@ point_opts = opts.Points(
 print(type(tokyo_point))
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Use Holoviews * operator to overlay plot on basemap
 # Note: zoom out to see basemap (starts zoomed "all the way in")
 (basemap * tokyo_point).opts(point_opts)
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # to avoid starting zoomed all the way in, this zooms "all the way out"
 (basemap * tokyo_point).opts(point_opts, opts.Overlay(global_extent=True))
 ```
@@ -109,7 +109,7 @@ print(type(tokyo_point))
   Vamos a crear una función sencilla para generar un rectángulo de un ancho y altura dados, según la coordenada central.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # simple utility to make a rectangle centered at pt of width dx & height dy
 def make_bbox(pt,dx,dy):
     '''Returns bounding box represented as tuple (x_lo, y_lo, x_hi, y_hi)
@@ -123,7 +123,7 @@ def make_bbox(pt,dx,dy):
 Podemos probar la función anterior utilizando las coordenadas de longitud y latitud de Marruecos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Verify that the function bounds works as intended
 marrakesh_lonlat = (-7.93, 31.67)
 dlon, dlat = 0.5, 0.25
@@ -135,7 +135,7 @@ print(marrakesh_bbox)
 La función `geoviews.Rectangles` acepta una lista de cajas delimitadoras (cada uno descrito por una tupla de la forma `(x_min, y_min, x_max, y_max)`) para el trazado. También podemos utilizar `geoviews.opts` para adaptar el rectángulo a nuestras necesidades.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 rectangle = gv.Rectangles([marrakesh_bbox])
 rect_opts = opts.Rectangles(
                                 line_width=0,
@@ -148,7 +148,7 @@ rect_opts = opts.Rectangles(
 Podemos graficar un punto para Marruecos al igual que antes utilizando `geoviews.Points` (personalizado utilizando `geoviews.opts`).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 marrakesh_point   = gv.Points([marrakesh_lonlat])
 point_opts = opts.Points(
                           size=48,
@@ -161,7 +161,7 @@ point_opts = opts.Points(
 Por último, podemos superponer todas estas características en el mapa base con las opciones aplicadas.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 (basemap * rectangle * marrakesh_point).opts( rect_opts, point_opts )
 ```
 
@@ -188,12 +188,12 @@ Utilizaremos el método anterior para visualizar _(AOIs)_ al construir consultas
 El código siguiente carga un `DataFrame` de Pandas con datos de temperatura.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import pandas as pd, numpy as np
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'temperature.csv'
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 df = pd.read_csv(LOCAL_PATH, index_col=0, parse_dates=[0])
 df.head()
 ```
@@ -206,7 +206,7 @@ df.head()
 Vamos a extraer un subconjunto de columnas de este `DataFrame` y generar un gráfico.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 west_coast = df[['Vancouver', 'Portland', 'San Francisco', 'Seattle', 'Los Angeles']]
 west_coast.head()
 ```
@@ -215,7 +215,7 @@ west_coast.head()
 La API de `.plot` de `DataFrame` de Pandas proporciona acceso a varios métodos de visualización. Aquí usaremos `.plot.line`, pero hay otras opciones disponibles (por ejemplo, `.plot.area`, `.plot.bar`, `.plot.nb`, `.plot.scatter`, etc.). Esta API se ha repetido en varias librerías debido a su conveniencia.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 west_coast.plot.line(); # This produces a static Matplotlib plot
 ```
 
@@ -227,7 +227,7 @@ west_coast.plot.line(); # This produces a static Matplotlib plot
 Importando `hvplot.pandas`, se puede generar un gráfico interactivo similar. La API para `.hvplot` imita esto para `.plot`. Por ejemplo, podemos generar la gráfica de línea anterior usando `.hvplot.line`. En este caso, el _backend_ para los gráficos por defecto es Bokeh, así que el gráfico es _interactivo_.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import hvplot.pandas
 west_coast.hvplot.line() # This produces an interactive Bokeh plot
 ```
@@ -236,7 +236,7 @@ west_coast.hvplot.line() # This produces an interactive Bokeh plot
 La API `.plot`  de DataFrame de Pandas proporciona acceso a una serie de métodos de graficación.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 west_coast.hvplot.line(width=600, height=300, grid=True)
 ```
 
@@ -244,7 +244,7 @@ west_coast.hvplot.line(width=600, height=300, grid=True)
 La API `hvplot` también funciona cuando está enlazada junto con otras llamadas del método `DataFrame`. Por ejemplo, podemos muestrear los datos de temperatura y calcular la media para suavizarlos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 smoothed = west_coast.resample('2d').mean()
 smoothed.hvplot.line(width=600, height=300, grid=True)
 ```
@@ -257,7 +257,7 @@ smoothed.hvplot.line(width=600, height=300, grid=True)
 La API `.plot` de Pandas también se extendió a Xarray, es decir, para `DataArray`. de Xarray
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import xarray as xr
 import hvplot.xarray
 import rioxarray as rio
@@ -269,9 +269,9 @@ Para empezar, carga un archivo GeoTIFF local usando `rioxarray` en una estructur
 
 ```python jupyter={"source_hidden": true}
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
- ```
+```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data = rio.open_rasterio(LOCAL_PATH)
 data
 ```
@@ -280,7 +280,7 @@ data
 Hacemos algunos cambios menores al `DataArray`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data = data.squeeze() # to reduce 3D array with singleton dimension to 2D array
 data = data.rename({'x':'easting', 'y':'northing'})
 data
@@ -294,7 +294,7 @@ data
 La API `DataArray.plot` por defecto usa el `pcolormesh` de Matplotlib para mostrar un arreglo de 2D almacenado dentro de un `DataArray`. La renderización de esta imagen moderadamente de alta resolución lleva un poco de tiempo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data.plot(); # by default, uses pcolormesh
 ```
 
@@ -306,7 +306,7 @@ data.plot(); # by default, uses pcolormesh
 De nuevo, la API `DataArray.hvplot` imita la API `DataArray.plot`; de forma predeterminada, utiliza una subclase derivada de `holoviews.element.raster.Image`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 plot = data.hvplot() # by default uses Image class
 print(f'{type(plot)=}')
 plot
@@ -324,7 +324,7 @@ El resultado anterior es una visualización interactiva, procesada usando Bokeh.
 Añadamos opciones para mejorar la imagen. Para hacer esto, iniciaremos un diccionario de Python `image_opts` para usar dentro de la llamada al método `image`. Creando opciones para mejorar los gráficos de manera incremental.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts = dict(rasterize=True, dynamic=True)
 pprint(image_opts)
 ```
@@ -333,7 +333,7 @@ pprint(image_opts)
 Para empezar, hagamos la llamada explícita a `hvplot.image` y especifiquemos la secuencia de ejes. Y apliquemos las opciones del diccionario `image_opts`. Utilizaremos la operación `dict-unpacking` `**image_opts` cada vez que invoquemos a `data.hvplot.image`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
 plot
 ```
@@ -342,7 +342,7 @@ plot
 A continuación, vamos a corregir  el ratio y las dimensiones de la imagen.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts.update(frame_width=500, frame_height=500, aspect='equal')
 pprint(image_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
@@ -353,7 +353,7 @@ plot
 A continuación, vamos a corregir  el ratio y las dimensiones de la imagen.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts.update( cmap='hot_r', clim=(0,100), alpha=0.8 )
 pprint(image_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
@@ -364,7 +364,7 @@ plot
 Antes de añadir un mapa de base, tenemos que tener en cuenta el sistema de coordenadas. Esto se almacena en el archivo GeoTIFF y, cuando se lee usando `rioxarray.open_rasterio`, se disponibilizada mediante el atributo `data.rio.crs`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 crs = data.rio.crs
 crs
 ```
@@ -373,7 +373,7 @@ crs
 Podemos usar el CRS recuperado arriba como un argumento opcional para `hvplot.image`. Ten en cuenta que las coordenadas han cambiado en los ejes, pero las etiquetas no son las correctas. Podemos arreglarlo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts.update(crs=crs)
 pprint(image_opts)
 plot = data.hvplot.image(x='easting', y='northing', **image_opts)
@@ -384,7 +384,7 @@ plot
 Ahora vamos a corregir las etiquetas. Utilizaremos el sistema Holoviews/GeoViews `opts` para especificar estas opciones.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 label_opts = dict(title='VEG_ANOM_MAX', xlabel='Longitude (degrees)', ylabel='Latitude (degrees)')
 pprint(image_opts)
 pprint(label_opts)
@@ -396,7 +396,7 @@ plot
 Vamos a superponer la imagen en un mapa base para que podamos ver el terreno debajo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 base = gv.tile_sources.ESRI
 base * plot
 ```
@@ -405,7 +405,7 @@ base * plot
 Finalmente, como los píxeles blancos distraen vamos a filtrarlos utilizando el método `DataArray` `where`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 plot = data.where(data>0).hvplot.image(x='easting', y='northing', **image_opts).opts(**label_opts)
 plot * base
 ```

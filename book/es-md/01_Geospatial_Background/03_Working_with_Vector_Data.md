@@ -78,7 +78,7 @@ Los desarrolladores SIG responsables por GeoJSON lo diseñaron con la intención
 Veamos cómo analizar y graficar archivos GeoJSON utilizando la librería [GeoPandas](https://geopandas.org/en/stable/). El archivo local `cables.geojson` almacena datos vectoriales de líneas que representan cables submarinos conectando diferentes masas de tierra.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 import geopandas as gpd
 from pathlib import Path
 from warnings import filterwarnings
@@ -88,7 +88,7 @@ FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem 
 GEOJSON = FILE_STEM / 'assets' / 'data' /'cables.geojson'
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 with open(GEOJSON) as f:
     text = f.read()
 print(text[:1500])
@@ -100,7 +100,7 @@ Intentar leer la salida GeoJSON anterior es complicado pero predecible. Los arch
 Utilicemos la función `geopandas.read_file` para cargar los datos vectoriales en un `GeoDataFrame`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 gdf = gpd.read_file(GEOJSON)
 display(gdf.head())
 gdf.info()
@@ -110,7 +110,7 @@ gdf.info()
 Hay 530 filas, cada una de las cuales corresponde a datos de línea (una secuencia conectada de segmentos de línea). Podemos utilizar el atributo `color` de la columna `GeoDataFrame` como una opción dentro de la llamada a `.plot` para graficar estos cables.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 gdf.geometry.plot(color=gdf.color, alpha=0.25);
 ```
 
@@ -118,7 +118,7 @@ gdf.geometry.plot(color=gdf.color, alpha=0.25);
 Usemos un archivo remoto para crear otro `GeoDataFrame`, esta vez que contenga datos de polígonos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 URL = "http://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_land.geojson"
 gdf = gpd.read_file(URL)
 
@@ -129,7 +129,7 @@ gdf
 Esta vez, el gráfico mostrará polígonos rellenos correspondientes a los países del mundo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 gdf.plot(color='green', alpha=0.25) ;
 ```
 
@@ -137,7 +137,7 @@ gdf.plot(color='green', alpha=0.25) ;
 El método `GeoDataFrame.loc` nos permite graficar subconjuntos concretos de países.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 gdf.loc[15:90].plot(color='green', alpha=0.25) ;
 ```
 
@@ -180,14 +180,14 @@ Hay muchos archivos opcionales más. Consulta el [libro blanco](https://www.esri
 Al igual que los archivos GeoJSON, _los shapefiles_ se pueden leer directamente utilizando `geopandas.read_file` para cargar el archivo `.shp`. Lo haremos ahora utilizando un _shapefile_ de ejemplo que muestra la delimitación del área de un incendio forestal.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 SHAPEFILE = FILE_STEM / 'assets' / 'data' / 'shapefiles' / 'mckinney' / 'McKinney_NIFC.shp'
 gdf = gpd.read_file(SHAPEFILE)
 gdf.info()
 gdf.head()
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 gdf.plot(color='red', alpha=0.5);
 ```
 

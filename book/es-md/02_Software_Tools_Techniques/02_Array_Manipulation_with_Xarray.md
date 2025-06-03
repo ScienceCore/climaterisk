@@ -18,7 +18,7 @@ jupyter:
 Hay numerosas formas de trabajar con datos geoespaciales, así que elegir una herramienta puede ser difícil. La principal librería que utilizaremos es [_Xarray_](https://docs.xarray.dev/en/stable/index.html) por sus estructuras de datos `DataArray` y `Dataset`, y sus utilidades asociadas, así como [NumPy](https://numpy.org) y [Pandas](https://pandas.pydata.org) para manipular arreglos numéricos homogéneos y datos tabulares, respectivamente.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 from warnings import filterwarnings
 filterwarnings('ignore')
 from pathlib import Path
@@ -38,7 +38,7 @@ La principal estructura de datos de Xarray es [`DataArray`](https://docs.xarray.
 Vamos a cargar una estructura de datos `xarray.DataArray` de ejemplo desde un archivo cuya ubicación viene determinada por `LOCAL_PATH`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 ```
@@ -53,7 +53,7 @@ data = rio.open_rasterio(LOCAL_PATH)
 - Los triángulos situados junto a los encabezados "Coordinates", "Indexes" y "Attributes" pueden pulsarse con el mouse para mostrar una vista ampliada.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 print(f'{type(data)=}\n')
 data
 ```
@@ -66,7 +66,7 @@ data
 Por supuesto, aunque esta vista gráfica es práctica, también es posible acceder a varios atributos de `DataArray` mediante programación. Esto nos permite escribir una lógica programatica para manipular los `DataArray` condicionalmente según sea necesario. Por ejemplo:
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 print(data.coords)
 ```
 
@@ -74,7 +74,7 @@ print(data.coords)
 Las dimensiones `data.dims` son las cadenas/etiquetas asociadas a los ejes del `DataArray`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data.dims
 ```
 
@@ -82,7 +82,7 @@ data.dims
 Podemos extraer las coordenadas como arreglos NumPy unidimensionales (homogéneas) utilizando los atributos `coords` y `.values`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 print(data.coords['x'].values)
 ```
 
@@ -90,7 +90,7 @@ print(data.coords['x'].values)
 `data.attrs` es un diccionario que contiene otros metadatos analizados a partir de las etiquetas GeoTIFF (los "Atributos" en la vista gráfica). Una vez más, esta es la razón por la que `rioxarray` es útil. Es posible escribir código que cargue datos de varios formatos de archivo en Xarray `DataArray`, pero este paquete encapsula mucho del código desordenado que, por ejemplo, rellenaría `data.attrs`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data.attrs
 ```
 
@@ -102,7 +102,7 @@ data.attrs
 Tal como se mencionó, `rioxarray` extiende la clase `xarray.DataArray` con un método de acceso llamado `rio`. El método de acceso `rio` agrega efectivamente un espacio de nombres con una variedad de atributos. Podemos usar una lista de comprensión de Python para mostrar los que no empiezan con guión bajo (los llamados métodos/atributos "private" y "dunder").
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 [name for name in dir(data.rio) if not name.startswith('_')]
 ```
 
@@ -110,7 +110,7 @@ Tal como se mencionó, `rioxarray` extiende la clase `xarray.DataArray` con un m
 El atributo `data.rio.crs` es importante para nuestros propósitos. Proporciona acceso al sistema de referencia de coordenadas asociado a este conjunto de datos ráster.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 print(type(data.rio.crs))
 print(data.rio.crs)
 ```
@@ -131,11 +131,11 @@ De [Wikipedia](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset):
 Estos datos se almacenan utilizando un CRS [ sistema de coordenadas universal transversal de Mercator (UTM)](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system) (por sus siglas en inglés de _Mercator transversal universal_) particular. Las etiquetas de las coordenadas serían convencionalmente _este_ y _norte_. Sin embargo, a la hora de hacer el trazo, será conveniente utilizar _longitud_ y _latitud_ en su lugar. Reetiquetaremos las coordenadas para reflejar esto, es decir, la coordenada llamada `x` se reetiquetará como `longitude` y la coordenada llamada `y` se reetiquetará como `latitude`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data = data.rename({'x':'longitude', 'y':'latitude'})
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 print(data.coords)
 ```
 
@@ -145,11 +145,11 @@ Una vez más, aunque los valores numéricos almacenados en los arreglos de coord
 Los objetos Xarray `DataArray` permiten estraer subconjuntos de forma muy similar a las listas de Python. Las dos celdas siguientes extraen ambas el mismo subarreglo mediante dos llamadas a métodos diferentes.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data.isel(longitude=slice(0,2))
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data.sel(longitude=[499_995, 500_025])
 ```
 
@@ -167,7 +167,7 @@ data.isel(band=0).plot();
 Este gráfico tarda un poco en procesarse porque el arreglo representado tiene $3,600\times3,600$ píxeles. Podemos utilizar la función `slice` de Python para extraer, por ejemplo, cada 100 píxeles en cualquier dirección para trazar una imagen de menor resolución mucho más rápido.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 steps = 100
 subset = slice(0,None,steps)
 view = data.isel(longitude=subset, latitude=subset, band=0)
@@ -186,7 +186,7 @@ El gráfico producido es bastante oscuro (lo que refleja que la mayoría de las 
 Observa que un `DataArray` encapsula de un arreglo NumPy. Ese arreglo NumPy se puede recuperar usando el atributo `.values`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 array = data.values
 print(f'{type(array)=}')
 print(f'{array.shape=}')
@@ -198,7 +198,7 @@ print(f'{array.nbytes=}')
 Estos datos ráster se almacenan como datos enteros sin signo de 8 bits, es decir, un byte por cada píxel. Un entero de 8 bits sin signo puede representar valores enteros entre 0 y 255. En un arreglo con algo más de trece millones de elementos, eso significa que hay muchos valores repetidos. Podemos verlo poniendo los valores de los píxeles en una Pandas `Series` y usando el método `.value_counts`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 s_flat = pd.Series(array.flatten()).value_counts()
 s_flat.sort_index()
 ```
@@ -217,7 +217,7 @@ A menudo es conveniente apilar múltiples arreglos bidimensionales de datos rás
 Para ver cómo funciona el apilamiento de rásteres, empezaremos haciendo una lista de tres archivos GeoTIFF (almacenados localmente), inicializando una lista de `stack` vacía, y después construyendo una lista de `DataArrays` en un bucle.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 RASTER_FILES = list(((FILE_STEM / 'assets' / 'data').glob('OPERA*VEG*.tif')))
 
 stack = []
@@ -241,7 +241,7 @@ He aquí algunas observaciones importantes sobre el bucle de código anterior:
 Dado que construimos una lista de `DataArray` en la lista `stack`, podemos ensamblar un `DataArray` tridimensional utilizando `xarray.concat`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 stack = xr.concat(stack, dim='band')
 ```
 
@@ -251,7 +251,7 @@ La función `xarray.concat` acepta una secuencia de objetos `xarray.DataArray` c
 Examinemos `stack` mediante su `repr`en este cuaderno computacional Jupyter.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 stack
 ```
 
@@ -259,7 +259,7 @@ stack
 Observa que `stack` tiene un CRS asociado que fue analizado por `rioxarray.open_rasterio`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 stack.rio.crs
 ```
 

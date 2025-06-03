@@ -207,6 +207,7 @@ Clean DataFrame `df` in ways that make sense (e.g., dropping unneeded columns/ro
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
+
 ```
 
 ---
@@ -218,6 +219,7 @@ This consists of filtering rows or columns appropriately to narrow the search re
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
+
 ```
 
 ---
@@ -229,6 +231,7 @@ This can include stacking two-dimensional arrays into a three-dimensional array,
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
+
 ```
 
 ---

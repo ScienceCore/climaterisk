@@ -58,7 +58,7 @@ Examina un archivo local con un ejemplo de datos DIST-ALERT. El archivo contiene
 Empieza importando las librerías necesarias. Observa que también estamos importando la clase `FixedTicker` de la librería Bokeh para hacer que los gráficos interactivos sean un poco más atractivos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Notebook dependencies
 import warnings
 warnings.filterwarnings('ignore')
@@ -76,7 +76,7 @@ FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem 
 Lee los datos de un archivo local `'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'`. Antes de cargarlo, analiza los metadatos incluídos en el nombre del archivo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 filename = LOCAL_PATH.name
 print(filename)
@@ -86,7 +86,7 @@ print(filename)
 Este nombre de archivo bastante largo incluye varios campos separados por caracteres de guión bajo (`_`). Podemos utilizar el método `str.split` de Python para ver más fácilmente los distintos campos.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 filename.split('_') # Use the Python str.split method to view the distinct fields more easily.
 ```
 
@@ -111,17 +111,17 @@ Ten en cuenta que la NASA utiliza nomenclaturas convencionales como [Earthdata S
 Sube los datos de este archivo local en un `DataArray`, que es un tipo de dato de Xarray, utilizando `rioxarray.open_rasterio`. Reetiqueta las coordenadas adecuadamente y extrae el CRS (sistema de referencia de coordenadas).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data = rio.open_rasterio(LOCAL_PATH)
 crs = data.rio.crs
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 data
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 crs
 ```
 
@@ -129,7 +129,7 @@ crs
 Antes de generar un gráfico, crea un mapa base utilizando mosaicos [ESRI](https://es.wikipedia.org/wiki/Esri).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 # Creates basemap
 base = gv.tile_sources.ESRI.opts(width=750, height=750, padding=0.1)
 ```
@@ -138,7 +138,7 @@ base = gv.tile_sources.ESRI.opts(width=750, height=750, padding=0.1)
 También utiliza diccionarios para capturar la mayor parte de las opciones de trazado que utilizarás más adelante junto con `.hvplot.image`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts = dict(
                     x='longitude',
                     y='latitude',                   
@@ -161,7 +161,7 @@ layout_opts = dict(
 Por último, usa el método `DataArray.where` para filtrar los píxeles que faltan y los que no vieron ningún cambio en la vegetación; estos valores de píxeles serán reasignados como `nan` por lo que serán transparentes cuando el raster sea visualizado. También modifica ligeramente las opciones de `image_opts` y `layout_opts`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 veg_anom_max = data.where((data>0) & (data!=255))
 image_opts.update(crs=data.rio.crs)
 layout_opts.update(title=f"VEG_ANOM_MAX")
@@ -171,7 +171,7 @@ layout_opts.update(title=f"VEG_ANOM_MAX")
 Estos cambios permiten generar una visualización útil.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 veg_anom_max.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
@@ -191,7 +191,7 @@ El archivo `OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A
 Cargar y reetiqueta el `DataArray` como antes.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-DATE.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
@@ -201,7 +201,7 @@ data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 En esta banda en particular, el valor 0 indica que no ha habido alteraciones en el último año y -1 es un valor que indica que faltan datos. Cualquier valor positivo es el número de días desde el 31 de diciembre del 2020 en los que se midió la primera alteración en ese píxel. Filtrar los valores no positivos y conserva estos valores significativos utilizando `DataArray.where`.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 veg_dist_date = data.where(data>0)
 ```
 
@@ -209,7 +209,7 @@ veg_dist_date = data.where(data>0)
 Examina el rango de valores numéricos en `veg_dist_date` utilizando DataArray.min`and`DataArray.max`. Ambos métodos ignorarán los píxeles que contengan `nan\` (por sus siglas en inglés de _Not-a-Number_) al calcular el mínimo y el máximo.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 d_min, d_max = int(veg_dist_date.min().item()), int(veg_dist_date.max().item())
 print(f'{d_min=}\t{d_max=}')
 ```
@@ -218,7 +218,7 @@ print(f'{d_min=}\t{d_max=}')
 En este caso, los datos relevantes se encuentran entre 247 y 592. Recuerda que se trata del número de días transcurridos desde el 31 de diciembre del 2020, cuando se observó la primera alteración en el último año. Dado que estos datos se adquirieron el 15 de agosto del 2022, los únicos valores posibles estarían entre 227 y 592 días. Así que debes recalibrar los colores en la visualización.
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 image_opts.update(
                    clim=(d_min,d_max),
                    crs=data.rio.crs
@@ -226,7 +226,7 @@ image_opts.update(
 layout_opts.update(title=f"VEG_DIST_DATE")
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 veg_dist_date.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 
@@ -260,18 +260,18 @@ Se puede usar un archivo local como ejemplo de esta capa/banda particular de los
 Observa el uso de `FixedTicker` en la definición de una barra de colores más adecuada para un mapa de color discreto (es decir, categórico).
 <!-- #endregion -->
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-DIST-STATUS.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 data = data.rename({'x':'longitude', 'y':'latitude', 'band':'band'}).squeeze()
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 veg_dist_status = data.where((data>0)&(data<5))
 image_opts.update(crs=data.rio.crs)
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 layout_opts.update(
                     title=f"VEG_DIST_STATUS",
                     clim=(0,4),
@@ -279,7 +279,7 @@ layout_opts.update(
                   )
 ```
 
-```python jupyter={source_hidden: true}
+```python jupyter={"source_hidden": true}
 veg_dist_status.hvplot.image(**image_opts).opts(**layout_opts) * base
 ```
 

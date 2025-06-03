@@ -207,6 +207,7 @@ Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando co
 <!-- #endregion -->
 
 ```python
+
 ```
 
 ---
@@ -218,6 +219,7 @@ Consiste en filtrar filas o columnas adecuadamente para limitar los resultados d
 <!-- #endregion -->
 
 ```python
+
 ```
 
 ---
@@ -229,6 +231,7 @@ Esto puede incluir apilar matrices bidimensionales en una matriz tridimensional,
 <!-- #endregion -->
 
 ```python
+
 ```
 
 ---
