@@ -18,7 +18,9 @@ jupyter:
 Certain physical properties of interest in GIS are not conveniently captured by raster data on discrete grids. For instance, geometric features of a landscape like roads, rivers and boundaries between regions are better described using lines or curves in a suitable projected coordinate system. *Vector data*, in the context of GIS, refers to geometric representations of such aspects of a landscape.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Understanding Vector Data
 
@@ -66,7 +68,9 @@ As with raster data, vector data representations are usually bundled with metada
 Other geometric quantities like the length of a river or the surface area of a lake are available by applying techniques from computational geometry to vector data representations.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Using GeoJSON
 
@@ -141,7 +145,9 @@ The `GeoDataFrame.loc` accessor allows us to plot particular subsets of countrie
 gdf.loc[15:90].plot(color='green', alpha=0.25) ;
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Using Shapefiles
 
@@ -195,4 +201,6 @@ gdf.plot(color='red', alpha=0.5);
 We'll use this particular shapefile again in later notebooks and explain what it represents in greater detail then.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

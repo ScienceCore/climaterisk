@@ -22,7 +22,9 @@ Los conjuntos de datos geoespaciales&mdash;  ya sean datos ráster o datos vecto
 El presente cuaderno computacional resume el marco principal que utilizaremos: el [Sistema de Referencia de Cuadrículas Militares (MGRS, por las siglas en inglés de _Military Grid Reference System_)](https://en.wikipedia.org/wiki/Military_Grid_Reference_System). Este sistema se construye utilizando el [_sistema de coordenadas universal transversal de Mercator_ (UTM, por las siglas en inglés de _Universal Transverse Mercator_)](https://es.wikipedia.org/wiki/Sistema_de_coordenadas_universal_transversal_de_Mercator), un [_sistema de referencia de coordenadas proyectado_](https://en.wikipedia.org/wiki/Projected_coordinate_system). Para entender todas estas piezas, también necesitamos conocer algunos datos básicos sobre el [_Sistema de Coordenadas Geográficas_ (GCS)](https://es.wikipedia.org/wiki/Coordenadas_geogr%C3%A1ficas) que emplea coordenadas de latitud-longitud.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Relativo a las marcas de tiempo
 
@@ -30,7 +32,9 @@ El presente cuaderno computacional resume el marco principal que utilizaremos: e
 Consideremos primero el problema de especificar un intervalo de tiempo sin ambigüedades. Encontramos desafíos haciéndolo en contextos ordinarios (por ejemplo, si tratamos de programar una llamada entre personas que residen en diferentes zonas horarias). Las personas científicas que estudian la Tierra generalmente utilizan el [tiempo universal coordinado (UTC, por las siglas en inglés de _coordinated universal time_)](https://es.wikipedia.org/wiki/Tiempo_universal_coordinado) al grabar marcas de tiempo asociadas a mediciones u observaciones para evitar problemas con la zona horaria. Este es el caso de todos los productos de información de la NASA con los que trabajaremos. Hay preguntas sutiles sobre el grado de precisión con que se da una marca de tiempo (por ejemplo, en días, horas, minutos, segundos, milisegundos, etc). Sin embargo, utilizar UTC es una forma estándar de representar puntos en el tiempo (o una ventana de tiempo entre dos marcas de tiempo) sin ambigüedades.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Sistemas de coordenadas geográficas
 
@@ -53,7 +57,9 @@ Estos son algunos datos relevantes sobre las coordenadas de latitud-longitud del
 - En el ecuador terrestre, un segundo de longitud corresponde aproximadamente a 30 metros. Sin embargo, hay una relación no lineal entre las diferencias de coordenadas latitud-longitud y las distancias en la superficie terrestre (y, por lo tanto, distorsiones en otras propiedades geométricas). Por ejemplo, consideremos dos regiones angulares de "ancho" $1^\circ$ en longitud y "altura" $1^\circ$ en latitud (alineadas con los ejes latitud-longitud). En un mapa que utilice coordenadas GCS, esas dos regiones tendrían la misma superficie; sin embargo, las áreas correspondientes en la superficie terrestre serían diferentes. En particular, la zona más cercana al ecuador tendría una superficie mayor. Concretamente, más cerca de los polos, las líneas de longitud y latitud constantes están más juntas, por lo que las áreas se comprimen (es una característica de cualquier GCS).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Sistemas de referencia de coordenadas proyectadas
 
@@ -80,7 +86,9 @@ El sistema de [_Coordenadas Universal Transversal de Mercator_ (UTM, por las sig
 - La posición de un punto en coordenadas UTM usualmente implica la especificación de dos valores positivos para las coordenadas este y norte, así como el número de la zona UTM. El valor del este es el número de metros al este del meridiano central de la zona y el valor del norte es el número de metros al norte del ecuador. Para evitar el uso de coordenadas negativas, se agrega un _falso valor del norte_ de $10,000,000\,\mathrm{m}$ a la coordenada norte y un _falso valor del este_ de $500,000\,\mathrm{m}$ a la coordenada este.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Nota sobre los sistemas de referencia de coordenadas
 
@@ -99,7 +107,9 @@ Estos son algunos ejemplos importantes de códigos EPSG CRS:
 Desde un punto de vista matemático, un código EPSG es un identificador compacto que relaciona conjuntos normalizados de ecuaciones, parámetros y reglas.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Sistema de Referencia de Cuadrículas Militares (MGRS)
 
@@ -117,4 +127,6 @@ El sistema MGRS utiliza zonas UTM como base para su cuadrícula. Recordemos que 
 En esencia, el MGRS es un perfeccionamiento del sistema de coordenadas UTM, diseñado para facilitar la legibilidad y la comunicación en aplicaciones militares y de navegación. La estructura jerárquica del sistema, desde la zona UTM a la banda de latitud, pasando por cuadrículas de 100 km y, finalmente, hasta coordenadas precisas de este y norte, permite una referenciación eficaz sin necesidad de tener coordenadas numéricas grandes.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

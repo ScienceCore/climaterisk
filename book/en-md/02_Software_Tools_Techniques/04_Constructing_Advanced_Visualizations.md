@@ -20,6 +20,10 @@ Let's apply some of the tools we've seen so far to make some more sophisticated 
 As context, the files we'll examine are based on [the 2022 McKinney widfire](https://en.wikipedia.org/wiki/McKinney_Fire) in Klamath National Forest (western Siskiyou County, California). The vector data is a snapshot of the boundary of a wildfire; the raster data corresponds to the  observed *land surface disturbance*  of vegetation (this will be explained in greater detail later).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
+
 ## Preliminary imports and file paths
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -51,7 +55,9 @@ RASTER_FILES = list(ASSET_PATH.glob('OPERA*VEG*.tif'))
 RASTER_FILE = RASTER_FILES[0]
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Plotting vector data from a `GeoDataFrame`
 
@@ -133,6 +139,10 @@ print(shapeplot_opts)
 shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
+
 ### Adding a basemap
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -165,6 +175,10 @@ print(shapeplot_opts)
 shapeplot = shape_df.hvplot(**shapeplot_opts)
 shapeplot
 ```
+
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
 
 ### Combining vector data with raster data in a static plot
 
@@ -227,7 +241,9 @@ layout_opts.update(title="McKinney 2022 Wildfires")
 (raster.hvplot.image(**image_opts) * shapeplot * basemap).opts(**layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Constructing static plots from a 3D array
 
@@ -296,7 +312,9 @@ view.hvplot.image(**image_opts).opts(**layout_opts).layout()
 The `layout` method by default plotted each of the three rasters selected along the `band` axis horizontally.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Constructing a dynamic view from a 3D array
 
@@ -333,7 +351,9 @@ view.hvplot.image(widget_location='top_left', **image_opts).opts(**layout_opts)
 an exception is raised (hence the invocation in the code cell above). There are some subtle difficulties in working out the correct sequence to apply options when customizing HoloViz/Hvplot objects (mainly due to the ways in which namespaces overlap with Bokeh or other rendering back-ends). The best strategy is to start with as few options as possible and to experiment by incrementally adding options until we get the final visualization we want.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Combining vector data with raster data in a dynamic view
 
@@ -357,4 +377,6 @@ Again, getting the options specified correctly can take a bit of experimentation
 + how to use `hvplot` interactively & incrementally to produce compelling visualizations.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

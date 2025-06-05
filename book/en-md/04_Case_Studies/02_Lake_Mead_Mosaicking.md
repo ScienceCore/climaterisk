@@ -18,7 +18,9 @@ jupyter:
 [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead) is a water reservoir in southwestern United States and is significant for irrigation in neighboring states. The lake has experienced significant drought over the past decade and particularly between 2020 & 2023. In this notebook, we'll find GeoTIFF data related to this lake and synthesize several raster files to produce a plot.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Outline of steps for analysis
 
@@ -40,7 +42,9 @@ jupyter:
     + Assemble relevant data slices into visualization
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Preliminary imports
 
@@ -153,7 +157,9 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
     return new_data, relabel
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identifying search parameters
 
@@ -178,7 +184,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtaining search results
 
@@ -234,7 +242,9 @@ display(df.head())
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploring & refining search results
 
@@ -279,7 +289,9 @@ b01_wtr.tile_id.value_counts()
 There are four distinct geographic tiles that intersect this particular AOI.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 
@@ -454,4 +466,6 @@ view.hvplot.image(**image_opts).opts(**layout_opts) * basemap
 This raster is much larger than ones we've previously examined (requiring roughly 4 times the storage). This process could be iterated to make a slider showing the merged results from neighboring tiles at different times. This, of course, requires that there is enough memory available.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

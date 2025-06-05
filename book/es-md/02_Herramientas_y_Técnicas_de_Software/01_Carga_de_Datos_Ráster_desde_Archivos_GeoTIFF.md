@@ -27,7 +27,9 @@ from pathlib import Path
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book' 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [rioxarray](https://corteva.github.io/rioxarray/html/index.html)
 
@@ -48,7 +50,7 @@ Observa en primer lugar que `open_rasterio` funciona con direcciones de archivos
 
 ```python jupyter={"source_hidden": true}
 %%time
-LOCAL_PATH = Path(FILE_STEM, 'assets/OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif')
+LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG-ANOM-MAX.tif'
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
@@ -66,7 +68,9 @@ La siguiente operación compara elementos de un Xarray `DataArray` elemento a el
 (data_remote == data).all() # Verify that the data is identical from both sources
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [rasterio](https://rasterio.readthedocs.io/en/stable)
 
@@ -82,7 +86,9 @@ De la [documentación de Rasterio](https://rasterio.readthedocs.io/en/stable):
 > Alto rendimiento, menor carga cognitiva, código más limpio y transparente. Eso es Rasterio.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Abrir archivos con rasterio.open
 
@@ -132,7 +138,9 @@ La principal ventaja al utilizar `rasterio.open` en vez de `rioxarray.open_raste
 Por el contrario, al utilizar `rasterio.open` se abre el archivo en su lugar y su contenido _no_ se carga inmediatamente en la memoria. Los datos del archivo _pueden_ leerse, pero esto debe hacerse explícitamente. Esto representa una gran diferencia cuando se trabaja con datos remotos. Transferir todo el contenido a través de una red de datos implica ciertos costos. Por ejemplo, si examinamos los metadatos, que suelen ser mucho más pequeños y pueden transferirse rápidamente, podemos descubrir, por ejemplo, que no está justificado mover todo un _array_ de datos a través de la red.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Análisis de los atributos DatasetReader
 
@@ -169,7 +177,9 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform=}')
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Lectura de datos en la memoria
 
@@ -199,7 +209,9 @@ print(f'{type(array)=}')
 El _array_ cargado en la memoria con `ds.read` es una matriz NumPy. Este puede ser encapsulado por un Xarray `DataArray` si proporcionamos código adicional para especificar las etiquetas de las coordenadas y demás.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Mapeo de coordenadas
 
@@ -300,4 +312,6 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(ds.transform[0], ds.transform[4])
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

@@ -33,7 +33,9 @@ El proyecto de Productos de Observación para Usuarios Finales a partir del Aná
 Es decir, OPERA es una iniciativa de la _National Aeronautics and Space Administration_ (NASA)(en español, Administración Nacional de Aeronáutica y del Espacio) que toma, por ejemplo, datos de teledetección óptica o radar recopilados desde satélites, y genera una variedad de conjuntos de datos preprocesados para uso público. Los productos de OPERA no son imágenes de satélite sin procesar, sino el resultado de una clasificación algorítmica para determinar, por ejemplo, qué regiones terrestres contienen agua o dónde se ha desplazado la vegetación. Las imágenes de satélite sin procesar se recopilan a partir de mediciones realizadas por los instrumentos a bordo de las misiones de los satélites Sentinel-1 A/B, Sentinel-2 A/B y Landsat-8/9 (de ahí el término _HLS_ por las siglas en inglés de "_Harmonized Landsat-Sentinel_" (en español, armonización Landsat-Sentinel) en numerosas descripciones de productos).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## El producto OPERA _Dynamic Surface Water Extent_ (DSWx) (en español, Extensión de aguas superficiales dinámicas)
 
@@ -43,7 +45,9 @@ Ya vimos la familia DIST (es decir, alteración de la superficie terrestre) con 
 Los productos de datos DSWx se generan a partir de las mediciones de reflectancia superficial (RS) del HLS, específicamente, estas son efectuadas por el _Operational Land Imager_ (OLI) (en español, Generador de imágenes terrestres operacional) a bordo del satélite Landsat 8, el OLI-2 a bordo del satélite Landsat 9, y el MultiSpectral Instrument (MSI) (en español, Instrumento multiespectral) a bordo de los satélites Sentinel-2A/B. Al igual que los productos DIST, los productos DSWx consisten en datos ráster almacenados en formato GeoTIFF que utilizan el [_Military Grid Reference System_ (MGRS)](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (en español, Sistema de Referencia de Cuadrículas Militares) (los detalles se describen en la especificación del [producto DSWx](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf). De nuevo, los productos OPERA DSWx se distribuyen como [GeoTIFF optimizados para la nube](https://www.cogeo.org/) que almacenan diferentes bandas/capas en archivos TIFF distintos.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Banda 1: Clasificación del agua (WTR, por las abreviación en inglés de la palabra _Water_)
 
@@ -53,7 +57,9 @@ Hay diez bandas o capas asociadas al producto de datos DSWx. En este tutorial, n
 La capa de clasificación del agua consiste en datos ráster enteros de 8 bits sin signo (UInt8) que representan si un píxel contiene aguas continentales (por ejemplo, parte de un embalse, un lago, un río, etc., pero no agua asociada con el mar abierto). Los valores de esta capa ráster se calculan a partir de las imágenes crudas adquiridas por el satélite, asignando a los píxeles uno de los 7 valores enteros positivos que analizaremos a continuación.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Análisis de una capa WTR de ejemplo
 
@@ -115,7 +121,9 @@ Estos valores de píxel son _datos categóricos_. En específico, los valores de
 - **255**: Valor de relleno (datos faltantes).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Realización de una primera visualización
 
@@ -147,7 +155,9 @@ view.hvplot.image(**image_opts).opts(**layout_opts)
 El mapa de colores predeterminado no revela muy bien las características ráster. Además, observa que el eje de la barra de colores cubre el rango numérico de 0 a 255 (aproximadamente), aunque la mayoría de esos valores de los píxeles (es decir, de `3` a `251`) no aparecen realmente en los datos. Anotar una imagen ráster de datos categóricos con una leyenda puede tener más sentido que utilizar una barra de colores. Sin embargo, actualmente, `hvplot.image` no soporta el uso de una leyenda. Por lo tanto, para este tutorial, nos limitaremos a utilizar una barra de colores. Antes de asignar un mapa de colores y etiquetas apropiadas para la barra de colores, tiene sentido limpiar los valores de los píxeles.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Reasignación de los valores de los píxeles
 
@@ -253,7 +263,9 @@ print(f"After applying relabel_pixels: {np.unique(b01_wtr.values)}")
 Observe que el valor de píxel `5` no aparece en el arreglo reetiquetada porque el valor de píxel `254` (para los píxeles de "Océano enmascarado") no aparece en el archivo GeoTIFF original. Esto está bien. El código escrito a continuación seguirá produciendo toda la variedad de posibles valores para los píxeles (y colores) en su barra de colores.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Definición de un mapa de color y trazado con una barra de color
 
@@ -327,4 +339,6 @@ b01_wtr.hvplot(**image_opts).opts(**layout_opts) * base
 Este cuaderno computacional proporciona una visión general de cómo visualizar datos extraídos de productos de datos OPERA DSWx almacenados localmente. Ahora estamos listos para automatizar la búsqueda de dichos productos en la nube utilizando la API PySTAC.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

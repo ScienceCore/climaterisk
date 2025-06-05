@@ -28,4 +28,6 @@ This tutorial constitutes part of a larger general effort to promote *Open Scien
 NASA's [*Transform to Open Science (TOPS)*](https://science.nasa.gov/open-science/tops/) initiative provides more resources for those wanting to learn more about the practice and principles of Open Science.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

@@ -108,4 +108,6 @@ Una vez más, puedes ejecutarlo directamente desde un cuaderno computacional uti
 Si funcionó sin problemas, ¡ya está todo listo! ¡Ahora tienes todo lo que necesitas para explorar los datos de observación de la Tierra de la NASA mediante el portal EarthData!
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

@@ -42,7 +42,9 @@ La [represa de Bhakra Nangal](https://en.wikipedia.org/wiki/Bhakra_Dam) se inaug
   - Combinar los fragmentos de datos relevantes en la visualización
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Importación preliminar de librerías
 
@@ -155,7 +157,9 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
 Estas funciones podrían incluirse en archivos módular para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identificación de los parámetros de búsqueda
 
@@ -179,7 +183,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtención de los resultados de búsqueda
 
@@ -234,7 +240,9 @@ df.head()
 En esta fase, el `DataFrame` de los resultados de la búsqueda tendrá más de dos mil filas. Entonces, vamos a reducirlo.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
@@ -264,7 +272,9 @@ df.tile_id.value_counts()
 Redujimos el número total de gránulos a un poco más de cincuenta. Y los utilizaremos para generar una visualización.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Procesamiento los datos para obtener resultados relevantes
 
@@ -380,4 +390,6 @@ view.hvplot.image( **image_opts, **layout_opts)
 La visualización anterior puede tardar un poco en actualizarse (según la elección de `steps`). Esta permite ver la acumulación de agua a lo largo de un año. Hay algunos cortes en los que faltan muchos datos, así que debemos tener cuidado al interpretarlos.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

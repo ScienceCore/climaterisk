@@ -34,7 +34,9 @@ jupyter:
   - Combinar los datos relevantes en una visualización
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Importación preliminar de librerías
 
@@ -161,7 +163,9 @@ def urls_to_stack(granule_dataframe):
     return xr.concat(stack, dim='time').squeeze()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identificación de los parámetros de búsqueda
 
@@ -179,7 +183,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtención de los resultados de la búsqueda
 
@@ -210,7 +216,9 @@ Limpiar el DataFrame `df` de forma que tenga sentido (por ejemplo, eliminando co
 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
@@ -222,7 +230,9 @@ Consiste en filtrar filas o columnas adecuadamente para limitar los resultados d
 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
@@ -234,4 +244,6 @@ Esto puede incluir apilar matrices bidimensionales en una matriz tridimensional,
 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

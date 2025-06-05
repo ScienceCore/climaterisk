@@ -33,7 +33,9 @@ From the [OPERA (Observational Products for End-Users from Remote Sensing Analys
 That is, OPERA is a NASA initiative that takes, e.g., optical or radar remote-sensing data gathered from satellites and produces a variety of pre-processed data sets for public use. OPERA products are not raw satellite images; they are the result of algorithmic classification to determine, e.g., which land regions contain water or where vegetation has been displaced. The raw satellite images are collected from measurements made by the instruments onboard the Sentinel-1 A/B, Sentinel-2 A/B, and Landsat-8/9 satellite missions (hence the term *HLS* for "*Harmonized Landsat-Sentinel*" in numerous product descriptions).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## The OPERA Dynamic Surface Water Extent (DSWx) product
 
@@ -43,7 +45,9 @@ We've already looked at the DIST (i.e., land surface disturbance) family of OPER
 The DSWx data products are generated from HLS surface reflectance (SR) measurements; specifically, these are made by the Operational Land Imager (OLI) aboard the Landsat 8 satellite, the Operational Land Imager 2 (OLI-2) aboard the Landsat 9 satellite, and the MultiSpectral Instrument (MSI) aboard the Sentinel-2A/B satellites. As with the DIST products, the DSWx products consist of raster data stored in GeoTIFF format using the [Military Grid Reference System (MGRS)](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (the details are fully described in the [DSWx product specification](https://d2pn8kiwq2w21t.cloudfront.net/documents/ProductSpec_DSWX_URS309746.pdf)). Again, the OPERA DSWx products are distributed as [Cloud Optimized GeoTIFFs](https://www.cogeo.org/) storing different bands/layers in distinct TIFF files.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Band 1: Water classification (WTR)
 
@@ -53,7 +57,9 @@ There are ten bands or layers associated with the DSWx data product. In this tut
 The water classification layer consists of unsigned 8-bit integer raster data (UInt8) meant to represent whether a pixel contains inland water (e.g., part of a reservoir, a lake, a river, etc., but not water associated with the open ocean). The values in this raster layer are computed from raw images acquired by the satellite with pixels being assigned one of 7 positive integer values; we'll examine these below.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Examining an example WTR layer
 
@@ -115,7 +121,9 @@ These pixel values are *categorical data*. Specifically, the valid pixel values 
 + **255**: Fill value (missing data).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Producing an initial plot
 
@@ -147,7 +155,9 @@ view.hvplot.image(**image_opts).opts(**layout_opts)
 The default colormap does not reveal the raster features very well. Also, notice that the colorbar axis covers the numerical range from 0 to 255 (approximately) even though most of those pixel values (i.e., from `3` to `251`) do not actually occur in the data. Annotating a raster image of categorical data with a legend may make more sense than using a colorbar. However, at present, `hvplot.image` does not support using a legend. So, for this tutorial,  we'll stick to using a colorbar. Before assigning a colormap and appropriate labels for the colorbar, it makes sense to clean up the pixel values.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Reassigning pixel values
 
@@ -253,7 +263,9 @@ print(f"After applying relabel_pixels: {np.unique(b01_wtr.values)}")
 Notice that the pixel value `5` does not occur in the relabelled array because the pixel value `254` (for "Ocean Masked" pixels) does not occur in the original GeoTIFF file. This is fine; the code writen below will still produce the full range of possible pixel values (& colors) in its colorbar.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Defining a colormap & plotting with a colorbar
 
@@ -327,4 +339,6 @@ b01_wtr.hvplot(**image_opts).opts(**layout_opts) * base
 This notebook provides an overview of how to visualize data extracted from OPERA DSWx data products that are stored locally. We're now ready to automate the search for such products in the cloud using the PySTAC API.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

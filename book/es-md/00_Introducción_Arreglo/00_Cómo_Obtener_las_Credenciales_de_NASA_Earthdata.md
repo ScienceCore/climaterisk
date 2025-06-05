@@ -38,4 +38,6 @@ Para fines de esta guía, el sitio web NASA Earthdata es el punto de entrada que
 ![earthdata\_perfil](../../assets/img/earthdata_profile2.png)
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

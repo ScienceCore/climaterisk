@@ -34,7 +34,9 @@ jupyter:
     + Assemble relevant data slices into visualization
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Preliminary imports
 
@@ -161,7 +163,9 @@ def urls_to_stack(granule_dataframe):
     return xr.concat(stack, dim='time').squeeze()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identifying search parameters
 
@@ -179,7 +183,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtaining search results
 
@@ -210,7 +216,9 @@ Clean DataFrame `df` in ways that make sense (e.g., dropping unneeded columns/ro
 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploring & refining search results
 
@@ -222,7 +230,9 @@ This consists of filtering rows or columns appropriately to narrow the search re
 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 
@@ -234,4 +244,6 @@ This can include stacking two-dimensional arrays into a three-dimensional array,
 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

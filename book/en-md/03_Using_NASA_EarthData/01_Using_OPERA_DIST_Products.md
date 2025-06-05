@@ -35,7 +35,9 @@ From the [OPERA (Observational Products for End-Users from Remote Sensing Analys
 That is, OPERA is a NASA initiative that takes, e.g., optical or radar remote-sensing data gathered from satellites and produces a variety of pre-processed data sets for public use. OPERA products are not raw satellite images; they are the result of algorithmic classification to determine, e.g., which land regions contain water or where vegetation has been displaced. The raw satellite images are collected from measurements made by the instruments onboard the Sentinel-1 A/B, Sentinel-2 A/B, and Landsat-8/9 satellite missions (hence the term *HLS* for "*Harmonized Landsat-Sentinel*" in numerous product descriptions).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## The OPERA Land Surface Disturbance (DIST) product
 
@@ -48,7 +50,9 @@ The DIST products quantify surface reflectance (SR) data acquired from the Opera
 The OPERA DIST products are distributed as [Cloud Optimized GeoTIFFs](https://www.cogeo.org/); in practice, this means that different bands are stored in distinct TIFF files. The TIFF specification does permit storage of multidimensional arrays in a single file; storing distinct *bands* in distinct TIFF files allows files to be downloaded independently.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Band 1: Maximum Vegetation Loss Anomaly Value (VEG_ANOM_MAX)
 
@@ -179,7 +183,9 @@ veg_anom_max.hvplot.image(**image_opts).opts(**layout_opts) * base
 In the resulting plot, the white and yellow pixels correspond to regions in which some deforestation has occurred, but not much. By contrast, the darker red, orange, and black pixels correspond to regions that have lost significantly more or almost all vegetation.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Band 2: Date of Initial Vegetation Disturbance (VEG_DIST_DATE)
 
@@ -234,7 +240,9 @@ veg_dist_date.hvplot.image(**image_opts).opts(**layout_opts) * base
 With this colormap, the lightest pixels showed some signs of deforestation close to a year ago. By contrast, the black pixels first showed deforestation close to the time of data acquisition. This band, then, is useful for tracking the progress of wildfires as they sweep across forests.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Band 3: Vegetation Disturbance Status (VEG_DIST_STATUS)
 
@@ -287,4 +295,6 @@ veg_dist_status.hvplot.image(**image_opts).opts(**layout_opts) * base
 This continuous colormap does not highlight the features in this plot particularly well. A better choice would be a *categorical* colormap. We'll see how to achieve this in the next notebook (with the OPERA DSWx data products).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

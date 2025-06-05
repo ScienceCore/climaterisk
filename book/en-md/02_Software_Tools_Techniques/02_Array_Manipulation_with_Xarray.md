@@ -28,7 +28,9 @@ import rioxarray as rio
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
 <center><img src="https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg" width=360px><</img></center>
@@ -43,7 +45,9 @@ LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_202
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Examining the rich DataArray repr
 
@@ -58,7 +62,9 @@ print(f'{type(data)=}\n')
 data
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Examining DataArray attributes programmatically
 
@@ -94,7 +100,9 @@ print(data.coords['x'].values)
 data.attrs
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Using the DataArray rio accessor
 
@@ -123,7 +131,9 @@ From [Wikipedia](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset):
 > EPSG Geodetic Parameter Dataset (also EPSG registry) is a public registry of [geodetic datums](https://en.wikipedia.org/wiki/Geodetic_datum), [spatial reference systems](https://en.wikipedia.org/wiki/Spatial_reference_system), [Earth ellipsoids](https://en.wikipedia.org/wiki/Earth_ellipsoid), coordinate transformations and related [units of measurement](https://en.wikipedia.org/wiki/Unit_of_measurement), originated by a member of the [European Petroleum Survey Group](https://en.wikipedia.org/wiki/European_Petroleum_Survey_Group) (EPSG) in 1985. Each entity is assigned an EPSG code between 1024 and 32767, along with a standard machine-readable [well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems) representation. The dataset is maintained by the [IOGP](https://en.wikipedia.org/wiki/International_Association_of_Oil_%26_Gas_Producers) Geomatics Committee. 
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Manipulating data in a DataArray
 
@@ -178,7 +188,9 @@ view.plot();
 The plot produced is rather dark (reflecting that most of the entries are zero according to the legend). Notice that the axes are labelled automatically using the `coords` we renamed before.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Extracting DataArray data to NumPy, Pandas
 
@@ -207,7 +219,9 @@ s_flat.sort_index()
 Most of the entries in this raster array are zero. The numerical values vary between 0 and 100 with the exception of some 1,700 pixels with the value 255. This will make more sense when we discuss the DIST data product specification.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Accumulating & concatenating a sequence of DataArrays
 
@@ -267,4 +281,6 @@ stack.rio.crs
 This process is very useful for analysis (assuming that there is enough memory available to store the entire collection of rasters). Later, we'll use this approach numerous times to manage collections of rasters of conforming dimensions. The stack can then be used for producing a dynamic visualization with a slider or, alternatively, for producing a static plot.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

@@ -28,7 +28,9 @@ import rioxarray as rio
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
 <center><img src="https://docs.xarray.dev/en/stable/_static/Xarray_Logo_RGB_Final.svg" width=360px></center>
@@ -43,7 +45,9 @@ LOCAL_PATH = FILE_STEM / 'assets' / 'data' / 'OPERA_L3_DIST-ALERT-HLS_T10TEM_202
 data = rio.open_rasterio(LOCAL_PATH)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Análisis de la `repr` enriquecida de `DataArray`
 
@@ -58,7 +62,9 @@ print(f'{type(data)=}\n')
 data
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Análisis de los atributos de `DataArray` mediante programación
 
@@ -94,7 +100,9 @@ print(data.coords['x'].values)
 data.attrs
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Uso del método de acceso `rio` de `DataArray`
 
@@ -123,7 +131,9 @@ De [Wikipedia](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset):
 > El [EPSG Geodetic Parameter Dataset (también conocido como registro EPSG)](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset) es un registro público de [datums geodésicos](https://es.wikipedia.org/wiki/Sistema_de_referencia_geod%C3%A9sico), [sistemas de referencia espacial](https://es.wikipedia.org/wiki/Sistema_de_referencia_espacial), [elipsoides terrestres](https://es.wikipedia.org/wiki/Elipsoide_de_referencia), transformaciones de coordenadas y [unidades de medida](https://es.wikipedia.org/wiki/Unidad_de_medida) relacionadas, originados por un miembro del [EPGS](https://en.wikipedia.org/wiki/European_Petroleum_Survey_Group) en 1985. A cada entidad se le asigna un código EPSG comprendido entre 1024 y 32767, junto con una representación estándar de [texto conocido (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems) legible por máquina. El mantenimiento del conjunto de datos corre a cargo del Comité de Geomática [IOGP](https://en.wikipedia.org/wiki/International_Association_of_Oil_%26_Gas_Producers).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Manipulación de los datos en un `DataArray`
 
@@ -178,7 +188,9 @@ view.plot();
 El gráfico producido es bastante oscuro (lo que refleja que la mayoría de las entradas son cero según la leyenda). Observa que los ejes se etiquetan automáticamente utilizando las `coords` que renombramos antes.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Extracción de datos `DataArray` a NumPy, Pandas
 
@@ -207,7 +219,9 @@ s_flat.sort_index()
 La mayoría de las entradas de este arreglo ráster son cero. Los valores numéricos varían entre 0 y 100 con la excepción de unos 1,700 píxeles con el valor 255. Esto tendrá más sentido cuando hablemos de la especificación del producto de datos DIST.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Acumulación y concatenación de una secuencia de `DataArrays`
 
@@ -267,4 +281,6 @@ stack.rio.crs
 Este proceso es muy útil para el análisis (suponiendo que haya suficiente memoria disponible para almacenar toda la colección de rásteres). Más adelante, utilizaremos este enfoque varias veces para manipular colecciones de rásteres de dimensiones conformes. El apilamiento se puede utilizar para producir una visualización dinámica con un control deslizante o, alternativamente, para producir un gráfico estático.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

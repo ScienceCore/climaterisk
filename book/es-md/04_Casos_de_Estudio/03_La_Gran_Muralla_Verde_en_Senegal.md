@@ -22,7 +22,9 @@ jupyter:
 </center>
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Esquema de las etapas del análisis
 
@@ -35,7 +37,9 @@ jupyter:
 En este caso, crearemos un DataFrame para resumir los resultados de la búsqueda, los reduciremos a un tamaño manejable y crearemos un control deslizante para analizar los datos recuperados.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Importación preliminar
 
@@ -111,7 +115,9 @@ def search_to_dataframe(search):
 
 Estas funciones podrían incluirse en archivos modulares para proyectos de investigación más desarrollados. Para fines didácticos, se incluyen en este cuaderno computacional.
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtención de los resultados de búsqueda
 
@@ -192,7 +198,9 @@ df.info()
 El siguiente paso es identificar un conjunto con una cantidad menor de filas a partir de los resultados de la búsqueda con los que podamos trabajar más fácilmente.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
@@ -225,7 +233,9 @@ df = df.loc[c1 & c2].drop(['asset', 'tile_id', 'cloud_cover'], axis=1)
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
@@ -353,4 +363,6 @@ view.hvplot.image(**image_opts, **layout_opts)
 Puede ser difícil ver los píxeles de color rojo con toda la región a la vista. Las herramientas zoom de caja y zoom de rueda son útiles aquí. También hay cierta latencia cuando se utiliza el selector, ya que se tarda un tiempo en renderizar.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

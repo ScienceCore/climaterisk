@@ -27,7 +27,9 @@ from pathlib import Path
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [rioxarray](https://corteva.github.io/rioxarray/html/index.html)
 
@@ -66,7 +68,9 @@ This next operation compares elements of an Xarray `DataArray` elementwise (the 
 (data_remote == data).all() # Verify that the data is identical from both sources
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [rasterio](https://rasterio.readthedocs.io/en/stable)
 
@@ -82,7 +86,9 @@ From the [Rasterio documentation](https://rasterio.readthedocs.io/en/stable):
 >High performance, lower cognitive load, cleaner and more transparent code. This is what Rasterio is about.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Opening files with rasterio.open
 
@@ -132,7 +138,9 @@ The principal advantage of using `rasterio.open` rather than `rioxarray.open_ras
 By contrast, using `rasterio.open` opens the file in place and its contents *are not* immediately loaded into memory. The file's data *can* be read, but this must be done explicitly. This makes a lot of difference when working with remote data; transferring the entire contents across a network involves certain costs. For example, if we examine the metadata—which is typically much smaller and can be transferred quickly—we may find, e.g., that moving an entire array of data across the network is not warranted.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Examining DatasetReader attributes
 
@@ -169,7 +177,9 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(f'{ds.transform=}')
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Reading data into memory
 
@@ -199,7 +209,9 @@ print(f'{type(array)=}')
 The array loaded into memory with `ds.read` is a NumPy array. This can be wrapped by an Xarray `DataArray` if we provide additional code to specify the coordinate labels and so on.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Mapping coordinates
 
@@ -300,4 +312,6 @@ with rasterio.open(LOCAL_PATH) as ds:
     print(ds.transform[0], ds.transform[4])
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

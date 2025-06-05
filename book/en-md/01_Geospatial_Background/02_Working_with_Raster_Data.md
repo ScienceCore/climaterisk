@@ -33,7 +33,9 @@ Rasters approximate continuous numerical distributions by storing individual val
 </p>
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Understanding Raster Values
 
@@ -43,7 +45,9 @@ An important subtle difference between a numerical matrix familiar from linear a
 Another important property of raster data is that pixel values are stored using an appropriate *data type* for the context. For instance, continuous features like elevation or temperature would often be stored as raster data using floating-point numbers; by contrast, categorical properties (like land cover types) may be stored using unsigned integers. Raster datasets are often large, so choosing the data type judiciously can reduce file size significantly without compromising the quality of information. We shall see this in examples later.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Understanding Pixel vs. Continuous Coordinates
 
@@ -78,7 +82,9 @@ Conflicting conventions with zero-based indexing and order of coordinates are a 
 + which conventions are required by any GIS tool used to manipulate raster data.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Preserving Metadata
 
@@ -100,7 +106,9 @@ OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG
 This name embeds a UTC timestamp (`20220815T185931Z`) and [an MGRS geographic tile location](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (`10TEM`). File-naming conventions like this allow raster data attributes to be determined without retrieving the entire dataset; this can reduce data transfer costs significantly.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Using GeoTIFF 
 
@@ -156,4 +164,6 @@ view.plot();
 Observe that the plot is labelled using the continuous (easting, northing) coordinates associated with the spatial extent of this raster. That is, the subtle book-keeping required to keep track of pixel and continuous coordinates has been handled transparently by the data structure's API. This is a good thing!
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

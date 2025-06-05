@@ -18,7 +18,9 @@ jupyter:
 Ciertas propiedades físicas de interés para los Sistemas de Informacion Geográfica (SIG) (en inglés, _Geographical Information System, GIS_), no se capturan convenientemente mediante datos ráster en cuadrículas discretas. Por ejemplo, las características geométricas de un paisaje, como carreteras, ríos y límites entre regiones, se describen mejor utilizando líneas o curvas en un sistema de coordenadas proyectado de manera adecuada. En el contexto de los GIS, los _datos vectoriales_ son representaciones geométricas de estos aspectos del paisaje.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Cómo comprender de los Datos Vectoriales
 
@@ -66,7 +68,9 @@ Como ocurre con los datos ráster, generalmente las representaciones de datos ve
 Otras magnitudes geométricas, como la longitud de un río o la superficie de un lago, se obtienen aplicando técnicas de geometría computacional a representaciones de datos vectoriales.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Uso de GeoJSON
 
@@ -141,7 +145,9 @@ El método `GeoDataFrame.loc` nos permite graficar subconjuntos concretos de pa�
 gdf.loc[15:90].plot(color='green', alpha=0.25) ;
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Uso de archivos Shapefiles
 
@@ -195,4 +201,6 @@ gdf.plot(color='red', alpha=0.5);
 Volveremos a utilizar este _shapefile_ en cuadernos computacioales posteriores y explicaremos con más detalle lo que representa.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

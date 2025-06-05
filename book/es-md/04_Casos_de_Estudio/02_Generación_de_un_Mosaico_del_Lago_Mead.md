@@ -18,7 +18,9 @@ jupyter:
 El [Lake Mead](https://es.wikipedia.org/wiki/Lago_Mead) es un embalse de agua que se encuentra en el suroeste de los Estados Unidos y es importante para el riego en esa zona. El lago ha tenido una importante sequía durante la última década y, en particular, entre 2020 y 2023. En este cuaderno computacional, buscaremos datos GeoTIFF relacionados con este lago y sintetizaremos varios archivos ráster para producir una visualización.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Esquema de los pasos para el análisis
 
@@ -40,7 +42,9 @@ El [Lake Mead](https://es.wikipedia.org/wiki/Lago_Mead) es un embalse de agua qu
   - Unir los datos relevantes en una visualización
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Importación preliminar
 
@@ -153,7 +157,9 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
     return new_data, relabel
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identificación de los parámetros de búsqueda
 
@@ -178,7 +184,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtención de los resultados de búsqueda
 
@@ -234,7 +242,9 @@ display(df.head())
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
@@ -279,7 +289,9 @@ b01_wtr.tile_id.value_counts()
 Hay cuatro mosaicos geográficos distintos que intersecan este AOI en particular.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Procesamiento de los datos para obtener resultados relevantes
 
@@ -454,4 +466,6 @@ view.hvplot.image(**image_opts).opts(**layout_opts) * basemap
 Este ráster es mucho más grande de los que analizamos anteriormente (requiere aproximadamente 4 veces más espacio de almacenamiento). Este proceso podría ser iterado para hacer un deslizador que muestre los resultados fusionados de mosaicos vecinos en diferentes momentos. Esto, por supuesto, requiere que haya suficiente memoria disponible.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

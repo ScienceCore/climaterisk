@@ -33,7 +33,9 @@ Los rásters se aproximan a las distribuciones numéricas continuas almacenando 
 </p>
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Cómo comprender los valores de los ráster
 
@@ -43,7 +45,9 @@ Una diferencia sutil e importante entre una matriz numérica conocida del álgeb
 Otra propiedad importante de los datos ráster es que los valores de los píxeles se almacenan utilizando un _tipo de datos_ apropiado para el contexto. Por ejemplo, las funciones continuas, como la altitud o la temperatura, suelen almacenarse como datos ráster utilizando números de punto flotante. Por el contrario, las propiedades categóricas (como los tipos de cobertura del suelo) pueden almacenarse utilizando números enteros sin signo. Los conjuntos de datos ráster suelen ser grandes, así que elegir el tipo de datos siguiendo un criterio puede reducir significativamente el tamaño del archivo sin comprometer la calidad de la información. Veremos esto con ejemplos más adelante.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Comprensión del Píxel vs. Coordenadas continuas
 
@@ -78,7 +82,9 @@ Las convenciones contradictorias con la indexación basada en cero y el orden de
 - qué convenciones requiere cualquier herramienta SIG se utiliza para manipular datos ráster.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Conservación de los metadatos
 
@@ -100,7 +106,9 @@ OPERA_L3_DIST-ALERT-HLS_T10TEM_20220815T185931Z_20220817T153514Z_S2A_30_v0.1_VEG
 Este nombre incluye una marca de tiempo (`20220815T185931Z`) y [una ubicación geográfica MGRS](https://en.wikipedia.org/wiki/Military_Grid_Reference_System) (`10TEM`). Este tipo de convenciones para la denominación de los archivos permite determinar los atributos de los datos ráster sin necesidad de recuperar todo el conjunto de datos, lo que puede reducir significativamente los costos de transferencia de los datos.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Uso de GeoTIFF
 
@@ -156,4 +164,6 @@ view.plot();
 Observe que la visualización se etiqueta utilizando las coordenadas continuas (este, norte) asociadas a la extensión espacial de este ráster. Es decir, la sutil contabilidad necesaria para hacer un seguimiento de las coordenadas continuas y de píxel fue administrada de forma transparente por la API de la estructura de datos. ¡Eso es bueno!
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

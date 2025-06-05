@@ -35,7 +35,9 @@ Del proyecto [Observational Products for End-Users from Remote Sensing Analysis 
 Es decir, OPERA es una iniciativa de la National Aeronautics and Space Administration (NASA, en español, Administración Nacional de Aeronáutica y del Espacio) que toma, por ejemplo, datos de teledetección óptica o radar recopilados desde satélites, y genera una variedad de conjuntos de datos preprocesados para uso público. Los productos de OPERA no son imágenes de satélite sin procesar, sino el resultado de una clasificación algorítmica para determinar, por ejemplo, qué regiones terrestres contienen agua o dónde se ha modificado la vegetación. Las imágenes de satélite sin procesar se recopilan a partir de mediciones realizadas por los instrumentos a bordo de las misiones de los satélites Sentinel-1 A/B, Sentinel-2 A/B y Landsat-8/9 (de ahí el término _Harmonized Landsat-Sentinel_" (HLS) (en español, Landsat-Sentinel Armonizadas) para en numerosas descripciones de productos).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## El producto OPERA _Land Surface Disturbance_ (DIST) (en español, Perturbación de la superficie terrestre)
 
@@ -48,7 +50,9 @@ Los productos DIST cuantifican los datos de reflectancia de la superficie (RS) (
 Los productos OPERA DIST se distribuyen como [GeoTIFFs optimizados para la nube](https://www.cogeo.org/); en la práctica, esto significa que las diferentes bandas se almacenan en archivos de formato TIFFs (TIFF, por sus siglas en inglés, _Tagged Image File Format_) distintos. La especificación TIFF permite el almacenamiento de matrices multidimensionales en un único archivo. El almacenamiento de bandas distintas en diferentes archivos TIFF permite que estos se descarguen de forma independiente.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Banda 1: Valor máximo de la anomalía de pérdida de vegetación (VEG_ANOM_MAX)
 
@@ -179,7 +183,9 @@ veg_anom_max.hvplot.image(**image_opts).opts(**layout_opts) * base
 En el gráfico resultante, los píxeles blancos y amarillos corresponden a regiones en las que se ha producido cierta deforestación, pero no mucha. Por el contrario, los píxeles oscuros y negros corresponden a regiones que han perdido casi toda la vegetación.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Banda 2: Fecha de alteración inicial de la vegetación (VEG_DIST_DATE)
 
@@ -234,7 +240,9 @@ veg_dist_date.hvplot.image(**image_opts).opts(**layout_opts) * base
 Con este mapa de colores, los píxeles más claros mostraron algunos signos de deforestación hace cerca de un año. Por el contrario, los píxeles negros mostraron deforestación por primera vez cerca del momento de adquisición de los datos. Por tanto, esta banda es útil para seguir el avance de los incendios forestales a medida que arrasan los bosques.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Banda 3: Estado de alteración de la vegetación (VEG_DIST_STATUS)
 
@@ -287,4 +295,6 @@ veg_dist_status.hvplot.image(**image_opts).opts(**layout_opts) * base
 Este mapa de colores continuo no resalta correctamente las características de este gráfico. Una mejor opción sería un mapa de colores _categórico_. Se mostrará como hacerlo en el próximo cuaderno computacional (con los productos de datos OPERA DSWx).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

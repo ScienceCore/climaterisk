@@ -20,6 +20,10 @@ Vamos a aplicar algunas de las herramientas que hemos visto hasta ahora para obt
 Como contexto, los archivos que examinaremos se basan en [el incendio McKinney que ocurrió en el 2022](https://en.wikipedia.org/wiki/McKinney_Fire), en el Bosque Nacional Klamath (al oeste del condado de Siskiyou, California). Los datos vectoriales representan una instantánea del límite de un incendio forestal. Los datos ráster corresponden a la alteración que se observó en la superficie de la vegetación (esto se explicará con mayor detalle más adelante).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
+
 ## Importación preliminar y direcciones de los archivos
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -51,7 +55,9 @@ RASTER_FILES = list(ASSET_PATH.glob('OPERA*VEG*.tif'))
 RASTER_FILE = RASTER_FILES[0]
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Graficar datos vectoriales desde un `GeoDataFrame`
 
@@ -133,6 +139,10 @@ print(shapeplot_opts)
 shape_df.hvplot(**shapeplot_opts).opts(**layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
+
 ### Agregado de un mapa base
 
 <!-- #region jupyter={"source_hidden": true} -->
@@ -165,6 +175,10 @@ print(shapeplot_opts)
 shapeplot = shape_df.hvplot(**shapeplot_opts)
 shapeplot
 ```
+
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
 
 ### Combinación de datos vectoriales con datos ráster en un gráfico estático
 
@@ -227,7 +241,9 @@ layout_opts.update(title="McKinney 2022 Wildfires")
 (raster.hvplot.image(**image_opts) * shapeplot * basemap).opts(**layout_opts)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Construcción de gráficos estáticos a partir de un arreglo 3D
 
@@ -296,7 +312,9 @@ view.hvplot.image(**image_opts).opts(**layout_opts).layout()
 El método `layout` traza de manera predeterminada cada uno de los tres rásteres seleccionados a lo largo del eje `band` horizontalmente.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Construcción de una vista dinámica a partir de un arreglo 3D
 
@@ -333,7 +351,9 @@ view.hvplot.image(widget_location='top_left', **image_opts).opts(**layout_opts)
 se genera una excepción (de ahí la invocación en la celda de código anterior). Hay algunas dificultades sutiles en la elaboración de la secuencia correcta para aplicar opciones al personalizar objetos HoloViz/Hvplot (principalmente debido a las formas en que los espacios de los nombres se superponen con Bokeh u otros _backends_ de renderizado). La mejor estrategia es empezar con el menor número de opciones posible y experimentar añadiendo opciones de forma incremental hasta que obtengamos la visualización final que deseamos.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Combinación de datos vectoriales con datos ráster en una vista dinámica.
 
@@ -357,4 +377,6 @@ Una vez más, la correcta especificación de las opciones puede requerir un poco
 - cómo utilizar `hvplot` de forma interactiva e incremental para generar visualizaciones atractivas.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

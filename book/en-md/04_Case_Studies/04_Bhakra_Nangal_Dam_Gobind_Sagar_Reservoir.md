@@ -42,7 +42,9 @@ The [Bhakra Nangal dam](https://en.wikipedia.org/wiki/Bhakra_Dam) was opened in 
   + Assemble relevant data slices into visualization
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Preliminary imports
 
@@ -155,7 +157,9 @@ def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=T
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identifying search parameters
 
@@ -179,7 +183,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtaining search results
 
@@ -234,7 +240,9 @@ df.head()
 At this stage, the `DataFrame` of search results has over two thousand rows. Let's trim that down.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploring & refining search results
 
@@ -264,7 +272,9 @@ df.tile_id.value_counts()
 We've reduced the total number of granules to a little over fifty. Let's use these to produce a visualization.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 
@@ -377,7 +387,9 @@ view.hvplot.image( **image_opts, **layout_opts)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-The visualization above may take a wile to update (depending on the choice of `steps`). It does provide a way to see the water accumulation over a period of a year. There are a number of slices in which a lot of data is missing, so some care is required to interpret those time slices.
+The visualization above may take a while to update (depending on the choice of `steps`). It does provide a way to see the water accumulation over a period of a year. There are a number of slices in which a lot of data is missing, so some care is required to interpret those time slices.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

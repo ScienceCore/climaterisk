@@ -18,7 +18,9 @@ jupyter:
 The primary tools we'll use for plotting come from the [Holoviz](https://holoviz.org/) family of Python libraries, principally [GeoViews](https://geoviews.org/) and [hvPlot](https://hvplot.holoviz.org/). These are largely built on top of [HoloViews](https://holoviews.org/) and support multiple backends for rendering plots (notably [Bokeh](http://bokeh.pydata.org/) for interactive visualization and [Matplotlib](http://matplotlib.org/) for static, publication-quality plots).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [GeoViews](https://geoviews.org/)
 
@@ -45,7 +47,9 @@ from geoviews import opts
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book'
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Displaying a basemap
 
@@ -58,7 +62,9 @@ basemap = gv.tile_sources.OSM.opts(width=600, height=400)
 basemap # When displayed, this basemap can be zoomed & panned using the menu at the right
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Plotting points
 
@@ -96,7 +102,9 @@ print(type(tokyo_point))
 (basemap * tokyo_point).opts(point_opts, opts.Overlay(global_extent=True))
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Plotting rectangles
 
@@ -169,7 +177,9 @@ Finally, we can overlay all these features on the basemap with the options appli
 We'll use the approach above to visualize *Areas of Interest (AOIs)* when constructing search queries for NASA EarthData products. In particular, the convention of representing a bounding box by (left, lower, right, upper) ordinates is also used in the [PySTAC](https://pystac.readthedocs.io/en/stable/) API.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [hvPlot](https://hvplot.holoviz.org/)
 
@@ -180,7 +190,9 @@ We'll use the approach above to visualize *Areas of Interest (AOIs)* when constr
 + It works for Pandas DataFrames and Xarray DataArrays/Datasets.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Plotting from a DataFrame with hvplot.pandas
 
@@ -198,7 +210,9 @@ df = pd.read_csv(LOCAL_PATH, index_col=0, parse_dates=[0])
 df.head()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Reviewing the Pandas DataFrame.plot API
 
@@ -219,7 +233,9 @@ The Pandas DataFrame `.plot` API provides access to a number of plotting methods
 west_coast.plot.line(); # This produces a static Matplotlib plot
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Using the hvPlot DataFrame.hvplot API
 
@@ -249,7 +265,9 @@ smoothed = west_coast.resample('2d').mean()
 smoothed.hvplot.line(width=600, height=300, grid=True)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Plotting from a DataArray with hvplot.xarray
 
@@ -286,7 +304,9 @@ data = data.rename({'x':'easting', 'y':'northing'})
 data
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Reviewing the Xarray DataArray.plot API
 
@@ -298,7 +318,9 @@ The `DataArray.plot` API by default uses Matplotlib's `pcolormesh` to display a 
 data.plot(); # by default, uses pcolormesh
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Using the hvPlot DataArray.hvplot API
 
@@ -316,7 +338,9 @@ plot
 The result above is an interactive plot, rendered using Bokeh. It's a bit slow, but we can add some options to speed up rendering. It also requires cleaning up; for instance, the image is not square, the colormap does not highlight useful features, the axes are transposed, and so on.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Building up options incrementally to improve plots
 
@@ -414,4 +438,6 @@ plot * base
 In this notebook, we applied some common strategies to generate plots. We'll use these extensively in the rest of the tutorial.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

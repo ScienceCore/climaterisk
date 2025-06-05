@@ -22,7 +22,9 @@ jupyter:
 </center>
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Outline of steps for analysis
 
@@ -35,7 +37,9 @@ jupyter:
 In this case, we'll assemble a DataFrame to summarize search results, trim down the results to a manageable size, and make an interactive slider to examine the data retrieved.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Preliminary imports
 
@@ -111,7 +115,9 @@ def search_to_dataframe(search):
 
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtaining search results
 
@@ -192,7 +198,9 @@ df.info()
 The next step is to identify a smaller set of rows from the search results that we can work with more easily.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploring & refining search results
 
@@ -225,7 +233,9 @@ df = df.loc[c1 & c2].drop(['asset', 'tile_id', 'cloud_cover'], axis=1)
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 
@@ -353,4 +363,6 @@ view.hvplot.image(**image_opts, **layout_opts)
 It can be difficult to see the red pixels with the entire region in view; the box zoom and wheel zoom tools are useful here. There is also some latency when using the slider as it takes some time to render a new slice.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

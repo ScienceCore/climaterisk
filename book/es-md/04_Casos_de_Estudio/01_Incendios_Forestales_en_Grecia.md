@@ -20,7 +20,9 @@ En este ejemplo, recuperaremos los datos asociados a los [incendios forestales e
 En particular, analizaremos la zona que está alrededor de la ciudad de [Alexandroupolis](https://es.wikipedia.org/wiki/Alejandr%C3%B3polis), que se vio gravemente afectada por incendios forestales, con la consiguiente pérdida de vidas, propiedades y zonas boscosas.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Esquema de las etapas del análisis
 
@@ -42,7 +44,9 @@ En particular, analizaremos la zona que está alrededor de la ciudad de [Alexand
   - Unir los fragmentos de datos relevantes en la visualización
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Importación preliminar
 
@@ -121,7 +125,9 @@ def search_to_dataframe(search):
 Estas funciones podrían incluirse en archivos modular para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identificación de los parámetros de búsqueda
 
@@ -142,7 +148,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtención de los resultados de búsqueda
 
@@ -192,7 +200,9 @@ df = df.set_index('datetime').sort_index()
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploración y refinamiento de los resultados de la búsqueda
 
@@ -258,7 +268,9 @@ by_day.map(len).hvplot.scatter(ylim=(0,2.1), grid=True).opts(title="# of observa
 Ahora podemos utilizar la serie `by_day` remuestreada para extraer datos ráster para su análisis.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Procesamiento de los datos
 
@@ -328,7 +340,9 @@ stack
 La pila `DataArray` `stack` tiene `time`, `longitude` y `latitude` como principales dimensiones de coordenadas. Podemos utilizarla para hacer algunos cálculos y generar visualizaciones.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Visualización del área dañada
 
@@ -366,7 +380,9 @@ damage_area.hvplot.line(**line_plot_opts)
 Observando el gráfico anterior, parece que los incendios forestales comenzaron alrededor del 21 de agosto y se propagaron rápidamente.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Visualización de fragmentos temporales seleccionados
 
@@ -431,4 +447,6 @@ view = stack.isel(longitude=subset, latitude=subset,)
 (view.hvplot.image(**image_opts).opts(**layout_opts) * basemap)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

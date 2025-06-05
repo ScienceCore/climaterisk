@@ -18,7 +18,9 @@ jupyter:
 Las principales herramientas que utilizaremos para la visualización de datos provienen de la familia [Holoviz](https://holoviz.org/) de librerías Python, principalmente [GeoViews](https://geoviews.org/) y [hvPlot](https://hvplot.holoviz.org/). Estas están construidas en gran parte sobre [HoloViews](https://holoviews.org/) y soportan múltiples _backends_ para la representación de gráficos ([Bokeh](http://bokeh.pydata.org/) para visualización interactiva y [Matplotlib](http://matplotlib.org/) para gráficos estáticos con calidad de publicación.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [GeoViews](https://geoviews.org/)
 
@@ -45,7 +47,9 @@ from geoviews import opts
 FILE_STEM = Path.cwd().parent.parent if 'book' == Path.cwd().parent.parent.stem else 'book' 
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Visualización de un mapa base
 
@@ -58,7 +62,9 @@ basemap = gv.tile_sources.OSM.opts(width=600, height=400)
 basemap # When displayed, this basemap can be zoomed & panned using the menu at the right
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Gráficos de puntos
 
@@ -96,7 +102,9 @@ print(type(tokyo_point))
 (basemap * tokyo_point).opts(point_opts, opts.Overlay(global_extent=True))
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Gráficos de rectángulos
 
@@ -169,7 +177,9 @@ Por último, podemos superponer todas estas características en el mapa base con
 Utilizaremos el método anterior para visualizar _(AOIs)_ al construir consultas de búsqueda para los productos EarthData de la NASA. En particular, la convención de representar una caja delimitadora por ordenadas (izquierda, inferior, derecha, superior) también se utiliza en la API [PySTAC](https://pystac.readthedocs.io/en/stable/).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## [hvPlot](https://hvplot.holoviz.org/)
 
@@ -180,7 +190,9 @@ Utilizaremos el método anterior para visualizar _(AOIs)_ al construir consultas
 - Funciona para `DataFrames` de Pandas y `DataArrays`/`Datasets` de Xarray.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Graficar desde un DataFrame con hvplot.pandas
 
@@ -198,7 +210,9 @@ df = pd.read_csv(LOCAL_PATH, index_col=0, parse_dates=[0])
 df.head()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Revisando la API de `DataFrame.plot` de Pandas
 
@@ -219,7 +233,9 @@ La API de `.plot` de `DataFrame` de Pandas proporciona acceso a varios métodos 
 west_coast.plot.line(); # This produces a static Matplotlib plot
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Usando la API de hvPlot `DataFrame.hvplot`
 
@@ -249,7 +265,9 @@ smoothed = west_coast.resample('2d').mean()
 smoothed.hvplot.line(width=600, height=300, grid=True)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Graficar desde un `DataArray` con `hvplot.xarray`
 
@@ -286,7 +304,9 @@ data = data.rename({'x':'easting', 'y':'northing'})
 data
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Revisando la API `DataFrame.plot` de Pandas
 
@@ -298,7 +318,9 @@ La API `DataArray.plot` por defecto usa el `pcolormesh` de Matplotlib para mostr
 data.plot(); # by default, uses pcolormesh
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Usando la API de hvPlot `DataFrame.hvplot`
 
@@ -316,7 +338,9 @@ plot
 El resultado anterior es una visualización interactiva, procesada usando Bokeh. Esto es un poco lento, pero podemos añadir algunas opciones para acelerar la renderización. También se requiere una manipulación de la misma; por ejemplo, la imagen no es cuadrada, el mapa de colores no resalta características útiles, los ejes son transpuestos, etc.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 #### Creando opciones para mejorar los gráficos de manera incremental
 
@@ -414,4 +438,6 @@ plot * base
 En este cuaderno computacional aplicamos algunas estrategias comunes para generar gráficos. Los usaremos extensamente en el resto del tutorial.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

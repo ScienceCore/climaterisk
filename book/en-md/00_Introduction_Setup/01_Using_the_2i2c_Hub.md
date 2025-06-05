@@ -108,4 +108,6 @@ Again, you can execute this directly from this notebook using the Python cell be
 If that worked smoothly, you're done! You now have everything you need to explore NASA's Earth observation data through the EarthData portal!
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

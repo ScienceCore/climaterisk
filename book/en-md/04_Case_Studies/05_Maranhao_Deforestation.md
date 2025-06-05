@@ -23,7 +23,9 @@ jupyter:
 </center>
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Outline of steps for analysis
 
@@ -36,7 +38,9 @@ jupyter:
 
 In this case, we'll assemble a DataFrame to summarize search results, trim down the results to a manageable size, and make an interactive slider to examine the data retrieved.
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Preliminary imports
 
@@ -114,7 +118,9 @@ def search_to_dataframe(search):
     return df
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtaining search results
 
@@ -193,7 +199,9 @@ for col in 'asset href tile_id'.split():
 df.info()
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploring & refining search results
 
@@ -230,7 +238,9 @@ df.info()
 It looks as though there are only 11 rows remaining after filtering the others out. These can be visualized interactively as shown below.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 
@@ -350,4 +360,6 @@ view.hvplot.image(**image_opts, **layout_opts)
 The slider here allows us to see a trend of increasing deforestation over the course of two years. The earlier rasters have red pixels sparsely distributed over the region, whereas the later rasters have far more red pixels (indicating damaged vegetation). It is a simple matter to use the array `stack` to count pixels in each category and to assemble quantitative measures of deforestation.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

@@ -20,7 +20,9 @@ There is an abundance of data searchable through NASA's [Earthdata Search websit
 For the sake of reproducibility, we want to be able to search asset catalogs programmatically. This is where the [PySTAC](https://pystac.readthedocs.io/en/stable/) library comes in.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Outline of steps for analysis
 
@@ -42,7 +44,9 @@ For the sake of reproducibility, we want to be able to search asset catalogs pro
     + Assemble relevant data slices into visualization
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identifying search parameters
 
@@ -153,7 +157,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtaining search results
 
@@ -247,7 +253,9 @@ tile_id = granule.id.split('_')[3]
 print(f"{tile_id=}")
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Summarizing search results in a DataFrame
 
@@ -323,7 +331,9 @@ df.info()
 This finally gives a DataFrame with a concise schema that can be used for later manipulations. Bundling the STAC search results into a Pandas `DataFrame` sensibly is a bit tricky. A number of the manipulations above could have been embedded within the function `search_to_dataframe`. But, given that the STAC API search results are still evolving, it's currently better to be flexible and to use Pandas interactively to work with search results. We'll see this more in later examples.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Exploring & refining search results
 
@@ -389,7 +399,9 @@ b01_wtr_t15ruq
 We now have a much shorter `DataFrame` `b01_wtr_t15ruq` that summarises the remote locations of files (i.e., GeoTiffs) that store raster data for the surface water band `B01_WTR` in MGRS tile `T15RUQ` collected at various time-stamps that lie within the time-window we specified. We canuse this DataFrame to download those files for analysis or visualization.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Data-wrangling to produce relevant output
 
@@ -496,7 +508,9 @@ stack.hvplot.image(**image_opts) # Construct view from all slices.
 Before continuing, remember to shut down the kernel for this notebook to free up memory for other computations.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
 This notebook primarily provides an example to illustrate using the PySTAC API.
@@ -510,4 +524,6 @@ In subsequent notebooks, we'll use this general workflow:
 5. Execute the analysis and/or visualization using the DataFrame to retrieve the required data.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->

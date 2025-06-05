@@ -20,7 +20,9 @@ En el sitio web [Earthdata Search](https://search.earthdata.nasa.gov) de la NASA
 En pos de la reproducibilidad, se busca que las personas usuarias sean capaces de buscar en los catálogos de activos de manera programática. Aquí es donde entra en juego la librería [PySTAC](https://pystac.readthedocs.io/en/stable/).
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Esquema de las etapas del análisis
 
@@ -42,7 +44,9 @@ En pos de la reproducibilidad, se busca que las personas usuarias sean capaces d
   - Integrar los fragmentos de datos relevantes en una visualización
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Identificar los parámetros de búsqueda
 
@@ -153,7 +157,9 @@ search_params = dict(bbox=AOI, datetime=DATE_RANGE)
 print(search_params)
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Obtención de los resultados de búsqueda
 
@@ -247,7 +253,9 @@ tile_id = granule.id.split('_')[3]
 print(f"{tile_id=}")
 ```
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ### Resumiendo los resultados de la búsqueda en un DataFrame
 
@@ -323,7 +331,9 @@ df.info()
 Como resultado se obtiene un DataFrame con un esquema conciso que se puede utilizar para manipulaciones posteriores. Agrupar los resultados de la búsqueda STAC en un `DataFrame` de Pandas de forma razonable es un poco complicado. Varias de las manipulaciones anteriores podrían haberse incluido en la función `search_to_dataframe`. Pero, dado que los resultados de búsqueda de la API de STAC aún están evolucionando, actualmente es mejor ser flexible y utilizar Pandas de forma interactiva para trabajar con los resultados de búsqueda. Se verá esto con más detalle en ejemplos posteriores.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Explorar y refinar los resultados de búsqueda
 
@@ -389,7 +399,9 @@ b01_wtr_t15ruq
 Se obtiene un `DataFrame` `b01_wtr_t15ruq` mucho más corto que resume las ubicaciones remotas de los archivos (por ejemplo, GeoTiffs) que almacenan datos ráster para la banda de aguas superficiales `B01_WTR` en el mosaico MGRS `T15RUQ` recopilados en varias marcas de tiempo que se encuentran dentro de la ventana de tiempo que especificamos. Se puede utilizar este DataFrame para descargar esos archivos para su análisis o visualización.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 ## Procesamiento de datos para obtener resultados relevantes
 
@@ -496,7 +508,9 @@ stack.hvplot.image(**image_opts) # Construct view from all slices.
 Antes de continuar, recuerda apagar el kernel de este cuaderno computacional para liberar memoria para otros cálculos.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
 Este cuaderno computacional proporciona principalmente un ejemplo para ilustrar el uso de la API de PySTAC.
@@ -510,4 +524,6 @@ En los siguientes cuadernos computacionales, utilizaremos este flujo de trabajo 
 5. Ejecutar el análisis y/o la visualización utilizando el DataFrame para recuperar los datos requeridos.
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": false} -->
 ---
+<!-- #endregion -->
