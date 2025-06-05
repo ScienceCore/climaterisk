@@ -1,14 +1,15 @@
 ---
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: markdown
-    format_version: '1.3'
-    jupytext_version: 1.17.1
-kernelspec:
-  display_name: Python 3 (ipykernel)
-  language: python
-  name: python3
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.3'
+      jupytext_version: 1.17.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
 ---
 
 # Deforestación en Maranhão
@@ -17,8 +18,7 @@ kernelspec:
 [La deforestación de la selva amazónica en Brasil](https://www.cfr.org/amazon-deforestation/#/en) es un reto constante. En este cuaderno computacional, utilizaremos el [producto de datos de OPERA DIST-HLS ](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) para estudiar la evolución de la pérdida de vegetación debido a causas naturales y antropogénicas. En particular, analizaremos la deforestación durante un período de aproximadamente dos años en el estado de Maranhão, Brasil.
 
 <center>
-   <img src="https://www.querencianews.com.br/wp-content/uploads/2023/03/WhatsApp-Image-2023-03-30-at-11.22.47-AM.jpeg">
-   <br>
+   <img src="https://www.querencianews.com.br/wp-content/uploads/2023/03/WhatsApp-Image-2023-03-30-at-11.22.47-AM.jpeg"><br>
    (de https://www.querencianews.com.br/video-de-drone-mostra-cidade-do-maranhao-que-corre-risco-de-desaparecer-por-causa-de-crateras)
 </center>
 <!-- #endregion -->
