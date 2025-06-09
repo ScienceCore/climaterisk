@@ -1,6 +1,6 @@
 # Determining Climate Risks with NASA Earthdata Cloud
 
-:::{image} assets/banner.jpg
+:::{image} ../assets/banner.jpg
 :align: center
 Using NASA Earthdata Cloud data to assess the risk of wildfire, drought, and flood.
 :::
@@ -11,12 +11,12 @@ Under joint development by
 
 :::{card}
 :header: [MetaDocencia](https://www.metadocencia.org/)
-![MetaDocencia](assets/MD_logo.png)
+![MetaDocencia](../assets/MD_logo.png)
 :::
 
 :::{card}
 :header: [2i2c](https://2i2c.org)
-![2i2c](assets/2i2c_logo.png)
+![2i2c](../assets/2i2c_logo.png)
 :::
 
 ::::
