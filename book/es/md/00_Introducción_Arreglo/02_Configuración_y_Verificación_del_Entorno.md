@@ -116,7 +116,7 @@ Al ejecutar la celda de abajo:
     + Si la respuesta es no, no se realizará ninguna acción.
 
 **¡Importante!**
-+ Elija `s` o `si` solo si te sientes cómodo con la eliminación de las credenciales almacenadas en el archivo `.netrc`. Recuerda tener disponible tu nombre de usuario y tu contraseña de NASA EarthData. 
++ Elige `s` o `si` solo si te sientes cómodo con la eliminación de las credenciales almacenadas en el archivo `.netrc`. Recuerda tener disponible tu nombre de usuario y tu contraseña de NASA EarthData. 
 
 <!-- #endregion -->
 
@@ -137,9 +137,9 @@ Como alternativa, puede utilizar un editor de texto para crear el archivo`.netrc
    ```
    machine urs.earthdata.nasa.gov login USERNAME password PASSWORD
    ```
-Por supuesto, debes reemplazar `USERNAME` y `PASSWORD` en su archivo `.netrc` real con los detalles de su cuenta de NASA EarthData.
+Por supuesto, debes reemplazar `USERNAME` y `PASSWORD` en tu archivo `.netrc` real con los detalles de tu cuenta de NASA EarthData.
    
-Una vez que el archivo `.netrc` se guarda con sus credenciales correctas, es una buena práctica restringir el acceso al archivo:
+Una vez que el archivo `.netrc` se guarda con sus credenciales correctas, es una buena práctica restringir el acceso al mismo:
 
    ```bash
    $ chmod 600 ~/.netrc
@@ -159,7 +159,7 @@ El archivo `.netrc` es necesario para acceder a los STAC (Catálogos de Activos 
 Para asegurarte de que todo funciona correctamente, ejecuta la siguiente celda de Python. Si la celda se ejecuta sin problemas, verás un mensaje que indica que las credenciales se han configurado correctamente:
 
 ```bash
-Success! Your credentials file ~/.netrc is correctly configured!
+¡Éxito! ¡Tu archivo de credenciales ~/.netrc está configurado correctamente!
 ```
 En este caso, ¡ya está! ¡Ahora tienes todo lo que necesitas para explorar los datos de observación de la Tierra provistos por la NASA a través del portal EarthData!
 
@@ -169,7 +169,7 @@ En este caso, ¡ya está! ¡Ahora tienes todo lo que necesitas para explorar los
 Si, en cambio, ves el mensaje:
 
 ```bash
-Ensure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.
+Asegurate que el archivo .netrc contiene credenciales de NASA Earthdata que existen en el directorio de inicio del usuario.
 ```
 deberás ingresar tus credenciales correctas en el archivo `~/.netrc`. Puedes hacerlo reiniciando y volviendo a ejecutar este cuaderno computacional o editando el archivo con un editor de texto.
 
@@ -184,7 +184,7 @@ else:
         print("¡Éxito! ¡Tu archivo de credenciales ~/.netrc está configurado correctamente!\n")
     except Exception as e:
         print(f"TEST FAILED.")
-        print("\n\nAsegurate que el archivo .netrc contiene credenciales de NASA Earthdata que existen en el directorio home del usuario.\n")
+        print("\n\nAsegurate que el archivo .netrc contiene credenciales de NASA Earthdata que existen en el directorio de inicio del usuario.\n")
 ```
 
 
