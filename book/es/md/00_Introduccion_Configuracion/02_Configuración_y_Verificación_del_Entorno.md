@@ -15,12 +15,13 @@ jupyter:
 # Configuración y Verificación del Entorno
 
 <!-- #region jupyter={"source_hidden": true} -->
-Necesita conocer sus credenciales de NASA Earthdata para usar este cuaderno (es decir, su nombre de usuario y contraseña asociados).
+Necesitas conocer tus credenciales de NASA Earthdata para usar este cuaderno computacional (es decir, tu nombre de usuario y contraseña asociados).
 
-+ Primero, construirá un archivo llamado `.netrc` en la carpeta de inicio (es decir, `~/.netrc`) que contiene esas credenciales.
-+ A continuación, ejecutará una prueba que verifica la configuración.
+Ejecutar esta notebook te permitirá:
++ Primero, construir un archivo llamado `.netrc` en la carpeta de inicio (es decir, `~/.netrc`) que contiene esas credenciales.
++ Segundo, ejecutar una prueba que verifica que la configuración se haya realizado de forma correcta.
 
-LLa siguiente celda ejecutable define algunas funciones de Python para invocar más adelante (importando utilidades de Python relevantes según sea necesario).
+La siguiente celda ejecutable define algunas funciones de Python que se utilizaran más adelante para importar las utilidades necesarias.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -30,15 +31,17 @@ import osgeo.gdal
 import rasterio
 from pystac_client import Client
 from warnings import filterwarnings
-filterwarnings("ignore") # suppress PySTAC warnings
-# Mandatory GDAL setup for accessing cloud data
+filterwarnings("ignore") # suprimir advertencias de PySTAC
+
+# Configuración obligatoria de GDAL para acceder a datos en la nube
 osgeo.gdal.SetConfigOption('GDAL_HTTP_COOKIEFILE','~/.gdal_cookies.txt')
 osgeo.gdal.SetConfigOption('GDAL_HTTP_COOKIEJAR', '~/.gdal_cookies.txt')
 osgeo.gdal.SetConfigOption('GDAL_DISABLE_READDIR_ON_OPEN','EMPTY_DIR')
 osgeo.gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 
 def create_netrc(PATH):
-    "Creates netrc file at PATH by prompting interactive user input."
+    """Genera un archivo netrc en la ruta indicada (PATH) solicitando al
+    usuario que ingrese sus credenciales de forma interactiva."""
     PATH.unlink(missing_ok=True)
     TEMPLATE = " ".join(["machine", "urs.earthdata.nasa.gov", "login",
                      "{USERNAME}", "password", "{PASSWORD}\n"])
@@ -50,8 +53,8 @@ def create_netrc(PATH):
     return None
 
 def define_options():
-    "Creates URL & dictionary of options required for executing a PySTAC search."
-    # Define AOI (Area-Of-Interest) & time-window
+    "Crea una URL y un diccionario de opciones necesarios para ejecutar una búsqueda con PySTAC."
+    # Definir el área de interés (AOI) y el rango temporal
     livingston_tx, delta = (-95.09, 30.69), 0.1
     AOI = tuple(coord + sgn*delta for sgn in (-1,+1) for coord in livingston_tx)
     start, stop = '2024-04-30', '2024-05-05'
@@ -65,21 +68,22 @@ def define_options():
     return URL, PROVIDER, dict(bbox=AOI, collections=COLLECTIONS, datetime=WINDOW)
 
 def execute_search(STAC_URL, PROVIDER, opts):
-    "Executes a STAC search using required parameters"
-    # Prepare PySTAC client
+    "Ejecuta una búsqueda STAC utilizando los parámetros requeridos"
+    # Preparar el cliente de PySTAC
     catalog = Client.open(f'{STAC_URL}/{PROVIDER}/')
     results = list(catalog.search(**opts).items_as_dicts())
     return results
 
 def process_uri(URI):
-    "Given a URI associated with a remote GeoTIFF file, attempt to open & parse it."
+    "Dada una URI asociada a un archivo GeoTIFF remoto, intenta abrirlo y analizar su contenido."
     with rasterio.open(URI) as ds:
         _ = ds.profile
     return None
 
 def test_netrc():
-    """Minimal test to verify NASA Earthdata credentials for downloading data products.
-    Requires a .netrc file in home directory containing valid credentials."""
+    """Prueba mínima para verificar las credenciales de NASA Earthdata necesarias
+    para descargar productos de datos. Requiere un archivo .netrc en el directorio
+    personal con credenciales válidas."""
     STAC_URL, PROVIDER, opts = define_options()
     try:
         results = execute_search(STAC_URL, PROVIDER, opts)
@@ -103,37 +107,44 @@ def test_netrc():
 ## Configuración del entorno en la nube para acceder a NASA EarthData desde Python
 
 <!-- #region jupyter={"source_hidden": true} -->
-Para acceder a los productos EarthData de la NASA desde programas Python o cuadernos Jupyter, es necesario guardar sus credenciales de NASA EarthData en un archivo especial llamado `.netrc`. Al ejecutar la celda de abajo, se crea este archivo.
+Para acceder a los productos EarthData de la NASA desde programas Python o cuadernos computacionales Jupyter, es necesario guardar tus credenciales de NASA EarthData en un archivo especial llamado `.netrc`. 
+
+Al ejecutar la celda de abajo:
++ Se te mostrará una advertencia indicando que ejecutar el resto de esta celda sobrescribirá cualquier archivo .netrc existente.
++ Se te pedirá que confirmes si deseas continuar:
+    + En caso afirmativo, escribe `s` o `si`: se te pedirá tu nombre de usuario de *NASA Earthdata* y luego tu contraseña. Asegúrate de tenerlos listos antes de ejecutar la celda.
+    + Si la respuesta es no, no se realizará ninguna acción.
+
+**¡Importante!**
++ Elige `s` o `si` solo si te sientes cómodo con la eliminación de las credenciales almacenadas en el archivo `.netrc`. Recuerda tener disponible tu nombre de usuario y tu contraseña de NASA EarthData. 
+
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
 NETRC_PATH = Path('~/.netrc').expanduser()
-print("Warning: Executing the rest of this cell will overwrite any pre-existing .netrc file.")
-overwrite = input("Confirm that you want to proceed? (Y/N).")
-if overwrite.lower() in ['y', 'yes']:
+print("Advertencia: Ejecutar el resto de esta celda sobrescribirá cualquier archivo .netrc existente.")
+overwrite = input("¿Confirmás que querés continuar? (S/N).")
+if overwrite.lower() in ['s', 'si', 'sí']:
     create_netrc(NETRC_PATH)
 else:
-    print('Skipping writing of .netrc file.')
+    print('Se omite la escritura del archivo .netrc.')
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Algunas advertencias:
 
-+ Se le preguntará si desea eliminar o no cualquier archivo preexistente.
-    + En caso afirmativo, se le pedirá su nombre de usuario de *NASA Earthdata* y luego su contraseña correspondiente.
-    + Si la respuesta es no, no se realiza ninguna acción.
-+ Al ejecutar la celda de arriba, se produce un mensaje que pide permiso para sobrescribir el archivo `.netrc` si ya existe. Elija `y` o `yes` solo si se siente cómodo con la eliminación de las credenciales almacenadas en ese archivo.
-+ Si elige crear el archivo `.netrc`, se le solicitará su nombre de usuario y contraseña de NASA EarthData. Asegúrese de tenerlos listos antes de ejecutar la celda de arriba.
-+ Como alternativa, puede utilizar un editor de texto para crear el archivo`.netrc` con el siguiente contenido:
+Como alternativa, puede utilizar un editor de texto para crear el archivo`.netrc` con el siguiente contenido:
+
    ```
    machine urs.earthdata.nasa.gov login USERNAME password PASSWORD
    ```
-   Por supuesto, reemplazaría `USERNAME` y `PASSWORD` en su archivo `.netrc` real con los detalles de su cuenta de NASA EarthData.
-+ Una vez que el archivo `.netrc` se guarda con sus credenciales correctas, es una buena práctica restringir el acceso al archivo:
+Por supuesto, debes reemplazar `USERNAME` y `PASSWORD` en tu archivo `.netrc` real con los detalles de tu cuenta de NASA EarthData.
+   
+Una vez que el archivo `.netrc` se guarda con sus credenciales correctas, es una buena práctica restringir el acceso al mismo:
+
    ```bash
    $ chmod 600 ~/.netrc
    ```
-   Esto se logra en la penúltima línea de la función `create_netrc` (es decir, `PATH.chmod(0o600)`).
+Esto se logra en la penúltima línea de la función `create_netrc` (es decir, `PATH.chmod(0o600)`).
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
@@ -145,36 +156,40 @@ Algunas advertencias:
 <!-- #region jupyter={"source_hidden": true} -->
 El archivo `.netrc` es necesario para acceder a los STAC (Catálogos de Activos Espacio-Temporales) dentro de los programas de Python que utilizan [PySTAC](https://pystac.readthedocs.io/en/stable/)).
 
-Para asegurarse de que todo funciona correctamente, ejecute la siguiente celda de Python:
+Para asegurarte de que todo funciona correctamente, ejecuta la siguiente celda de Python. Si la celda se ejecuta sin problemas, verás un mensaje que indica que las credenciales se han configurado correctamente:
+
+```bash
+¡Éxito! ¡Tu archivo de credenciales ~/.netrc está configurado correctamente!
+```
+En este caso, ¡ya está! ¡Ahora tienes todo lo que necesitas para explorar los datos de observación de la Tierra provistos por la NASA a través del portal EarthData!
+
 <!-- #endregion -->
+
+<!-- #region jupyter={"source_hidden": true} -->
+Si, en cambio, ves el mensaje:
+
+```bash
+Asegurate que el archivo .netrc contiene credenciales de NASA Earthdata que existen en el directorio de inicio del usuario.
+```
+deberás ingresar tus credenciales correctas en el archivo `~/.netrc`. Puedes hacerlo reiniciando y volviendo a ejecutar este cuaderno computacional o editando el archivo con un editor de texto.
+
+<!-- #endregion -->
+
+Entonces, ejecuta la siguiente celda para verificar la creación del archivo `~/.netrc` con las credenciales correctas:
 
 ```python jupyter={"source_hidden": true}
 if ((not NETRC_PATH.exists()) or (NETRC_PATH.stat().st_size==0)):
-    print("Warning: no valid .netrc file exists; re-execute this cell to create one with correct credentials.")
+    print("Advertencia: no existe un archivo .netrc válido; ejecuta esta celda nuevamente para crear uno con credenciales correctas.")
 else:
     try:
         test_netrc()
-        print("Success! Your credentials file ~/.netrc is correctly configured!\n")
+        print("¡Éxito! ¡Tu archivo de credenciales ~/.netrc está configurado correctamente!\n")
     except Exception as e:
         print(f"TEST FAILED.")
-        print("\n\nEnsure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.\n")
+        print("\n\nAsegurate que el archivo .netrc contiene credenciales de NASA Earthdata que existen en el directorio de inicio del usuario.\n")
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
-Si la celda anterior se ejecutó sin problemas, verá un mensaje que indica que se ha realizado correctamente:
-```bash
-Success! Your credentials file ~/.netrc is correctly configured!
-```
-En este caso, ¡ya está! ¡Ahora tienes todo lo que necesitas para explorar los datos de observación de la Tierra de la NASA a través del portal EarthData!
-<!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": true} -->
-Si ve el mensaje
-```bash
-Ensure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.
-```
-deberá ingresar sus credenciales correctas en el archivo `~/.netrc`. Puede hacerlo reiniciando y volviendo a ejecutar este bloc de notas (o editando el archivo con un editor de texto).
-<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
