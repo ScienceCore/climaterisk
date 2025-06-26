@@ -12,15 +12,15 @@ jupyter:
     name: python3
 ---
 
-# Configuring & Verifying the Environment
+# Configuración y Verificación del Entorno
 
 <!-- #region jupyter={"source_hidden": true} -->
-For this notebook, you need to know your NASA Earthdata credentials (i.e., your associated username and password).
+Necesita conocer sus credenciales de NASA Earthdata para usar este cuaderno (es decir, su nombre de usuario y contraseña asociados).
 
-+ First, you will construct a file called `.netrc` in your home folder (i.e., `~/.netrc`) that contains those credentials.
-+ Next, you will execute a test that verifies the configuration.
++ Primero, construirá un archivo llamado `.netrc` en la carpeta de inicio (es decir, `~/.netrc`) que contiene esas credenciales.
++ A continuación, ejecutará una prueba que verifica la configuración.
 
-The following executable cell defines some Python functions to invoke later (importing relevant Python utilities as needed).
+LLa siguiente celda ejecutable define algunas funciones de Python para invocar más adelante (importando utilidades de Python relevantes según sea necesario).
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -100,10 +100,10 @@ def test_netrc():
 ---
 <!-- #endregion -->
 
-## Configuring the Cloud Environment to Access NASA EarthData from Python
+## Configuración del entorno en la nube para acceder a NASA EarthData desde Python
 
 <!-- #region jupyter={"source_hidden": true} -->
-To access NASA's EarthData products from Python programs or Jupyter notebooks, it is necessary to save your NASA EarthData credentials in a special file called `.netrc`. Executing the cell below creates this file.
+Para acceder a los productos EarthData de la NASA desde programas Python o cuadernos Jupyter, es necesario guardar sus credenciales de NASA EarthData en un archivo especial llamado `.netrc`. Al ejecutar la celda de abajo, se crea este archivo.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -117,35 +117,35 @@ else:
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Some caveats:
+Algunas advertencias:
 
-+ You will be asked whether or not to delete any pre-existing file.
-    + If yes, you will be prompted for your *NASA Earthdata* username & then your corresponding password.
-    + If no, no action is taken.
-+ Executing the cell above yields a prompt that asks permission to overwrite the file `.netrc` if it exists already. Choose `y` or `yes` only if you are comfortable with deleting any credentials stored within that file.
-+ Should you choose to create the `.netrc` file, you will be prompted for your NASA EarthData username & password. Make sure to have these ready before executing the cell above.
-+ As an alternative, you could use a text editor to create the file `.netrc` with content as follows:
++ Se le preguntará si desea eliminar o no cualquier archivo preexistente.
+    + En caso afirmativo, se le pedirá su nombre de usuario de *NASA Earthdata* y luego su contraseña correspondiente.
+    + Si la respuesta es no, no se realiza ninguna acción.
++ Al ejecutar la celda de arriba, se produce un mensaje que pide permiso para sobrescribir el archivo `.netrc` si ya existe. Elija `y` o `yes` solo si se siente cómodo con la eliminación de las credenciales almacenadas en ese archivo.
++ Si elige crear el archivo `.netrc`, se le solicitará su nombre de usuario y contraseña de NASA EarthData. Asegúrese de tenerlos listos antes de ejecutar la celda de arriba.
++ Como alternativa, puede utilizar un editor de texto para crear el archivo`.netrc` con el siguiente contenido:
    ```
    machine urs.earthdata.nasa.gov login USERNAME password PASSWORD
    ```
-   Of course, you would replace `USERNAME` and `PASSWORD` in your actual `.netrc` file with your actual NASA EarthData account details.
-+ Once the `.netrc` file is saved with your correct credentials, it's good practice to restrict access to the file:
+   Por supuesto, reemplazaría `USERNAME` y `PASSWORD` en su archivo `.netrc` real con los detalles de su cuenta de NASA EarthData.
++ Una vez que el archivo `.netrc` se guarda con sus credenciales correctas, es una buena práctica restringir el acceso al archivo:
    ```bash
    $ chmod 600 ~/.netrc
    ```
-  This is achieved in the second last line of the function `create_netrc` (i.e., `PATH.chmod(0o600)`).
+   Esto se logra en la penúltima línea de la función `create_netrc` (es decir, `PATH.chmod(0o600)`).
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-## Verifying Access to NASA EarthData Products
+## Verificación del Acceso a los Productos de NASA EarthData
 
 <!-- #region jupyter={"source_hidden": true} -->
-The file `.netrc` is required to access STACs (Spatio-Temporal Asset Catalogs) within Python programs using [PySTAC](https://pystac.readthedocs.io/en/stable/)).
+El archivo `.netrc` es necesario para acceder a los STAC (Catálogos de Activos Espacio-Temporales) dentro de los programas de Python que utilizan [PySTAC](https://pystac.readthedocs.io/en/stable/)).
 
-To make sure everything is working properly, execute the Python cell below:
+Para asegurarse de que todo funciona correctamente, ejecute la siguiente celda de Python:
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -161,19 +161,19 @@ else:
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-If the preceding cell executed smoothly, you will see a message indication success:
+Si la celda anterior se ejecutó sin problemas, verá un mensaje que indica que se ha realizado correctamente:
 ```bash
 Success! Your credentials file ~/.netrc is correctly configured!
 ```
-In this case, you're done! You now have everything you need to explore NASA's Earth observation data through the EarthData portal!
+En este caso, ¡ya está! ¡Ahora tienes todo lo que necesitas para explorar los datos de observación de la Tierra de la NASA a través del portal EarthData!
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
-If you see the message 
+Si ve el mensaje
 ```bash
 Ensure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.
 ```
-you will need to enter your correct credentials into the file `~/.netrc`. You can do so by restarting and re-executing this notebook (or by editing the file with a text editor).
+deberá ingresar sus credenciales correctas en el archivo `~/.netrc`. Puede hacerlo reiniciando y volviendo a ejecutar este bloc de notas (o editando el archivo con un editor de texto).
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
