@@ -175,6 +175,8 @@ deberás ingresar tus credenciales correctas en el archivo `~/.netrc`. Puedes ha
 
 <!-- #endregion -->
 
+Entonces, ejecuta la siguiente celda para verificar la creación del archivo `~/.netrc` con las credenciales correctas:
+
 ```python jupyter={"source_hidden": true}
 if ((not NETRC_PATH.exists()) or (NETRC_PATH.stat().st_size==0)):
     print("Advertencia: no existe un archivo .netrc válido; ejecuta esta celda nuevamente para crear uno con credenciales correctas.")
