@@ -52,7 +52,7 @@ Si no te has registrado previamente, sigue estos pasos para crear una cuenta de 
     + Una vez que se cargue la nueva página, veras algo como esto:
        ![earthdata_profile](../../../assets/img/earthdata_profile2.png)
     + Elije un nombre de usuario y una contraseña de NASA Earthdata. **Necesitaras estas credenciales más adelante**; ¡Asegúrate de guardarlos de forma segura!
-    + También deberá proporcionar otra información (por ejemplo, correo electrónico, país, afiliación, etc.) para completar el registro.
+    + También deberas proporcionar otra información (por ejemplo, correo electrónico, país, afiliación, etc.) para completar el registro.
     + Una vez que hayas completado todos los campos obligatorios, haz clic en "*Register for Earthdata Login*".
 <!-- #endregion -->
 
