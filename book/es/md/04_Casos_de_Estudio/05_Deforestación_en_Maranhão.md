@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.1
+      jupytext_version: 1.16.2
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -15,37 +15,40 @@ jupyter:
 # Deforestación en Maranhão
 
 <!-- #region jupyter={"source_hidden": true} -->
-[La deforestación de la selva amazónica en Brasil](https://www.cfr.org/amazon-deforestation/#/en) es un reto constante. En este cuaderno computacional, utilizaremos el [producto de datos de OPERA DIST-HLS ](https://lpdaac.usgs.gov/documents/1766/OPERA_DIST_HLS_Product_Specification_V1.pdf) para estudiar la evolución de la pérdida de vegetación debido a causas naturales y antropogénicas. En particular, analizaremos la deforestación durante un período de aproximadamente dos años en el estado de Maranhão, Brasil.
+La Amazonía es una de las regiones más biodiversas del planeta y un componente clave del sistema climático global que además sostiene múltiples comunidades indígenas. En particular el estado de Maranhão, en Brasil, es uno de los focos más críticos de deforestación en el país. Se estima que el 76 % de la cobertura original de bosque amazónico en este estado ha sido destruida. Según Global Forest Watch, Maranhão ha registrado una de las tasas más altas de pérdida de cobertura boscosa en Brasil en los últimos años, impulsada por incendios, expansión agropecuaria y tala ilegal. Estos procesos están estrechamente ligados a la fragmentación ecológica, la pérdida de biodiversidad y la violencia hacia comunidades indígenas. Frente a este escenario, el monitoreo sistemático de los cambios en la cobertura vegetal es fundamental. Los productos OPERA DIST-HLS, derivados principalmente de Landsat (NASA/USGS) y Sentinel-2 (ESA), ofrecen una herramienta poderosa para detectar disturbios recientes y aportar evidencia clave para la conservación y la formulación de políticas públicas basadas en datos.
 
-<center>
-   <img src="https://www.querencianews.com.br/wp-content/uploads/2023/03/WhatsApp-Image-2023-03-30-at-11.22.47-AM.jpeg"><br>
-   (de https://www.querencianews.com.br/video-de-drone-mostra-cidade-do-maranhao-que-corre-risco-de-desaparecer-por-causa-de-crateras)
-</center>
+<figure style="text-align: center;">
+  <img src="https://tse3.mm.bing.net/th/id/OIP.sSfdF5nBFUWbh3UImdbyVgHaE7?pid=Api" alt="Buriticupu - erosión" style="max-width: 100%; height: auto;">
+  <figcaption style="font-size: 0.9em; color: #555;">Foto: AFP / El País (2023)</figcaption>
+</figure>
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-## Esquema de los pasos para el análisis
+## Ruta de trabajo
 
 <!-- #region jupyter={"source_hidden": true} -->
-- Identificación de los parámetros de búsqueda (AOI, ventana de tiempo, _endpoint_, etc.)
-- Obtener de los resultados de búsqueda
-- Explorar y refinar de los resultados de la búsqueda
-- Procesar los datos para obtener resultados relevantes
+Nuestro objetivo es evaluar la deforestación en un area cercana a la ciudad de Buriticupu en el estado Maranhao. 
+Para eso en esta notebook vamos a :
 
-En este caso, crearemos un DataFrame para resumir los resultados de la búsqueda, los reduciremos a un tamaño manejable y crearemos un selector interactivo para analizar los datos recuperados.
+1. Filtrar y seleccionar los productos OPERA DIST-ALERT desde la nube
+2. Visualizar y explorar los subproductos VEG_DIST_STATUS
+3. Gráficar la evolución del disturbio a lo largo del tiempo.
+4. Generar un mapa de disturbios
+5. Explorar subproducto VEG_DIST_DATE
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-### Importación preliminar de librerías
+### Antes de empezar - Importar librerías que vamos a utilizar
 
 ```python jupyter={"source_hidden": true}
-from warnings import filterwarnings
+#librerias para manipulación de datos
+from warnings import filterwarnings #suprime los warning
 filterwarnings('ignore')
 import numpy as np, pandas as pd, xarray as xr
 import rioxarray as rio
@@ -53,6 +56,7 @@ import rasterio
 ```
 
 ```python jupyter={"source_hidden": true}
+#librerias para visualización
 import hvplot.pandas, hvplot.xarray
 import geoviews as gv
 from geoviews import opts
@@ -60,214 +64,218 @@ gv.extension('bokeh')
 ```
 
 ```python jupyter={"source_hidden": true}
+#configuración de acceso a datos geoespaciales desde la nube
 from pystac_client import Client
 from osgeo import gdal
-# GDAL setup for accessing cloud data
 gdal.SetConfigOption('GDAL_HTTP_COOKIEFILE','~/.cookies.txt')
 gdal.SetConfigOption('GDAL_HTTP_COOKIEJAR', '~/.cookies.txt')
 gdal.SetConfigOption('GDAL_DISABLE_READDIR_ON_OPEN','EMPTY_DIR')
 gdal.SetConfigOption('CPL_VSIL_CURL_ALLOWED_EXTENSIONS','TIF, TIFF')
 ```
 
-### Funciones prácticas
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
 
-<!-- #region jupyter={"source_hidden": true} -->
-Estas funciones podrían incluirse en archivos modulares para proyectos de investigación más evolucionados. Para fines didácticos, se incluyen en este cuaderno computacional.
+### 1. FILTRAR Y SELECCIONAR LOS PRODUCTOS OPERA DESDE LA NUBE
+
+<!-- #region jupyter={"source_hidden": false} -->
+#### 1.a Seleccionar el area de estudio 
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-# simple utility to make a rectangle with given center of width dx & height dy
-def make_bbox(pt,dx,dy):
-    '''Returns bounding-box represented as tuple (x_lo, y_lo, x_hi, y_hi)
-    given inputs pt=(x, y), width & height dx & dy respectively,
-    where x_lo = x-dx/2, x_hi=x+dx/2, y_lo = y-dy/2, y_hi = y+dy/2.
-    '''
-    return tuple(coord+sgn*delta for sgn in (-1,+1) for coord,delta in zip(pt, (dx/2,dy/2)))
+# PASOS PARA SELECCIONAR EL ÁREA DE ESTUDIO (AOI) 
+# Usar la herramienta online: https://boundingbox.klokantech.com/
+# 1. Buscar la zona de interés y dibujar un rectángulo sobre el mapa.
+# 2. En la sección "Copy & Paste", seleccionar el formato "CSV".
+# 3. Copiar las coordenadas 
+# Estas coordenadas están en el orden correcto requerido por STAC:
+# bbox = [xmin, ymin, xmax, ymax] = [long_oeste, lat_sur, long_este, lat_norte]
 ```
 
-```python jupyter={"source_hidden": true}
-# simple utility to plot an AOI or bounding-box
-def plot_bbox(bbox):
-    '''Given bounding-box, returns GeoViews plot of Rectangle & Point at center
-    + bbox: bounding-box specified as (lon_min, lat_min, lon_max, lat_max)
-    Assume longitude-latitude coordinates.
-    '''
-    # These plot options are fixed but can be over-ridden
-    point_opts = opts.Points(size=12, alpha=0.25, color='blue')
-    rect_opts = opts.Rectangles(line_width=0, alpha=0.1, color='red')
-    lon_lat = (0.5*sum(bbox[::2]), 0.5*sum(bbox[1::2]))
-    return (gv.Points([lon_lat]) * gv.Rectangles([bbox])).opts(point_opts, rect_opts)
-```
+<!-- #region jupyter={"source_hidden": true} -->
+Coordenadas copiadas de boundingbox
+-46.52993,-4.383815,-46.363075,-4.243793
+<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-# utility to extract search results into a Pandas DataFrame
-def search_to_dataframe(search):
-    '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
-    DataFrame columns are determined from search item properties and assets.
-    'asset': string identifying an Asset type associated with a granule
-    'href': data URL for file associated with the Asset in a given row.'''
-    granules = list(search.items())
-    assert granules, "Error: empty list of search results"
-    props = list({prop for g in granules for prop in g.properties.keys()})
-    tile_ids = map(lambda granule: granule.id.split('_')[3], granules)
-    rows = (([g.properties.get(k, None) for k in props] + [a, g.assets[a].href, t])
-                for g, t in zip(granules,tile_ids) for a in g.assets )
-    df = pd.concat(map(lambda x: pd.DataFrame(x, index=props+['asset','href', 'tile_id']).T, rows),
-                   axis=0, ignore_index=True)
-    assert len(df), "Empty DataFrame"
-    return df
+#Definir el AOI con las coordenadas 
+AOI = [-46.52993,-4.383815,-46.363075,-4.243793]
+rango_fechas = "2022-01-01/2024-03-31"
+```
+
+<!-- #region jupyter={"source_hidden": false} -->
+#### 1.b Explorar y buscar los productos OPERA DIST-ALERT
+<!-- #endregion -->
+
+```python jupyter={"source_hidden": true}
+# Realizamos la búsqueda de productos OPERA DIST-ALERT para ver fechas disponibles
+from pystac_client import Client
+
+#parámetros de búsqueda
+search_params = {
+    "bbox": AOI,
+    "datetime": rango_fechas,
+    "collections": ["OPERA_L3_DIST-ALERT-HLS_V1_1"]
+}
+
+client = Client.open("https://cmr.earthdata.nasa.gov/stac/LPCLOUD/")
+items = list(client.search(**search_params).get_items())
+
+# Extraemos fechas disponibles
+fechas = sorted({item.datetime.date() for item in items})
+print(f"Fechas disponibles ({len(fechas)}):")
+print(fechas)
 ```
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-## Obtención de los resultados de búsqueda
-
 <!-- #region jupyter={"source_hidden": true} -->
-Nos enfocaremos en un área de interés centrada en las coordenadas geográficas de longitud-latitud $(-43.65,^{\circ}, -3.00^{\circ})$ que se encuentra en el estado de Maranhão, Brasil. Analizaremos todos los datos disponibles desde enero de 2022 hasta finales de marzo de 2024.
+**Cada item OPERA DIST-ALERT incluye varios assets `.tif`, y cada uno representa una capa de información distinta:**
+
+- **VEG-DIST-STATUS.tif**: detección de disturbio 
+- **VEG-DIST-CONF.tif**: nivel de confianza de la detección
+- **VEG-DIST-DATE.tif**: fecha en que se detectó el disturbio
+- **VEG-ANOM.tif**: anomalía de la vegetación
+- **VEG-IND.tif**: índice de vegetación
+- **VEG-LAST-DATE.tif**: última fecha sin disturbio detectado
+- **VEG-DIST-DUR.tif**: duración acumulada del disturbio
+- **VEG-DIST-COUNT.tif**: número de disturbios detectados
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-AOI = make_bbox((-43.65, -3.00), 0.2, 0.2)
-DATE_RANGE = "2022-01-01/2024-03-31"
-```
+#Imprimimos los archivos que se encuentran dentro de 1 item
+item = items[0]  
 
-<!-- #region jupyter={"source_hidden": true} -->
-El gráfico que se genera a continuación ilustra el área de interés. La herramienta Bokeh Zoom es útil para analizar la caja en varias escalas de longitud.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-# Optionally plot the AOI
-basemap = gv.tile_sources.OSM(padding=0.1, alpha=0.75)
-plot_bbox(AOI) * basemap
-```
-
-```python jupyter={"source_hidden": true}
-search_params = dict(bbox=AOI, datetime=DATE_RANGE)
-print(search_params)
-```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Para ejecutar la búsqueda, definimos el URI del _endpoint_ e instanciaremos un objeto `Client`.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-ENDPOINT = 'https://cmr.earthdata.nasa.gov/stac'
-PROVIDER = 'LPCLOUD'
-COLLECTIONS = ["OPERA_L3_DIST-ALERT-HLS_V1_1"]
-search_params.update(collections=COLLECTIONS)
-print(search_params)
-
-catalog = Client.open(f'{ENDPOINT}/{PROVIDER}/')
-search_results = catalog.search(**search_params)
-```
-
-<!-- #region jupyter={"source_hidden": true} -->
-La búsqueda en sí es bastante rápida y arroja algunos miles de resultados que pueden analizarse más fácilmente en un  DataFrame de Pandas.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-%%time
-df = search_to_dataframe(search_results)
-df.info()
-df.head()
-```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Limpiar el DataFrame `df` de forma que tenga sentido:
-
-- renombrando la columna `eo:cloud_cover` como `cloud_cover`,
-- convirtiendo la columna `cloud_cover` en valores de punto flotante, y
-- eliminando columnas `datetime` atípicas,
-- convertiendo la columna `datetime` en `DatetimeIndex`,
-- estableciendo la columna `datetime` como `Index`, y
-- convirtiendo las columnas restantes en cadenas de caracteres.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-df = df.rename(columns={'eo:cloud_cover':'cloud_cover'})
-df.cloud_cover = df.cloud_cover.astype(np.float16)
-df = df.drop(['start_datetime', 'end_datetime'], axis=1)
-df.datetime = pd.DatetimeIndex(df.datetime)
-df = df.set_index('datetime').sort_index()
-for col in 'asset href tile_id'.split():
-    df[col] = df[col].astype(pd.StringDtype())
-```
-
-```python jupyter={"source_hidden": true}
-df.info()
+print(f"Item - Fecha: {item.datetime.date()}")
+for asset_key, asset in item.assets.items():
+    print(f"  Asset: {asset_key} → {asset.href}")
 ```
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-## Exploración y refinamiento de los resultados de la búsqueda
-
-<!-- #region jupyter={"source_hidden": true} -->
-Del conjunto de datos DIST-ALERT, la banda que que nos interesa es `VEG-DIST-STATUS`, así que construiremos una serie booleana `c1` que sea `True` siempre que la cadena de la columna `asset` incluya `VEG-DIST-STATUS` como subcadena. También podemos construir una serie booleana `c2` para filtrar las filas cuya `cloud_cover` exceda el 20%.
+<!-- #region jupyter={"source_hidden": false} -->
+#### 1.c Filtramos los asset VEG_DIST-STATUS con baja nubosidad
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-c1 = df.asset.str.contains('VEG-DIST-STATUS')
+# Recorremos todos los productos encontrados y seleccionamos solo los archivos .tif
+# correspondientes al asset 'VEG-DIST-STATUS'
+# Guardamos la fecha del producto y el link al archivo 
+
+veg_status_assets = []
+
+for item in items:
+    for key, asset in item.assets.items():
+        if "VEG-DIST-STATUS" in key and asset.href.endswith(".tif"):
+            veg_status_assets.append({
+                "fecha": item.datetime.date(),
+                "url": asset.href
+            })
+
+print(f"Se encontraron {len(veg_status_assets)} archivos VEG-DIST-STATUS.")
+
+#imprimimos los primeros 10
+for registro in veg_status_assets[:10]:
+    print(f"  {registro['fecha']} → {registro['url']}")
 ```
 
 ```python jupyter={"source_hidden": true}
-c2 = df.cloud_cover<20
+# Imprimimos cloud_cover de los items con asset VEG-DIST-STATUS
+for item in items:
+    if any("VEG-DIST-STATUS" in k for k in item.assets):
+        print(f"{item.datetime.date()} → Cloud cover: {item.properties.get('eo:cloud_cover', 'No disponible')}")
 ```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Si analizamos la columna `tile_id`, podemos ver que un único mosaico MGRS contiene el área de interés que especificamos. Como tal, todos los datos indexados en el`df` corresponden a mediciones distintas tomadas de un mosaico geográfico fijo en diferentes momentos.
-<!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-df.tile_id.value_counts()
+filtrados = []
+
+for item in items:
+    cloud = item.properties.get('eo:cloud_cover', None)
+    if cloud is not None and cloud < 40:
+        for key, asset in item.assets.items():
+            if (
+                "VEG-DIST-STATUS" in key and 
+                asset.href.endswith(".tif") and 
+                asset.href.startswith("https")
+            ):
+                filtrados.append({
+                    "fecha": item.datetime.date(),
+                    "url": asset.href,
+                    "nubes": cloud
+                })
+print(f"Se encontraron {len(filtrados)} archivos con menos de 40% de nubes.")
+for registro in filtrados[:10]:
+    print(f"{registro['fecha']} → Cloud cover: {registro['nubes']} → {registro['url']}")
 ```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Podemos combinar la información anterior para reducir el `DataFrame` a una secuencia de filas mucho más pequeña.. También podemos eliminar las columnas `asset` y `tile_id` porque serán las mismas en todas las filas después del filtrado. De ahora en adelante solo necesitaremos la columna `href`.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-df = df.loc[c1 & c2].drop(['asset', 'tile_id', 'cloud_cover'], axis=1)
-df.info()
-```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Parece que solo quedan 11 filas después de filtrar las demás. Estas pueden visualizarse interactivamente como se muestra a continuación.
-<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-## Procesamiento de los datos para obtener resultados relevantes
+### 2. VISUALIZAR Y EXPLORAR Productos VEG_DIST_STATUS
 
 ```python jupyter={"source_hidden": true}
-df
+#Visualizar productos VEG_DIST_STATUS en el area de interes.
+
+#convertir a shp las coordenadas del area de interes (AOI)
+from shapely.geometry import box
+import geopandas as gpd
+
+# AOI definido como bounding box
+aoi_coords = [-46.78, -4.61, -46.58, -4.41]  # xmin, ymin, xmax, ymax
+aoi_geom = box(*aoi_coords)
+AOI = gpd.GeoDataFrame(geometry=[aoi_geom], crs="EPSG:4326")
+```
+
+```python jupyter={"source_hidden": true}
+#Visualizar la primer y ultima fecha del los productos filtrados
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import geopandas as gpd
+import rioxarray
+
+# Crear colormap personalizado
+white_to_red = mcolors.LinearSegmentedColormap.from_list("white_to_red", ["white", "red"])
+
+# URLs de los dos productos
+urls = [
+    ("2023/06/26", "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/OPERA_L3_DIST-ALERT-HLS_V1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230626T133151Z_20231221T083621Z_S2A_30_v1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230626T133151Z_20231221T083621Z_S2A_30_v1_VEG-DIST-STATUS.tif"),
+    ("2023/09/18", "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/OPERA_L3_DIST-ALERT-HLS_V1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230918T131723Z_20231221T085043Z_L8_30_v1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230918T131723Z_20231221T085043Z_L8_30_v1_VEG-DIST-STATUS.tif")
+]
+
+# Crear figura
+fig, axes = plt.subplots(1, 2, figsize=(12, 6), constrained_layout=True)
+
+for ax, (label, url) in zip(axes, urls):
+    da = rioxarray.open_rasterio(url, masked=True).squeeze()
+    # Reproyectar AOI al CRS del raster
+    aoi_proj = AOI.to_crs(da.rio.crs)
+    # Recorte
+    da_clip = da.rio.clip(aoi_proj.geometry, aoi_proj.crs)
+    # Plot
+    img = da_clip.plot(
+        ax=ax,
+        cmap=white_to_red,
+        vmin=0,
+        vmax=8,
+        add_colorbar=False
+    )
+    aoi_proj.boundary.plot(ax=ax, edgecolor="black", linewidth=0.5)
+    ax.set_title(f"Disturbios detectados\n{label}")
+    ax.axis("off")
+
+# Agregar colorbar común
+cbar = fig.colorbar(img, ax=axes.ravel().tolist(), shrink=0.6, label="Vegetation_disturbance_status")
+plt.show()
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Podemos combinar la información anterior para reducir el `DataFrame` a una secuencia de filas mucho más pequeña. Utilizaremos un bucle para ensamblar un `DataArray` apilado a partir de los archivos remotos utilizando `xarray.concat`.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-%%time
-stack = []
-for timestamp, row in df.iterrows():
-    data = rio.open_rasterio(row.href).squeeze()
-    data = data.rename(dict(x='longitude', y='latitude'))
-    del data.coords['band']
-    data.coords.update({'time':timestamp})
-    data.attrs = dict(description=f"OPERA DIST: VEG-DIST-STATUS", units=None)
-    stack.append(data)
-stack = xr.concat(stack, dim='time')
-stack
-```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Como recordatorio, para la banda `VEG-DIST-STATUS`, interpretamos los valores ráster de la siguiente manera:
+Valores del producto `VEG-DIST-STATUS`:
 
 - **0:** Sin alteración
 - **1:** Primera detección de alteraciones con cambios en la cobertura vegetal <50%
@@ -279,86 +287,352 @@ Como recordatorio, para la banda `VEG-DIST-STATUS`, interpretamos los valores r�
 - **7:** Detección finalizada de alteraciones con cambios en la cobertura vegetal <50%
 - **8:** Detección finalizada de alteraciones con cambios en lacobertura vegetal ≥50%
 - **255** Datos faltantes
-
-Al aplicar `np.unique` a la pila de rásters, vemos que todos estos 10 valores distintos aparecen en algún lugar de los datos.
 <!-- #endregion -->
 
+
+
 ```python jupyter={"source_hidden": true}
-np.unique(stack)
+#Graficar la distribución de los valores de disturbios en dos subproductos DIST-VEG-ALERT
+
+import matplotlib.pyplot as plt
+import numpy as np
+import rioxarray
+
+# URLs de los dos productos
+urls = [
+    ("2023/06/26", "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/OPERA_L3_DIST-ALERT-HLS_V1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230626T133151Z_20231221T083621Z_S2A_30_v1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230626T133151Z_20231221T083621Z_S2A_30_v1_VEG-DIST-STATUS.tif"),
+    ("2023/09/18", "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/OPERA_L3_DIST-ALERT-HLS_V1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230918T131723Z_20231221T085043Z_L8_30_v1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230918T131723Z_20231221T085043Z_L8_30_v1_VEG-DIST-STATUS.tif")
+]
+
+# Leer y calcular frecuencias primero
+frecuencias = []
+for label, url in urls:
+    da = rioxarray.open_rasterio(url, masked=True).squeeze()
+    aoi_proj = AOI.to_crs(da.rio.crs)
+    da_clip = da.rio.clip(aoi_proj.geometry, aoi_proj.crs)
+    vals = da_clip.values.flatten()
+    vals = vals[(vals > 0) & (~np.isnan(vals))]
+    hist, _ = np.histogram(vals, bins=np.arange(0.5, 9.5, 1))
+    frecuencias.append((label, hist))
+
+# Encontrar el máximo para escalar ambos plots
+ymax = max(hist.max() for _, hist in frecuencias)
+
+# Gráfico
+fig, axes = plt.subplots(1, 2, figsize=(12, 4), constrained_layout=True)
+for ax, (label, hist) in zip(axes, frecuencias):
+    ax.bar(range(1, 9), hist, color='crimson', edgecolor='black', alpha=0.7)
+    ax.set_xticks(range(1, 9))
+    ax.set_ylim(0, ymax + ymax * 0.1)
+    ax.set_title(f"Histograma - {label}")
+    ax.set_xlabel("Clase de disturbio")
+    ax.set_ylabel("Frecuencia")
+
+plt.suptitle("Distribución de clases de disturbio detectadas", fontsize=14)
+plt.show()
+```
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
+
+### 3. EVOLUCIÓN DEL DISTURBIO A LO LARGO DEL TIEMPO 
+
+```python jupyter={"source_hidden": true}
+# Stack de los 12 subproductos VEG-DIST-STATUS
+
+from rioxarray import open_rasterio
+import xarray as xr
+import numpy as np
+import pandas as pd
+
+# Recortar cada raster al AOI y luego apilar
+raster_list = []
+fechas = []
+
+for f in filtrados:    
+    da = open_rasterio(f["url"], masked=True).squeeze()
+    aoi_proj = AOI.to_crs(da.rio.crs)
+    da_clip = da.rio.clip(aoi_proj.geometry, aoi_proj.crs)
+    
+    raster_list.append(da_clip)
+    fechas.append(pd.Timestamp(f["fecha"]))
+
+# Crear el stack recortado
+stack = xr.concat(raster_list, dim="time")
+stack["time"] = fechas
+```
+
+```python jupyter={"source_hidden": true}
+stack
+```
+
+```python jupyter={"source_hidden": true}
+#Graficar el area disturbada acumulada en el area de estudio
+
+import matplotlib.pyplot as plt
+
+#ordenaar el stack por fecha
+stack_sorted = stack.sortby("time")
+
+# Crear máscara booleana donde el valor sea 6 (disturbio confirmado)
+disturbios = stack_sorted == 6
+
+# Sumar la cantidad de píxeles por fecha
+pixeles_por_fecha = disturbios.sum(dim=["x", "y"])
+
+# Convertir a km² (cada píxel es de 30m x 30m = 900 m² = 0.0009 km²)
+km2_por_fecha = pixeles_por_fecha * 0.0009
+
+# Graficar
+plt.figure(figsize=(8, 5))
+km2_por_fecha.to_series().plot(marker='o')
+plt.title("Evolución de disturbios confirmados (valor 6)")
+plt.ylabel("Área acumulada (km²)")
+plt.xlabel("Fecha")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Trataremos los píxeles con valores ausentes (por ejemplo, el `255`) igual que los píxeles sin alteraciones (por ejemplo, el valor `0`). Podríamos asignar el valor `nan`, pero eso convierte los datos a `float32` o `float64` y, por lo tanto, aumenta la cantidad de memoria requerida. Es decir, reasignar `255->0` nos permite ignorar los valores que faltan.
+¿Hay algo raro en los graficos?
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-stack = stack.where(stack!=255, other=0)
+# Convertir a DataFrame 
+df_filtrados = pd.DataFrame(filtrados)
+df_filtrados["fecha"] = pd.to_datetime(df_filtrados["fecha"])
 
-np.unique(stack)
-```
+# Ordenar por menor cobertura de nubes 
+df_filtrados = df_filtrados.sort_values("nubes")
+#Seleccionar el producto con Sentinel
 
-<!-- #region jupyter={"source_hidden": true} -->
-Definiremos un mapa de colores para identificar los píxeles que muestran signos de alteraciones. En vez de asignar colores diferentes a cada una de las 8 categorías, utilizaremos valores [RGBA](https://es.wikipedia.org/wiki/Espacio_de_color_RGBA) para asignar colores con un valor de transparencia. Con el mapa de colores definido en la siguiente celda, la mayoría de los píxeles serán totalmente transparentes. Los píxeles restantes son de color rojo con valores `alpha` estrictamente positivos. Los valores que realmente queremos ver son `3`, `6`, `7` y `8` (que indican una alteración confirmada en curso o una alteración que finalizó).
-<!-- #endregion -->
+# Eliminar duplicados dejando el que tiene menor nubosidad
+df_filtrados = df_filtrados.drop_duplicates(subset="fecha", keep="first")
 
-```python jupyter={"source_hidden": true}
-# Define a colormap using RGBA values; these need to be written manually here...
-COLORS = [
-            (255, 255, 255, 0.0),   # No disturbance
-            (255,   0,   0, 0.25),  # <50% disturbance, first detection
-            (255,   0,   0, 0.25),  # <50% disturbance, provisional
-            (255,   0,   0, 0.50),  # <50% disturbance, confirmed, ongoing
-            (255,   0,   0, 0.50),  # ≥50% disturbance, first detection
-            (255,   0,   0, 0.50),  # ≥50% disturbance, provisional
-            (255,   0,   0, 1.00),  # ≥50% disturbance, confirmed, ongoing
-            (255,   0,   0, 0.75),  # <50% disturbance, finished
-            (255,   0,   0, 1.00),  # ≥50% disturbance, finished
-         ]
-```
-
-<!-- #region jupyter={"source_hidden": true} -->
-Podemos, entonces, producir visualizaciones utilizando el arreglo `stack`.
-
-- Definimos `view` como un subconjunto de `stack` que se utiliza omisiones de píxeles `steps`  en cada dirección para acelerar el renderizado (cambiar a `steps=1` o `steps=None` cuando estemos listos para trazar a resolución completa).
-- Definimos los diccionarios `image_opts` y `layout_opts` para controlar los argumentos que pasaremos a `hvplot.image`.
-- El resultado, cuando se visualiza, es un gráfico interactivo con un control deslizante que nos permite ver cortes temporales específicos de los datos.
-<!-- #endregion -->
-
-```python jupyter={"source_hidden": true}
-steps = 100
-subset=slice(0,None,steps)
-view = stack.isel(longitude=subset, latitude=subset)
-
-image_opts = dict(
-                    x='longitude',
-                    y='latitude',
-                    cmap=COLORS,
-                    colorbar=False,
-                    clim=(-0.5,8.5),
-                    crs = stack.rio.crs,
-                    tiles=gv.tile_sources.ESRI,
-                    tiles_opts=dict(alpha=0.1, padding=0.1),
-                    project=True,
-                    rasterize=True,
-                    widget_location='bottom',
-                 )
-
-layout_opts = dict(
-                    title = 'Maranhão \nDisturbance Alerts',
-                    xlabel='Longitude (°)',ylabel='Latitude (°)',
-                    fontscale=1.25,
-                    frame_width=500,
-                    frame_height=500,
-                  )
+# Reconstruir la lista filtrada
+filtrados_unicos = df_filtrados.to_dict(orient="records")
 ```
 
 ```python jupyter={"source_hidden": true}
-view.hvplot.image(**image_opts, **layout_opts)
+#VOLVEMOS A CORRER EL STACK USANDO filtrados_unicos
+
+# Stack de los subproductos VEG-DIST-STATUS
+
+from rioxarray import open_rasterio
+import xarray as xr
+import numpy as np
+import pandas as pd
+
+# Recortar cada raster al AOI y luego apilar
+raster_list = []
+fechas = []
+
+for f in filtrados_unicos: 
+    da = open_rasterio(f["url"], masked=True).squeeze()
+    aoi_proj = AOI.to_crs(da.rio.crs)
+    da_clip = da.rio.clip(aoi_proj.geometry, aoi_proj.crs)
+    
+    raster_list.append(da_clip)
+    fechas.append(pd.Timestamp(f["fecha"]))
+
+# Crear el stack recortado
+stack = xr.concat(raster_list, dim="time")
+stack["time"] = fechas
 ```
 
-<!-- #region jupyter={"source_hidden": true} -->
-El control deslizante nos permite ver una tendencia de aumento en la deforestación a lo largo de dos años. Los primeros rásters tienen píxeles rojos distribuidos de forma dispersa por la región, mientras que los últimos tienen muchos más píxeles rojos (lo que indica que la vegetación está dañada). Es fácil utilizar el arreglo `stack` para contar los píxeles de cada categoría y obtener medidas cuantitativas de la deforestación.
+<!-- #region jupyter={"source_hidden": false} -->
+---
 <!-- #endregion -->
+
+### 4. GENERAR UN MAPA DE DISTUBIOS
+
+```python jupyter={"source_hidden": true}
+import hvplot.xarray
+import geoviews as gv
+import numpy as np
+
+# Enmascarar valores 0 para que sean transparentes
+stack_masked = stack.where(stack != 0)
+
+# Submuestreo para que no sea tan pesado
+stack_sub = stack_masked.isel(x=slice(0, None, 4), y=slice(0, None, 4))
+
+# Colormap rojo fuerte
+cmap = ["#fff5f5", "#fcbfbf", "#f78787", "#f25454", "#e93232", "#d40000", "#a50000", "#730000"]
+
+# Visualización interactiva
+hvplot_map = stack_sub.hvplot(
+    x='x',
+    y='y',
+    groupby='time',
+    cmap=cmap,
+    clim=(1, 8),
+    rasterize=True,
+    crs=stack.rio.crs,
+    tiles=gv.tile_sources.EsriImagery,
+    alpha=0.9,
+    frame_width=500,    
+    frame_height=500,
+    title="Evolución de disturbios detectados",
+    widget_location='bottom',   # Deslizador de tiempo abajo
+    colorbar=True
+)
+
+hvplot_map
+```
+
+<!-- #region jupyter={"source_hidden": false} -->
+---
+<!-- #endregion -->
+
+### 5. EXPLORAR SUBPRODUCTO VEG_DIST-DATE
+
+```python jupyter={"source_hidden": true}
+from pystac_client import Client
+import pandas as pd
+
+# Abrir el catálogo STAC de LP DAAC
+catalog = Client.open("https://cmr.earthdata.nasa.gov/stac/LPCLOUD/")
+
+# Parámetros de búsqueda
+search_params = {
+    "bbox": [-46.78, -4.61, -46.58, -4.41],  # AOI
+    "datetime": "2025-01-01/2025-07-26",     # rango de fechas
+    "collections": ["OPERA_L3_DIST-ALERT-HLS_V1_1"]
+}
+
+# Buscar items en el catálogo
+items = list(catalog.search(**search_params).get_items())
+
+# Filtrar solo los assets VEG-DIST-DATE accesibles por HTTPS
+filtrado_date = []
+
+for item in items:
+    for asset_key, asset in item.assets.items():
+        if "VEG-DIST-DATE" in asset_key and asset.href.startswith("https"):
+            filtrado_date.append({
+                "start_datetime": item.properties.get("start_datetime"),
+                "end_datetime": item.properties.get("end_datetime"),
+                "datetime": item.datetime,
+                "cloud_cover": item.properties.get("eo:cloud_cover"),
+                "url": asset.href
+            })
+
+# Convertir a DataFrame para explorar
+df = pd.DataFrame(filtrado_date)
+
+# Mostrar resumen
+print(f"Se encontraron {len(df)} assets únicos con VEG-DIST-DATE vía HTTPS.")
+df.head()
+```
+
+```python jupyter={"source_hidden": true}
+import matplotlib.pyplot as plt
+
+df["cloud_cover"] = pd.to_numeric(df["cloud_cover"], errors='coerce')
+df.plot(
+   #x="datetime", 
+    y="cloud_cover", 
+    kind="bar", 
+    figsize=(10, 5), 
+    color="skyblue", 
+    title="Cobertura de nubes por escena"
+)
+# Ocultar etiquetas del eje X
+plt.xticks([])
+
+plt.tight_layout()
+plt.show()
+```
+
+```python jupyter={"source_hidden": true}
+df_bajanubosidad = df[df["cloud_cover"] < 20]
+
+df_bajanubosidad.plot(
+   #x="datetime", 
+    y="cloud_cover", 
+    kind="bar", 
+    figsize=(10, 5), 
+    color="skyblue", 
+    title="Cobertura de nubes por fecha"
+);
+```
+
+```python jupyter={"source_hidden": true}
+# Asegurarse de que la columna de fechas esté como datetime
+df_bajanubosidad["end_datetime"] = pd.to_datetime(df_bajanubosidad["end_datetime"])
+
+# Ordenar por fecha final y seleccionar el más reciente
+más_reciente_baja_nubosidad = df_bajanubosidad.sort_values("end_datetime", ascending=False).iloc[0]
+
+# Mostrar resultado
+print("Producto más reciente con menos de 20% de nubosidad:")
+print(más_reciente_baja_nubosidad)
+```
+
+```python jupyter={"source_hidden": true}
+#seleccionamos la url del producto mas reciente con nubosidad < 20%
+url=más_reciente_baja_nubosidad["url"]
+```
+
+```python jupyter={"source_hidden": true}
+#Visualizar el subproducto VEG_DIST_DATE en comparación con el subproducto VEG_DIST_STATE
+
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import rioxarray
+import numpy as np
+from shapely.geometry import box
+
+# AOI
+aoi_geom = gpd.GeoDataFrame(geometry=[box(-46.78, -4.61, -46.58, -4.41)], crs="EPSG:4326")
+
+# Subproducto VEG_DIST_DATE
+url1 = más_reciente_baja_nubosidad["url"]
+da1 = rioxarray.open_rasterio(url1, masked=True).squeeze()
+aoi_proj = aoi_geom.to_crs(da1.rio.crs)
+da1_clip = da1.rio.clip(aoi_proj.geometry, aoi_proj.crs)
+masked1 = np.ma.masked_where(da1_clip <= 0, da1_clip)
+
+# Subproducto VEG_DIST_STATUS
+url2= "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/OPERA_L3_DIST-ALERT-HLS_V1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230918T131723Z_20231221T085043Z_L8_30_v1/OPERA_L3_DIST-ALERT-HLS_T23MLR_20230918T131723Z_20231221T085043Z_L8_30_v1_VEG-DIST-STATUS.tif"
+da2 = rioxarray.open_rasterio(url2, masked=True).squeeze()
+da2_clip = da2.rio.clip(aoi_proj.geometry, aoi_proj.crs)
+masked2 = np.ma.masked_where(da2_clip <= 0, da2_clip)
+
+# Gráfico de los 2 subproductos
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+# Mapa 1
+img1 = axes[0].imshow(
+    masked1,
+    cmap="viridis",
+    extent=da1_clip.rio.bounds(),
+    interpolation="nearest"
+)
+axes[0].set_title("VEG_DIST_DATE 17/07/2025")
+axes[0].set_frame_on(True)
+cbar1 = plt.colorbar(img1, ax=axes[0], shrink=0.7)
+cbar1.set_label("Día desde 2020-12-31")
+
+# colormap personalizado
+white_to_red = mcolors.LinearSegmentedColormap.from_list("white_to_red", ["white", "red"])
+# Mapa 2
+img2 = axes[1].imshow(
+    masked2,
+    cmap= white_to_red,
+    extent=da2_clip.rio.bounds(),
+    interpolation="nearest"
+)
+axes[1].set_title("VEG_DIST-STATUS 18/09/2023")
+axes[1].set_frame_on(True)
+cbar2 = plt.colorbar(img2, ax=axes[1], shrink=0.7)
+cbar2.set_label("Valor de disturbio")
+
+plt.tight_layout()
+plt.show()
+```
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
