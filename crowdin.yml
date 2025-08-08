@@ -24,7 +24,7 @@ files:
   - source: README.md
     dest: /%original_file_name%
     translation: /%file_name%-%locale%.%file_extension%
-  - source: /book/**/*.md
-    dest: /book/**/%original_file_name%
-    translation: /book/%locale%/**/%original_file_name%
-    ignore: [/book/%locale%/*.md]
+  - source: /book/en/md/*.md
+    dest: /book/en/md/**/%original_file_name%
+    translation: /book/es/md/**/%original_file_name%
+    ignore: [/book/es/md/**/*.md]
