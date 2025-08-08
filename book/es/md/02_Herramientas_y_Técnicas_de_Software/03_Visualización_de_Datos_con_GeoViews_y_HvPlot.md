@@ -174,7 +174,7 @@ Por último, podemos superponer todas estas características en el mapa base con
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Utilizaremos el método anterior para visualizar _(AOIs)_ al construir consultas de búsqueda para los productos EarthData de la NASA. En particular, la convención de representar una caja delimitadora por ordenadas (izquierda, inferior, derecha, superior) también se utiliza en la API [PySTAC](https://pystac.readthedocs.io/en/stable/).
+Utilizaremos el método anterior para visualizar _(AOIs)_ al construir consultas de búsqueda para los productos Earthdata de la NASA. En particular, la convención de representar una caja delimitadora por ordenadas (izquierda, inferior, derecha, superior) también se utiliza en la API [PySTAC](https://pystac.readthedocs.io/en/stable/).
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->

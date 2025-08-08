@@ -29,7 +29,7 @@ En este cuaderno se describe el proceso para obtener las credenciales de NASA Ea
 <!-- #region jupyter={"source_hidden": true} -->
 El programa [Sistemas de datos científicos de la Tierra (ESDS, por sus siglas en inglés) de la NASA](https://www.earthdata.nasa.gov/) supervisa el ciclo de vida de los datos de ciencias de la Tierra provenientes de todas sus misiones de observación terrestre, desde la adquisición hasta su procesamiento y distribución.
 
-A los efectos de esta guía, el sitio web NASA Earthdata es el punto de entrada que permite el acceso completo, gratuito y abierto a las colecciones de datos de ciencias de la Tierra de la NASA, con el fin de acelerar el progreso científico en beneficio de la sociedad. Para acceder a los datos mediante este portal, quienes deseen usarlos deben definir primero sus credenciales de acceso. Para crear una cuenta en EarthData, sigue estos pasos:
+A los efectos de esta guía, el sitio web NASA Earthdata es el punto de entrada que permite el acceso completo, gratuito y abierto a las colecciones de datos de ciencias de la Tierra de la NASA, con el fin de acelerar el progreso científico en beneficio de la sociedad. Para acceder a los datos mediante este portal, quienes deseen usarlos deben definir primero sus credenciales de acceso. Para crear una cuenta en Earthdata, sigue estos pasos:
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
@@ -43,9 +43,9 @@ Si ya has registrado credenciales de NASA Earthdata anteriormente, *pasa al sigu
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
-Si no te has registrado previamente, sigue estos pasos para crear una cuenta de EarthData:
+Si no te has registrado previamente, sigue estos pasos para crear una cuenta de Earthdata:
 
-+ Ingresa al sitio web de NASA EarthData: [`https://urs.earthdata.nasa.gov/`](https://urs.earthdata.nasa.gov/).
++ Ingresa al sitio web de NASA Earthdata: [`https://urs.earthdata.nasa.gov/`](https://urs.earthdata.nasa.gov/).
 + Deberías ver algo parecido a esto:
    ![earthdata_login](../../../assets/img/earthdata_login.png)
 + Haz clic en "*Register for a profile*".

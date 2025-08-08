@@ -174,7 +174,7 @@ Finally, we can overlay all these features on the basemap with the options appli
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-We'll use the approach above to visualize *Areas of Interest (AOIs)* when constructing search queries for NASA EarthData products. In particular, the convention of representing a bounding box by (left, lower, right, upper) ordinates is also used in the [PySTAC](https://pystac.readthedocs.io/en/stable/) API.
+We'll use the approach above to visualize *Areas of Interest (AOIs)* when constructing search queries for NASA Earthdata products. In particular, the convention of representing a bounding box by (left, lower, right, upper) ordinates is also used in the [PySTAC](https://pystac.readthedocs.io/en/stable/) API.
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
