@@ -12,7 +12,7 @@ jupyter:
     name: python3
 ---
 
-# Plantilla para el uso de del servicio cloud ofrecido por EarthData
+# Plantilla para el uso de del servicio cloud ofrecido por Earthdata
 
 ## Esquema de los pasos para el análisis
 

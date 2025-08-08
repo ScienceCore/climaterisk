@@ -43,7 +43,7 @@ If you have previously registered NASA Earthdata credentials *proceed to the nex
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": true} -->
-If you have *not* previously registered, to create an EarthData account, follow these steps:
+If you have *not* previously registered, to create an Earthdata account, follow these steps:
 
 + Navigate to [`https://urs.earthdata.nasa.gov/`](https://urs.earthdata.nasa.gov/).
 + You should see something that looks like this:

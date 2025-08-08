@@ -20,7 +20,7 @@ For this notebook, you need to know your NASA Earthdata credentials (i.e., your 
 + First, you will construct a file called `.netrc` in your home folder (i.e., `~/.netrc`) that contains those credentials.
 + Next, you will execute a test that verifies the configuration.
 
-The following executable cell defines some Python functions to invoke later (importing relevant Python utilities as needed).
+The following executable cell defines some Python functions to invoke later (and imports relevant Python utilities as needed).
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -31,6 +31,8 @@ import rasterio
 from pystac_client import Client
 from warnings import filterwarnings
 filterwarnings("ignore") # suppress PySTAC warnings
+NETRC_PATH = Path('~/.netrc').expanduser()
+
 # Mandatory GDAL setup for accessing cloud data
 osgeo.gdal.SetConfigOption('GDAL_HTTP_COOKIEFILE','~/.gdal_cookies.txt')
 osgeo.gdal.SetConfigOption('GDAL_HTTP_COOKIEJAR', '~/.gdal_cookies.txt')
@@ -42,8 +44,8 @@ def create_netrc(PATH):
     PATH.unlink(missing_ok=True)
     TEMPLATE = " ".join(["machine", "urs.earthdata.nasa.gov", "login",
                      "{USERNAME}", "password", "{PASSWORD}\n"])
-    username = input("NASA EarthData login:    ")
-    password = getpass(prompt="NASA EarthData password: ")
+    username = input("NASA Earthdata login:    ")
+    password = getpass(prompt="NASA Earthdata password: ")
     print('Writing .netrc file.')
     PATH.write_text(TEMPLATE.format(USERNAME=username, PASSWORD=password))
     PATH.chmod(0o600)
@@ -60,8 +62,8 @@ def define_options():
     PROVIDER = 'POCLOUD'
     COLLECTIONS = ["OPERA_L3_DSWX-HLS_V1_1.0"]
     AOI_string = f"({', '.join([f'{coord:.2f}' for coord in AOI])})"
-    print(f"\nDefined AOI={AOI_string}\n        {WINDOW=}")
-    print(f"        {COLLECTIONS=}\n        {PROVIDER=}\n")
+    print(f"\nSearch criteria:\nAOI={AOI_string}\n{WINDOW=}")
+    print(f"{COLLECTIONS=}\n{PROVIDER=}\n")
     return URL, PROVIDER, dict(bbox=AOI, collections=COLLECTIONS, datetime=WINDOW)
 
 def execute_search(STAC_URL, PROVIDER, opts):
@@ -83,9 +85,9 @@ def test_netrc():
     STAC_URL, PROVIDER, opts = define_options()
     try:
         results = execute_search(STAC_URL, PROVIDER, opts)
-        print(f"Retrieved {len(results)} search results...")
+        print(f"Identified {len(results)} search results...")
         test_uri = results[0]['assets']['0_B01_WTR']['href']
-        print(f"Search successful. Accessing test data...\n")
+        print(f"Attempting to access a remote file...\n")
         process_uri(test_uri)
     except (IndexError, KeyError) as e:
         print(f"{results}\n")
@@ -100,14 +102,22 @@ def test_netrc():
 ---
 <!-- #endregion -->
 
-## Configuring the Cloud Environment to Access NASA EarthData from Python
+## Configuring the Cloud Environment to Access NASA Earthdata from Python
 
 <!-- #region jupyter={"source_hidden": true} -->
-To access NASA's EarthData products from Python programs or Jupyter notebooks, it is necessary to save your NASA EarthData credentials in a special file called `.netrc`. Executing the cell below creates this file.
+To access NASA's Earthdata products from Python programs or Jupyter notebooks, you need to save your NASA Earthdata credentials in a special file called `.netrc`.
+
+When running the cell below:
++ You'll see a warning stating that running the rest of this cell will overwrite any prior existing `.netrc` file.
++ You'll be asked to confirm if you want to continue (yes or no):
+    + If yes, type `y` or `yes`. You'll then be prmopted for your *NASA Earthdata* username and your corresponding password. Make sure you have them ready before running this cell.
+    + If your answer is no, no action will be taken.
+
+**Important!**
+Choose `y` or `yes` only if you are comfortable with deleting the credentials stored in the `.netrc` file. Remember to have your NASA Earthdata username and password available.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-NETRC_PATH = Path('~/.netrc').expanduser()
 print("Warning: Executing the rest of this cell will overwrite any pre-existing .netrc file.")
 overwrite = input("Confirm that you want to proceed? (Y/N).")
 if overwrite.lower() in ['y', 'yes']:
@@ -117,35 +127,44 @@ else:
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Some caveats:
+As an alternative, you could use a text editor to create the file `.netrc` with content as follows:
+```
+machine urs.earthdata.nasa.gov login USERNAME password PASSWORD
+```
+Of course, you would replace `USERNAME` and `PASSWORD` in your actual `.netrc` file with your actual NASA Earthdata account details.
 
-+ You will be asked whether or not to delete any pre-existing file.
-    + If yes, you will be prompted for your *NASA Earthdata* username & then your corresponding password.
-    + If no, no action is taken.
-+ Executing the cell above yields a prompt that asks permission to overwrite the file `.netrc` if it exists already. Choose `y` or `yes` only if you are comfortable with deleting any credentials stored within that file.
-+ Should you choose to create the `.netrc` file, you will be prompted for your NASA EarthData username & password. Make sure to have these ready before executing the cell above.
-+ As an alternative, you could use a text editor to create the file `.netrc` with content as follows:
-   ```
-   machine urs.earthdata.nasa.gov login USERNAME password PASSWORD
-   ```
-   Of course, you would replace `USERNAME` and `PASSWORD` in your actual `.netrc` file with your actual NASA EarthData account details.
-+ Once the `.netrc` file is saved with your correct credentials, it's good practice to restrict access to the file:
-   ```bash
-   $ chmod 600 ~/.netrc
-   ```
-  This is achieved in the second last line of the function `create_netrc` (i.e., `PATH.chmod(0o600)`).
+Once the `.netrc` file is saved with your correct credentials, it's good practice to restrict access to the file:
+```bash
+$ chmod 600 ~/.netrc
+```
+This is achieved in the second last line of the function `create_netrc` (i.e., `PATH.chmod(0o600)`).
 <!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
 
-## Verifying Access to NASA EarthData Products
+## Verifying Access to NASA Earthdata Products
 
 <!-- #region jupyter={"source_hidden": true} -->
-The file `.netrc` is required to access STACs (Spatio-Temporal Asset Catalogs) within Python programs using [PySTAC](https://pystac.readthedocs.io/en/stable/)).
+The file `.netrc` is required to access STACs (Spatio-Temporal Asset Catalogs) within Python programs using [PySTAC](https://pystac.readthedocs.io/en/stable/).
 
-To make sure everything is working properly, execute the Python cell below:
+To make sure everything is working correctly, execute the last Python cell at the bottom of the notebook. If the cell runs smoothly, you'll see a message that your credentials have been configured correctly:
+
+```bash
+Success! Your credentials file ~/.netrc is correctly configured!
+```
+In this case, you're done! You now have everything you need to explore NASA's Earth observation data through the Earthdata portal!
+<!-- #endregion -->
+
+<!-- #region jupyter={"source_hidden": true} -->
+If, instead, you see the message:
+
+```bash
+Ensure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.
+```
+you will need to enter your correct credentials into the file `~/.netrc` file.
+you will need to enter your correct credentials into the file `~/.netrc`. You can do so by restarting and re-executing this notebook (or by editing the file with a text editor).
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
@@ -159,22 +178,6 @@ else:
         print(f"TEST FAILED.")
         print("\n\nEnsure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.\n")
 ```
-
-<!-- #region jupyter={"source_hidden": true} -->
-If the preceding cell executed smoothly, you will see a message indication success:
-```bash
-Success! Your credentials file ~/.netrc is correctly configured!
-```
-In this case, you're done! You now have everything you need to explore NASA's Earth observation data through the EarthData portal!
-<!-- #endregion -->
-
-<!-- #region jupyter={"source_hidden": true} -->
-If you see the message 
-```bash
-Ensure that a .netrc file containing valid NASA Earthdata credentials exists in the user home directory.
-```
-you will need to enter your correct credentials into the file `~/.netrc`. You can do so by restarting and re-executing this notebook (or by editing the file with a text editor).
-<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---

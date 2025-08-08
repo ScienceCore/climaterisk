@@ -166,7 +166,7 @@ print(search_params)
 ### Executing a search with the PySTAC API
 
 <!-- #region jupyter={"source_hidden": true} -->
-Three other pieces of information are required to initiate a search for data: the *Endpoint* (a URL), the *Provider* (a string representing a path extending the Endpoint), & the *Collection identifiers* (a list of strings referring to specific catalogs). We generally need to experiment with NASA's [Earthdata Search website](https://search.earthdata.nasa.gov) to determine these values correctly for the specific data products we want to retrieve. The [NASA CMR STAC GitHub repository also monitors issues](https://github.com/nasa/cmr-stac/issues) related to the API for EarthData Cloud search queries.
+Three other pieces of information are required to initiate a search for data: the *Endpoint* (a URL), the *Provider* (a string representing a path extending the Endpoint), & the *Collection identifiers* (a list of strings referring to specific catalogs). We generally need to experiment with NASA's [Earthdata Search website](https://search.earthdata.nasa.gov) to determine these values correctly for the specific data products we want to retrieve. The [NASA CMR STAC GitHub repository also monitors issues](https://github.com/nasa/cmr-stac/issues) related to the API for Earthdata Cloud search queries.
 
 For the search for DSWx data products that we want to execute, these parameters are as defined in the next code cell.
 <!-- #endregion -->

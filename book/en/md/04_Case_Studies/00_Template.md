@@ -12,7 +12,7 @@ jupyter:
     name: python3
 ---
 
-# Template for using EarthData cloud
+# Template for using Earthdata cloud
 
 ## Outline of steps for analysis
 

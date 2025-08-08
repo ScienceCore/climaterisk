@@ -166,7 +166,7 @@ print(search_params)
 ### Ejecución de una búsqueda con la API PySTAC
 
 <!-- #region jupyter={"source_hidden": true} -->
-Para iniciar una búsqueda de datos se necesitan tres datos más: el _Endpoint_ (una URL), el _Proveedor_ (una cadena que representa una ruta que extiende el _Endpoint_) y los _Identificadores de la colección_ (una lista de cadenas que hacen referencia a catálogos específicos). Generalmente, debemos probar con el [sitio web de Earthdata Search](https://search.earthdata.nasa.gov) de la NASA para determinar correctamente los valores para los productos de datos específicos que queremos recuperar. El [repositorio de GitHub de la NASA CMR STAC también supervisa los problemas](https://github.com/nasa/cmr-stac/issues) relacionados con la API para las consultas de búsqueda de EarthData Cloud.
+Para iniciar una búsqueda de datos se necesitan tres datos más: el _Endpoint_ (una URL), el _Proveedor_ (una cadena que representa una ruta que extiende el _Endpoint_) y los _Identificadores de la colección_ (una lista de cadenas que hacen referencia a catálogos específicos). Generalmente, debemos probar con el [sitio web de Earthdata Search](https://search.earthdata.nasa.gov) de la NASA para determinar correctamente los valores para los productos de datos específicos que queremos recuperar. El [repositorio de GitHub de la NASA CMR STAC también supervisa los problemas](https://github.com/nasa/cmr-stac/issues) relacionados con la API para las consultas de búsqueda de Earthdata Cloud.
 
 Para la búsqueda de productos de datos DSWx que se quiere ejecutar, estos parámetros son los que se definen en la siguiente celda de código.
 <!-- #endregion -->
