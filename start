@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -eux
+
+jupyter nbconvert --execute --inplace climaterisk/book/Startup.ipynb
+
+exec "$@"
