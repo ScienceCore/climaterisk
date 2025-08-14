@@ -104,19 +104,35 @@ def plot_bbox(bbox):
 
 ```python jupyter={"source_hidden": true}
 # utility to extract search results into a Pandas DataFrame
-def search_to_dataframe(search):
+def search_to_dataframe(search_results):
     '''Constructs Pandas DataFrame from PySTAC Earthdata search results.
-    DataFrame columns are determined from search item properties and assets.
-    'asset': string identifying an Asset type associated with a granule
-    'href': data URL for file associated with the Asset in a given row.'''
-    granules = list(search.items())
+    DataFrame columns are determined from search item properties and assets.'''
+    # Extract granules into a list of searh items
+    granules = list(search_results.items())
     assert granules, "Error: empty list of search results"
-    props = list({prop for g in granules for prop in g.properties.keys()})
-    tile_ids = map(lambda granule: granule.id.split('_')[3], granules)
-    rows = (([g.properties.get(k, None) for k in props] + [a, g.assets[a].href, t])
-                for g, t in zip(granules,tile_ids) for a in g.assets )
-    df = pd.concat(map(lambda x: pd.DataFrame(x, index=props+['asset','href', 'tile_id']).T, rows),
-                   axis=0, ignore_index=True)
+    # Determine column labels from unique properties from all granules
+    properties = sorted(list({prop for g in granules for prop in g.properties.keys()}))
+    # Assemble blocks of rows from each granule 
+    blocks = []
+    for g in granules:
+        # Leftmost columns determined from properties
+        left = pd.Series(index=properties)
+        for p in properties:
+            left.loc[p] = g.properties.get(p, None)
+        tile_id = g.id.split('_')[3]
+        left.loc['tile_id'] = tile_id
+        left = pd.DataFrame(left).T
+        right = []
+        for a in sorted(g.assets.keys()):
+            href = g.assets[a].href
+            # Ignore hrefs using Amazon s3 (not currently working with rasterio)
+            if href.startswith('s3://'):
+                continue
+            right.append(pd.DataFrame(data=dict(asset=a, href=href), index=[0]))
+        # Use outer join to create block from left row and right block
+        blocks.append(left.join(pd.concat(right, axis=0, ignore_index=True), how='outer'))
+    # Stack blocks into final dataframe, forward-filling as needed
+    df = pd.concat(blocks, axis=0, ignore_index=True).ffill(axis=0)
     assert len(df), "Empty DataFrame"
     return df
 ```
