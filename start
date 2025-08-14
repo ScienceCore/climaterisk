@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
-set -eux
+#!/bin/bash
 
-jupyter nbconvert --execute --inplace book/Startup.ipynb
+print("Hello")
 
 exec "$@"
