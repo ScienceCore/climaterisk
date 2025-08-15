@@ -112,7 +112,7 @@ def search_to_dataframe(search_results):
     assert granules, "Error: empty list of search results"
     # Determine column labels from unique properties from all granules
     properties = sorted(list({prop for g in granules for prop in g.properties.keys()}))
-    # Assemble blocks of rows from each granule 
+    # Assemble blocks of rows from each granule
     blocks = []
     for g in granules:
         # Leftmost columns determined from properties
