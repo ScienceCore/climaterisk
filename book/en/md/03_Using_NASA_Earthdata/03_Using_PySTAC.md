@@ -424,54 +424,39 @@ We now have a much shorter `DataFrame` `b01_wtr_t15ruq` that summarises the remo
 ### Stacking the data
 
 <!-- #region jupyter={"source_hidden": true} -->
-We have a `DataFrame` that identifies specific remote files of raster data. The next step is to combine this raster data into a data structure suitable for analysis. The Xarray `DataArray` is suitable in this case; the combination can be generated using the Xarray function `concat`. The function `urls_to_stack` in the next cell is long but not complicated; it takes a `DataFrame` with timestamps on the index and a column labelled `href` of URLs, it reads the files associated with those URLs one-by-one, and it stacks the relevant two-dimensional arrays of raster data into a three-dimensional array.
+We have a `DataFrame` that identifies specific remote files of raster data. The next step is to combine this raster data into a data structure suitable for analysis. The Xarray `DataArray` is suitable in this case; the combination can be generated using the Xarray function `concat`. The function `stack_time_slices` in the next cell is long but not complicated; it takes a `DataFrame` with timestamps on the index and a column labelled `href` of URLs, it reads the files associated with those URLs one-by-one, and it stacks the relevant two-dimensional arrays of raster data into a three-dimensional array.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-def urls_to_stack(granule_dataframe):
-    '''Processes DataFrame of PySTAC search results (with OPERA tile URLs) &
-    returns stacked Xarray DataArray (dimensions time, latitude, & longitude)'''
-    
-    stack = []
-    for i, row in granule_dataframe.iterrows():
-        with rasterio.open(row.href) as ds:
-            # extract CRS string
-            crs = str(ds.crs).split(':')[-1]
-            # extract the image spatial extent (xmin, ymin, xmax, ymax)
-            xmin, ymin, xmax, ymax = ds.bounds
-            # the x and y resolution of the image is available in image metadata
-            x_res = np.abs(ds.transform[0])
-            y_res = np.abs(ds.transform[4])
-            # read the data 
-            img = ds.read()
-            # Ensure img has three dimensions (bands, y, x)
-            if img.ndim == 2:
-                img = np.expand_dims(img, axis=0) 
-            lon = np.arange(xmin, xmax, x_res)
-            lat = np.arange(ymax, ymin, -y_res)
-            bands = np.arange(img.shape[0])
-            da = xr.DataArray(
-                                data=img,
-                                dims=["band", "lat", "lon"],
-                                coords=dict(
-                                            lon=(["lon"], lon),
-                                            lat=(["lat"], lat),
-                                            time=i,
-                                            band=bands
-                                            ),
-                                attrs=dict(
-                                            description="OPERA DSWx B01",
-                                            units=None,
-                                          ),
-                             )
-            da.rio.write_crs(crs, inplace=True)   
-            stack.append(da)
-    return xr.concat(stack, dim='time').squeeze()
+def stack_time_slices(granule_dataframe):
+    '''This function returns a three-dimensional Xarray DataArray comprising time slices read from GeoTIFF files.
+    - Input: a DataFrame of granules (i.e., a DataFrame with a DateTimeIndex and a column 'href' of URIs).
+    - Output: a stacked DataArray with dimensions ('time', 'longitude', 'latitude')
+    - GeoTIFF data are assumed to have been acquired over the same MGRS tile (NOT verified within).
+    - Note CRS explicitly embedded into DataArray stack as extracted from GeoTIFF file.
+    - DataArray is constructed using np.datetime64 time axis to simplify visualization.'''
+    slices, timestamps = list(), list()
+    for timestamp_, row_ in granule_dataframe.iterrows():
+        da_ = rio.open_rasterio(row_['href'])
+        # Preserve coordinate arrays from last GeoTIFF file parsed
+        x, y = da_.coords['x'].values, da_.coords['y'].values
+        slices.append(da_.values)
+        timestamps.append(np.datetime64(timestamp_,'s'))
+    # Construct time axis from accumulated timestamps
+    time = np.array(timestamps)
+    # Construct DataArray stack from accumulated slices & coordinates
+    slices = np.concatenate(slices, axis=0)
+    coords = dict(time=time, longitude=x, latitude=y)
+    stack = xr.DataArray(data=slices, coords=coords, dims=['time', 'latitude', 'longitude'])
+    # Preserve coordinate reference system (CRS) in DataArray stack
+    crs = da_.rio.crs
+    stack.rio.write_crs(crs, inplace=True)
+    return stack
 ```
 
 ```python jupyter={"source_hidden": true}
 %%time
-stack = urls_to_stack(b01_wtr_t15ruq)
+stack = stack_time_slices(b01_wtr_t15ruq)
 ```
 
 ```python jupyter={"source_hidden": true}
@@ -490,8 +475,8 @@ COLORS[2] = (0, 0, 255, 1)           # Partial surface water
 
 ```python jupyter={"source_hidden": true}
 image_opts = dict(
-                   x='lon',
-                   y='lat',
+                   x='longitude',
+                   y='latitude',
                    project=True,
                    rasterize=True,
                    cmap=COLORS, 
@@ -508,11 +493,11 @@ image_opts = dict(
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
-Plotting the images in entirety can use a lot of memory. Let's use the Xarray `DataArray.isel` method to extract a slice from the array `stack` with fewer pixels. This will allow rapid rendering and scrolling.
+Plotting the images in entirety can use a lot of memory. Let's use the Xarray `DataArray.isel` method to extract a slice from the array `stack` with fewer pixels. This will allow faster rendering and scrolling.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-view = stack.isel(lon=slice(3000,None), lat=slice(3000,None))
+view = stack.isel(longitude=slice(3000,None), latitude=slice(3000,None))
 view.hvplot.image(**image_opts)
 ```
 
