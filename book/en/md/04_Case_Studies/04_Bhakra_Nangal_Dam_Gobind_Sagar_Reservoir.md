@@ -137,6 +137,34 @@ def search_to_dataframe(search_results):
 ```
 
 ```python jupyter={"source_hidden": true}
+# utility to process DataFrame of search results & return DataArray of stacked raster images
+def stack_time_slices(granule_dataframe):
+    '''This function returns a three-dimensional Xarray DataArray comprising time slices read from GeoTIFF files.
+    - Input: a DataFrame of granules (i.e., a DataFrame with a DateTimeIndex and a column 'href' of URIs).
+    - Output: a stacked DataArray with dimensions ('time', 'longitude', 'latitude')
+    - GeoTIFF data are assumed to have been acquired over the same MGRS tile (NOT verified within).
+    - Note CRS explicitly embedded into DataArray stack as extracted from GeoTIFF file.
+    - DataArray is constructed using np.datetime64 time axis to simplify visualization.'''
+    slices, timestamps = list(), list()
+    for timestamp_, row_ in granule_dataframe.iterrows():
+        da_ = rio.open_rasterio(row_['href'])
+        # Preserve coordinate arrays from last GeoTIFF file parsed
+        x, y = da_.coords['x'].values, da_.coords['y'].values
+        slices.append(da_.values)
+        timestamps.append(np.datetime64(timestamp_,'s'))
+    # Construct time axis from accumulated timestamps
+    time = np.array(timestamps)
+    # Construct DataArray stack from accumulated slices & coordinates
+    slices = np.concatenate(slices, axis=0)
+    coords = dict(time=time, longitude=x, latitude=y)
+    stack = xr.DataArray(data=slices, coords=coords, dims=['time', 'latitude', 'longitude'])
+    # Preserve coordinate reference system (CRS) in DataArray stack
+    crs = da_.rio.crs
+    stack.rio.write_crs(crs, inplace=True)
+    return stack
+```
+
+```python jupyter={"source_hidden": true}
 # utility to remap pixel values to a sequence of contiguous integers
 def relabel_pixels(data, values, null_val=255, transparent_val=0, replace_null=True, start=0):
     """
@@ -300,15 +328,8 @@ As we've seen several times now, we'll stack the two-dimensional arrays from the
 
 ```python jupyter={"source_hidden": true}
 %%time
-stack = []
-for timestamp, row in df.iterrows():
-    data = rio.open_rasterio(row.href).squeeze()
-    data = data.rename(dict(x='longitude', y='latitude'))
-    del data.coords['band']
-    data.coords.update({'time':timestamp})
-    data.attrs = dict(description=f"OPERA DIST: VEG-DIST-STATUS", units=None)
-    stack.append(data)
-stack = xr.concat(stack, dim='time')
+stack = stack_time_slices(df)
+stack.attrs = dict(description=f"OPERA DSWx: B01_WTR", units=None)
 stack
 ```
 
@@ -399,7 +420,7 @@ layout_opts = dict(
 steps = 100
 subset = slice(0,None,steps)
 view = stack.isel(longitude=subset, latitude=subset)
-view.hvplot.image( **image_opts, **layout_opts)
+view.hvplot.image(**image_opts, **layout_opts)
 ```
 
 <!-- #region jupyter={"source_hidden": true} -->
