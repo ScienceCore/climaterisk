@@ -137,6 +137,33 @@ def search_to_dataframe(search_results):
     return df
 ```
 
+```python jupyter={"source_hidden": true}
+def stack_time_slices(granule_dataframe):
+    '''This function returns a three-dimensional Xarray DataArray comprising time slices read from GeoTIFF files.
+    - Input: a DataFrame of granules (i.e., a DataFrame with a DateTimeIndex and a column 'href' of URIs).
+    - Output: a stacked DataArray with dimensions ('time', 'longitude', 'latitude')
+    - GeoTIFF data are assumed to have been acquired over the same MGRS tile (NOT verified within).
+    - Note CRS explicitly embedded into DataArray stack as extracted from GeoTIFF file.
+    - DataArray is constructed using np.datetime64 time axis to simplify visualization.'''
+    slices, timestamps = list(), list()
+    for timestamp_, row_ in granule_dataframe.iterrows():
+        da_ = rio.open_rasterio(row_['href'])
+        # Preserve coordinate arrays from last GeoTIFF file parsed
+        x, y = da_.coords['x'].values, da_.coords['y'].values
+        slices.append(da_.values)
+        timestamps.append(np.datetime64(timestamp_,'s'))
+    # Construct time axis from accumulated timestamps
+    time = np.array(timestamps)
+    # Construct DataArray stack from accumulated slices & coordinates
+    slices = np.concatenate(slices, axis=0)
+    coords = dict(time=time, longitude=x, latitude=y)
+    stack = xr.DataArray(data=slices, coords=coords, dims=['time', 'latitude', 'longitude'])
+    # Preserve coordinate reference system (CRS) in DataArray stack
+    crs = da_.rio.crs
+    stack.rio.write_crs(crs, inplace=True)
+    return stack
+```
+
 <!-- #region jupyter={"source_hidden": true} -->
 These functions could be placed in module files for more developed research projects. For learning purposes, they are embedded within this notebook.
 <!-- #endregion -->
@@ -310,7 +337,7 @@ template = dict()
 template['coords'] = data.coords.copy()
 del template['coords']['band']
 template['coords'].update({'time': by_day.index.values})
-template['dims'] = ['time', 'longitude', 'latitude']
+template['dims'] = ['time','latitude','longitude']
 template['attrs'] = dict(description=f"OPERA DSWX: VEG-DIST-STATUS", units=None)
 ```
 
