@@ -36,7 +36,9 @@ jupyter:
 + Data-wrangling to produce relevant output
 <!-- #endregion -->
 
+<!-- #region jupyter={"source_hidden": true} -->
 In this case, we'll assemble a DataFrame to summarize search results, trim down the results to a manageable size, and make an interactive slider to examine the data retrieved.
+<!-- #endregion -->
 
 <!-- #region jupyter={"source_hidden": false} -->
 ---
@@ -134,6 +136,34 @@ def search_to_dataframe(search_results):
     return df
 ```
 
+```python jupyter={"source_hidden": true}
+# utility to process DataFrame of search results & return DataArray of stacked raster images
+def stack_time_slices(granule_dataframe):
+    '''This function returns a three-dimensional Xarray DataArray comprising time slices read from GeoTIFF files.
+    - Input: a DataFrame of granules (i.e., a DataFrame with a DateTimeIndex and a column 'href' of URIs).
+    - Output: a stacked DataArray with dimensions ('time', 'longitude', 'latitude')
+    - GeoTIFF data are assumed to have been acquired over the same MGRS tile (NOT verified within).
+    - Note CRS explicitly embedded into DataArray stack as extracted from GeoTIFF file.
+    - DataArray is constructed using np.datetime64 time axis to simplify visualization.'''
+    slices, timestamps = list(), list()
+    for timestamp_, row_ in granule_dataframe.iterrows():
+        da_ = rio.open_rasterio(row_['href'])
+        # Preserve coordinate arrays from last GeoTIFF file parsed
+        x, y = da_.coords['x'].values, da_.coords['y'].values
+        slices.append(da_.values)
+        timestamps.append(np.datetime64(timestamp_,'s'))
+    # Construct time axis from accumulated timestamps
+    time = np.array(timestamps)
+    # Construct DataArray stack from accumulated slices & coordinates
+    slices = np.concatenate(slices, axis=0)
+    coords = dict(time=time, longitude=x, latitude=y)
+    stack = xr.DataArray(data=slices, coords=coords, dims=['time', 'latitude', 'longitude'])
+    # Preserve coordinate reference system (CRS) in DataArray stack
+    crs = da_.rio.crs
+    stack.rio.write_crs(crs, inplace=True)
+    return stack
+```
+
 <!-- #region jupyter={"source_hidden": false} -->
 ---
 <!-- #endregion -->
@@ -155,7 +185,7 @@ The plot generated below illustrates the AOI; the Bokeh Zoom tool is useful to e
 
 ```python jupyter={"source_hidden": true}
 # Optionally plot the AOI
-basemap = gv.tile_sources.OSM(padding=0.1, alpha=0.75)
+basemap = gv.tile_sources.OpenTopoMap(padding=0.1, alpha=0.75)
 plot_bbox(AOI) * basemap
 ```
 
@@ -270,15 +300,8 @@ Each row of the `DataFrame` is associated with a distinct granule (in this conte
 
 ```python jupyter={"source_hidden": true}
 %%time
-stack = []
-for timestamp, row in df.iterrows():
-    data = rio.open_rasterio(row.href).squeeze()
-    data = data.rename(dict(x='longitude', y='latitude'))
-    del data.coords['band']
-    data.coords.update({'time':timestamp})
-    data.attrs = dict(description=f"OPERA DIST: VEG-DIST-STATUS", units=None)
-    stack.append(data)
-stack = xr.concat(stack, dim='time')
+stack = stack_time_slices(df)
+stack.attrs = dict(description=f"OPERA DIST: VEG-DIST-STATUS", units=None)
 stack
 ```
 
@@ -341,10 +364,6 @@ Finally, we're ready to produce visualizations using the array `stack`.
 <!-- #endregion -->
 
 ```python jupyter={"source_hidden": true}
-steps = 100
-subset=slice(0,None,steps)
-view = stack.isel(longitude=subset, latitude=subset)
-
 image_opts = dict(
                     x='longitude',
                     y='latitude',
@@ -353,7 +372,7 @@ image_opts = dict(
                     clim=(-0.5,8.5),
                     crs = stack.rio.crs,
                     tiles=gv.tile_sources.ESRI,
-                    tiles_opts=dict(alpha=0.1, padding=0.1),
+                    tiles_opts=dict(alpha=0.25, padding=0.1),
                     project=True,
                     rasterize=True,
                     widget_location='bottom',
@@ -369,6 +388,9 @@ layout_opts = dict(
 ```
 
 ```python jupyter={"source_hidden": true}
+steps = 100
+subset=slice(0,None,steps)
+view = stack.isel(longitude=subset, latitude=subset)
 view.hvplot.image(**image_opts, **layout_opts)
 ```
 
