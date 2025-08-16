@@ -337,7 +337,7 @@ template = dict()
 template['coords'] = data.coords.copy()
 del template['coords']['band']
 template['coords'].update({'time': by_day.index.values})
-template['dims'] = ['time', 'longitude', 'latitude']
+template['dims'] = ['time', 'latitude', 'longitude']
 template['attrs'] = dict(description=f"OPERA DSWX: VEG-DIST-STATUS", units=None)
 ```
 
