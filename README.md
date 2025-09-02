@@ -1,4 +1,4 @@
-# NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud
+# [EN] NASA TOPS-T Reproducibly Analyzing Wildfire, Drought, and Flood Risk with NASA Earthdata Cloud
 
 ![banner](book/assets/img/banner.jpg)
 
@@ -39,10 +39,9 @@ Uso de datos de NASA Earthdata Cloud para evaluar el riesgo de incendios foresta
 
 ## Uso
 
-### Compilar el libro
+### Para compilar el libro
 
 Si quieres desarrollar y/o compilar el libro **NASA TOPS-T: Análisis reproducible del riesgo de incendios forestales, sequía e inundaciones con NASA Earthdata Cloud**, abre una terminal y:
-
 
 1. Clona este repositorio
 1. Ejecuta `pip install -r requirements.txt` (se recomienda hacerlo dentro de un entorno virtual)
@@ -53,9 +52,49 @@ Si quieres desarrollar y/o compilar el libro **NASA TOPS-T: Análisis reproducib
 
 Una versión HTML completamente renderizada del libro se generará en `book/_build/html/`.
 
-### Publicación del libro
+#### Publicar el libro
 
 Consultá la documentación de [MyST documentation](https://mystmd.org/guide/deployment) para conocer las opciones de publicar en línea (por ejemplo, con GitHub).
+
+### Para ejecutar las notebooks de forma local
+
+Usa esta sección si quieres ejecutar los cuadernos computacionales (notebooks) en tu máquina para explorar los ejemplos de forma interactiva.  
+Requiere tener Git, Anaconda/Miniconda y Jupyter instalados. También requiere crear una cuenta en [NASA Earthdata](https://urs.earthdata.nasa.gov/) y tener las credenciales (usuario y contraseña) a mano.
+
+1. Abre una terminal (ej. Bash o Anaconda Prompt).
+2. Clona el repositorio y navega hasta el.
+
+```bash
+git clone https://github.com/ScienceCore/climaterisk.git
+cd climaterisk
+```
+
+3. Crea y activa el entorno.
+
+```bash
+conda env create -f environment.yml -n climaterisk
+conda activate climaterisk
+```
+
+4. (Opcional) Si te encuentras con un problema de memoria o del solucionador (solver), prueba:
+
+```bash
+conda update -n base -c conda-forge conda
+conda config --set solver libmamba
+conda env create -f environment.yml -n climaterisk
+```
+
+5. Abre JupyterLab
+
+```bash
+jupyter lab
+```
+En JupyterLab, abre la notebook `startup.ipynb` ubicada en la carpeta `book` y ejecuta todas las celdas para generar las notebooks reestantes.
+
+6. (Opcional) Credenciales de NASA Earthdata para los casos de estudio
+
+Para trabajar con las notebooks que usan datos de NASA Earthdata Cloud, ejecuta todas las celdas de la notebook `02_Configuración_y_Verificación_del_Entorno.md` ubicada en `book/es/ipynb/00_Introduccion_Configuracion/`.
+Acepta sobrescribir el archivo `.netrc` e ingresá tu `usuario` y `contraseña` de (NASA Earthdata)[https://urs.earthdata.nasa.gov/] cuando se solicite.
 
 ### Personas colaboradoras
 
