@@ -91,10 +91,10 @@ jupyter lab
 ```
 En JupyterLab, abre la notebook `startup.ipynb` ubicada en la carpeta `book` y ejecuta todas las celdas para generar las notebooks reestantes.
 
-6. (Opcional) Credenciales de NASA Earthdata para los casos de estudio
+6. Credenciales de NASA Earthdata para los casos de estudio
 
 Para trabajar con las notebooks que usan datos de NASA Earthdata Cloud, ejecuta todas las celdas de la notebook `02_Configuración_y_Verificación_del_Entorno.md` ubicada en `book/es/ipynb/00_Introduccion_Configuracion/`.
-Acepta sobrescribir el archivo `.netrc` e ingresá tu `usuario` y `contraseña` de (NASA Earthdata)[https://urs.earthdata.nasa.gov/] cuando se solicite.
+Acepta sobrescribir el archivo `.netrc` e ingresá tu `usuario` y `contraseña` de [NASA Earthdata](https://urs.earthdata.nasa.gov/) cuando se solicite.
 
 ### Personas colaboradoras
 
