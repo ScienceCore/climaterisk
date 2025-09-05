@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-set -eux
+set -eu
 
-jupyter nbconvert --execute --inplace climaterisk/book/Startup.ipynb
+# Allow this specific command to fail
+jupyter nbconvert --execute --inplace climaterisk/book/Startup.ipynb || true
 
 exec "$@"
